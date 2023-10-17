@@ -82,7 +82,7 @@ class TestBaseModel(unittest.TestCase):
         base_dict = base.to_dict()
         self.assertEqual(base_dit["__class__"], "BaseModel")
         self.assertEqual(type(base_dict["created_at"]), str)
-        self.assertEqual(new_d["created_at"], bm.created_at.strftime("%Y-%m-%dT%H:%M:%S.%f"))
+        self.assertEqual(base_dict["created_at"], base.created_at.strftime("%Y-%m-%dT%Hi:%M:%S.%f"))
 
     def test_save(self):
         """ Tests for the save method to work as expected """
