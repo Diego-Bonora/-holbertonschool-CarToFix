@@ -4,8 +4,8 @@ export default function NavBar() {
 	return (
 		<div>
 			<header>
-				<div className=" p-7 w-300px h-3000px flex flex-row content-center justify-around bg-[#09B6C2] h-[60px]  rounded-b-md-[40px] rounded-b-lg-[40px] align-center x-screen" >
-					<div className='w-50px h-50px bg-slate-400 rounded-full shrink-0 grow-0 text-base self-center  '> <span className class="material-symbols-outlined text-slate-50 ">
+				<div className=" p-7 w-full  flex flex-row  justify-around bg-[#09B6C2]  h-[90px]" >
+					<div className='flex flex-row justify-content gap-4 justify-center self-center w-16 h-16 bg-slate-400 rounded-full border-4 border-gray-300'> <span className class="material-symbols-outlined text-slate-50 flex justify-center self-center ">
 						directions_car
 					</span></div>
 					<nav className="pr-6 flex flex-row justify-content gap-4 justify-end self-center ">
