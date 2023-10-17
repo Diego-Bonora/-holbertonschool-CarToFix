@@ -13,7 +13,7 @@ module_doc = models.base_model.__doc__
 
 
 class TestBaseModelDoc(unittest.TestCase):
-    """ Tests for documentation of Base """
+    """ Tests for BaseModel to be documentated, type annotated and pycodestyle valid"""
 
     def test_pycodestyle(self):
         """ Tests for proper code styling """
@@ -25,26 +25,30 @@ class TestBaseModelDoc(unittest.TestCase):
 
     def test_annotations(self):
         """ Tests Base methods to be type annotated """
-        base = Base()
+        base = BaseModel()
         methods = inspect.getmembers(base, predicate=inspect.ismethod)
 
         for m_name, method in methods:
             type_hints = get_type_hints(method)
-            assertTrue(type_hints, f"{m_name} is missing type annotations")
+            self.assertTrue(type_hints, f"{m_name} is missing type annotations")
 
     def test_module_documentation(self):
         """Test for the existence of module docstring"""
         self.assertIsNot(module_doc, None,
+                         "base_model.py needs a docstring")
+        self.assertIsNot(module_doc, len(module_doc) < 1,
                          "base_model.py needs a docstring")
 
     def test_class_documentation(self):
         """Test for the BaseModel class docstring"""
         self.assertIsNot(BaseModel.__doc__, None,
                          "BaseModel class needs a docstring")
+        self.assertFalse(Basemodel.__doc__ < 1,
+                         "base_model.py needs a docstring")
 
-    def test_func_documentation(self):
+    def test_methods_documentation(self):
         """Test for the presence of docstrings in BaseModel methods"""
-        base = Base()
+        base = BaseModel()
         methods = inspect.getmembers(base, predicate=inspect.ismethod)
 
         for m_name, method in methods:
@@ -59,7 +63,7 @@ class TestBaseModel(unittest.TestCase):
         """ Tests Base for the correct attrs and types """
         base = BaseModel()
         self.assertIs(type(base), Base)
-        inst.name = "Generic"
+        base.name = "Generic"
         exptd = { "id": str, "created_at": datetime, "name": str }
 
         for attr, typ in exptd.items():
@@ -80,7 +84,7 @@ class TestBaseModel(unittest.TestCase):
         """ Tests for the correct return value of to_dict() """
         base = BaseModel()
         base_dict = base.to_dict()
-        self.assertEqual(base_dit["__class__"], "BaseModel")
+        self.assertEqual(base_dict["__class__"], "BaseModel")
         self.assertEqual(type(base_dict["created_at"]), str)
         self.assertEqual(base_dict["created_at"], base.created_at.strftime("%Y-%m-%dT%Hi:%M:%S.%f"))
 
