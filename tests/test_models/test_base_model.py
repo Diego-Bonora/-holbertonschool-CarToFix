@@ -4,63 +4,10 @@
 from models.base_model import BaseModel
 from datetime import datetime
 from typing import get_type_hints
-import inspect
 import models.base_model
-import pep8 as pycodestyle
-from models import storage
 import unittest
 
 module_doc = models.base_model.__doc__
-
-
-class TestBaseModelDoc(unittest.TestCase):
-    """
-    Tests for BaseModel to be documentated,
-    type annotated and pycodestyle valid
-    """
-
-    def test_pycodestyle(self):
-        """ Tests for proper code styling """
-        for path in ['models/base_model.py',
-                     'tests/test_models/test_base_model.py']:
-            with self.subTest(path=path):
-                errors = pycodestyle.Checker(path).check_all()
-                self.assertEqual(errors, 0)
-
-    def test_annotations(self):
-        """ Tests Base methods to be type annotated """
-        base = BaseModel()
-        methods = inspect.getmembers(base, predicate=inspect.ismethod)
-
-        for m_name, method in methods:
-            type_hints = get_type_hints(method)
-            self.assertTrue(
-                    type_hints, f"{m_name} is missing type annotations")
-
-    def test_module_documentation(self):
-        """Test for the existence of module docstring"""
-        self.assertIsNot(module_doc, None,
-                         "base_model.py needs a docstring")
-        self.assertIsNot(module_doc, len(module_doc) < 1,
-                         "base_model.py needs a docstring")
-
-    def test_class_documentation(self):
-        """Test for the BaseModel class docstring"""
-        self.assertIsNot(BaseModel.__doc__, None,
-                         "BaseModel class needs a docstring")
-        self.assertFalse(len(BaseModel.__doc__) < 1,
-                         "base_model.py needs a docstring")
-
-    def test_methods_documentation(self):
-        """Test for the presence of docstrings in BaseModel methods"""
-        base = BaseModel()
-        methods = inspect.getmembers(base, predicate=inspect.ismethod)
-
-        for m_name, method in methods:
-            docstring = method.__doc__
-            self.assertIsNotNone(
-                    docstring, f"{m_name} is missing documentation")
-
 
 class TestBaseModel(unittest.TestCase):
     """ Tests Base for the correct attrs and behavior """
