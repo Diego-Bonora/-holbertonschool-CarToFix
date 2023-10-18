@@ -5,11 +5,11 @@ from models.base_model import BaseModel
 from datetime import datetime
 from typing import get_type_hints
 import inspect
+import models.base_model
 import pep8 as pycodestyle
 from models import storage
 import unittest
 
-import models.base_model
 module_doc = models.base_model.__doc__
 
 
