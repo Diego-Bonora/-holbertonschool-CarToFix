@@ -1,9 +1,7 @@
 #!/usr/bin/python
 """ Contains class Budget """
-import models
-from models.base_model import BaseModel, Base
-import sqlalchemy
 from datetime import datetime
+from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, Integer, Float, Boolean, DateTime
 from sqlalchemy.orm import relationship
 

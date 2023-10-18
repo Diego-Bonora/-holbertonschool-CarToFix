@@ -1,8 +1,6 @@
 #!/usr/bin/python
 """ Contains class Vehicle """
-import models
 from models.base_model import BaseModel, Base
-import sqlalchemy
 from sqlalchemy import Column, String, Integer, ForeignKey
 from sqlalchemy.orm import relationship
 

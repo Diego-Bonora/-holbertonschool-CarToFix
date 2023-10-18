@@ -1,11 +1,7 @@
 #!/usr/bin/python
 """ Contains class Services """
-import models
 from models.base_model import BaseModel, Base
-from datetime import datetime
-import sqlalchemy
 from sqlalchemy import Column, String, Boolean, ForeignKey
-from sqlalchemy.orm import relationship
 
 
 class Service(BaseModel, Base):

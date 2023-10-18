@@ -1,8 +1,6 @@
 #!/usr/bin/python
 """ Contains class Clients """
-import models
 from models.base_model import BaseModel, Base
-import sqlalchemy
 from sqlalchemy import Column, String, Integer
 from sqlalchemy.orm import relationship
 
