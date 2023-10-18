@@ -4,7 +4,7 @@ export default function NavBar() {
 	return (
 		<div>
 			<header>
-				<div className=" p-7 w-full  flex flex-row  justify-around bg-[#09B6C2]  h-[90px]" >
+				<div className=" p-7 w-full  flex flex-row  justify-around bg-[#09B6C2]  h-[90px] " >
 					<div className='flex flex-row justify-content gap-4 justify-center self-center w-16 h-16 bg-slate-400 rounded-full border-4 border-gray-300'> <span className class="material-symbols-outlined text-slate-50 flex justify-center self-center ">
 						directions_car
 					</span></div>
