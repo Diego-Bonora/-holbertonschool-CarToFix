@@ -1,16 +1,13 @@
 #!/usr/bin/python3
 """ This module initializes the server """
 
+from api.v1.views import app_views
 from flask import Flask
 
 app = Flask(__name__)
+app.url_map.strict_slashes = False
 
-#!/usr/bin/python3
-""" This module initializes the server """
-
-from flask import Flask
-
-app = Flask(__name__)
+app.register_blueprint(app_views)
 
 # User() Routes:
 @app.route("/api/v1/usr/<srId>", methods=["GET"])
@@ -131,31 +128,6 @@ def delete_client(clnId):
 
 @app.route("/api/v1/client/<clId>", methods=["PUT"])
 def update_client(clId):
-    pass
-
-# Budget() Routes:
-@app.route("/api/v1/budget/<bdgtId>/services", methods=["GET"])
-def get_budget_services(bdgtId):
-    pass
-
-@app.route("/api/v1/budget/<bdgtId>", methods=["GET"])
-def get_budget(bdgtId):
-    pass
-
-@app.route("/api/v1/budget", methods=["GET"])
-def get_all_budgets():
-    pass
-
-@app.route("/api/v1/budget", methods=["POST"])
-def create_budget():
-    pass
-
-@app.route("/api/v1/budget/<bdgtId>", methods=["DELETE"])
-def delete_budget(bdgtId):
-    pass
-
-@app.route("/api/v1/budget/<bdgtId>", methods=["PUT"])
-def update_budget(bdgtId):
     pass
 
 # Type() Routes:
