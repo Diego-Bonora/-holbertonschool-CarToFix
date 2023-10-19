@@ -59,9 +59,30 @@ def create_vehicle():
 
 @app_views.route("/vehicle/<veId>", methods=["DELETE"])
 def delete_vehicle(veId):
-    pass
+    """ Deletes a vehicle object """
+    vehicle = storage.get(Vehicle, veId)
+    if not vehicle:
+        abort(400, {"error": f"Vehicle: {veId} instance not found"})
+
+    storage.delete(vehicle)
+
+    return jsonify(""), 204
 
 @app_views.route("/vehicle/<veId>", methods=["PUT"])
 def update_vehicle(veId):
-    pass
+    """ Updates a vehicle object """
+    vehicle = storage.get(Vehicle, veId)
+    if not vehicle:
+    	abort (404, {"error": f"Vehicle: {veId} not found"})
 
+    krgs = request.get_json()
+    if not krgs:
+    	abort(400, {"error": "Couldn’t get request; not a json"})
+
+    not_keys = ["id", "brand", "model", "user_id", "type_vehicle_id"]
+    for key, value in krgs.items():
+        if key not in not_keys:
+            setattr(vehicle, key, value)
+
+    storage.save()
+    return jsonify(vehicle.to_dict()), 200
