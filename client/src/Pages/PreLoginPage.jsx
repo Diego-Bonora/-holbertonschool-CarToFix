@@ -1,16 +1,11 @@
-import React from 'react'
-import Login from '../Components/login'
+import Login from '../Components/login';
 
 export default function PreLoginPage() {
 	return (
 		<>
-			<div className="w-screen h-screen  flex items-center  justify-center flex-row bg-cyan-200">
-
-				<div className="logo-app px-5 mr-40 logo h-[100px] w-2/5  bg-gray-100 "> logo </div>
-
+		<div className="w-screen 2xl:min-h-screen  2xl:flex 2xl:items-center bg-cyan-100">
+		<div className="hidden 2xl:w-3/5 h-full 2xl:flex 2xl:items-center 2xl:justify-center "> logo </div>
 				<Login />
-
-
 			</div>
 		</>
 	)

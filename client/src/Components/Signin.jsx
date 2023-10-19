@@ -1,52 +1,45 @@
 import { Link } from 'react-router-dom';
-import { Envelope, Lock, Telephone, Person } from 'react-bootstrap-icons';
+import { Envelope, Telephone, Person } from 'react-bootstrap-icons';
+import InputFied from './InputFied';
+import PasswordInput from './PasswordInput';
 
 export default function Signin() {
 	return (
 		<>
-			<div className="w-screen h-screen  flex items-center  justify-center flex-row bg-cyan-200">
-				<div className="logo-app px-5 mr-40 logo h-[100px] w-2/5  bg-gray-100 "> logo </div>
-				{/* pantalla derecha */}
-				<div className="w-3/5 sm:min-w-[400px] md:max-w-[500px] h-screen bg-gray-200 flex items-center justify-center">
-					<div className="w-9/12 h-screen text-center mx-auto my-auto">
-						<div className="rounded-full border-2 mx-auto w-28 h-28 bg-white translate-y-1/2"></div>
-						<div className="text-white border-2 my-auto rounded-lg border-color-icons bg-cian-oscuro">
-							<form action="" className=" h-full pb-3.5 pt-20 px-6">
-								<div className='relative my-2 text-xs'>
-									<Person className="absolute left-2 top-1/2 transform -translate-y-1/2 w-4 h-6 text-color-icons" />
-									<input type="Name" placeholder="Nombre del taller" className="rounded-md h-6 w-full bg-gris-claro text-black p-1 pl-8 placeholder-white" />
-								</div>
-								<div className='relative my-2 text-xs'>
-									<Telephone className="absolute left-2 top-1/2 transform -translate-y-1/2 w-4 h-6 text-color-icons" />
-									<input type="Number" placeholder="Número del taller" className="rounded-md h-6 w-full bg-gris-claro text-black p-1 pl-8 placeholder-white" />
-								</div>
-								<div className='relative my-2 text-xs'>
-									<Envelope className="absolute left-2 top-1/2 transform -translate-y-1/2 w-4 h-6 text-color-icons" />
-									<input type="Email" placeholder="Email" className="rounded-md h-6 w-full bg-gris-claro text-black p-1 pl-8 placeholder-white" />
-								</div>
-								<div className='relative my-1 text-xs'>
-									<Lock className="absolute left-2 top-1/2 transform -translate-y-3/4 w-4 h-6 text-color-icons" />
-									<input type="Contraseña" placeholder="Contraseña" className="rounded-md h-6 w-full bg-gris-claro text-black p-1 pl-8 placeholder-white" />
-								</div>
-								<div className='relative my-1 text-xs'>
-									<Lock className="absolute left-2 top-1/2 transform -translate-y-3/4 w-4 h-6 text-color-icons" />
-									<input type="Contraseña" placeholder="Repetir contraseña" className="rounded-md h-6  w-full bg-gris-claro text-black p-1 pl-8 placeholder-white" />
-								</div>
-								<div className="'BOTON LOGIN ">
-									<button type="submit" className="active:scale-[.98] text-center py-1 bg-azul-oscuro rounded-full mb-2 mt-4 w-full ">Registrarse</button>
-								</div>
-								<div className='px-14 text-center'>
-									<span className="text-xs  mt-4">¿Ya tienes cuenta? </span>
-								</div>
-								<div className='px-20 text-center'>
-									<Link to='/' className='text-azul-oscuro underline text-xs mt-4' > Iniciar sesión</Link>
-								</div>
-							</form>
-						</div>
-					</div>
-				</div>
-			</div>
-
+    <div className="w-screen 2xl:min-h-screen  2xl:flex 2xl:items-center bg-cyan-100">
+      <div className="hidden 2xl:w-3/5 h-full 2xl:flex 2xl:items-center 2xl:justify-center "> logo </div>
+			{/* pantalla derecha */}
+			<div className='2xl:w-2/5 h-screen'>
+        <div className="h-screen text-center flex items-center justify-center mx-auto my-auto">
+          <div className='2xl:w-9/12 text-center 2xl:h-bloque relative mx-8 2xl:bottom-24 bottom-16'>
+            <div className="rounded-full border-2 border-white mx-auto 2xl:w-48 2xl:h-48 w-40 h-40 bg-gris-claro translate-y-1/2"></div>
+            <div className="text-white border-4 my-auto rounded-2xl bg-cian-oscuro md:h-4/5 border-gris-claro">
+              <form action="" className="items-center justify-center px-pad-1 pb-pad-1 pt-pad-5 font-Inter">
+                <InputFied icon={<Person />} type='text' placeholder='Nombre del taller' />
+                <InputFied icon={<Telephone />} type='num' placeholder='Número del taller' />
+                <InputFied icon={<Envelope />} type='email' placeholder='Email' />
+                <PasswordInput />
+                <PasswordInput />
+                <div className="mx-marg-4">
+                  <button type="submit"className="font-bold text-center 2xl:text-2xl text-xl p-pad-3 bg-azul-oscuro rounded-full mb-marg-1 mt-marg-1 w-full">Registrarse</button>
+                </div>
+                <div className='px-14 text-center'>
+                  <span className="2xl:text-xl text-base mt-4 font-bold">¿Ya tienes cuenta? </span>
+                </div>
+                <div className='px-20 text-center'>
+                  <Link to='/' className='text-azul-oscuro underline 2xl:text-xl text-base mt-4' > Iniciar sesión</Link>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div className="absolute bottom-0 w-full text-center ">
+        <div className="bg-gris-footer 2xl:py-1 rounded-t-full">
+          <span className="text-black text-xl">Powered by DEEPS Devs 2023</span>
+        </div>
+      </div>
 		</>
 	)
 }
