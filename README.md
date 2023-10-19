@@ -29,6 +29,7 @@ Alright
 At the end of the file:
 * It will also create another budget, and vehicle... for population and variety purposes.
 	* The dictionaries used to create them were provided, so they can be used, to post or update request.
+* It will also create instances of some other objects, which were required
 
 ## Routes
 ### User() Routes:
@@ -46,7 +47,6 @@ At the end of the file:
 - [x] PUT /api/v1/service/<scId>
 
 ### Vehicle() Routes:
-- [ ] GET /api/v1/vehicle/model/<mdlId> -> To discuss
 - [x] GET /api/v1/vehicle/<velId>
 - [x] GET /api/v1/vehicle
 - [x] POST /api/v1/vehicle
@@ -89,4 +89,5 @@ At the end of the file:
 - [ ] GET /api/v1/vehicle/<veId>/budgets
 
 For now some routes will return a 500 error cause not all functions are not implemented yet.
-... that means they're workin' ;)
+... that means they're workin' ;
+* It will also create instances of some other objects, which were required)
