@@ -42,11 +42,11 @@ print("---------")
 print(service2)
 print("---------")
 print(service3)
-print("---------")
+print("---------\nBUDGET")
 
 # Adding the services to the budget
 budget.services.extend([service1, service2, service3])
-
+print("---------")
 print(budget)
 
 # Saving...
@@ -64,5 +64,16 @@ storage.save()
 
 print("Alright")
 
-krgs = {"title": "Kill delivery service", "description": "Summertime - George Gershwin", "note": "A piano was required","vehicle_id": "82297bf6-1831-482f-a8b9-7d86e817e92d", "user_id": "549f245e-93b9-4cc7-a6d0-e603c15bdcf4", "budget_id": "68d0e7e1-0385-4697-89ef-38605837be2f", "price": 200000.0}
 
+# ONLY FOR POPULATION SAKE
+budg_dict = {"title": "Kill delivery service", "description": "Summertime - George Gershwin", "note": "A piano got broken","vehicle_id": "82297bf6-1831-482f-a8b9-7d86e817e92d", "user_id": "549f245e-93b9-4cc7-a6d0-e603c15bdcf4", "budget_id": "68d0e7e1-0385-4697-89ef-38605837be2f", "total_price": 200000.0, "payment_method":"Corpse", "installments":3, "warranty":True, "confirmed":True, "sent":True, "active":True}
+budget2 = Budget(**budg_dict)
+
+veh_dict = {"plate":"T4K3M3T0CVRCH", "brand":"e3ef380a-408b-48c5-b120-4e9160d5cd2b", "model":"swingduaduaduaduaduadua", "color":"daltonism", "mileage":2929, "user_id":"549f245e-93b9-4cc7-a6d0-e603c15bdcf4", "client_id":"7b2ab78f-7be4-4063-9ac2-e2d82695e0bf", "type_vehicle_id":"d45ae293-43fa-474e-87c2-cf4cd5c8da60"}
+veh = Vehicle(**veh_dict)
+
+# Saving...
+storage.new(budget2)
+storage.new(veh)
+
+storage.save()

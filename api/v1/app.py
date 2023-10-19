@@ -31,39 +31,6 @@ def delete_user(usrId):
 def update_user(usrId):
     pass
 
-# Vehicle() Routes:
-@app.route("/api/v1/vehicle/model/<mdlId>", methods=["GET"])
-def get_vehicle_model(mdlId):
-    pass
-
-@app.route("/api/v1/vehicle/<veId>/budgets", methods=["GET"])
-def get_vehicle_budgets(veId):
-    pass
-
-@app.route("/api/v1/vehicle/<veId>/service", methods=["GET"])
-def get_vehicle_service(veId):
-    pass
-
-@app.route("/api/v1/vehicle/<velId>", methods=["GET"])
-def get_vehicle(velId):
-    pass
-
-@app.route("/api/v1/vehicle", methods=["GET"])
-def get_all_vehicles():
-    pass
-
-@app.route("/api/v1/vehicle", methods=["POST"])
-def create_vehicle():
-    pass
-
-@app.route("/api/v1/vehicle/<veId>", methods=["DELETE"])
-def delete_vehicle(veId):
-    pass
-
-@app.route("/api/v1/vehicle/<veId>", methods=["PUT"])
-def update_vehicle(veId):
-    pass
-
 # Brand() Routes:
 @app.route("/api/v1/brand/<brand_name>", methods=["GET"])
 def get_brand(brand_name):

@@ -26,6 +26,9 @@ $ python3 create_a_budget_service.py
 [Budget] (a9f83602-9bd7-4464-843f-af320853ad43) {'_sa_instance_state': <sqlalchemy.orm.state.InstanceState object at 0x7f449cbd12e8>, 'total_price': 400.0, 'payment_method': 'Credit-Card', 'installments': 0, 'warranty': 0, 'confirmed': False, 'sent': False, 'active': False, 'created_at': datetime.datetime(2023, 10, 19, 3, 58, 24, 353658), 'id': 'a9f83602-9bd7-4464-843f-af320853ad43', 'services': [<models.service.Service object at 0x7f4496c41668>, <models.service.Service object at 0x7f4496c416d8>, <models.service.Service object at 0x7f4496c41748>]}
 Alright
 ```
+At the end of the file:
+* It will also create another budget, and vehicle... for population and variety purposes.
+	* The dictionaries used to create them were provided, so they can be used, to post or update request.
 
 ## Routes
 ### User() Routes:
@@ -46,9 +49,9 @@ Alright
 - [ ] GET /api/v1/vehicle/model/<mdlId>
 - [ ] GET /api/v1/vehicle/<veId>/budgets
 - [ ] GET /api/v1/vehicle/<veId>/service
-- [ ] GET /api/v1/vehicle/<velId>
-- [ ] GET /api/v1/vehicle
-- [ ] POST /api/v1/vehicle
+- [x] GET /api/v1/vehicle/<velId>
+- [x] GET /api/v1/vehicle
+- [x] POST /api/v1/vehicle
 - [ ] DELETE /api/v1/vehicle/<veId>
 - [ ] PUT /api/v1/vehicle/<veId>
 
