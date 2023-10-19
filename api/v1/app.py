@@ -9,6 +9,7 @@ app.url_map.strict_slashes = False
 
 app.register_blueprint(app_views)
 
+
 # User() Routes:
 @app.route("/api/v1/usr/<srId>", methods=["GET"])
 def get_user(srId):
@@ -28,27 +29,6 @@ def delete_user(usrId):
 
 @app.route("/api/v1/user/<usrId>", methods=["PUT"])
 def update_user(usrId):
-    pass
-
-# Service() Routes:
-@app.route("/api/v1/service/<scId>", methods=["GET"])
-def get_service(scId):
-    pass
-
-@app.route("/api/v1/service", methods=["GET"])
-def get_all_services():
-    pass
-
-@app.route("/api/v1/service", methods=["POST"])
-def create_service():
-    pass
-
-@app.route("/api/v1/service/<scId>", methods=["DELETE"])
-def delete_service(scId):
-    pass
-
-@app.route("/api/v1/service/<scId>", methods=["PUT"])
-def update_service(scId):
     pass
 
 # Vehicle() Routes:

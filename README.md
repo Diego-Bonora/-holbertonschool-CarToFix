@@ -36,8 +36,8 @@ Alright
 - [ ] PUT /api/v1/user/<usrId>
 
 ### Service() Routes:
-- [ ] GET /api/v1/service/<scId>
-- [ ] GET /api/v1/service
+- [x] GET /api/v1/service/<scId>
+- [x] GET /api/v1/service
 - [ ] POST /api/v1/service
 - [ ] DELETE /api/v1/service/<scId>
 - [ ] PUT /api/v1/service/<scId>
