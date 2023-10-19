@@ -7,7 +7,7 @@ from sqlalchemy import Column, String, Boolean, ForeignKey
 class Service(BaseModel, Base):
     """ Representation of Services """
     __tablename__ = 'services'
-    done = Column(Boolean, nullable=False)
+    done = Column(Boolean, default=False)
     title = Column(String(128), nullable=False)
     description = Column(String(128), nullable=True)
     note = Column(String(128), nullable=True)
