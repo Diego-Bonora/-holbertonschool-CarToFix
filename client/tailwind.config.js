@@ -26,7 +26,7 @@ export default {
         'Inter': ['Inter', 'sans'],
 			},
 			spacing: {
-        'pad-1': '7%',
+        'pad-1': '10%',
         'pad-2': '30%',
         'pad-3': '3%',
         'pad-4': '30%',

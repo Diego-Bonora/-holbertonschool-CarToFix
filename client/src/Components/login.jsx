@@ -25,11 +25,11 @@ export default function Login() {
                   </div>
                   <Link to='' className="2xl:text-base text-white underline">Olvide mi contraseña</Link>
                 </div>
-                <div className="'BOTON LOGIN ">
-                  <button type="submit"className="text-center font-bold font-Inter 2xl:text-2xl text-xl p-pad-3 bg-azul-oscuro rounded-full mb-marg-1 mt-marg-2 w-full mt-12">Iniciar sesión</button>
+                <div className="mx-marg-3 ">
+                  <button type="submit"className="text-center font-bold font-Inter 2xl:text-xl text-xl p-pad-3 bg-azul-oscuro rounded-full mb-marg-1 mt-marg-2 w-full mt-12">Iniciar sesión</button>
                 </div>
                 <div className='px-12'>
-                  <span className="2xl:text-xl text-base mt-4 font-bold">¿Eres nuevo? <Link to='/Signin' className='text-azul-oscuro underline' > Registrate</Link></span>
+                  <span className="2xl:text-lg text-base mt-4 font-bold">¿Eres nuevo? <Link to='/Signin' className='text-azul-oscuro underline' > Registrate</Link></span>
                 </div>
               </form>
             </div>
