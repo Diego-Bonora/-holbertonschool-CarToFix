@@ -38,9 +38,9 @@ Alright
 ### Service() Routes:
 - [x] GET /api/v1/service/<scId>
 - [x] GET /api/v1/service
-- [ ] POST /api/v1/service
-- [ ] DELETE /api/v1/service/<scId>
-- [ ] PUT /api/v1/service/<scId>
+- [x] POST /api/v1/service
+- [x] DELETE /api/v1/service/<scId>
+- [x] PUT /api/v1/service/<scId>
 
 ### Vehicle() Routes:
 - [ ] GET /api/v1/vehicle/model/<mdlId>

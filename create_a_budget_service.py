@@ -24,13 +24,13 @@ vehicle = Vehicle(plate="61Octaves", brand=brand.id, model="tha_model", color="d
 # HERE ARE THE ACTUAL INSTANCES GOING TO BE USED
 # Creating three services...
 krgs = {
-        "done": False,
         "title": "Kill delivery service",
         "description": "Summertime - George Gershwin",
         "note": "A piano was required",
         "vehicle_id": vehicle.id,
         "user_id": user.id,
-        "budget_id": budget.id
+        "budget_id": budget.id,
+        "price": 200000.0
         }
 
 service1 = Service(**krgs)
@@ -63,3 +63,6 @@ storage.new(vehicle)
 storage.save()
 
 print("Alright")
+
+krgs = {"title": "Kill delivery service", "description": "Summertime - George Gershwin", "note": "A piano was required","vehicle_id": "82297bf6-1831-482f-a8b9-7d86e817e92d", "user_id": "549f245e-93b9-4cc7-a6d0-e603c15bdcf4", "budget_id": "68d0e7e1-0385-4697-89ef-38605837be2f", "price": 200000.0}
+

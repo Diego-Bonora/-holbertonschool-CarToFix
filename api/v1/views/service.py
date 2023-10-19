@@ -29,24 +29,48 @@ def get_all_services():
 def create_service():
     """ Creates a Service object """
     krgs = request.get_json()
-    needed = ["done", "title", "description", "vehicle_id", "user_id", "budget_id"]
+    needed = ["price", "title", "description", "vehicle_id", "user_id", "budget_id"]
     if not krgs:
         abort(400, {"error": "Couldn’t get request; not a json"})
 
     for arg in needed:
         if arg not in krgs:
-    	    abort(400, {“error”: f“{arg} missing”})
+    	    abort(400, {"error": f"{arg} missing"})
 
     new_srv = Service(**krgs)
-    storage.save(new_serv)
+    storage.new(new_srv)
+    storage.save()
 
-    return jsonify(new_serv.to_dict()), 201
+    return jsonify(new_srv.to_dict()), 201
 
 
 @app_views.route("/service/<scId>", methods=["DELETE"])
 def delete_service(scId):
-    pass
+    """ Deletes a service """
+    service = storage.get(Service, scId)
+    if not service:
+    	abort(400, {"error": f"Service: {veId} instance not found"})
+
+    storage.delete(service)
+    storage.save()
+    return jsonify(""), 204
+
 
 @app_views.route("/service/<scId>", methods=["PUT"])
 def update_service(scId):
-    pass
+    """ Updates a service """
+    service = storage.get(Service, scId)
+    if not service:
+        abort (404, {"error": f"Service: {scId} not found"})
+
+    krgs = request.get_json()
+    if not krgs:
+        abort(400, {"error": "Couldn’t get request; not a json"})
+
+    for key, value in krgs.items():
+        if key is not "id":
+            setattr(service, key, value)
+
+    storage.save()
+    return jsonify(service.to_dict()), 200
+
