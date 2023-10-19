@@ -6,6 +6,7 @@ import Home from './Pages/Home';
 import NavBar from './Components/NavBar';
 import Signin from "./Components/Signin";
 
+
 function App() {
 
 
@@ -17,6 +18,7 @@ function App() {
 					<Route path="/" element={<PreLoginPage />} />
 					<Route path="/home" element={<Home />} />
 					<Route path="/Signin" element={<Signin />}></Route>
+
 				</Routes>
 
 			</BrowserRouter>
