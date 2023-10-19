@@ -1,13 +1,14 @@
 #!/usr/bin/python
 """ Contains class Services """
 from models.base_model import BaseModel, Base
-from sqlalchemy import Column, String, Boolean, ForeignKey
+from sqlalchemy import Column, String, Boolean, ForeignKey, Float
 
 
 class Service(BaseModel, Base):
     """ Representation of Services """
     __tablename__ = 'services'
     done = Column(Boolean, default=False)
+    price = Column(Float, nullable=False)
     title = Column(String(128), nullable=False)
     description = Column(String(128), nullable=True)
     note = Column(String(128), nullable=True)
