@@ -7,10 +7,24 @@ $ flask run
 ```
 
 ## Create a basic fake Budget:
-You can also create multiple Budgets (without services related) using `create_an_only_budget.py` multiple times:
+You can also create multiple Budgets (without services related) using `create_a_budget.py` multiple times:
 ```
-$ python3 create_an_only_budget.py
+$ python3 create_a_budget.py
 [Budget] (83b59781-0861-4442-8764-07ff7a8207be) {'_sa_instance_state': <sqlalchemy.orm.state.InstanceState object at 0x7f9ec2a48da0>, 'total_price': 400.0, 'payment_method': 'Credit-Card', 'installments': 0, 'warranty': 0, 'confirmed': False, 'sent': False, 'active': False, 'created_at': datetime.datetime(2023, 10, 18, 21, 16, 16, 238591), 'id': '83b59781-0861-4442-8764-07ff7a8207be'}
+```
+
+## Create a Budget:
+You can create a single Budget with vehicles related using `create_a_budget_service.py`:
+```
+$ python3 create_a_budget_service.py 
+[Service] (cd6c0f80-c037-4674-9dc6-cbe37f3e0cd4) {'_sa_instance_state': <sqlalchemy.orm.state.InstanceState object at 0x7f4496c41630>, 'done': False, 'title': 'Kill delivery service', 'description': 'Summertime - George Gershwin', 'note': 'A piano was required', 'vehicle_id': '0c5fc03b-e145-4bd2-8a88-499933efeff9', 'user_id': '6b96b94e-3623-4ac7-8994-082a0913244c', 'budget_id': 'a9f83602-9bd7-4464-843f-af320853ad43', 'created_at': datetime.datetime(2023, 10, 19, 3, 58, 24, 440185), 'id': 'cd6c0f80-c037-4674-9dc6-cbe37f3e0cd4'}
+---------
+[Service] (3790f672-5d63-4e12-a069-f3ddb9213516) {'_sa_instance_state': <sqlalchemy.orm.state.InstanceState object at 0x7f4496c416a0>, 'done': False, 'title': 'Kill delivery service', 'description': 'Summertime - George Gershwin', 'note': 'A piano was required', 'vehicle_id': '0c5fc03b-e145-4bd2-8a88-499933efeff9', 'user_id': '6b96b94e-3623-4ac7-8994-082a0913244c', 'budget_id': 'a9f83602-9bd7-4464-843f-af320853ad43', 'created_at': datetime.datetime(2023, 10, 19, 3, 58, 24, 440421), 'id': '3790f672-5d63-4e12-a069-f3ddb9213516'}
+---------
+[Service] (3c06fc08-ca02-4177-b359-1a6fc6f85209) {'_sa_instance_state': <sqlalchemy.orm.state.InstanceState object at 0x7f4496c41710>, 'done': False, 'title': 'Kill delivery service', 'description': 'Summertime - George Gershwin', 'note': 'A piano was required', 'vehicle_id': '0c5fc03b-e145-4bd2-8a88-499933efeff9', 'user_id': '6b96b94e-3623-4ac7-8994-082a0913244c', 'budget_id': 'a9f83602-9bd7-4464-843f-af320853ad43', 'created_at': datetime.datetime(2023, 10, 19, 3, 58, 24, 440619), 'id': '3c06fc08-ca02-4177-b359-1a6fc6f85209'}
+---------
+[Budget] (a9f83602-9bd7-4464-843f-af320853ad43) {'_sa_instance_state': <sqlalchemy.orm.state.InstanceState object at 0x7f449cbd12e8>, 'total_price': 400.0, 'payment_method': 'Credit-Card', 'installments': 0, 'warranty': 0, 'confirmed': False, 'sent': False, 'active': False, 'created_at': datetime.datetime(2023, 10, 19, 3, 58, 24, 353658), 'id': 'a9f83602-9bd7-4464-843f-af320853ad43', 'services': [<models.service.Service object at 0x7f4496c41668>, <models.service.Service object at 0x7f4496c416d8>, <models.service.Service object at 0x7f4496c41748>]}
+Alright
 ```
 
 ## Routes

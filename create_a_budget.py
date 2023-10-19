@@ -1,4 +1,4 @@
-""" This module can be used to create multiple Budgets (with no services) """
+""" This module can be used to create a single Budget (with no services) """
 
 from models.budget import Budget
 from models import storage
