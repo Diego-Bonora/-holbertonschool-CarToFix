@@ -31,9 +31,11 @@ export default function NewBudget() {
 	return (
 		<div className='w-screen bg-[#F5F5F5] h-screen p-10 '>
 			<h1 className=' font-black'>Nuevo Presupuesto</h1>
-			<section className='grid grid-flow-col grid-rows-3 gap-4 mt-10 justify-items-center'>
-				<section className='p-4 w-full  bg-[#EBEBEB] rounded-lg row-span-4 col-span-2 h-fit'>
-					<form>
+			<section className='principalFrames grid grid-flow-col grid-rows-3 gap-4 mt-10 justify-items-center'>
+				<section className='CreateBudget p-4 w-full  bg-[#EBEBEB] rounded-lg row-span-4 col-span-2 h-fit'>
+					<form className='FormToCreateBudget'>
+						{/* elements of the form */}
+						{/* MATRICULA */}
 						<div className='flex flex-col-2 justify-between'>
 							<label className="text-2xl font-black mr-5" for="plate">Matricula</label>
 
@@ -41,13 +43,15 @@ export default function NewBudget() {
 								<input className='bg-[#B4D1D3] p-2' type='text' id='plate'></input>
 							</div>
 						</div>
+						{/* TITULO */}
 						<div className='flex flex-col-2 justify-between'>
 
 							<label className="my-4" for="title">Título</label>
 							<div className='flex flex-row-reverse w-full'>
-								<SelectTitle />
+								<SelectTitle id="title" />
 							</div>
 						</div>
+						{/* SERVICIOS */}
 						<div className='flex flex-col-2 justify-between'>
 
 							<label className="my-4" fot="service">Servicio</label>
@@ -57,6 +61,7 @@ export default function NewBudget() {
 								</div>
 							</div>
 						</div>
+						{/* DESCRIPTION TEXTAREA */}
 						<div className='flex flex-col-2 justify-between'>
 
 							<label className="my-4" fot="description">Descripción</label>
@@ -66,6 +71,7 @@ export default function NewBudget() {
 								</textarea>
 							</div>
 						</div>
+						{/* ASIGNADO A */}
 						<div className='flex flex-col-2 justify-between'>
 
 							<label className="my-4" fot="asignedTTo">Asignado a</label>
@@ -75,6 +81,7 @@ export default function NewBudget() {
 								</div>
 							</div>
 						</div>
+						{/* PRECIO */}
 						<div className='flex flex-col-2 justify-between'>
 
 							<label className="my-4" fot="price">Precio</label>
@@ -82,14 +89,17 @@ export default function NewBudget() {
 								<input className='bg-[#B4D1D3] p-1 my-4' type='text' id='price'></input>
 							</div>
 						</div>
+						{/* bOTON AGREGAR */}
 						<div className='flex flex-col-1 justify-end'>
 							<Button children="Agregar" size="normal" color="cyan" />
 						</div>
 					</form>
 
 				</section>
+				{/* RESUMEN DEL PRESUPUESTO  */}
+				{/* LISTA DE ITEMS AGREGADOS */}
 				<section className='p-4 w-full min-h-[200px] border-[4px] border-[#B4D1D3] bg-[#EBEBEB] rounded-lg'>
-					{items.map((i, price) => {
+					{items.map((i) => {
 						return (<div><ServiceItem item={i.item} price={i.price} /></div>)
 					})
 					}
@@ -100,9 +110,9 @@ export default function NewBudget() {
 					</div>
 
 				</section>
-
+				{/* CUOTAS Y VIGENCIA - form  */}
 				<section className='totals col-span-1 row-span-2 w-full'>
-					<form>
+					<form id="installmetnsAndDueDate">
 						<div className='flex justify-between my-2'>
 							<labal className="p-2" for="due_date">Vigente hasta </labal>
 							<input className="bg-[#B4D1D3] p-2" type="date" id="due_date" name="due_date"></input>
@@ -112,6 +122,7 @@ export default function NewBudget() {
 							<input className='w-12 bg-[#B4D1D3] p-2' type="text" id="installments"></input>
 
 						</div>
+						{/* TOTALES */}
 						<div className='flex justify-between my-2'>
 							<span className='text-2xl font-black p-4'>TOTAL</span>
 							<div className='text-2xl  grid justify-items-end font-black w-fit bg-[#B4D1D3]'>
@@ -121,6 +132,7 @@ export default function NewBudget() {
 
 
 					</form>
+					{/* CANCELAR CONFIRMAR O ENVIAR  */}
 					<div className='flex flex-col-2 justify-between space-x-2'>
 						<Button children="Cancelar" color="orange" size="normal" />
 						<div className='flex space-x-4'>
