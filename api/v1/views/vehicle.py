@@ -13,7 +13,7 @@ def get_vehicle_budgets(veId):
     """ Returns all the Budget objects for a specific Vehicle """
     vehicle = storage.get(Vehicle, veId)
     if not vehicle:
-        abort(404, {"error": f"Vehicle {vehicle.id} not found"})
+        abort(404, {"error": f"Vehicle {veId} not found"})
 
     return jsonify([bdgt.to_dict() for bgdt in vehicle.budget]), 200
 
@@ -22,7 +22,7 @@ def get_vehicle_service(veId):
     """ Returns all the Services object for a specific Vehicle """
     vehicle = storage.get(Vehicle, veId)
     if not vehicle:
-        abort(404, {"error": f"Vehicle {vehicle.id} not found"})
+        abort(404, {"error": f"Vehicle {veId} not found"})
 
     return jsonify([serv.to_dict() for serv in vehicle.services]), 200
 

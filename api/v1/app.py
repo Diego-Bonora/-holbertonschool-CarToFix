@@ -10,52 +10,6 @@ app.url_map.strict_slashes = False
 app.register_blueprint(app_views)
 
 
-# User() Routes:
-@app.route("/api/v1/usr/<srId>", methods=["GET"])
-def get_user(srId):
-    pass
-
-@app.route("/api/v1/usr", methods=["GET"])
-def get_all_users():
-    pass
-
-@app.route("/api/v1/usr", methods=["POST"])
-def create_user():
-    pass
-
-@app.route("/api/v1/user/<usrId>", methods=["DELETE"])
-def delete_user(usrId):
-    pass
-
-@app.route("/api/v1/user/<usrId>", methods=["PUT"])
-def update_user(usrId):
-    pass
-
-# Client() Routes:
-@app.route("/api/v1/client/<clnId>/vehicle", methods=["GET"])
-def get_client_vehicles(clnId):
-    pass
-
-@app.route("/api/v1/client/<clnId>", methods=["GET"])
-def get_client(clnId):
-    pass
-
-@app.route("/api/v1/client", methods=["GET"])
-def get_all_clients():
-    pass
-
-@app.route("/api/v1/client", methods=["POST"])
-def create_client():
-    pass
-
-@app.route("/api/v1/client/<clnId>", methods=["DELETE"])
-def delete_client(clnId):
-    pass
-
-@app.route("/api/v1/client/<clId>", methods=["PUT"])
-def update_client(clId):
-    pass
-
 # Type() Routes:
 @app.route("/api/v1/type/<type_name>", methods=["GET"])
 def get_type(type_name):

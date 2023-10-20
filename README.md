@@ -32,14 +32,16 @@ At the end of the file:
 	* The dictionaries used to create them were provided, so they can be used, to post or update request.
 * It will also create instances of some other objects, which were required;
 	* 2(Brand)
+	* 3(service)
+	* Client
 
 ## Routes
 ### User() Routes:
-- [ ] GET /api/v1/usr/<srId>
-- [ ] GET /api/v1/usr
-- [ ] POST /api/v1/usr
-- [ ] DELETE /api/v1/user/<usrId>
-- [ ] PUT /api/v1/user/<usrId>
+- [x] GET /api/v1/usr/<usrId> | get a specific user
+- [x] GET /api/v1/usr | get all users
+- [x] POST /api/v1/usr | create an user
+- [x] DELETE /api/v1/user/<usrId> | delete a specific user
+- [x] PUT /api/v1/user/<usrId> | update a specific user
 
 ### Service() Routes:
 - [x] GET /api/v1/service/<scId> | get a specific service
@@ -65,7 +67,7 @@ At the end of the file:
 - [x] PUT /api/v1/brand/<brId> | update a specific brand
 
 ### Client() Routes:
-- [ ] GET /api/v1/client/<clnId>/vehicle
+- [x] GET /api/v1/client/<clnId>/vehicle | get all vehicles for a specific client
 - [ ] GET /api/v1/client/<clnId>
 - [ ] GET /api/v1/client
 - [ ] POST /api/v1/client
