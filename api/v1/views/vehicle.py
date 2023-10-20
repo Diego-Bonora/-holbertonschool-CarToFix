@@ -7,10 +7,6 @@ from models.vehicle import Vehicle
 from models import storage
 
 
-@app_views.route("/vehicle/model/<mdlId>", methods=["GET"])  # This route should be /model/<mdlId>/vehicles instead
-def get_vehicle_model(mdlId):
-    pass
-
 @app_views.route("/vehicle/<veId>/budgets", methods=["GET"])
 def get_vehicle_budgets(veId):
     pass
@@ -24,7 +20,7 @@ def uget_vehicle(veId):
     """ Return the requested Vehicle object if found """
     vehicle = storage.get(Vehicle, veId)
     if vehicle:
-        return jsonify(vehicle.to_dict())
+        return jsonify(vehicle.to_dict()), 200
 
     abort(404, {"error": f"Vehicle {vehicle.id} not found"})
 
@@ -62,7 +58,7 @@ def delete_vehicle(veId):
     """ Deletes a vehicle object """
     vehicle = storage.get(Vehicle, veId)
     if not vehicle:
-        abort(400, {"error": f"Vehicle: {veId} instance not found"})
+        abort(404, {"error": f"Vehicle: {veId} instance not found"})
 
     storage.delete(vehicle)
 

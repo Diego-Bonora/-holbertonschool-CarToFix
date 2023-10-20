@@ -31,27 +31,6 @@ def delete_user(usrId):
 def update_user(usrId):
     pass
 
-# Brand() Routes:
-@app.route("/api/v1/brand/<brand_name>", methods=["GET"])
-def get_brand(brand_name):
-    pass
-
-@app.route("/api/v1/brand", methods=["GET"])
-def get_all_brands():
-    pass
-
-@app.route("/api/v1/brand", methods=["POST"])
-def create_brand():
-    pass
-
-@app.route("/api/v1/brand/<brand_name>", methods=["DELETE"])
-def delete_brand(brand_name):
-    pass
-
-@app.route("/api/v1/brand/<brand_name>", methods=["PUT"])
-def update_brand(brand_name):
-    pass
-
 # Client() Routes:
 @app.route("/api/v1/client/<clnId>/vehicle", methods=["GET"])
 def get_client_vehicles(clnId):

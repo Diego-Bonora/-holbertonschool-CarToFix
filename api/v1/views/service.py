@@ -14,7 +14,7 @@ def get_service(scId):
     if not service:
         abort (404)
 
-    return jsonify(service.to_dict())
+    return jsonify(service.to_dict()), 200
 
 
 @app_views.route("/service", methods=["GET"])
@@ -49,7 +49,7 @@ def delete_service(scId):
     """ Deletes a service """
     service = storage.get(Service, scId)
     if not service:
-    	abort(400, {"error": f"Service: {veId} instance not found"})
+    	abort(404, {"error": f"Service: {veId} instance not found"})
 
     storage.delete(service)
     storage.save()

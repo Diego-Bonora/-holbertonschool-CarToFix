@@ -17,6 +17,7 @@ budget = Budget(total_price=400.0, payment_method="Credit-Card", installments=0,
 veh_type = TypeVehicle(name="tha_type")
 client = Client(name="ET", phone=3802348, email="email@died.com")
 brand = Brand(name="tha_brand")
+brand2 = Brand(name="brand-on")
 user = User(name="Hozier", mail="idk@idk.com", password="F#7b9/db", phone=598984982)
 vehicle = Vehicle(plate="61Octaves", brand=brand.id, model="tha_model", color="daltonism", mileage=22929, user_id=user.id, client_id=client.id, type_vehicle_id=veh_type.id)
 
@@ -57,6 +58,7 @@ storage.new(budget)
 storage.new(veh_type)
 storage.new(client)
 storage.new(brand)
+storage.new(brand2)
 storage.new(user)
 storage.new(vehicle)
 

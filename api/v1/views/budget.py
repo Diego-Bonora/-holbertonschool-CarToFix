@@ -60,7 +60,7 @@ def delete_budget(bdgtId):
     """ Deletes a Budget object based on its id """
     bdgt = storage.get(Budget, bdgtId)
     if not bdgt:
-        abort(400, {"error": f"Budget: {bdgtId} instance not found"})
+        abort(404, {"error": f"Budget: {bdgtId} instance not found"})
 
     storage.delete(bdgt)
     storage.save()

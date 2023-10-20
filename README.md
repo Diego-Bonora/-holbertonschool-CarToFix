@@ -23,13 +23,15 @@ $ python3 create_a_budget_service.py
 ---------
 [Service] (3c06fc08-ca02-4177-b359-1a6fc6f85209) {'_sa_instance_state': <sqlalchemy.orm.state.InstanceState object at 0x7f4496c41710>, 'done': False, 'title': 'Kill delivery service', 'description': 'Summertime - George Gershwin', 'note': 'A piano was required', 'vehicle_id': '0c5fc03b-e145-4bd2-8a88-499933efeff9', 'user_id': '6b96b94e-3623-4ac7-8994-082a0913244c', 'budget_id': 'a9f83602-9bd7-4464-843f-af320853ad43', 'created_at': datetime.datetime(2023, 10, 19, 3, 58, 24, 440619), 'id': '3c06fc08-ca02-4177-b359-1a6fc6f85209'}
 ---------
+BUDGET
 [Budget] (a9f83602-9bd7-4464-843f-af320853ad43) {'_sa_instance_state': <sqlalchemy.orm.state.InstanceState object at 0x7f449cbd12e8>, 'total_price': 400.0, 'payment_method': 'Credit-Card', 'installments': 0, 'warranty': 0, 'confirmed': False, 'sent': False, 'active': False, 'created_at': datetime.datetime(2023, 10, 19, 3, 58, 24, 353658), 'id': 'a9f83602-9bd7-4464-843f-af320853ad43', 'services': [<models.service.Service object at 0x7f4496c41668>, <models.service.Service object at 0x7f4496c416d8>, <models.service.Service object at 0x7f4496c41748>]}
 Alright
 ```
 At the end of the file:
 * It will also create another budget, and vehicle... for population and variety purposes.
 	* The dictionaries used to create them were provided, so they can be used, to post or update request.
-* It will also create instances of some other objects, which were required
+* It will also create instances of some other objects, which were required;
+	* 2(Brand)
 
 ## Routes
 ### User() Routes:
@@ -40,25 +42,25 @@ At the end of the file:
 - [ ] PUT /api/v1/user/<usrId>
 
 ### Service() Routes:
-- [x] GET /api/v1/service/<scId>
-- [x] GET /api/v1/service
-- [x] POST /api/v1/service
-- [x] DELETE /api/v1/service/<scId>
-- [x] PUT /api/v1/service/<scId>
+- [x] GET /api/v1/service/<scId> | get a specific service
+- [x] GET /api/v1/service | get all services 
+- [x] POST /api/v1/service | create a service
+- [x] DELETE /api/v1/service/<scId> | delete a specific service
+- [x] PUT /api/v1/service/<scId> | update a specific service
 
 ### Vehicle() Routes:
-- [x] GET /api/v1/vehicle/<velId>
-- [x] GET /api/v1/vehicle
-- [x] POST /api/v1/vehicle
-- [x] DELETE /api/v1/vehicle/<veId>
-- [x] PUT /api/v1/vehicle/<veId>
+- [x] GET /api/v1/vehicle/<velId> | get a specific vehicle
+- [x] GET /api/v1/vehicle | get all vehicles
+- [x] POST /api/v1/vehicle | create a vehicle
+- [x] DELETE /api/v1/vehicle/<veId> | delete a specific vehicle
+- [x] PUT /api/v1/vehicle/<veId> | update a specific vehicle
 
 ### Brand() Routes:
-- [ ] GET /api/v1/brand/<brand_name>
-- [ ] GET /api/v1/brand
-- [ ] POST /api/v1/brand
-- [ ] DELETE /api/v1/brand/<brand_name>
-- [ ] PUT /api/v1/brand/<brand_name>
+- [x] GET /api/v1/brand/<brId> | get a specific brand
+- [x] GET /api/v1/brand | get all brands
+- [x] POST /api/v1/brand | create a brand
+- [x] DELETE /api/v1/brand/<brId> | delete a specific brand
+- [x] PUT /api/v1/brand/<brId> | update a specific brand
 
 ### Client() Routes:
 - [ ] GET /api/v1/client/<clnId>/vehicle
@@ -69,12 +71,12 @@ At the end of the file:
 - [ ] PUT /api/v1/client/<clId>
 
 ### Budget() Routes:
-- [x] GET /api/v1/budget/<bdgtId>/services
-- [x] GET /api/v1/budget/<bdgtId>
-- [x] GET /api/v1/budget
-- [x] POST /api/v1/budget
-- [x] DELETE /api/v1/budget/<bdgtId>
-- [x] PUT /api/v1/budget/<bdgtId>
+- [x] GET /api/v1/budget/<bdgtId>/services | get all services for a specific budget
+- [x] GET /api/v1/budget/<bdgtId> | get a specific budget
+- [x] GET /api/v1/budget | get all budgets
+- [x] POST /api/v1/budget | create a budget
+- [x] DELETE /api/v1/budget/<bdgtId> | delete a budget
+- [x] PUT /api/v1/budget/<bdgtId> | update a budget
 
 ### Type() Routes:
 - [ ] GET /api/v1/type/<type_name>
@@ -90,4 +92,3 @@ At the end of the file:
 
 For now some routes will return a 500 error cause not all functions are not implemented yet.
 ... that means they're workin' ;
-* It will also create instances of some other objects, which were required)
