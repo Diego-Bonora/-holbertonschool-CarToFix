@@ -6,10 +6,6 @@ from flask import abort, jsonify, request
 from models.user import User
 from models import storage
 
-test_user_email = "santiago@gmail.com"
-test_user_password = "santiago"
-test_user = User(email=test_user_email, password=test_user_password)
-
 
 @app_views.route('/login', methods=['POST'])
 def login():
@@ -31,11 +27,7 @@ def login():
     if user is None:
         return jsonify({"error": "User not found"}), 404
 
-    if user.email == test_user_email and password == test_user_password:
-        return jsonify({"message": "Logged in successfully"})
-    else:
+    if user.password != password or user is None:
         return jsonify({"error": "Invalid email or password"}), 401
 
-
-if __name__ == "__main__":
-    app_views.run(host="0.0.0.0", port="5000")
+    return jsonify({"message": "Logged in successfully"})
