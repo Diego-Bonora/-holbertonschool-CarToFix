@@ -9,7 +9,7 @@ export default function Confirmation({ title, info }) {
 	return (
 		<div className="principal p-2 mt-10 w-full h-40 md:x-92 flex flex-col  bg-[#09B6C2] rounded-lg md:max-w-[600px] ">
 			<div className="title h-10">
-				<h3 className='text-2xl font-black text-center'>{title}</h3>
+				<h3 className='text-2xl font-black text-center text-white'>{title}</h3>
 			</div>
 			<div className='overflow-y-scroll h-40'>
 				<div className="data col-span-1 w-full flex flex-col justify-center align-top items-center bg-[#FFF] rounded-b-lg ">
@@ -28,7 +28,7 @@ export default function Confirmation({ title, info }) {
 											<tr className='text-black'>
 												<td className='px-5 min-w-[120px] gap-y-10 border-r-2'>{i.matricula}</td>
 												<td className='px-5 '>{i.detalle}</td>
-												<td className='px-5 py-15 '> <Button children="ver" color="blue" size="mini" /> </td>
+												<td className='px-5 py-15 '> <Button children="ver" color="orange" size="mini" /> </td>
 
 											</tr>
 

@@ -5,7 +5,7 @@ export default function NewBudgetButton() {
 	return (
 		<>
 			<Link to="/NewBudget">
-				<div className='button space w-24 h-24 flex flex-col-1 flex-wrap justify-items-end -translate-x-24'>
+				<div className='button space w-24 h-24 flex flex-col-1 flex-wrap justify-items-end -translate-x-24 mt-5'>
 					<div className="image w-30 h-30">
 						<img src={wheel}></img>
 					</div>
