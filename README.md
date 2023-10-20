@@ -49,8 +49,8 @@ At the end of the file:
 - [x] PUT /api/v1/service/<scId> | update a specific service
 
 ### Vehicle() Routes:
-- [ ] GET /api/v1/vehicle/<veId>/service
-- [ ] GET /api/v1/vehicle/<veId>/budget
+- [x] GET /api/v1/vehicle/<veId>/service | get all services for a specific vehicle
+- [x] GET /api/v1/vehicle/<veId>/budget | get all budgets for a specific vehicle
 - [x] GET /api/v1/vehicle/<velId> | get a specific vehicle
 - [x] GET /api/v1/vehicle | get all vehicles
 - [x] POST /api/v1/vehicle | create a vehicle
