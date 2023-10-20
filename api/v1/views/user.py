@@ -12,20 +12,17 @@ def get_user(usrId):
     """Returns a specific User"""
     user = storage.get(User, usrId)
     if not user:
-        abort(404)
+        abort(404, {"error": "User Object was not found"})
 
     return jsonify(user.to_dict())
 
 
 @app_views.route("/usr", methods=["GET"])
-def get_users():
+def get_all_users():
     """Returns all the User objects"""
-    all_users = storage.all(User).values()
-    list_users = []
-    for users in all_users:
-        list_users.append(users.to_dict())
+    list_users = [usr.to_dict() for usr in storage.all(User).values()]
 
-    return jsonify(all_users), 200
+    return jsonify(list_users), 200
 
 
 @app_views.route("/usr", methods=["POST"])
@@ -33,12 +30,12 @@ def create_user():
     """Creates a User object"""
 
     if not request.get_json():
-        abort(400, {"error": "Couldn’t get request; not a json"})
+        abort(404, {"error": "Couldn’t get request; not a json"})
 
     to_check = ["name", "mail", "password", "phone"]
     for arg in to_check:
         if arg not in request.get_json():
-            abort(400, {"error": f"{arg} missing"})
+            abort(404, {"error": f"{arg} missing"})
 
     data = request.get_json()
     new_usr = User(**data)
