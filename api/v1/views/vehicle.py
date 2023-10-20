@@ -7,14 +7,27 @@ from models.vehicle import Vehicle
 from models import storage
 
 
+# Mixed routes:
 @app_views.route("/vehicle/<veId>/budgets", methods=["GET"])
 def get_vehicle_budgets(veId):
-    pass
+    """ Returns all the Budget objects for a specific Vehicle """
+    vehicle = storage.get(Vehicle, veId)
+    if not vehicle:
+        abort(404, {"error": f"Vehicle {vehicle.id} not found"})
+
+    return jsonify([bdgt.to_dict() for bgdt in vehicle.budget]), 200
 
 @app_views.route("/vehicle/<veId>/service", methods=["GET"])
 def get_vehicle_service(veId):
-    pass
+    """ Returns all the Services object for a specific Vehicle """
+    vehicle = storage.get(Vehicle, veId)
+    if not vehicle:
+        abort(404, {"error": f"Vehicle {vehicle.id} not found"})
 
+    return jsonify([serv.to_dict() for serv in vehicle.services]), 200
+
+
+# Vehicle routes:
 @app_views.route("/vehicle/<veId>", methods=["GET"])
 def uget_vehicle(veId):
     """ Return the requested Vehicle object if found """

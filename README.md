@@ -49,6 +49,8 @@ At the end of the file:
 - [x] PUT /api/v1/service/<scId> | update a specific service
 
 ### Vehicle() Routes:
+- [ ] GET /api/v1/vehicle/<veId>/service
+- [ ] GET /api/v1/vehicle/<veId>/budget
 - [x] GET /api/v1/vehicle/<velId> | get a specific vehicle
 - [x] GET /api/v1/vehicle | get all vehicles
 - [x] POST /api/v1/vehicle | create a vehicle
@@ -84,11 +86,6 @@ At the end of the file:
 - [ ] POST /api/v1/type
 - [ ] DELETE /api/v1/type/<type_name>
 - [ ] PUT /api/v1/type/<type_name>
-
-### Mixed Routes:
-#### Vehicle &&:
-- [ ] GET /api/v1/vehicle/<veId>/service
-- [ ] GET /api/v1/vehicle/<veId>/budgets
 
 For now some routes will return a 500 error cause not all functions are not implemented yet.
 ... that means they're workin' ;
