@@ -13,36 +13,20 @@ export default function Dashboard() {
 	},
 	{
 		matricula: 'SAF 6255',
-		detalle: 'Chequeo general dl codnensador de flujos'
-	}
-		,
-	{
-		matricula: 'SAF 6255',
-		detalle: 'Chequeo general dl codnensador de flujos'
+		detalle: 'Chequeo general dl condnsador de flujos'
 	},
+
 	{
-		matricula: 'SAF 6255',
-		detalle: 'Chequeo general dl codnensador de flujos'
-	},
-	{
-		matricula: 'SAF 6255',
-		detalle: 'Chequeo general dl codnensador de flujos'
-	},
-	{
-		matricula: 'SAF 6255',
-		detalle: 'Chequeo general dl codnensador de flujos'
+		matricula: 'ZZZ 2015',
+		detalle: 'Revision de frenos',
 	},
 	{
 		matricula: 'ZZZ 2015',
-		detalle: 'Cambio de aceite',
+		detalle: 'Electricidad',
 	},
 	{
 		matricula: 'ZZZ 2015',
-		detalle: 'Cambio de aceite',
-	},
-	{
-		matricula: 'ZZZ 2015',
-		detalle: 'Cambio de aceite',
+		detalle: 'Tren delantero',
 	}
 	]
 
@@ -65,12 +49,14 @@ export default function Dashboard() {
 							</div>
 						</div>
 						{/* Databoxes inferiores con detalles */}
-						<div className="dataframe flex flex-wrap w-screen md:grid md:grid-cols-2 justify-items-center justify-center">
+						<div className="dataframe flex flex-wrap w-screen md:grid md:grid-cols-2 justify-items-center justify-center mr-10">
 							<DataBox title="Servicios Activos" info={data} />
 							<div className='flex flex-col-1 flex-wrap justify-end'>
 								<Confirmation title="Confirmaciones Recientes" info={data} />
 								{/* BOTON NUEVO PRESUPUESTO */}
-								<NewBudgetButton />
+
+								<NewBudgetButton className="flex justify-end" />
+
 							</div>
 
 						</div>
