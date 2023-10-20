@@ -2,9 +2,10 @@ import React from 'react'
 
 export default function Button({ color, size, children }) {
 	const colorVariants = {
-		blue: 'bg-sky-600 hover:bg-sky-300',
-		orange: 'bg-orange-600 holver:bg-orange-300',
-		gray: 'bg-slate-400 holver:bg-slate-300',
+		blue: 'bg-sky-600 hover:bg-sky-800',
+		orange: 'bg-orange-600 hover:bg-orange-800',
+		gray: 'bg-slate-400 hover:bg-slate-800',
+		cyan: "bg-[#09B6C2] hover:bg-[#038C96]"
 	}
 
 	const sizeVariants = {
