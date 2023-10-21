@@ -1,5 +1,0 @@
-#!/bin/bash
-
-cat ../../models/vehicle.py
-cat ../../models/budget.py
-

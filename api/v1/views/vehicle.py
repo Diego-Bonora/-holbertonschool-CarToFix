@@ -15,7 +15,7 @@ def get_vehicle_budgets(veId):
     if not vehicle:
         abort(404, {"error": f"Vehicle {veId} not found"})
 
-    return jsonify([bdgt.to_dict() for bgdt in vehicle.budgets]), 200
+    return jsonify([bdgt.to_dict() for bdgt in vehicle.budgets]), 200
 
 @app_views.route("/vehicle/<veId>/service", methods=["GET"])
 def get_vehicle_service(veId):

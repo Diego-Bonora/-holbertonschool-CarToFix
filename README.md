@@ -32,8 +32,13 @@ At the end of the file:
 	* The dictionaries used to create them were provided, so they can be used, to post or update request.
 * It will also create instances of some other objects, which were required;
 	* 2(Brand)
-	* 3(service)
+	* 3(Service) and 2(Service) | almost the same data, for both of the budgets
 	* Client
+	* User
+        * Type_vehicle
+	* 2(Vehicle)
+	* 2(Budget)
+
 
 ## Routes
 ### User() Routes:
@@ -68,8 +73,8 @@ At the end of the file:
 
 ### Client() Routes:
 - [x] GET /api/v1/client/<clnId>/vehicle | get all vehicles for a specific client
-- [ ] GET /api/v1/client/<clnId>
-- [ ] GET /api/v1/client
+- [x] GET /api/v1/client/<clnId> | get a specific client
+- [x] GET /api/v1/client | get all clients
 - [ ] POST /api/v1/client
 - [ ] DELETE /api/v1/client/<clnId>
 - [ ] PUT /api/v1/client/<clId>
