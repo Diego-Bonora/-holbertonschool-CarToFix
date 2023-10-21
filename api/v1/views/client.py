@@ -19,7 +19,12 @@ def get_client_vehicles(clnId):
 
 @app_views.route("/api/v1/client/<clnId>", methods=["GET"])
 def get_client(clnId):
-    pass
+    """ Returns an specific Client object """
+    client = storage.get(Client,clnId)
+    if not client:
+        abort(404, {"error": f"Client {clId} not found"})
+
+    return jsonify(client.to_dict()), 200
 
 @app_views.route("/api/v1/client", methods=["GET"])
 def get_all_clients():
