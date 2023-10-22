@@ -67,7 +67,7 @@ def delete_budget(bdgtId):
     return jsonify(""), 204
 
 
-@app_views.route("/budget/<bdgtId>", methods=["PUT"])
+@app_views.route("/budget/<bdgtId>", methods=["REPOST"])
 def update_budget(bdgtId):
     """ Updates a Budget object """
     bdgt = storage.get(Budget, bdgtId)

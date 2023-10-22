@@ -5,7 +5,7 @@ from models.budget import Budget
 from models.client import Client
 from models.service import Service
 from models.vehicle import Vehicle
-from models.type_vehicle import Type_vehicle as TypeVehicle
+from models.type_vehicle import TypeVehicle
 from models.user import User
 from models import storage
 

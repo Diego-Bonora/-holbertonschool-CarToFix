@@ -85,14 +85,14 @@ At the end of the file:
 - [x] GET /api/v1/budget | get all budgets
 - [x] POST /api/v1/budget | create a budget
 - [x] DELETE /api/v1/budget/<bdgtId> | delete a budget
-- [x] PUT /api/v1/budget/<bdgtId> | update a budget
+- [ ] REPOST /api/v1/budget/<bdgtId> | update a budget (the object will be destroyed and re-made) / for now it works as PUT verb
 
 ### Type() Routes:
-- [ ] GET /api/v1/type/<type_name>
+- [x] GET /api/v1/type/<tId>
 - [ ] GET /api/v1/type
 - [ ] POST /api/v1/type
-- [ ] DELETE /api/v1/type/<type_name>
-- [ ] PUT /api/v1/type/<type_name>
+- [ ] DELETE /api/v1/type/<tId>
+- [ ] PUT /api/v1/type/<tId>
 
 For now some routes will return a 500 error cause not all functions are not implemented yet.
 ... that means they're workin' ;

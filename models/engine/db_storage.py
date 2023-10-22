@@ -10,7 +10,7 @@ from models.client import Client
 from models.service import Service
 from models.vehicle import Vehicle
 from models.budget import Budget
-from models.type_vehicle import Type_vehicle
+from models.type_vehicle import TypeVehicle
 from models.brand import Brand
 from os import getenv
 import sqlalchemy

@@ -11,3 +11,4 @@ from api.v1.views.vehicle import *
 from api.v1.views.brand import *
 from api.v1.views.user import *
 from api.v1.views.client import *
+from api.v1.views.type_vehicle import *
