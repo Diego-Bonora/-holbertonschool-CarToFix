@@ -75,9 +75,9 @@ At the end of the file:
 - [x] GET /api/v1/client/<clnId>/vehicle | get all vehicles for a specific client
 - [x] GET /api/v1/client/<clnId> | get a specific client
 - [x] GET /api/v1/client | get all clients
-- [ ] POST /api/v1/client
-- [ ] DELETE /api/v1/client/<clnId>
-- [ ] PUT /api/v1/client/<clId>
+- [x] POST /api/v1/client | create a client
+- [x] DELETE /api/v1/client/<clnId> | delete a specific client
+- [x] PUT /api/v1/client/<clId> | update a specific client
 
 ### Budget() Routes:
 - [x] GET /api/v1/budget/<bdgtId>/services | get all services for a specific budget

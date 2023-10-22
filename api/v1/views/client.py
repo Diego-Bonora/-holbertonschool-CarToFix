@@ -22,7 +22,7 @@ def get_client(clnId):
     """ Returns an specific Client object """
     client = storage.get(Client,clnId)
     if not client:
-        abort(404, {"error": f"Client {clId} not found"})
+        abort(404, {"error": f"Client {clnId} not found"})
 
     return jsonify(client.to_dict()), 200
 
@@ -33,15 +33,50 @@ def get_all_clients():
 
     return jsonify(clients), 200
 
-@app_views.route("/api/v1/client", methods=["POST"])
+@app_views.route("/client", methods=["POST"])
 def create_client():
-    pass
+    """ Creates a specific Client object """
+    krgs = request.get_json()
+    needed = ["name", "email", "phone", "vehicles"]
+    if not krgs:
+        abort(400, {"error": "Couldn’t get request; not a json"})
 
-@app_views.route("/api/v1/client/<clnId>", methods=["DELETE"])
+    for arg in needed:
+        if arg not in krgs:
+            abort(400, {"error": f"{arg} missing"})
+
+    new_clnt = Client(**krgs)
+    storage.save(new_clnt)
+
+    return jsonify(new_clnt.to_dict()), 201
+
+@app_views.route("/client/<clnId>", methods=["DELETE"])
 def delete_client(clnId):
-    pass
+    """ Deletes a specific Client object """
+    clnt = storage.get(Client, clnId)
+    if not clnt:
+        abort(400, {"error": f"Client: {clnId} instance not found"})
+	
+    storage.delete(clnt)
+    storage.save()
+    return jsonify(""), 204
+
 
 @app_views.route("/api/v1/client/<clId>", methods=["PUT"])
 def update_client(clId):
-    pass
+    """ Updates a Client object """
+    clnt = storage.get(Client, clId)
+    if not clnt:
+        abort (404, {"error": f"Client: {clId} not found"})
+
+    krgs = request.get_json()
+    if not krgs:
+    	abort(400, {"error": "Couldn’t get request; not a json"})
+
+    for key, value in krgs.items():
+    	if key is not "id":
+            setattr(clnt, key, value)
+
+    storage.save()
+    return jsonify(clnt.to_dict()), 200
 
