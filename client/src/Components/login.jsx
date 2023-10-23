@@ -3,10 +3,12 @@ import { Link } from 'react-router-dom';
 import { Envelope } from 'react-bootstrap-icons';
 import InputFied from './InputFied';
 import PasswordInput from './PasswordInput';
-
+import React, { useState } from 'react';
 
 export default function Login() {
-
+  const [recuerdame, setRecuerdame] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   return (
     <>
     <div className='2xl:w-2/5 h-screen'>
@@ -16,11 +18,11 @@ export default function Login() {
             <div className="rounded-full border-2 border-white mx-auto w-48 h-48 bg-gris-claro translate-y-1/2"></div>
             <div className="text-white border-4 my-auto rounded-2xl bg-cian-oscuro 2xl:h-4/5 border-gris-claro">
               <form action="" className="items-center justify-center px-pad-1 pb-pad-1 pt-pad-2 font-Inter">
-                <InputFied icon={<Envelope />} type='email' placeholder='Email' />
-                <PasswordInput PasswordInput='Contraseña'/>
+                <InputFied icon={<Envelope />} type='email' placeholder='Email' value={email} onChange={(emailEvent) => setEmail(emailEvent.target.value)}/>
+                <PasswordInput PasswordInput='Contraseña' value={password} onChange={(passwordEvent) => setPassword(passwordEvent.target.value)}/>
                 <div className="flex justify-between items-center mt-marg-3">
                   <div className="flex gap-1 items-center">
-                    <input type="checkbox" className="w-4 h-4 border-2 border-white rounded-full "/>
+                    <input type="checkbox" className="w-4 h-4 border-2 border-white rounded-full" onChange={(remembermeEvent) => setRecuerdame(remembermeEvent.target.checked)}/>
                     <label htmlFor="Recuerdame" className="2xl:text-base underline">Recuerdame</label>
                   </div>
                   <Link to='' className="2xl:text-base text-white underline">Olvide mi contraseña</Link>
