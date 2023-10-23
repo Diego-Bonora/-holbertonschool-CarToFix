@@ -2,7 +2,7 @@
 """login api"""
 
 from api.v1.views import app_views
-from flask import abort, jsonify, request, session
+from flask import abort, jsonify, request
 from models.user import User
 from models import storage
 from passlib.hash import bcrypt
@@ -19,10 +19,8 @@ def login():
     email = data.get("email")
     password = data.get("password")
 
-    if not email:
-        return jsonify({"error": "Missing email"}), 404
-    if not password:
-        return jsonify({"error": "Missing password"}), 404
+    if not email or not password:
+        return jsonify({"error": "Missing email or password"}), 400
 
     user = storage.get(User, email)
     if user is None:
@@ -31,5 +29,4 @@ def login():
     if user is None or not bcrypt.verify(password, user.password):
         return jsonify({"error": "Invalid email or password"}), 401
 
-    session['user_id'] = user.id
     return jsonify({"message": "Logged in successfully"})
