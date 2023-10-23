@@ -12,7 +12,7 @@ $.ajax({
       if (recuerdame) {
         Cookies.set('cookie_user', '', { expires: 7 });
       }
-      // window.location.href = '/home';
+      // window.location.href = '/home ';
     }
   }
 });
