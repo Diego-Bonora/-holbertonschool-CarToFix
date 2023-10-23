@@ -12,6 +12,7 @@ class Service(BaseModel, Base):
     title = Column(String(128), nullable=False)
     description = Column(String(128), nullable=True)
     note = Column(String(128), nullable=True)
+    worker = Column(String(128), nullable=True)
     vehicle_id = Column(String(60), ForeignKey('vehicles.id'), nullable=False)
     user_id = Column(String(60), ForeignKey('users.id'), nullable=False)
     budget_id = Column(String(60), ForeignKey('budgets.id'), nullable=False)

@@ -3,6 +3,7 @@
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, Integer
 from sqlalchemy.orm import relationship
+from passlib.hash import bcrypt
 
 
 class User(BaseModel, Base):
@@ -22,4 +23,6 @@ class User(BaseModel, Base):
 
     def __init__(self, *args, **kwargs):
         """ initializes User """
+        if 'password' in kwargs:
+            kwargs['password'] = bcrypt.hash(kwargs['password'])
         super().__init__(*args, **kwargs)
