@@ -16,7 +16,7 @@ export default function Button({ color, size, children }) {
 
 	return (
 		<div className={`${colorVariants[color]} ${sizeVariants[size]} `}>
-			{children}
+			<p className='flex justify-center'> {children} </p>
 		</div>
 	)
 }
