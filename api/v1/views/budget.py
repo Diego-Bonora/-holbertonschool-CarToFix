@@ -69,19 +69,26 @@ def delete_budget(bdgtId):
 
 @app_views.route("/budget/<bdgtId>", methods=["REPOST"])
 def update_budget(bdgtId):
-    """ Updates a Budget object """
-    bdgt = storage.get(Budget, bdgtId)
+    """ Creates a new Budget object based on the given one's id """
+    # Getting the Budget object
+    prev = storage.get(Budget, bdgtId)
     if not bdgt:
         abort (404, {"error": f"Budget: {bdgtId} not found"})
 
-    krgs = request.get_json()
+    # Extending the ditionary with previous instance attrs
+    krgs = request.get_json().pop("id", None)
     if not krgs:
         abort(400, {"error": "Couldn’t get request; not a json"})
 
-    not_keys = ["id"]
+    krgs.update(prev.to_dict().pop("id", None))
+
+    # Creating a new instance
+    new_bdgt = Budget(**krgs)
+    storage.new(new_bdgt)
+
+    # Setting the attrs
     for key, value in krgs.items():
-        if key not in not_keys:
-            setattr(bdgt, key, value)
+        setattr(new_bdgt, key, value)
 
     storage.save()
-    return jsonify(bdgt.to_dict()), 200
+    return jsonify(new_bdgt.to_dict()), 200

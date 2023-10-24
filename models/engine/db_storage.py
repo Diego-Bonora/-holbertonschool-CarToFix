@@ -23,7 +23,7 @@ classes = {
     "Vehicle": Vehicle,
     "User": User,
     "Budget": Budget,
-    "Type_vehicle": Type_vehicle,
+    "Type_vehicle": TypeVehicle,
     "Brand": Brand
 }
 
