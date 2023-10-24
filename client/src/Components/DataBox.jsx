@@ -1,52 +1,43 @@
-import React from 'react'
-
+/* eslint-disable react/prop-types */
+/* eslint-disable react/no-children-prop */
+// eslint-disable-next-line no-unused-vars
+import React from 'react';
 import Button from './button';
 
-export default function DataBox({ title, info }) {
+export default function DataBox({info, columns }) {
 
-
-	console.log(info[0]);
 	return (
-		<div className="principal p-2 mt-10 w-full md:x-92 flex flex-col  bg-[#09B6C2] rounded-lg md:max-w-[600px] ">
-			<div className="title h-10">
-				<h3 className='text-2xl font-black text-center text-white'>{title}</h3>
-			</div>
-			<div className='overflow-y-scroll h-60'>
-				<div className="data col-span-1 w-full flex flex-col justify-center align-top items-center bg-[#FFF] rounded-b-lg ">
-					<table className='text-black w-92 my-5 w-full'>
-						<thead >
-							<tr>
-								<th className='px-3'>Matricula</th>
-								<th className='px-3'>Detalle</th>
-							</tr>
-						</thead>
-						<tbody>
-							{
-								info.map((i, index) => {
-									return (
-										<>
-											<tr className='text-black'>
-												<td className='px-5 min-w-[120px] gap-y-10 border-r-2'>{i.matricula}</td>
-												<td className='px-5 '>{i.detalle}</td>
-												<td className='px-5 py-15 '> <Button children="ver" color="orange" size="mini" /> </td>
-
-											</tr>
-
-
-
-										</>
-									)
-								}
-								)
-							}
-
-						</tbody>
-					</table>
-
-				</div>
-
-			</div>
-
-		</div >
-	)
+  <div className=''>
+    <table className='text-black my-5 w-full'>
+      <div className='header-div bg-gris-footer m-1 '>
+      <thead>
+        <tr>
+          {columns.map((columns, index) => (
+            <th key={index} className='px-3 ' >{columns} </th>
+          ))}
+        </tr>
+      </thead>
+      </div>
+      <tbody className='w-9/12'>
+        {info.map((i, index) => {
+          return (
+            <div key={index} className="row-div bg-gris-footer rounded-lg m-1">
+              <tr className="text-black">
+                {/* Recorre cada nombre de columna uno por uno" */}
+                {columns.map((column, indexcol) => (
+                  <td key={indexcol} className="px-5">
+                    {i[column]} {/* Muestra el valor que debe ir según el nombre de la columna */}
+                  </td>
+                ))}
+                <td className="px-5 py-15">
+                  <Button children="ver" color="orange" size="mini" />
+                </td>
+              </tr>
+            </div>
+          );
+        })}
+      </tbody>
+    </table>
+  </div>
+	);
 }
