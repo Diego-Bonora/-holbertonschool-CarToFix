@@ -16,13 +16,14 @@ def login():
         abort(400, {"error": "Couldn’t get request; not a json"})
 
     data = request.get_json()
-    email = data.get("email")
+    email = data.get("mail")
     password = data.get("password")
 
     if not email or not password:
         return jsonify({"error": "Missing email or password"}), 400
 
     user = storage.get(User, email)
+    print(user)
     if user is None:
         return jsonify({"error": "User not found"}), 404
 
