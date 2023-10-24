@@ -108,11 +108,23 @@ export default function NewBudget() {
 		}
 	}
 
+	{/* Función para borrar servicios del state    */ }
 
 
+	const removeService = (index) => {
+		console.log('index', index)
+		setItems((prevList) => {
+			const newList = [...prevList];
+			newList.splice(index, 1);
+			console.log('nueva lista de items', newList);
+			return newList;
+		});
+	};
 
 
 	return (
+
+
 		<div className='w-screen bg-[#F5F5F5] h-screen p-10 '>
 			<h1 className=' font-black'>Nuevo Presupuesto</h1>
 			<section className='principalFrames grid grid-flow-col grid-rows-3 gap-4 mt-10 justify-items-center'>
@@ -197,9 +209,9 @@ export default function NewBudget() {
 				{/* RESUMEN DEL PRESUPUESTO */}
 				{/* LISTA DE ITEMS AGREGADOS */}
 				<section className='p-4 w-full min-h-[200px] border-[4px] border-[#B4D1D3] bg-[#EBEBEB] rounded-lg'>
-					{items.map((i) => {
+					{items.map((i, index) => {
 						return (<div>
-							<ServiceItem item={i.name} price={i.price} />
+							<ServiceItem item={i.name} price={i.price} key={index} removeService={() => removeService(index)} />
 						</div>)
 					})
 					}
@@ -245,5 +257,6 @@ export default function NewBudget() {
 				</section>
 			</section>
 		</div >
+
 	)
 }
