@@ -15,7 +15,8 @@ export default {
 				'gris-claro': '#CCDBDB',
 				'azul-oscuro': '#026DBB',
 				'color-icons': '#4D88AE',
-			},
+			}
+
 		},
 	},
 	plugins: [],

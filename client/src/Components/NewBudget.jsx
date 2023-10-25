@@ -9,7 +9,12 @@ import { useNavigate } from "react-router-dom";
 
 
 
+
 export default function NewBudget() {
+
+	const today = new Date();
+
+	const [budget, setBudget] = useState();
 
 	const navigate = useNavigate();
 
@@ -28,12 +33,20 @@ export default function NewBudget() {
 		setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
 	};
 
+	const getTotal = () => {
+		return (
+			items.reduce((total, p) => total = total + p.price, 0)
+		)
+	}
 
 
 	{/* Each item of the resume  */ }
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
+		setTotal(() => {
+			getTotal();
+		})
 		setItems(current => [...current, {
 			plate: event.target.plate.value,
 			name: titleValue.label,
@@ -45,15 +58,51 @@ export default function NewBudget() {
 
 	};
 
+	const handeleFinalSubmit = (event) => {
+		event.preventDefault();
+
+		setBudget([
+			{
+				total_price: total,
+				payment_method: event.target.installments.value ? event.target.installments.value : "efectivo",
+				installments: event.target.installments.value,
+				warranty: "agregar",
+				vehicle_id: "agregar",
+				issue_date: today,
+				due_date: event.target.due_date.value,
+				confirmed: confirmed,
+				sent: !confirmed,
+				active: confirmed,
+				services: items,
+			}
+		])
+
+		if (confirmed) {
+			console.log("Presupuesto Guardado")
+			console.log("budget", budget)
+		}
+		else {
+			console.log('Presupuesto Enviado por mail pendiente de confirmacon');
+			console.log("budget", budget)
+		}
+
+	}
+
 	{/* console services continuosly */ }
 
 	useEffect(() => {
 		console.log('items', items)
+		setTotal(items.reduce((total, p) => total = total + p.price, 0))
 	})
 
 	{/* Total price of budget */ }
 
-	let total = 0;
+	const [total, setTotal] = useState(0.00)
+
+
+	{/* Var to indicate if budget is confirmed */ }
+
+	let confirmed = true;
 
 	{/* Options for  titles  */ }
 
@@ -119,7 +168,6 @@ export default function NewBudget() {
 
 	{/* Función para borrar servicios del state    */ }
 
-
 	const removeService = (index) => {
 		console.log('index', index)
 		setItems((prevList) => {
@@ -130,6 +178,8 @@ export default function NewBudget() {
 		});
 	};
 
+	{/* Exit method on Cancelar Button   */ }
+
 	const abortBudget = () => {
 		setItems([]);
 		console.log("items reseteado", items);
@@ -137,6 +187,10 @@ export default function NewBudget() {
 		navigate('/home');
 
 	}
+
+	useEffect(() => {
+		setTotal(getTotal())
+	}, [items])
 
 
 	return (
@@ -239,7 +293,7 @@ export default function NewBudget() {
 				</section>
 				{/* CUOTAS Y VIGENCIA - form  */}
 				<section className='totals col-span-1 row-span-2 w-full'>
-					<form id="installmetnsAndDueDate">
+					<form id="FinalDataBudget" onSubmit={handeleFinalSubmit}>
 						<div className='flex justify-between my-2'>
 							<label className="p-2" for="due_date">Vigente hasta </label>
 							<input className="bg-[#B4D1D3] p-2" type="date" id="due_date" name="due_date"></input>
@@ -257,19 +311,20 @@ export default function NewBudget() {
 							</div>
 						</div>
 
+						{/* CANCELAR CONFIRMAR O ENVIAR  */}
+						<div className='flex flex-col-2 justify-between space-x-2'>
+							<div onClick={abortBudget} >
+								<button className='bg-orange-600 text-white  hover:bg-orange-800 font-bold py-2 px-4 rounded '>Cancelar</button>
+							</div>
+							<div className='flex space-x-4'>
+								<button className='bg-orange-600 text-white  hover:bg-orange-800 font-bold py-2 px-4 rounded ' type='submit'>Confirmado</button>
+
+								<button onClick={() => confirmed = false} className='bg-orange-600 text-white  hover:bg-orange-800 font-bold py-2 px-4 rounded ' type='submit'>Enviar</button>
+							</div>
+
+
+						</div>
 					</form>
-					{/* CANCELAR CONFIRMAR O ENVIAR  */}
-					<div className='flex flex-col-2 justify-between space-x-2'>
-						<div onClick={abortBudget} >
-
-							<Button children="Cancelar" color="orange" size="normal" />
-						</div>
-						<div className='flex space-x-4'>
-							<Button children="Confirmado" color="orange" size="normal" />
-							<Button children="Enviar" color="blue" size="normal" />
-
-						</div>
-					</div>
 
 				</section>
 			</section>
