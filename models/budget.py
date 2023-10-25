@@ -1,6 +1,6 @@
 #!/usr/bin/python
 """ Contains class Budget """
-from datetime import datetime
+from datetime import datetime, timedelta
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, Integer, Float, Boolean, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
@@ -13,13 +13,12 @@ class Budget(BaseModel, Base):
     payment_method = Column(String(128), nullable=False)
     installments = Column(Integer, nullable=False)
     warranty = Column(Integer, nullable=False)
-    issue_date = Column(DateTime, default=datetime.utcnow)
-    due_date = Column(DateTime, default=datetime.utcnow)
+    vehicle_id = Column(String(60), ForeignKey('vehicles.id'), nullable=False)
+    issue_date = Column(DateTime, default=datetime.utcnow())
+    due_date = Column(DateTime, default=datetime.utcnow() + timedelta(days=7))
     confirmed = Column(Boolean, nullable=False)
     sent = Column(Boolean, nullable=False)
     active = Column(Boolean, nullable=False)
-    vehicle_id = Column(String(60), ForeignKey("vehicles.id"), nullable=False)
-    vehicle = relationship("Vehicle", back_populates="budgets")
     services = relationship("Service",
                             backref="budgets",
                             cascade="all, delete, delete-orphan")
