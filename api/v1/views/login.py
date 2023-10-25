@@ -22,12 +22,11 @@ def login():
     if not email or not password:
         return jsonify({"error": "Missing email or password"}), 400
 
-    user = storage.get(User, email)
-    print(user)
+    user = storage.get_mail(User, email)
     if user is None:
         return jsonify({"error": "User not found"}), 404
 
-    if user is None or not bcrypt.verify(password, user.password):
+    if password != user.password:
         return jsonify({"error": "Invalid email or password"}), 401
 
     return jsonify({"message": "Logged in successfully"})
