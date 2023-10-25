@@ -4,16 +4,15 @@ Contains the class DBStorage
 """
 
 import models
-from models.base_model import BaseModel, Base
+from models.base_model import Base
 from models.user import User
 from models.client import Client
 from models.service import Service
 from models.vehicle import Vehicle
 from models.budget import Budget
-from models.type_vehicle import Type_vehicle
+from models.type_vehicle import TypeVehicle
 from models.brand import Brand
 from os import getenv
-import sqlalchemy
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
@@ -23,7 +22,7 @@ classes = {
     "Vehicle": Vehicle,
     "User": User,
     "Budget": Budget,
-    "Type_vehicle": Type_vehicle,
+    "TypeVehicle": TypeVehicle,
     "Brand": Brand
 }
 
