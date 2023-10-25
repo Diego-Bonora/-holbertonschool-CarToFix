@@ -95,6 +95,7 @@ At the end of the file:
 - [x] PUT /api/v1/type/<tId> | update a specific type of vehicle
 
 ### Designee() Routes:
-- [x] GET /api/v1/designee/<dsgnId>/services | get all the services for a specific designee
+- [x] GET /api/v1/worker | get all workers
+- [x] GET /api/v1/worker/<dsgnId>/services | get all the services for a specific designee
 
 No route should fail upon proper request.
