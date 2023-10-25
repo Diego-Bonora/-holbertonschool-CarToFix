@@ -1,18 +1,18 @@
 #!/usr/bin/python
-""" Contains class Brand """
+""" Contains class Workers """
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
 
 
-class Brand(BaseModel, Base):
-    """ Representation of Brand """
-    __tablename__ = 'brands'
+class Worker(BaseModel, Base):
+    """ Representation of Workers """
+    __tablename__ = 'workers'
     name = Column(String(128), nullable=False)
-    vehicles = relationship("Vehicle",
-                            backref="brands",
+    services = relationship("Service",
+                            backref="workers",
                             cascade="all, delete, delete-orphan")
 
     def __init__(self, *args, **kwargs):
-        """ initializes  Brand """
+        """ initializes Client """
         super().__init__(*args, **kwargs)

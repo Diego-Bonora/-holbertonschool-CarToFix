@@ -1,8 +1,6 @@
 #!/usr/bin/python
 """ Contains class Vehicle """
-import models
 from models.base_model import BaseModel, Base
-import sqlalchemy
 from sqlalchemy import Column, String, Integer, ForeignKey
 from sqlalchemy.orm import relationship
 
@@ -22,6 +20,9 @@ class Vehicle(BaseModel, Base):
     services = relationship("Service",
                             backref="vehicles",
                             cascade="all, delete, delete-orphan")
+    budgets = relationship("Budget",
+                           backref="vehicles",
+                           cascade="all, delete, delete-orphan")
 
     def __init__(self, *args, **kwargs):
         """ initializes Vehicle """

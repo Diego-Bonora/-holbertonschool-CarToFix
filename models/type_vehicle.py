@@ -1,13 +1,11 @@
 #!/usr/bin/python
 """ Contains class Type Vehicle """
-import models
 from models.base_model import BaseModel, Base
-import sqlalchemy
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
 
 
-class Type_vehicle(BaseModel, Base):
+class TypeVehicle(BaseModel, Base):
     """ Representation of Type Vehicle """
     __tablename__ = 'type_vehicles'
     name = Column(String(30), nullable=False)

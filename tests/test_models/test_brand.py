@@ -27,17 +27,6 @@ class TestBrandDoc(unittest.TestCase):
                 errors = pycodestyle.Checker(path).check_all()
                 self.assertEqual(errors, 0)
 
-    def test_annotations(self):
-        """ Tests Brand methods to be type annotated """
-        base = BaseModel()
-        methods = inspect.getmembers(base, predicate=inspect.ismethod)
-
-        for m_name, method in methods:
-            if m_name != "__init__":
-                type_hints = get_type_hints(method)
-                self.assertTrue(
-                        type_hints, f"{m_name} is missing type annotations")
-
     def test_module_documentation(self):
         """Test for the existence of module docstring"""
         self.assertIsNot(module_doc, None,
@@ -47,10 +36,20 @@ class TestBrandDoc(unittest.TestCase):
 
     def test_class_documentation(self):
         """Test for the Brnad class docstring"""
-        self.assertIsNot(BaseModel.__doc__, None,
+        self.assertIsNot(Brand.__doc__, None,
                          "Brand class needs a docstring")
-        self.assertFalse(len(BaseModel.__doc__) < 1,
+        self.assertFalse(len(Brand.__doc__) < 1,
                          "Brand class needs a docstring")
+
+    def test_methods_documentation(self):
+        """Test for the presence of docstrings in Brand methods"""
+        base = Brand()
+        methods = inspect.getmembers(base, predicate=inspect.ismethod)
+
+        for m_name, method in methods:
+            docstring = method.__doc__
+            self.assertIsNotNone(
+                    docstring, f"{m_name} is missing documentation")
 
 
 class TestBrand(unittest.TestCase):

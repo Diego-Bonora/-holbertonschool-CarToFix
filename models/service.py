@@ -1,20 +1,18 @@
 #!/usr/bin/python
 """ Contains class Services """
-import models
 from models.base_model import BaseModel, Base
-from datetime import datetime
-import sqlalchemy
-from sqlalchemy import Column, String, Boolean, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy import Column, String, Boolean, ForeignKey, Float
 
 
 class Service(BaseModel, Base):
     """ Representation of Services """
     __tablename__ = 'services'
-    done = Column(Boolean, nullable=False)
+    done = Column(Boolean, default=False)
+    price = Column(Float, nullable=False)
     title = Column(String(128), nullable=False)
     description = Column(String(128), nullable=True)
     note = Column(String(128), nullable=True)
+    worker = Column(String(128), ForeignKey('workers.id'), nullable=True)
     vehicle_id = Column(String(60), ForeignKey('vehicles.id'), nullable=False)
     user_id = Column(String(60), ForeignKey('users.id'), nullable=False)
     budget_id = Column(String(60), ForeignKey('budgets.id'), nullable=False)
