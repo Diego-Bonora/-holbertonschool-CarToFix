@@ -19,8 +19,8 @@ export default function ServiceItem({ item, price, key, removeService }) {
 					<div className='flex w-full justify-end mr-4'>
 						<p> {price} </p>
 					</div>
-					<div className='flex justify-end'>
-						<button onClick={() => removeService({ key })}> {icon} </button>
+					<div className='flex justify-end text-white'>
+						<button className="bg-sky-700" onClick={() => removeService({ key })}> {icon} </button>
 					</div>
 				</div>
 			</div>

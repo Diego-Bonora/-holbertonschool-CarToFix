@@ -1,14 +1,17 @@
 import React from 'react'
-
+import { useEffect } from 'react';
 import Button from './button'
 import ServiceItem from './ServiceItem';
 import { useState } from "react";
-import Creatable from 'react-select/creatable'
+import Creatable from 'react-select/creatable';
+import { useNavigate } from "react-router-dom";
 
 
 
 
 export default function NewBudget() {
+
+	const navigate = useNavigate();
 
 	{/* Form data state */ }
 
@@ -39,8 +42,14 @@ export default function NewBudget() {
 			asignedTo: workersValue.label
 		}])
 
-		console.log("items", items);
+
 	};
+
+	{/* console services continuosly */ }
+
+	useEffect(() => {
+		console.log('items', items)
+	})
 
 	{/* Total price of budget */ }
 
@@ -121,11 +130,17 @@ export default function NewBudget() {
 		});
 	};
 
+	const abortBudget = () => {
+		setItems([]);
+		console.log("items reseteado", items);
+		console.log('saliste de NewBudget');
+		navigate('/home');
+
+	}
+
 
 	return (
-
-
-		<div className='w-screen bg-[#F5F5F5] h-screen p-10 '>
+		<div className='w-screen bg-[#F5F5F5] h-screen p-10  text-black	'>
 			<h1 className=' font-black'>Nuevo Presupuesto</h1>
 			<section className='principalFrames grid grid-flow-col grid-rows-3 gap-4 mt-10 justify-items-center'>
 				<section className='CreateBudget p-4 w-full  bg-[#EBEBEB] rounded-lg row-span-4 col-span-2 h-fit'>
@@ -201,7 +216,7 @@ export default function NewBudget() {
 						{/* bOTON AGREGAR */}
 						<div className='flex flex-col-1 justify-end'>
 
-							<button type='submit'> Agregar </button>
+							<button className='bg-teal-500 text-white' type='submit'> Agregar </button>
 						</div>
 					</form>
 
@@ -242,11 +257,13 @@ export default function NewBudget() {
 							</div>
 						</div>
 
-
 					</form>
 					{/* CANCELAR CONFIRMAR O ENVIAR  */}
 					<div className='flex flex-col-2 justify-between space-x-2'>
-						<Button children="Cancelar" color="orange" size="normal" />
+						<div onClick={abortBudget} >
+
+							<Button children="Cancelar" color="orange" size="normal" />
+						</div>
 						<div className='flex space-x-4'>
 							<Button children="Confirmado" color="orange" size="normal" />
 							<Button children="Enviar" color="blue" size="normal" />
@@ -257,6 +274,5 @@ export default function NewBudget() {
 				</section>
 			</section>
 		</div >
-
 	)
 }
