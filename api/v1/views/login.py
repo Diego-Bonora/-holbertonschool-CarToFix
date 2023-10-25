@@ -5,7 +5,6 @@ from api.v1.views import app_views
 from flask import abort, jsonify, request
 from models.user import User
 from models import storage
-from passlib.hash import bcrypt
 
 
 @app_views.route('/login', methods=['POST'])
