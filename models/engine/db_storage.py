@@ -101,7 +101,7 @@ class DBStorage:
 
     def get_mail(self, cls, mail):
         """
-        Returns the object based on the class name and its ID, or
+        Returns the object based on the class name and its Mail, or
         None if not found
         """
         if cls not in classes.values():
