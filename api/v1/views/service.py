@@ -68,7 +68,7 @@ def update_service(scId):
         abort(400, {"error": "Couldn’t get request; not a json"})
 
     for key, value in krgs.items():
-        if key is not "id":
+        if key != "id":
             setattr(service, key, value)
 
     storage.save()

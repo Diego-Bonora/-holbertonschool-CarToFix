@@ -3,20 +3,20 @@
 
 from api.v1.views import app_views
 from flask import abort, jsonify, request
-from models.worker import Worker
+from models.workers import Worker
 from models import storage
 
 @app_views.route("/worker/<dsgnId>/services", methods=["GET"])
 def get_designee(dsgnId):
     """ Returns all the Services for a specific Designee """
-    dgnee = storage.get(worker, dsgnId)
+    dgnee = storage.get(Worker, dsgnId)
     if not dgnee:
         abort(404, {"error": f"Worker: {dsgnId} not found"})
 
     return jsonify(dgnee), 200
 
-@app_views.route("/worker/<dsgnId>/", methods=["GET"])
-def get_designee(dsgnId):
+@app_views.route("/worker", methods=["GET"])
+def get_all_designee():
     """ Returns all the known Workers """
     dgnee = [worker.to_dict() for worker in storage.all(Worker)]
 
