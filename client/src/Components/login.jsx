@@ -1,20 +1,21 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { Envelope } from 'react-bootstrap-icons';
 import InputFied from './InputFied';
 import PasswordInput from './PasswordInput';
-import { useState, useEffect } from 'react';
-import Cookies from 'js-cookie';
 
 
-export default function Login() {
-  const [recuerdame, setRecuerdame] = useState(false);
+const Login = () => {
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(null);
-  const navigate = useNavigate();
+  const [recuerdame, setRecuerdame] = useState(false);
+  const [error, setError] = useState('');
 
-  const loginRequest = async () => {
+  const handleSubmit = async (eventSubmit) => {
+    eventSubmit.preventDefault();
+
     try {
       const response = await fetch('http://localhost:5000/api/v1/login', {
         method: 'POST',
@@ -30,43 +31,39 @@ export default function Login() {
 
       const data = await response.json();
 
-      if (response.status === 200) {
+      if (response.ok) {
         if (recuerdame) {
           Cookies.set('cookie_user', '', { expires: 7 });
         }
         navigate('/home');
-      } else if (response.status === 400) {
-        setError(data.error);
-      } else if (response.status === 404) {
-        setError(data.error);
-      } else if (response.status === 401) {
+      } else if (response.status === 400 || response.status === 404 || response.status === 401) {
         setError(data.error);
       } else {
         setError('An error occurred. Please try again later.');
       }
     } catch (error) {
+      console.error('An error occurred:', error);
       setError('An error occurred. Please try again later.');
-      console.error('Error:', error);
     }
   };
 
   useEffect(() => {
     if (email && password) {
-      loginRequest();
+      Login();
     }
   }, [email, password, recuerdame]);
 
   return (
     <>
-    <div className='2xl:w-2/5 h-screen'>
-      {/* pantalla derecha */}
+      <div className='2xl:w-2/5 h-screen'>
+        {/* pantalla derecha */}
         <div className="h-screen text-center flex items-center justify-center mx-auto my-auto">
           <div className='2xl:w-8/12 text-center 2xl:h-bloque_login relative mx-8 2xl:bottom-28 bottom-20'>
             <div className="rounded-full border-2 border-white mx-auto w-48 h-48 bg-gris-claro translate-y-1/2"></div>
             <div className="text-white border-4 my-auto rounded-2xl bg-cian-oscuro 2xl:h-4/5 border-gris-claro">
-              <form action="" className="items-center justify-center px-pad-1 pb-pad-1 pt-pad-2 font-Inter">
-                <InputFied icon={<Envelope />} type='email' placeholder='Email' value={email} onChange={(emailEvent) => setEmail(emailEvent.target.value)} />
-                <PasswordInput PasswordInput='Contraseña' value={password} onChange={(passwordEvent) => setPassword(passwordEvent.target.value)} />
+              <form action="" className="items-center justify-center px-pad-1 pb-pad-1 pt-pad-2 font-Inter" onSubmit={handleSubmit}>
+                <InputFied icon={<Envelope />} type='email' placeholder='Email' value={email} onChange={(emailEvent) => setEmail(emailEvent.target.value)} required />
+                <PasswordInput PasswordInput='Contraseña' value={password} onChange={(passwordEvent) => setPassword(passwordEvent.target.value)} required />
                 <div className="flex justify-between items-center mt-marg-3">
                   <div className="flex gap-1 items-center">
                     <input type="checkbox" className="w-4 h-4 border-2 border-white rounded-full" onChange={(remembermeEvent) => setRecuerdame(remembermeEvent.target.checked)} />
@@ -93,3 +90,5 @@ export default function Login() {
     </>
   )
 }
+
+export default Login
