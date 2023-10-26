@@ -5,6 +5,7 @@ import inspect
 from models.base_model import BaseModel
 import models.brand
 from models.brand import Brand
+from models import storage
 import pep8 as pycodestyle
 from sqlalchemy.orm.collections import InstrumentedList
 from typing import get_type_hints
@@ -55,15 +56,32 @@ class TestBrandDoc(unittest.TestCase):
 class TestBrand(unittest.TestCase):
     """ Tests Brand for the correct attrs and behavior """
 
+    def setUp(self):
+        """ Initializes a Brand() and other required instances """
+        from models.budget import Budget
+        from models.client import Client
+        from models.service import Service
+        from models.vehicle import Vehicle
+        from models.type_vehicle import TypeVehicle
+        from models.user import User
+
+
+        self.veh_type = TypeVehicle(name="tha_type")
+        self.client = Client(name="ET", phone=3802348, email="email@died.com")
+        self.brand = Brand(name="tha_brand")
+        self.user = User(name="Hozier", mail="idk@idk.com", password="F#7b9/db", phone=598984982)
+        self.vehicle = Vehicle(plate="61Octaves", brand=self.brand.id, model="tha_model", color="daltonism", mileage=22929, user_id=self.user.id, client_id=self.client.id, type_vehicle_id=self.veh_type.id)
+
+        for inst in [self.veh_type, self.client, self.brand, self.user, self.vehicle]:
+            storage.new(inst)
+
     def test_inheritance(self):
         """ Tests for inheritance from basemodel """
         self.assertTrue(issubclass(Brand, BaseModel))
 
     def test_has_attr_types(self):
         """ Tests Brand for the correct attrs and types """
-        brand = Brand()
-        brand.name = "name"
-        self.assertIs(type(brand), Brand)
+        self.assertIs(type(self.brand), Brand)
         exptd = {
             "name": str,
             "vehicles": InstrumentedList
@@ -71,8 +89,8 @@ class TestBrand(unittest.TestCase):
 
         for attr, typ in exptd.items():
             with self.subTest(attr=attr, typ=typ):
-                self.assertIn(attr, brand.to_dict())
-                self.assertIs(type(brand.to_dict()[attr]), typ)
+                self.assertTrue(hasattr(self.brand, attr))
+                self.assertIs(type(getattr(self.brand, attr)), typ)
 
 if __name__ == "__main__":
     unittest.main()
