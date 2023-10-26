@@ -4,7 +4,7 @@ import Button from './button'
 import ServiceItem from './ServiceItem';
 import { useState } from "react";
 import Creatable from 'react-select/creatable';
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -14,7 +14,9 @@ export default function NewBudget() {
 
 	const today = new Date();
 
-	const [budget, setBudget] = useState();
+	let submited = false;
+
+	const [budget, setBudget] = useState([]);
 
 	const navigate = useNavigate();
 
@@ -32,6 +34,10 @@ export default function NewBudget() {
 		const { name, value } = event.target;
 		setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
 	};
+
+	{/* Total price of budget */ }
+
+	const [total, setTotal] = useState(0.00)
 
 	const getTotal = () => {
 		return (
@@ -55,16 +61,15 @@ export default function NewBudget() {
 			asignedTo: workersValue.label
 		}])
 
-
 	};
+
 
 	const handeleFinalSubmit = (event) => {
 		event.preventDefault();
-
 		setBudget([
 			{
 				total_price: total,
-				payment_method: event.target.installments.value ? event.target.installments.value : "efectivo",
+				payment_method: event.target.installments.value ? "CREDITO" : "EFECTIVO",
 				installments: event.target.installments.value,
 				warranty: "agregar",
 				vehicle_id: "agregar",
@@ -75,30 +80,33 @@ export default function NewBudget() {
 				active: confirmed,
 				services: items,
 			}
-		])
+		]);
 
 		if (confirmed) {
 			console.log("Presupuesto Guardado")
-			console.log("budget", budget)
+			submited = true;
 		}
 		else {
 			console.log('Presupuesto Enviado por mail pendiente de confirmacon');
-			console.log("budget", budget)
+			submited = true;
 		}
 
 	}
+
+
 
 	{/* console services continuosly */ }
 
 	useEffect(() => {
 		console.log('items', items)
 		setTotal(items.reduce((total, p) => total = total + p.price, 0))
-	})
+	}, [items])
 
-	{/* Total price of budget */ }
+	{/* launcher for finished budget */ }
 
-	const [total, setTotal] = useState(0.00)
-
+	useEffect(() => {
+		console.log("Budget ready to save ", budget)
+	}, [budget])
 
 	{/* Var to indicate if budget is confirmed */ }
 
@@ -188,146 +196,150 @@ export default function NewBudget() {
 
 	}
 
+
 	useEffect(() => {
 		setTotal(getTotal())
 	}, [items])
 
 
+
 	return (
-		<div className='w-screen bg-[#F5F5F5] h-screen p-10  text-black	'>
-			<h1 className=' font-black'>Nuevo Presupuesto</h1>
-			<section className='principalFrames grid grid-flow-col grid-rows-3 gap-4 mt-10 justify-items-center'>
-				<section className='CreateBudget p-4 w-full  bg-[#EBEBEB] rounded-lg row-span-4 col-span-2 h-fit'>
-					<form className='FormToCreateBudget' onSubmit={handleSubmit}>
-						{/* elements of the form */}
-						{/* MATRICULA */}
-						<div className='flex flex-col-2 justify-between'>
-							<label className="text-2xl font-black mr-5" for="plate">Matricula</label>
+		<>
+			<div className='w-screen bg-[#F5F5F5] h-screen p-10  text-black	'>
+				<h1 className=' font-black'>Nuevo Presupuesto</h1>
+				<section className='principalFrames grid grid-flow-col grid-rows-3 gap-4 mt-10 justify-items-center'>
+					<section className='CreateBudget p-4 w-full  bg-[#EBEBEB] rounded-lg row-span-4 col-span-2 h-fit'>
+						<form className='FormToCreateBudget' onSubmit={handleSubmit}>
+							{/* elements of the form */}
+							{/* MATRICULA */}
+							<div className='flex flex-col-2 justify-between'>
+								<label className="text-2xl font-black mr-5" for="plate">Matricula</label>
 
-							<div className='flex flex-row-reverse w-1/2'>
-								<input className='bg-[#B4D1D3] p-2' type='text' id='plate' name="plate" value={formData.plate} onChange={handleChange}></input>
+								<div className='flex flex-row-reverse w-1/2'>
+									<input className='bg-[#B4D1D3] p-2' type='text' id='plate' name="plate" value={formData.plate} onChange={handleChange}></input>
+								</div>
 							</div>
-						</div>
-						{/* TITULO */}
-						<div className='input flex flex-col-2 justify-between'>
+							{/* TITULO */}
+							<div className='input flex flex-col-2 justify-between'>
 
-							<label className="my-4" for="title">Título</label>
-							<div className='flex flex-row-reverse w-full'>
-								<Creatable
-									onChange={(value) => handleTitleChange('titles', value)}
-									options={titles}
-									placeholder='Agrega un título'
-									value={titleValue} />
-							</div>
-						</div>
-						{/* SERVICIOS */}
-						<div className='input flex flex-col-2 justify-between'>
-
-							<label className="my-4" for="service">Servicio</label>
-							<div className='flex flex-row-reverse w-full'>
+								<label className="my-4" for="title">Título</label>
 								<div className='flex flex-row-reverse w-full'>
 									<Creatable
-										onChange={(value) => handleServiceChange('services', value)}
-										options={services}
-										placeholder='Qué service se le hará al vehículo'
-										value={serviceValue} />
+										onChange={(value) => handleTitleChange('titles', value)}
+										options={titles}
+										placeholder='Agrega un título'
+										value={titleValue} />
 								</div>
 							</div>
-						</div>
+							{/* SERVICIOS */}
+							<div className='input flex flex-col-2 justify-between'>
 
-						{/* DESCRIPTION TEXTAREA */}
-						<div className='flex flex-col-2 justify-between'>
-
-							<label className="my-4" fot="description">Descripción</label>
-							<div className='flex flex-row-reverse w-1/2'>
-								<textarea className='bg-[#B4D1D3] p-1 my-4 ml-3' id="description" name="description" value={formData.description} onChange={handleChange} rows="5" cols="50" placeholder='Describe el servicio a realizar o la falla reportada'>
-
-								</textarea>
+								<label className="my-4" for="service">Servicio</label>
+								<div className='flex flex-row-reverse w-full'>
+									<div className='flex flex-row-reverse w-full'>
+										<Creatable
+											onChange={(value) => handleServiceChange('services', value)}
+											options={services}
+											placeholder='Qué service se le hará al vehículo'
+											value={serviceValue} />
+									</div>
+								</div>
 							</div>
-						</div>
-						{/* ASIGNADO A */}
-						<div className='flex flex-col-2 justify-between'>
 
-							<label className="my-4" for="asignedTTo" >Asignado a</label>
-							<div className='flex flex-row-reverse w-1/2'>
+							{/* DESCRIPTION TEXTAREA */}
+							<div className='flex flex-col-2 justify-between'>
+
+								<label className="my-4" fot="description">Descripción</label>
 								<div className='flex flex-row-reverse w-1/2'>
-									<Creatable
-										onChange={(value) => handleWorkersChange('workers', value)}
-										options={workers}
-										placeholder='Tecnico'
-										value={workersValue} />
+									<textarea className='bg-[#B4D1D3] p-1 my-4 ml-3' id="description" name="description" value={formData.description} onChange={handleChange} rows="5" cols="50" placeholder='Describe el servicio a realizar o la falla reportada'>
+
+									</textarea>
 								</div>
 							</div>
-						</div>
-						{/* PRECIO */}
-						<div className='flex flex-col-2 justify-between'>
+							{/* ASIGNADO A */}
+							<div className='flex flex-col-2 justify-between'>
 
-							<label className="my-4" for="price">Precio</label>
-							<div className='flex flex-row-reverse w-1/2'>
-								<input className='bg-[#B4D1D3] p-1 my-4' type='text' name="price" value={formData.price} onChange={handleChange}></input>
+								<label className="my-4" for="asignedTTo" >Asignado a</label>
+								<div className='flex flex-row-reverse w-1/2'>
+									<div className='flex flex-row-reverse w-1/2'>
+										<Creatable
+											onChange={(value) => handleWorkersChange('workers', value)}
+											options={workers}
+											placeholder='Tecnico'
+											value={workersValue} />
+									</div>
+								</div>
 							</div>
-						</div>
-						{/* bOTON AGREGAR */}
-						<div className='flex flex-col-1 justify-end'>
+							{/* PRECIO */}
+							<div className='flex flex-col-2 justify-between'>
 
-							<button className='bg-teal-500 text-white' type='submit'> Agregar </button>
-						</div>
-					</form>
+								<label className="my-4" for="price">Precio</label>
+								<div className='flex flex-row-reverse w-1/2'>
+									<input className='bg-[#B4D1D3] p-1 my-4' type='text' name="price" value={formData.price} onChange={handleChange}></input>
+								</div>
+							</div>
+							{/* bOTON AGREGAR */}
+							<div className='flex flex-col-1 justify-end'>
 
+								<button className='bg-teal-500 text-white' type='submit'> Agregar </button>
+							</div>
+						</form>
+
+					</section>
+					{/* RESUMEN DEL PRESUPUESTO */}
+					{/* LISTA DE ITEMS AGREGADOS */}
+					<section className='p-4 w-full min-h-[200px] border-[4px] border-[#B4D1D3] bg-[#EBEBEB] rounded-lg'>
+						{items.map((i, index) => {
+							return (<div>
+								<ServiceItem item={i.name} price={i.price} key={index} removeService={() => removeService(index)} />
+							</div>)
+						})
+						}
+
+
+						<div className='flex flex-col-1 justify-end mt-5'>
+							<Button children="Guardar" size="normal" color="orange" />
+						</div>
+
+					</section>
+					{/* CUOTAS Y VIGENCIA - form  */}
+					<section className='totals col-span-1 row-span-2 w-full'>
+						<form id="FinalDataBudget" onSubmit={handeleFinalSubmit}>
+							<div className='flex justify-between my-2'>
+								<label className="p-2" for="due_date">Vigente hasta </label>
+								<input className="bg-[#B4D1D3] p-2" type="date" id="due_date" name="due_date"></input>
+							</div>
+							<div className='flex justify-between my-2'>
+								<label className="p-2" for="installments ">Cuotas </label>
+								<input className='w-12 bg-[#B4D1D3] p-2' type="text" id="installments"></input>
+
+							</div>
+							{/* TOTALES */}
+							<div className='flex justify-between my-2'>
+								<span className='text-2xl font-black p-4'>TOTAL</span>
+								<div className='text-2xl  grid justify-items-end font-black w-fit bg-[#B4D1D3]'>
+									<p className='self-center mx-5 '>{items.reduce((total, p) => total = total + p.price, 0)}</p>
+								</div>
+							</div>
+
+							{/* CANCELAR CONFIRMAR O ENVIAR  */}
+							<div className='flex flex-col-2 justify-between space-x-2'>
+								<div onClick={abortBudget} >
+									<button className='bg-orange-600 text-white  hover:bg-orange-800 font-bold py-2 px-4 rounded '>Cancelar</button>
+								</div>
+								<div className='flex space-x-4'>
+									<button className='bg-orange-600 text-white  hover:bg-orange-800 font-bold py-2 px-4 rounded ' type='submit'>Confirmado</button>
+
+									<button onClick={() => confirmed = false} className='bg-orange-600 text-white  hover:bg-orange-800 font-bold py-2 px-4 rounded ' type='submit'>Enviar</button>
+								</div>
+
+
+							</div>
+						</form>
+
+					</section>
 				</section>
-				{/* RESUMEN DEL PRESUPUESTO */}
-				{/* LISTA DE ITEMS AGREGADOS */}
-				<section className='p-4 w-full min-h-[200px] border-[4px] border-[#B4D1D3] bg-[#EBEBEB] rounded-lg'>
-					{items.map((i, index) => {
-						return (<div>
-							<ServiceItem item={i.name} price={i.price} key={index} removeService={() => removeService(index)} />
-						</div>)
-					})
-					}
-
-
-					<div className='flex flex-col-1 justify-end mt-5'>
-						<Button children="Guardar" size="normal" color="orange" />
-					</div>
-
-				</section>
-				{/* CUOTAS Y VIGENCIA - form  */}
-				<section className='totals col-span-1 row-span-2 w-full'>
-					<form id="FinalDataBudget" onSubmit={handeleFinalSubmit}>
-						<div className='flex justify-between my-2'>
-							<label className="p-2" for="due_date">Vigente hasta </label>
-							<input className="bg-[#B4D1D3] p-2" type="date" id="due_date" name="due_date"></input>
-						</div>
-						<div className='flex justify-between my-2'>
-							<label className="p-2" for="installments ">Cuotas </label>
-							<input className='w-12 bg-[#B4D1D3] p-2' type="text" id="installments"></input>
-
-						</div>
-						{/* TOTALES */}
-						<div className='flex justify-between my-2'>
-							<span className='text-2xl font-black p-4'>TOTAL</span>
-							<div className='text-2xl  grid justify-items-end font-black w-fit bg-[#B4D1D3]'>
-								<p className='self-center mx-5 '>{items.reduce((total, p) => total = total + p.price, 0)}</p>
-							</div>
-						</div>
-
-						{/* CANCELAR CONFIRMAR O ENVIAR  */}
-						<div className='flex flex-col-2 justify-between space-x-2'>
-							<div onClick={abortBudget} >
-								<button className='bg-orange-600 text-white  hover:bg-orange-800 font-bold py-2 px-4 rounded '>Cancelar</button>
-							</div>
-							<div className='flex space-x-4'>
-								<button className='bg-orange-600 text-white  hover:bg-orange-800 font-bold py-2 px-4 rounded ' type='submit'>Confirmado</button>
-
-								<button onClick={() => confirmed = false} className='bg-orange-600 text-white  hover:bg-orange-800 font-bold py-2 px-4 rounded ' type='submit'>Enviar</button>
-							</div>
-
-
-						</div>
-					</form>
-
-				</section>
-			</section>
-		</div >
+			</div >
+		</>
 	)
 }

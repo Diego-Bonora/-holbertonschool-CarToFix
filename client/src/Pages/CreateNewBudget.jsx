@@ -1,5 +1,8 @@
 import React from 'react'
 import NewBudget from '../Components/NewBudget'
+
+
+
 export default function CreateNewBudget() {
 	return (
 		<>
@@ -8,6 +11,10 @@ export default function CreateNewBudget() {
 
 
 				<NewBudget />
+
+
+
+
 
 
 			</div>
