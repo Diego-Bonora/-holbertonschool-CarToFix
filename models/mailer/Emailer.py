@@ -28,17 +28,33 @@ class Emailer():
         self.mail.quit()
 
     @staticmethod
-    def message(budget):
+    def message(budget, client):
         """Returns the predefined message to send"""
-        return budget
+        body = "Subject: New Budget To Confirm\n\n"
+
+        body += f"Dear {client.name},\n\n"
+        body += f"We would like you to confirm or reject the following budget:\n"
+
+        for key, value in budget.to_dict().items():
+            if key not in ["id", "__class__", "sent", "active", "vehicle_id", "confirmed", "services"]:
+                key = " ".join(key.split("_"))
+                body += f"\t{key}: {value}\n"
+        
+        body += "\nThe following services will be carried out:"
+        for service in budget.services:
+            body += "\n"
+            for key, value in service.to_dict().items():
+                if key not in ["id", "user_id", "done", "vehicle_id", "budget_id", "__class__", "worker", "created_at"]:
+                    key = " ".join(key.split("_"))
+                    body += f"\t{key}: {value}\n"
+
+        return body
 
     def sendbdgt(self, user, budget, client):
         try:
             self.connect(user)
 
-            subject = "New Budget To Confirm!"
-            msg = self.message(budget)
-            body = f"Subject: {subject}\n\n{msg}"
+            body = self.message(budget, client)
 
             self.mail.sendmail(user.mail, client.email, body)
         finally:
