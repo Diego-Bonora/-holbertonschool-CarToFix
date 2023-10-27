@@ -5,6 +5,7 @@ import ServiceItem from './ServiceItem';
 import { useState } from "react";
 import Creatable from 'react-select/creatable';
 import { useNavigate } from 'react-router-dom';
+import MessageZone from './MessageZone';
 
 
 
@@ -201,11 +202,12 @@ export default function NewBudget() {
 		setTotal(getTotal())
 	}, [items])
 
+	const [messageMode, setMessageMode] = useState("none")
 
 
 	return (
 		<>
-			<div className='w-screen bg-[#F5F5F5] h-screen p-10  text-black	'>
+			<div className='w-screen bg-[#F5F5F5] h-screen overflow-scroll  px-20   text-black'>
 				<h1 className=' font-black'>Nuevo Presupuesto</h1>
 				<section className='principalFrames grid grid-flow-col grid-rows-3 gap-4 mt-10 justify-items-center'>
 					<section className='CreateBudget p-4 w-full  bg-[#EBEBEB] rounded-lg row-span-4 col-span-2 h-fit'>
@@ -224,7 +226,7 @@ export default function NewBudget() {
 
 								<label className="my-4" for="title">Título</label>
 								<div className='flex flex-row-reverse w-full'>
-									<Creatable
+									<Creatable className='w-3/5 mt-2'
 										onChange={(value) => handleTitleChange('titles', value)}
 										options={titles}
 										placeholder='Agrega un título'
@@ -237,7 +239,7 @@ export default function NewBudget() {
 								<label className="my-4" for="service">Servicio</label>
 								<div className='flex flex-row-reverse w-full'>
 									<div className='flex flex-row-reverse w-full'>
-										<Creatable
+										<Creatable className='w-3/5 mt-2'
 											onChange={(value) => handleServiceChange('services', value)}
 											options={services}
 											placeholder='Qué service se le hará al vehículo'
@@ -261,8 +263,8 @@ export default function NewBudget() {
 
 								<label className="my-4" for="asignedTTo" >Asignado a</label>
 								<div className='flex flex-row-reverse w-1/2'>
-									<div className='flex flex-row-reverse w-1/2'>
-										<Creatable
+									<div className='flex flex-row-reverse w-full'>
+										<Creatable className='w-full mt-2'
 											onChange={(value) => handleWorkersChange('workers', value)}
 											options={workers}
 											placeholder='Tecnico'
@@ -274,11 +276,11 @@ export default function NewBudget() {
 							<div className='flex flex-col-2 justify-between'>
 
 								<label className="my-4" for="price">Precio</label>
-								<div className='flex flex-row-reverse w-1/2'>
-									<input className='bg-[#B4D1D3] p-1 my-4' type='text' name="price" value={formData.price} onChange={handleChange}></input>
+								<div className='flex flex-row-reverse'>
+									<input className='bg-[#B4D1D3] p-1 my-4 text-right w-1/2' type='text' name="price" value={formData.price} onChange={handleChange}></input>
 								</div>
 							</div>
-							{/* bOTON AGREGAR */}
+							{/* BOTON AGREGAR */}
 							<div className='flex flex-col-1 justify-end'>
 
 								<button className='bg-teal-500 text-white' type='submit'> Agregar </button>
@@ -322,8 +324,13 @@ export default function NewBudget() {
 								</div>
 							</div>
 
+							{/* System Message Area  */}
+
+							<MessageZone display={messageMode} text="Cuidado !!! " />
+
+
 							{/* CANCELAR CONFIRMAR O ENVIAR  */}
-							<div className='flex flex-col-2 justify-between space-x-2'>
+							<div className='flex flex-col-2 justify-between space-x-2 mt-16'>
 								<div onClick={abortBudget} >
 									<button className='bg-orange-600 text-white  hover:bg-orange-800 font-bold py-2 px-4 rounded '>Cancelar</button>
 								</div>
