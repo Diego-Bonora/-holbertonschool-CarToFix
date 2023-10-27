@@ -12,8 +12,8 @@ export default function Vehicle_history() {
   const columns = ['Ingreso', 'detalle'];
   const data = [{ Ingreso: '24/10/2022', detalle: 'Cambio de aceite hjsen jhndxecWUO HNDXEJKWHCI'},
   { Ingreso: '24/10/2022', detalle: 'Chequeo general dl condnsador de flujos'},
-  { Ingreso: '24/10/2022', detalle: 'Revision de frenos'},
-	{ Ingreso: '24/10/2022', detalle: 'Electricidad'},
+  { Ingreso: '24/10/2022', detalle: 'Revision de frenos', data: 'hdkjckf'},
+	{ Ingreso: '24/10/2022', detalle: 'Electricidad', data: 'hdkjckf'},
 	{ Ingreso: '24/10/2022', detalle: 'Tren delantero'},
   { Ingreso: '24/10/2022', detalle: 'Tren delantero'},
   { Ingreso: '24/10/2022', detalle: ''}];
@@ -22,15 +22,15 @@ export default function Vehicle_history() {
         <div className='w-screen h-screen bg-page_background'>
             <NavBar />
             {/* info del vehiculo y matricula*/}
-            <div className='bg-gris-background lg:mr-marg-5 mr-marg-1 lg:ml-marg-4 ml-marg-1 mt-marg-3 flex flex-wrap h-info_vehiculo rounded-r-lg'>
+            <div className='bg-gris-background lg:mr-marg-5 mr-marg-1 lg:ml-marg-4 ml-marg-1 mt-marg-3 flex flex-wrap h-info_vehiculo rounded-r-lg shadow-md shadow-gray-300' >
               {/* matricula general */}
               <div className='border border-azul-oscuro flex flex-col justify-start w-3/12 h-full' >
                 {/*tipo de vehiculo*/}
-                <div className='bg-azul-oscuro text-center text-white py-2'>
+                <div className='bg-azul-oscuro flex items-center justify-center text-lg text-white py-2 h-22/5'>
                   <p>{tipo_vehiculo}</p>
                 </div>
                 {/* N° matricula*/}
-                <div className='bg-white  text-center text-2xl font-bold py-4 '>
+                <div className='bg-white flex items-center justify-center text-2xl font-bold py-4 h-3/5'>
                   <p>{matricula}</p>
                 </div>
                 {/*info del vehiculo */}
@@ -49,8 +49,8 @@ export default function Vehicle_history() {
               </div>
             </div>
             {/* info del historial */}
-            <div className='bg-gris-background items-center lg:mr-marg-5 mr-marg-1 lg:ml-marg-4 ml-marg-1 mt-marg-3 flex flex-wrap rounded-lg justify-items-center justify-center'>
-                <div className="data w-full flex flex-col ml-10">
+            <div className='bg-gris-background items-center md:mr-marg-5 mr-marg-1 lg:ml-marg-4 ml-marg-1 mt-marg-3 flex flex-wrap rounded-lg justify-items-center justify-center shadow-md shadow-gray-300'>
+                <div className="data w-full flex flex-col ml-10 mt-2.5">
                   <DataBox columns={columns} info={data}/>
                 </div>
             <NewBudgetButton />
