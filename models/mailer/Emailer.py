@@ -6,6 +6,7 @@ and class Emailer() handles the emails
 
 import imaplib
 import email
+from email.header import decode_header
 import smtplib
 
 
@@ -31,22 +32,28 @@ class Emailer():
     def message(budget, client):
         """Returns the predefined message to send"""
         body = "Subject: New Budget To Confirm\n\n"
-
         body += f"Dear {client.name},\n\n"
         body += f"We would like you to confirm or reject the following budget:\n"
 
+        # Format budget details
         for key, value in budget.to_dict().items():
             if key not in ["id", "__class__", "sent", "active", "vehicle_id", "confirmed", "services"]:
-                key = " ".join(key.split("_"))
-                body += f"\t{key}: {value}\n"
-        
+                formatted_key = " ".join(key.split("_"))
+                body += f"\t{formatted_key}: {value}\n"
+
         body += "\nThe following services will be carried out:"
+
+        # Format service details
         for service in budget.services:
             body += "\n"
             for key, value in service.to_dict().items():
                 if key not in ["id", "user_id", "done", "vehicle_id", "budget_id", "__class__", "worker", "created_at"]:
-                    key = " ".join(key.split("_"))
-                    body += f"\t{key}: {value}\n"
+                    formatted_key = " ".join(key.split("_"))
+                    body += f"\t{formatted_key}: {value}\n"
+
+        # Instructions for approval and rejection
+        body += f"\nTo approve it please reply:\n\tok: {budget.id}\n"
+        body += f"To refuse it please reply:\n\tno: {budget.id}"
 
         return body
 
@@ -60,5 +67,44 @@ class Emailer():
         finally:
             self.terminate()
 
-    def read(self):
-        pass
+    def read(self, user):
+        """
+        Reads all the mails and returns a list of dictionaries containing
+        the sender and body.
+        """
+        try:
+            # Connect to the IMAP server
+            mail = imaplib.IMAP4_SSL("imap.gmail.com")
+            mail.login(user.mail, user.password)
+            mail.select("inbox")
+
+            # Search for all emails in the inbox
+            status, messages = mail.search(None, "ALL")
+            messages = messages[0].split()
+
+            email_list = []
+
+            # Iterate over each email
+            for msg_id in messages:
+                _, msg_data = mail.fetch(msg_id, "(RFC822)")
+                msg = email.message_from_bytes(msg_data[0][1])
+
+                # Get the sender's email
+                sender, encoding = decode_header(msg.get("From"))[0]
+                if isinstance(sender, bytes):
+                    sender = sender.decode(encoding or "utf-8")
+
+                # Get the email body
+                if msg.is_multipart():
+                    body = ""
+                    for part in msg.walk():
+                        if part.get_content_type() == "text/plain":
+                            body += part.get_payload(decode=True).decode("utf-8", errors="ignore")
+                else:
+                    body = msg.get_payload(decode=True).decode("utf-8", errors="ignore")
+
+                email_list.append({"sender": sender, "body": body})
+
+            return email_list
+        finally:
+            mail.logout()
