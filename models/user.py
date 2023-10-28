@@ -16,6 +16,9 @@ class User(BaseModel, Base):
     services = relationship("Service",
                             backref="users",
                             cascade="all, delete, delete-orphan")
+    budgets = relationship("Budget",
+                           backref="users",
+                           cascade="all, delete, delete-orphan")
     vehicles = relationship("Vehicle",
                             backref="users",
                             cascade="all, delete, delete-orphan")

@@ -9,6 +9,7 @@ from sqlalchemy.orm import relationship
 class Budget(BaseModel, Base):
     """ Representation of Budget """
     __tablename__ = 'budgets'
+    user_id = Column(String(60), ForeignKey('users.id'), nullable=False)
     total_price = Column(Float, nullable=False)
     payment_method = Column(String(128), nullable=False)
     installments = Column(Integer, nullable=False)
