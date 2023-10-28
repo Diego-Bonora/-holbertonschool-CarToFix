@@ -1,10 +1,10 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Envelope } from 'react-bootstrap-icons';
 import InputFied from './InputFied';
 import PasswordInput from './PasswordInput';
-
+import axios from 'axios';
 
 const Login = () => {
 
@@ -12,37 +12,29 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [recuerdame, setRecuerdame] = useState(false);
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (eventSubmit) => {
     eventSubmit.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:5000/api/v1/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: mail,
-          password: password,
-          recuerdame: recuerdame,
-        }),
+      const response = await axios.post('http://localhost:5000/api/v1/login', {
+        mail: mail,
+        password: password,
+        recuerdame: recuerdame,
       });
 
-      const data = await response.json();
-
-      if (response.ok) {
+      if (response.status === 200) {
         if (recuerdame) {
           Cookies.set('cookie_user', '', { expires: 7 });
         }
         navigate('/home');
-      } else if (response.status === 400 || response.status === 404 || response.status === 401) {
-        setError(data.error);
+      } else if ([400, 404, 401].includes(response.status)) {
+        setError(response.data.error);
       } else {
         setError('An error occurred. Please try again later.');
       }
     } catch (error) {
-      console.error('An error occurred:', error);
       setError('An error occurred. Please try again later.');
     }
   };
