@@ -22,36 +22,45 @@ print(emailer.message(budget, client))
 And then:
 ```
 $ python3 file.py
+Subject: New Budget To Confirm
+
 Dear ET,
 
 We would like you to confirm or reject the following budget:
-        created at: 2023-10-26T20:01:22.000000
-        payment method: Credit-Card
-        warranty: 0
-        issue date: 2023-10-26 20:01:21
-        total price: 400.0
-        installments: 0
-        due date: 2023-11-02 20:01:21
+	total price: 400.0
+	installments: 0
+	due date: 2023-11-02 20:01:21
+	created at: 2023-10-26T20:01:22.000000
+	payment method: Credit-Card
+	warranty: 0
+	issue date: 2023-10-26 20:01:21
 
 The following services will be carried out:
-        title: Kill delivery service
-        note: A piano was required
-        price: 200000.0
-        description: Summertime - George Gershwin
+	note: A piano was required
+	price: 200000.0
+	description: Summertime - George Gershwin
+	title: Kill delivery service
 
-        title: Kill delivery service
-        note: A piano was required
-        price: 200000.0
-        description: Summertime - George Gershwin
+	note: A piano was required
+	price: 200000.0
+	description: Summertime - George Gershwin
+	title: Kill delivery service
 
-        title: Kill delivery service
-        note: A piano was required
-        price: 200000.0
-        description: Summertime - George Gershwin
+	note: A piano was required
+	price: 200000.0
+	description: Summertime - George Gershwin
+	title: Kill delivery service
+
+To approve it please reply:
+	ok: 0c20333f-76c4-46d5-879e-f4001f7a691f
+To refuse it please reply:
+	no: 0c20333f-76c4-46d5-879e-f4001f7a691f
+
+Please make sure the body of the response contains ONLY one of the previous lines
 ```
 
 ## Get and process all the recieved messages:
-Use `read()`;
+Use `read()`, it will read and **delete** the read messages
 In a `file.py`:
 ```
 emailer = Emailer()

@@ -53,7 +53,8 @@ class Emailer():
 
         # Instructions for approval and rejection
         body += f"\nTo approve it please reply:\n\tok: {budget.id}\n"
-        body += f"To refuse it please reply:\n\tno: {budget.id}"
+        body += f"To refuse it please reply:\n\tno: {budget.id}\n"
+        body += "\nPlease make sure the body of the response contains ONLY one of the previous lines\n"
 
         return body
 
@@ -69,8 +70,7 @@ class Emailer():
 
     def read(self, user):
         """
-        Reads all the mails and returns a list of dictionaries containing
-        the sender and body.
+        Reads all the mails and calls to procmsg() to process it.
         """
         try:
             # Connect to the IMAP server
@@ -105,6 +105,27 @@ class Emailer():
 
                 email_list.append({"sender": sender, "body": body})
 
-            return email_list
+                # Mark the email for deletion
+                mail.store(msg_id, "+FLAGS", "(\Deleted)")
+
+            return self.__prcmsgs(email_list)
+
         finally:
+            mail.expunge()
             mail.logout()
+
+    def __prcmsgs(self, msgs):
+        """ Process the messages """
+        for msg in msgs:
+            if len(msg["body"].split(": ")) == 2:
+                acptd, bdgt = msg["body"].split(": ")
+                bdgt = bdgt.strip()
+                if acptd == "ok":
+                    print(f"Budget: {bdgt} accepted :)")
+                elif acptd == "no":
+                    print(f"Budget: {bdgt} rejected :(")
+                else:
+                    print("Not able to understand:", msg["body"])
+            else:
+                print("Unexpected format in message:", msg["body"])
+        return msgs
