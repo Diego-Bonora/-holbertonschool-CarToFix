@@ -8,7 +8,7 @@ import PasswordInput from './PasswordInput';
 
 const Login = () => {
 
-  const [email, setEmail] = useState('');
+  const [mail, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [recuerdame, setRecuerdame] = useState(false);
   const [error, setError] = useState('');
@@ -23,7 +23,7 @@ const Login = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          email: email,
+          email: mail,
           password: password,
           recuerdame: recuerdame,
         }),
@@ -48,10 +48,10 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (email && password) {
-      Login();
+    if (mail && password) {
+      handleSubmit();
     }
-  }, [email, password, recuerdame]);
+  }, [mail, password, recuerdame]);
 
   return (
     <>
@@ -62,7 +62,7 @@ const Login = () => {
             <div className="rounded-full border-2 border-white mx-auto w-48 h-48 bg-gris-claro translate-y-1/2"></div>
             <div className="text-white border-4 my-auto rounded-2xl bg-cian-oscuro 2xl:h-4/5 border-gris-claro">
               <form action="" className="items-center justify-center px-pad-1 pb-pad-1 pt-pad-2 font-Inter" onSubmit={handleSubmit}>
-                <InputFied icon={<Envelope />} type='email' placeholder='Email' value={email} onChange={(emailEvent) => setEmail(emailEvent.target.value)} required />
+                <InputFied icon={<Envelope />} type='email' placeholder='Email' value={mail} onChange={(emailEvent) => setEmail(emailEvent.target.value)} required />
                 <PasswordInput PasswordInput='Contraseña' value={password} onChange={(passwordEvent) => setPassword(passwordEvent.target.value)} required />
                 <div className="flex justify-between items-center mt-marg-3">
                   <div className="flex gap-1 items-center">
