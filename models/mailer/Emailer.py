@@ -4,9 +4,12 @@ This module establishes a conection with the SMTP email server
 and class Emailer() handles the emails
 """
 
-import imaplib
 import email
 from email.header import decode_header
+import imaplib
+from models.budget import Budget
+from models.client import Client
+from models import storage
 import smtplib
 
 
@@ -58,19 +61,22 @@ class Emailer():
 
         return body
 
-    def sendbdgt(self, user, budget, client):
-        try:
-            self.connect(user)
+    def send(self, user, budget, client):
+        if budget.sent == False:
+            try:
+                self.connect(user)
 
-            body = self.message(budget, client)
+                body = self.message(budget, client)
+                self.mail.sendmail(user.mail, client.email, body)
+                budget.sent = True
+                storage.save()
 
-            self.mail.sendmail(user.mail, client.email, body)
-        finally:
-            self.terminate()
+            finally:
+                self.terminate()
 
     def read(self, user):
         """
-        Reads all the mails and calls to procmsg() to process it.
+        Reads all the mails and calls to __procmsg() to process it.
         """
         try:
             # Connect to the IMAP server
@@ -115,17 +121,31 @@ class Emailer():
             mail.logout()
 
     def __prcmsgs(self, msgs):
-        """ Process the messages """
+        """ Proc ess the messages """
         for msg in msgs:
             if len(msg["body"].split(": ")) == 2:
                 acptd, bdgt = msg["body"].split(": ")
-                bdgt = bdgt.strip()
-                if acptd == "ok":
-                    print(f"Budget: {bdgt} accepted :)")
-                elif acptd == "no":
-                    print(f"Budget: {bdgt} rejected :(")
-                else:
-                    print("Not able to understand:", msg["body"])
+                bdgt =  storage.get(Budget, bdgt.replace("\n", ""))
+                sender = [client for client in storage.all(Client) if client.email == msg["sender"]]
+
+                if bdgt and bdgt.client_id == sender.id:
+                    if acptd == "ok":
+                        print(f"Budget: {bdgt.id} accepted :)")
+                        bdgt.confirmed = True
+                        bdgt.active = True
+                    elif acptd == "no":
+                        print(f"Budget: {bdgt.id} rejected :(")
+                        bdgt.confirmed = True
+                    else:
+                        print("Not able to understand:", msg["body"])
+                        # must send a message to the client that message was not understood
+
+                else :
+                    print(f"Budget: {msg['body'].split(': ')[1].replace('\n', '') not found")
+                    # must send a message to the client saying an error has occurred sender or budget invalid
             else:
-                print("Unexpected format in message:", msg["body"])
+                print("Not able to understand:", msg["body"])
+                # must send a message to the client that message was not understood
+
+        storage.save()
         return msgs

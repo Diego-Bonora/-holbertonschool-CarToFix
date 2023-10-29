@@ -5,12 +5,13 @@
 - [ ] Sends a finalization notification once the services are done
 
 ## Send an email with the budget to approve:
-Use `sendbdgt()`;
+Use `send()`;
+- [x] It'll process the budget to make a predefined message out of it
+- [x] It'll set `budget.sent` as `True`
 ```
 emailer = Emailer()
 emailer.sendbdgt(user, budget, client)
 ```
-It'll process the budget to make a predefined message out of it.
 
 ## See the predefined message:
 Use `message()`;
@@ -60,7 +61,10 @@ Please make sure the body of the response contains ONLY one of the previous line
 ```
 
 ## Get and process all the recieved messages:
-Use `read()`, it will read and **delete** the read messages
+Use `read()`;
+- [x] It will read and **delete** the read messages
+- [x] It'll set `budget.active` as `True` or `False`
+- [x] It'll set `budget.confirmed` as `True` or `False`
 In a `file.py`:
 ```
 emailer = Emailer()
@@ -73,6 +77,6 @@ $ python3 file.py
 ```
 
 ### For now:
-* it does not set `budget.sent` as `True`
-* it does not set `budget.active` and `budget.confirmed` as `True` or `False`
 * read() returns a list of dictionaries containing the recieved mails sender and body
+* prcmsg() does not sends an email if something went wrong
+* send() only sends a message()-made message

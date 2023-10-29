@@ -17,7 +17,8 @@ client = storage.get(Client, storage.get(Vehicle, budget.vehicle_id).client_id)
 user = storage.get(User, storage.get(Service, budget.services[0].id).user_id)
 
 print(emailer.message(budget, client))
-"""
-emailer.sendbdgt(user, budget, client)
-"""
+emailer.send(user, budget, client)
+
 #emailer.read(user)
+
+print(storage.get(Budget, "0c20333f-76c4-46d5-879e-f4001f7a691f").to_dict())
