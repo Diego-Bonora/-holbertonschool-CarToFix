@@ -30,14 +30,14 @@ export default function Vehicle_history() {
                   <p>{tipo_vehiculo}</p>
                 </div>
                 {/* N° matricula*/}
-                <div className='bg-white flex items-center justify-center text-2xl font-bold py-4 h-3/5'>
+                <div className='bg-white flex items-center justify-center text-xl font-bold py-4 h-3/5'>
                   <p>{matricula}</p>
                 </div>
                 {/*info del vehiculo */}
               </div>
-              <div className='pl-10 w-9/12 flex  h-full'>
+              <div className='pl-10 w-9/12 h-full'>
                 {info_vehiculo.map((info, index) => (
-                <div key={index} className='text-black sm:flex sm:flex-col sm:flex-wrap hidden text-xl my-4 w-9/12'>
+                <div key={index} className='text-black h-full  sm:flex flex-col flex-wrap hidden text-xl my-4 w-9/12'>
                   <div  className='py-2'>
                     Marca: <span className='font-bold'>{info.Marca}</span></div>
                   <div className='pb-1'>
@@ -49,10 +49,10 @@ export default function Vehicle_history() {
               </div>
             </div>
             {/* info del historial */}
-            <div className='bg-gris-background items-center md:mr-marg-5 mr-marg-1 lg:ml-marg-4 ml-marg-1 mt-marg-3 flex flex-wrap rounded-lg justify-items-center justify-center shadow-md shadow-gray-300'>
-                <div className="data w-full flex flex-col ml-10 mt-2.5">
-                  <DataBox columns={columns} info={data}/>
-                </div>
+            <div className='bg-gris-background items-center lg:h-info_history h-info_history_2 lg:mr-marg-5 mr-marg-1 lg:ml-marg-4 ml-marg-1 mt-marg-3 flex flex-wrap rounded-lg justify-items-center justify-center shadow-md shadow-gray-300 h-30'>
+            <div className='overflow-y-scroll h-full w-full ml-9'>
+                <DataBox columns={columns} info={data}/>
+              </div>
             <NewBudgetButton />
             </div>
         </div>
