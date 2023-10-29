@@ -4,37 +4,52 @@ import Button from './button'
 import ServiceItem from './ServiceItem';
 import { useState } from "react";
 import Creatable from 'react-select/creatable';
-import { useNavigate } from 'react-router-dom';
+import { useFetcher, useNavigate } from 'react-router-dom';
 import MessageZone from './MessageZone';
 
 
 
 
 
-export default function NewBudget() {
-
-	const today = new Date();
-
-	let submited = false;
-
-	const [budget, setBudget] = useState([]);
+export default function NewBudget({ checkPlateRegistration, plates }) {
 
 	const navigate = useNavigate();
 
+	const today = new Date();
+
+	{/* FoState for budget */ }
+
+	const [budget, setBudget] = useState([]);
+
 	{/* Form data state */ }
 
-	const [formData, setFormData] = useState({ plate: "XXX - 0000", title: "", name: "", description: "", asignedTo: "", price: 0 });
+	const [formData, setFormData] = useState({ plate: "", title: "", name: "", description: "", asignedTo: "", price: 0 });
 
 	{/* items to show at budget resume */ }
 
 	const [items, setItems] = useState([])
 
+	{/* State for searching the vehicle Plate */ }
+
+	const [plate, setPlate] = useState('')
+
+
 	{/* reads the form  */ }
 
 	const handleChange = (event) => {
+		event.preventDefault();
 		const { name, value } = event.target;
 		setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
+
 	};
+
+
+
+
+	useEffect(() => {
+		setPlate((formData.plate).toUpperCase())
+		console.log("typed plate", plate)
+	}, [formData.plate])
 
 	{/* Total price of budget */ }
 
@@ -48,6 +63,8 @@ export default function NewBudget() {
 
 
 	{/* Each item of the resume  */ }
+
+
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
@@ -73,7 +90,7 @@ export default function NewBudget() {
 				payment_method: event.target.installments.value ? "CREDITO" : "EFECTIVO",
 				installments: event.target.installments.value,
 				warranty: "agregar",
-				vehicle_id: "agregar",
+				vehicle_id: event.target.plate.value,
 				issue_date: today,
 				due_date: event.target.due_date.value,
 				confirmed: confirmed,
@@ -95,7 +112,6 @@ export default function NewBudget() {
 	}
 
 
-
 	{/* console services continuosly */ }
 
 	useEffect(() => {
@@ -106,7 +122,9 @@ export default function NewBudget() {
 	{/* launcher for finished budget */ }
 
 	useEffect(() => {
-		console.log("Budget ready to save ", budget)
+		if (budget.length != 0) {
+			console.log("Budget ready to save ", budget)
+		}
 	}, [budget])
 
 	{/* Var to indicate if budget is confirmed */ }
@@ -197,7 +215,6 @@ export default function NewBudget() {
 
 	}
 
-
 	useEffect(() => {
 		setTotal(getTotal())
 	}, [items])
@@ -211,14 +228,14 @@ export default function NewBudget() {
 				<h1 className=' font-black'>Nuevo Presupuesto</h1>
 				<section className='principalFrames grid grid-flow-col grid-rows-3 gap-4 mt-10 justify-items-center'>
 					<section className='CreateBudget p-4 w-full  bg-[#EBEBEB] rounded-lg row-span-4 col-span-2 h-fit'>
-						<form className='FormToCreateBudget' onSubmit={handleSubmit}>
+						<form className='FormToCreateBudget' onSubmit={handleSubmit} onChange={handleChange}>
 							{/* elements of the form */}
 							{/* MATRICULA */}
 							<div className='flex flex-col-2 justify-between'>
 								<label className="text-2xl font-black mr-5" for="plate">Matricula</label>
 
 								<div className='flex flex-row-reverse w-1/2'>
-									<input className='bg-[#B4D1D3] p-2' type='text' id='plate' name="plate" value={formData.plate} onChange={handleChange}></input>
+									<input className='bg-[#B4D1D3] p-1 my-4 text-right w-1/2' type='text' id='plate' name="plate" value={formData.plate} placeholder='XXX-0000' onBlur={() => checkPlateRegistration(plate, plates)}></input>
 								</div>
 							</div>
 							{/* TITULO */}
@@ -230,7 +247,8 @@ export default function NewBudget() {
 										onChange={(value) => handleTitleChange('titles', value)}
 										options={titles}
 										placeholder='Agrega un título'
-										value={titleValue} />
+										value={titleValue}
+										onFocus={checkPlateRegistration(plate, plates)} />
 								</div>
 							</div>
 							{/* SERVICIOS */}
