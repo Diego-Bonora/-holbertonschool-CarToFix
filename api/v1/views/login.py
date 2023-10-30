@@ -6,7 +6,6 @@ from flask import abort, jsonify, request
 from models.user import User
 from models import storage
 import bcrypt
-import uuid
 
 
 @app_views.route('/login', methods=['POST'])
@@ -53,6 +52,7 @@ def request_password_reset():
 
 
 def generate_reset_token():
+    import uuid
     return str(uuid.uuid4())
 
 
