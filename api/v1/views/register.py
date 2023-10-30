@@ -25,10 +25,10 @@ def registration():
     phone = data['phone']
 
     if password != repeat_password:
-        abort(400, 'Passwords do not match')
+        return jsonify({'error': 'Passwords do not match'}), 400
 
     if storage.get_mail(User, mail):
-        abort(400, 'This email already has an account associated')
+        return jsonify({'error': 'This email already has an account associated'}), 400
 
     hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
 
@@ -37,4 +37,4 @@ def registration():
     storage.new(new_user)
     storage.save()
 
-    return jsonify({'message': 'User registered successfully'})
+    return jsonify({'message': 'User registered successfully'}), 201
