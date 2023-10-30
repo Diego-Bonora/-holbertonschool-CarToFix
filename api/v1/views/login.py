@@ -33,9 +33,13 @@ def login():
         return jsonify({"error": "Invalid email or password"}), 401
 
 
+"""
+POST /api/logout i need to do this
+"""
+
+"""
 @app_views.route('/reset-password/request', methods=['POST'])
 def request_password_reset():
-    """request password reset, create a token and send email"""
     data = request.get_json()
     mail = data.get("mail")
     user = storage.get_mail(User, mail)
@@ -49,12 +53,10 @@ def request_password_reset():
 
 
 def generate_reset_token():
-    """Generate an uuid token"""
     return str(uuid.uuid4())
 
 
 def store_reset_token(user_id, reset_token):
-    """Store the reset token with the user in the database"""
     user = storage.get(User, user_id)
     user.reset_token = reset_token  # we need to create a reset_token on the User class
     storage.save()
@@ -62,7 +64,6 @@ def store_reset_token(user_id, reset_token):
 
 @app_views.route('/reset-password/<reset_token>', methods=['POST'])
 def reset_password(reset_token):
-    """reset the password and delete the token"""
     user = storage.get_reset_token(User, reset_token)  # i need to create get_token in db storage
 
     if user:
@@ -75,7 +76,6 @@ def reset_password(reset_token):
 
 
 def update_user_password(user_id, new_password):
-    """update the password from the user class"""
     user = storage.get(user_id)
     if user:
         user.password = new_password
@@ -83,13 +83,8 @@ def update_user_password(user_id, new_password):
 
 
 def delete_reset_token(token):
-    """delete the token from the database"""
     token_obj = storage.get_reset_token(User, token)  # i need to create get_token in db storage
     if token_obj:
         storage.delete(token_obj) #  i need to see if how to delete only the token and not the whole object
         storage.save()
-
-
-"""
-POST /api/logout i need to do this
 """
