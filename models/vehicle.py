@@ -20,7 +20,8 @@ class Vehicle(BaseModel, Base):
     services = relationship("Service",
                             backref="vehicles",
                             cascade="all, delete, delete-orphan")
-    budgets = relationship("Budget", back_populates="vehicle",
+    budgets = relationship("Budget",
+                           backref="vehicles",
                            cascade="all, delete, delete-orphan")
 
     def __init__(self, *args, **kwargs):

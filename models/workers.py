@@ -1,18 +1,16 @@
 #!/usr/bin/python
-""" Contains class Clients """
+""" Contains class Workers """
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
 
 
-class Client(BaseModel, Base):
-    """ Representation of Client """
-    __tablename__ = 'clients'
+class Worker(BaseModel, Base):
+    """ Representation of Workers """
+    __tablename__ = 'workers'
     name = Column(String(128), nullable=False)
-    email = Column(String(128), nullable=False)
-    phone = Column(String(32), nullable=False)
-    vehicles = relationship("Vehicle",
-                            backref="clients",
+    services = relationship("Service",
+                            backref="workers",
                             cascade="all, delete, delete-orphan")
 
     def __init__(self, *args, **kwargs):
