@@ -26,8 +26,8 @@ export default function Signin() {
 
     try {
       const response = await axios.post('http://localhost:5000/api/v1/register', formData);
-      if (response.status === 200) {
-        navigate('/login');
+      if (response.status === 201) {
+        navigate('/home');
       } else {
         setError('An error occurred. Please try again later.');
       }
@@ -50,8 +50,8 @@ export default function Signin() {
                   <InputFied icon={<Person />} type='text' value={name} onChange={e => setName(e.target.value)} placeholder='Nombre del taller' />
                   <InputFied icon={<Envelope />} type='email' value={mail} onChange={e => setMail(e.target.value)} placeholder="Email" />
                   <InputFied icon={<Telephone />} type='num' value={phone} onChange={e => setPhone(e.target.value)} placeholder='Número del taller' />
-                  <PasswordInput PasswordInput='Contraseña' value={password} onChange={(passwordEvent) => setPassword(passwordEvent.target.value)} />
-                  <PasswordInput PasswordInput='Contraseña' value={password} onChange={(passwordEvent) => setPassword(passwordEvent.target.value)} />
+                  <PasswordInput PasswordInput='Contraseña' value={password} onChange={(passwordEvent) => setPassword(passwordEvent.target.value)} placeholder='Contraseña' />
+                  <PasswordInput PasswordInput='Contraseñas' value={password} onChange={(passwordEvent) => setPassword(passwordEvent.target.value)} placeholder='Repita la Contraseña' />
                   <div className="mx-marg-4">
                     <button type="submit" className="font-bold text-center 2xl:text-xl text-xl p-pad-3 bg-azul-oscuro rounded-full mb-marg-1 mt-marg-1 w-full">Registrarse</button>
                   </div>

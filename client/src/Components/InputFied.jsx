@@ -1,6 +1,5 @@
 import React from "react";
 
-// eslint-disable-next-line react/prop-types
 export default function InputFied({ icon, type, placeholder }) {
     return (
         <div className="relative mb-1 my-2 mt-2 2g text-lg">
@@ -8,9 +7,7 @@ export default function InputFied({ icon, type, placeholder }) {
                 {icon}
             </div>
             )}
-            <input type={type}
-                placeholder={placeholder}
-                className="rounded-b-2xl rounded-t-2xl xl:text-lg h-7 my-1.5 w-full bg-gris-claro text-black py-5 p-14 placeholder-white" />
+            <input type={type} placeholder={placeholder} className="rounded-b-2xl rounded-t-2xl xl:text-lg h-7 my-1.5 w-full bg-gris-claro text-black py-5 p-14 placeholder-white" />
         </div>
     );
 }
