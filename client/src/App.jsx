@@ -4,7 +4,7 @@ import './App.css'
 import PreLoginPage from './Pages/PreLoginPage'
 import Home from './Pages/Home';
 import NavBar from './Components/NavBar';
-import Signin from "./Components/Signin";
+import SignUp from "./Components/SignUp";
 
 function App() {
 
@@ -16,7 +16,7 @@ function App() {
 				<Routes>
 					<Route path="/" element={<PreLoginPage />} />
 					<Route path="/home" element={<Home />} />
-					<Route path="/Signin" element={<Signin />}></Route>
+					<Route path="/SignUp" element={<SignUp />}></Route>
 				</Routes>
 
 			</BrowserRouter>
