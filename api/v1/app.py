@@ -7,8 +7,14 @@ from flask import Flask
 app = Flask(__name__)
 app.url_map.strict_slashes = False
 
+cors = CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 app.register_blueprint(app_views)
 
 
+@app.teardown_appcontext
+def close(E):
+    """Calls storage.close() when server stops"""
+    storage.close()
+
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(threaded=True)
