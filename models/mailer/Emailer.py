@@ -6,26 +6,30 @@ and class Emailer() handles the emails
 
 import email
 from email.header import decode_header
+from email.utils import parseaddr
 import imaplib
 from models.budget import Budget
 from models.client import Client
 from models import storage
+from models.user import User
+from models.vehicle import Vehicle
 import smtplib
 
 
 class Emailer():
     """Manages email messages"""
 
-    def __init__(self):
+    def __init__(self, user):
         """Initializes an Emailer"""
         self.server = "smtp.gmail.com"
+        self.user = user
         self.mail = None
 
-    def connect(self, user):
+    def connect(self):
         """Connects to the SMTP server"""
         self.mail = smtplib.SMTP(self.server, 587)
         self.mail.starttls()
-        self.mail.login(user.mail, user.password)
+        self.mail.login(self.user.mail, self.user.password)
 
     def terminate(self):
         """Terminates the connection"""
@@ -61,33 +65,45 @@ class Emailer():
 
         return body
 
-    def send(self, user, budget, client):
-        if budget.sent == False:
-            try:
-                self.connect(user)
+    def send(self, client, budget=None, msg=None):
 
+        try:
+            self.connect()
+
+            if not budget and not msg:
+                raise ValueError("Either budget or message should be provided")
+            if budget.sent:
+                raise ValueError("Buget was already sent")
+
+            if not msg:
                 body = self.message(budget, client)
-                self.mail.sendmail(user.mail, client.email, body)
+            else:
+                body = msg
+
+            self.mail.sendmail(self.user.mail, client.email, body)
+            
+            if budget:
                 budget.sent = True
-                storage.save()
 
-            finally:
-                self.terminate()
+            storage.save()
+            print(body)
 
-    def read(self, user):
+        finally:
+            self.terminate()
+
+    def read(self):
         """
         Reads all the mails and calls to __procmsg() to process it.
         """
         try:
             # Connect to the IMAP server
             mail = imaplib.IMAP4_SSL("imap.gmail.com")
-            mail.login(user.mail, user.password)
+            mail.login(self.user.mail, self.user.password)
             mail.select("inbox")
 
             # Search for all emails in the inbox
             status, messages = mail.search(None, "ALL")
             messages = messages[0].split()
-
             email_list = []
 
             # Iterate over each email
@@ -96,9 +112,7 @@ class Emailer():
                 msg = email.message_from_bytes(msg_data[0][1])
 
                 # Get the sender's email
-                sender, encoding = decode_header(msg.get("From"))[0]
-                if isinstance(sender, bytes):
-                    sender = sender.decode(encoding or "utf-8")
+                _, sender = parseaddr(msg.get("From"))
 
                 # Get the email body
                 if msg.is_multipart():
@@ -115,37 +129,62 @@ class Emailer():
                 mail.store(msg_id, "+FLAGS", "(\Deleted)")
 
             return self.__prcmsgs(email_list)
-
         finally:
             mail.expunge()
             mail.logout()
 
     def __prcmsgs(self, msgs):
-        """ Proc ess the messages """
+        """ Process the messages """
+        come_again = "Subject: Please try again\n\nResponse not understood, read the instrucctions in the confirmation mail and try again"
         for msg in msgs:
-            if len(msg["body"].split(": ")) == 2:
-                acptd, bdgt = msg["body"].split(": ")
-                bdgt =  storage.get(Budget, bdgt.replace("\n", ""))
-                sender = [client for client in storage.all(Client) if client.email == msg["sender"]]
 
-                if bdgt and bdgt.client_id == sender.id:
-                    if acptd == "ok":
-                        print(f"Budget: {bdgt.id} accepted :)")
-                        bdgt.confirmed = True
-                        bdgt.active = True
-                    elif acptd == "no":
-                        print(f"Budget: {bdgt.id} rejected :(")
-                        bdgt.confirmed = True
+            print(msg["sender"])
+            # If the sender is a client
+            if msg["sender"] in [clnt.email for clnt in storage.all(Client).values()]:
+
+                # Iterate over the messages, extracts the response, budget.id, and sender
+                if len(msg["body"].split(": ")) == 2:
+                    acptd, bdgt = msg["body"].split(": ")
+                    bdgt =  storage.get(Budget, bdgt.replace("\r\n", ""))
+                    exptd = storage.get(Vehicle, bdgt.vehicle_id).client_id
+
+                    sender = next((client for client in storage.all(Client).values() if client.email == msg["sender"] and client.id == exptd), None)
+
+                    # If the budget is found and the sender is the same as the workshop costumer
+                    if bdgt and exptd == sender.id:
+
+                        # If it was previously confirmed
+                        if bdgt.confirmed == True:
+                            self.send(sender, msg="Subject: Can't re-confirm\n\nBudget already confirmed, reach out to the workshop")
+
+                        # If it was approved
+                        elif acptd == "ok":
+                            print(f"Budget: {bdgt.id} accepted :)")
+                            bdgt.confirmed = True
+                            bdgt.active = True
+                            self.send(sender, msg="Subject: Budget Approved\n\nBudget successfully approved")
+
+                        # If it was not approved
+                        elif acptd == "no":
+                            print(f"Budget: {bdgt.id} rejected :(")
+                            bdgt.confirmed = True
+                            self.send(sender, msg="Subject: Budget Rejected\n\nBudget successfully rejected")
+
+                        # If confirmation is not contemplated
+                        else:
+                            print("Not able to understand:", msg["body"])
+                            self.send(sender, msg=come_again)
+
+                    # If the budget was not found or the sender does not match
                     else:
-                        print("Not able to understand:", msg["body"])
-                        # must send a message to the client that message was not understood
+                        tpritn = msg['body'].split(': ')[1].replace('\n', '')
+                        print(f"Budget: {tpritn} not found")
+                        self.send(sender, msg="Subject: Please try again\n\nEither sender or budget invalid")
 
-                else :
-                    print(f"Budget: {msg['body'].split(': ')[1].replace('\n', '') not found")
-                    # must send a message to the client saying an error has occurred sender or budget invalid
-            else:
-                print("Not able to understand:", msg["body"])
-                # must send a message to the client that message was not understood
+                # If the splited message is not as expected
+                else:
+                    print("Not able to understand:", msg["body"])
+                    self.send(sender, msg=come_again)
 
         storage.save()
         return msgs
