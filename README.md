@@ -6,13 +6,9 @@ With CarToFix you are able to register as many cars as you want, as well as the 
 
 <hr>
 
-### Architecture
+### Architecture and deployment
 
-(image)
-
-### BackEnd
-
-### FrontEnd
+![Alt text](vscode-local:/c%3A/Users/6332/Downloads/Architecture%20diagram.png)
 
 <hr>
 
