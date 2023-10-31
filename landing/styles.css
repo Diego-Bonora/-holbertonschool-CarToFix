@@ -1,0 +1,193 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+nav {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+}
+nav a {
+    color:#4AC29A;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+}
+
+.container {
+    width: 95%;
+    display: flex;
+    align-items: center;
+    margin: auto;
+    justify-content: space-around;
+}
+
+
+header {
+    background: #4AC29A;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #BDFFF3, #4AC29A);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #BDFFF3, #4AC29A); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    height: auto;
+    padding: 48px;
+    width: 100%;
+}
+.container img {
+    display: block;
+    height: 450px;
+    object-fit: cover;
+    width: auto;
+    animation: moverderecha 2s ease-in;
+}
+.texto {
+    font-size: 25px;
+    color: black;
+}
+
+.wave {
+    background: #4AC29A;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #BDFFF3, #4AC29A);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #BDFFF3, #4AC29A); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+@keyframes moverderecha{
+    0%{
+        opacity: 0;
+        transform: translatey(100px);
+
+    }
+    100%{
+        opacity: 1;
+        transform: translate(0);
+
+    }
+}
+
+.InfoProyect {
+    font-size: 20px;
+    margin: 90px;
+
+}
+.InfoProyect h1 {
+    font-size: 50px;
+    display: flex;
+    justify-content: space-around;
+    padding-bottom: 47px;
+    color: #4AC29A;  /* fallback for old browsers */
+    color: -webkit-linear-gradient(to right, #BDFFF3, #4AC29A);  /* Chrome 10-25, Safari 5.1-6 */
+    color: linear-gradient(to right, #BDFFF3, #4AC29A); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+.Proyect {
+    font-size: 20px;
+    padding: 110px;
+    background-color: #F0F0F0;
+}
+
+.Proyect h1 {
+    font-size: 40px;
+    display: flex;
+    justify-content: space-around;
+    padding-bottom: 47px;
+    color: #4AC29A;  /* fallback for old browsers */
+    color: -webkit-linear-gradient(to right, #BDFFF3, #4AC29A);  /* Chrome 10-25, Safari 5.1-6 */
+    color: linear-gradient(to right, #BDFFF3, #4AC29A); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.images {
+    display: flex;
+    flex-wrap: wrap;
+}
+.bor {
+    width: 50%;
+    margin: 5%;
+    border-color: black;
+    background-color: red;
+}
+
+.images img {
+    border-radius: 5%;
+    width: 100%;
+}
+
+.Team {
+    font-size: 20px;
+    background: #4AC29A;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #BDFFF3, #4AC29A);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #BDFFF3, #4AC29A); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+.Team h1 {
+    font-size: 50px;
+    display: flex;
+    justify-content: space-around;
+    padding-bottom: 47px;
+}
+.members {
+    text-align: center;
+}
+  
+.pepole {
+    display: inline-block;
+    text-align: center;
+    margin: 25px;
+}
+
+.circle {
+    width: 200px; /* Tamaño fijo para todos los círculos */
+    height: 200px; /* Tamaño fijo para todos los círculos */
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto;
+    box-shadow: 0 0 30px -5px #cfcfcf;
+}
+
+.circle img {
+    width: 100%;
+    border-radius: 50%;
+    height: 100%; 
+    object-fit: cover;
+    
+}
+  
+.info {
+    margin: 10px 0;
+    text-align: center;
+}
+.info p {
+    margin-top: 10px;
+}
+
+.Carto {
+    padding: 70px;
+}
+
+.Carto h2 {
+    font-size: 40px;
+    display: flex;
+    justify-content: space-around;
+    padding-bottom: 47px;
+}
+.Carto p {
+    margin-left: 10%;
+    margin-right: 10%;
+}
+footer {
+    padding-left: 20%;
+    padding-right: 10%;
+    font-size: 20px;
+    display: flex;
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+    height: 50vh; /* Ajusta la altura del contenedor según la pantalla */
+}
+
+footer p {
+    margin-right: 10px;
+}
+
+footer .footer-column {
+    flex: 1;
+    padding: 0; 
+    margin: 0;
+};
