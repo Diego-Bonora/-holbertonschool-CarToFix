@@ -14,6 +14,9 @@ class Client(BaseModel, Base):
     vehicles = relationship("Vehicle",
                             backref="clients",
                             cascade="all, delete, delete-orphan")
+    budgets = relationship("Budget",
+                           backref="clients",
+                           cascade="all, delete, delete-orphan")
 
     def __init__(self, *args, **kwargs):
         """ initializes Client """
