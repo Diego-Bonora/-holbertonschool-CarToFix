@@ -1,8 +1,7 @@
 # Emailer:
 - [x] Establishes an SMTP connection
 - [x] Sends an email with the bugdet to approve
-- [ ] Waits for confirmation
-- [ ] Sends a finalization notification once the services are done
+- [x] Able to send a notification once the services are done
 
 ## Send an email with the budget to approve:
 Use `send()`;
@@ -18,8 +17,8 @@ emailer.sendbdgt(user, budget=budget, client)
 Use `message()`;
 In a `file.py`:
 ```
-emailer = Emailer()
-print(emailer.message(budget, client))
+emailer = Emailer(user)
+print(emailer.message(client, budget=budget))
 ```
 And then:
 ```
@@ -71,8 +70,8 @@ Use `read()`;
 
 In a `file.py`:
 ```
-emailer = Emailer()
-emailer.read(user)
+emailer = Emailer(user)
+emailer.read()
 ```
 and then
 ```
