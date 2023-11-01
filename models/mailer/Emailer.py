@@ -126,11 +126,11 @@ class Emailer():
                 email_list.append({"sender": sender, "body": body})
 
                 # Mark the email for deletion
-                mail.store(msg_id, "+FLAGS", "(\Deleted)")
+#                mail.store(msg_id, "+FLAGS", "(\Deleted)")
 
             return self.__prcmsgs(email_list)
         finally:
-            mail.expunge()
+#            mail.expunge()
             mail.logout()
 
     def __prcmsgs(self, msgs):
@@ -138,53 +138,49 @@ class Emailer():
         come_again = "Subject: Please try again\n\nResponse not understood, read the instrucctions in the confirmation mail and try again"
         for msg in msgs:
 
-            print(msg["sender"])
             # If the sender is a client
-            if msg["sender"] in [clnt.email for clnt in storage.all(Client).values()]:
+            sender = next((client for client in storage.all(Client).values() if client.email == msg["sender"]), None)
 
-                # Iterate over the messages, extracts the response, budget.id, and sender
-                if len(msg["body"].split(": ")) == 2:
-                    acptd, bdgt = msg["body"].split(": ")
-                    bdgt =  storage.get(Budget, bdgt.replace("\r\n", ""))
-                    exptd = storage.get(Vehicle, bdgt.vehicle_id).client_id
+            # Iterate over the messages, extracts the response, budget.id, and sender
+            if len(msg["body"].split(": ")) == 2:
+                acptd, bdgt = msg["body"].split(": ")
+                bdgt =  storage.get(Budget, bdgt.replace("\r\n", ""))
 
-                    sender = next((client for client in storage.all(Client).values() if client.email == msg["sender"] and client.id == exptd), None)
+                # If the budget is found and the sender is the same as the workshop costumer
+                if bdgt:
 
-                    # If the budget is found and the sender is the same as the workshop costumer
-                    if bdgt and exptd == sender.id:
+                    # If it was previously confirmed
+                    if bdgt.confirmed == True:
+                        self.send(sender, msg="Subject: Can't re-confirm\n\nBudget already confirmed, reach out to the workshop")
 
-                        # If it was previously confirmed
-                        if bdgt.confirmed == True:
-                            self.send(sender, msg="Subject: Can't re-confirm\n\nBudget already confirmed, reach out to the workshop")
+                    # If it was approved
+                    elif acptd == "ok":
+                        print(f"Budget: {bdgt.id} accepted :)")
+                        bdgt.confirmed = True
+                        bdgt.active = True
+                        self.send(sender, msg="Subject: Budget Approved\n\nBudget successfully approved")
 
-                        # If it was approved
-                        elif acptd == "ok":
-                            print(f"Budget: {bdgt.id} accepted :)")
-                            bdgt.confirmed = True
-                            bdgt.active = True
-                            self.send(sender, msg="Subject: Budget Approved\n\nBudget successfully approved")
+                    # If it was not approved
+                    elif acptd == "no":
+                        print(f"Budget: {bdgt.id} rejected :(")
+                        bdgt.confirmed = True
+                        self.send(sender, msg="Subject: Budget Rejected\n\nBudget successfully rejected")
 
-                        # If it was not approved
-                        elif acptd == "no":
-                            print(f"Budget: {bdgt.id} rejected :(")
-                            bdgt.confirmed = True
-                            self.send(sender, msg="Subject: Budget Rejected\n\nBudget successfully rejected")
-
-                        # If confirmation is not contemplated
-                        else:
-                            print("Not able to understand:", msg["body"])
-                            self.send(sender, msg=come_again)
-
-                    # If the budget was not found or the sender does not match
+                    # If confirmation is not contemplated
                     else:
-                        tpritn = msg['body'].split(': ')[1].replace('\n', '')
-                        print(f"Budget: {tpritn} not found")
-                        self.send(sender, msg="Subject: Please try again\n\nEither sender or budget invalid")
+                        print("Not able to understand:", msg["body"])
+                        self.send(sender, msg=come_again)
 
-                # If the splited message is not as expected
+                # If the budget was not found or the sender does not match
                 else:
-                    print("Not able to understand:", msg["body"])
-                    self.send(sender, msg=come_again)
+                    tpritn = msg['body'].split(': ')[1].replace('\n', '')
+                    print(f"Budget: {tpritn} not found")
+                    self.send(sender, msg="Subject: Please try again\n\nEither sender or budget invalid")
+
+            # If the splited message is not as expected
+            else:
+                print("Not able to understand:", msg["body"])
+                self.send(sender, msg=come_again)
 
         storage.save()
         return msgs

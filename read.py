@@ -6,7 +6,7 @@ from models.budget import Budget
 from models.vehicle import Vehicle
 
 user = User(mail="cartofixcostumers", name="cartofix", password="gjvx jqom uhpa lnpo", phone="aflkjasdlñfkj", logo="afdslkjfañj")
-budget = storage.get(Budget, "7fee9c7f-5085-424f-a51a-a8a7e595c0d0")
+budget = storage.get(Budget, "132aa44f-cead-4216-b8d3-e84447724e2a")
 client = storage.get(Client, storage.get(Vehicle, budget.vehicle_id).client_id)
 
 emailer = Emailer(user)
