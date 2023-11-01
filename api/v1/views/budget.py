@@ -4,8 +4,18 @@
 from api.v1.views import app_views
 from flask import abort, jsonify, request
 from models.budget import Budget
+from models.mailer.Emailer import Emailer
 from models import storage
+from models.user import User
 
+
+user = next((usr for usr in storage.all(User).values() if usr.mail == "cartofixcostumers@gmail.com"), None)
+emailer = Emailer(user)
+
+def call_send(budget):
+    """ Calls Emailer.send() """
+    if budget.confirmed == False:
+        emailer.send(storage.get(Client, budget.client_id), budget)
 
 @app_views.route("/budget/<bdgtId>/services", methods=["GET"])
 def get_budget_services(bdgtId):
@@ -55,6 +65,7 @@ def create_budget():
             abort(400, {"error": f"{arg} missing"})
 
     new_bdgt = Budget(**krgs)
+    call_send(budget)
     storage.new(new_bdgt)
     storage.save()
 
@@ -96,7 +107,7 @@ def update_budget(bdgtId):
 
     # Creating a new instance
     new_bdgt = Budget(**krgs)
-
+    call_send(budget)
     storage.new(new_bdgt)
     storage.save()
     return jsonify(new_bdgt.to_dict()), 200

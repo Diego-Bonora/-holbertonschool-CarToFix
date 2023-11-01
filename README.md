@@ -91,9 +91,11 @@ At the end of the file:
 - [x] GET /api/v1/worker | get all workers
 - [x] GET /api/v1/worker/\<dsgnId>/services | get all the services for a specific designee
 
+### Other Routes:
+- [x] GET /api/v1/dashboard/\<usrId> | get all the information required for the dashboard
+
 No route should fail upon proper request.
 
-- [ ] Budgets call emailer
 #### Last:
 - [x] The server handles multiple request at a time
 - [x] All request are allowed, from anywhere.
@@ -104,3 +106,5 @@ No route should fail upon proper request.
 - [x] Services now are turn into dicts when using get for budgets
 - [x] Services required when posting budgets
 - [x] budget_id not required anymore when posting services
+- [x] budget calls emailer each time a budget is created
+- [x] dashboard route added

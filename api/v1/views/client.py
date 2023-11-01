@@ -11,7 +11,7 @@ from models import storage
 def check(client):
     """ Checks for the existence of the given Client """
     for clnt in storage.all(Client).values():
-        if client.mail == clnt.mail and client.phone == clnt.phone:
+        if client.mail == clnt.mail:
             return 409
     return 0
 
