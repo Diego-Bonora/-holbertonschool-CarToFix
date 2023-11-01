@@ -72,8 +72,8 @@ class Emailer():
 
             if not budget and not msg:
                 raise ValueError("Either budget or message should be provided")
-            if budget.sent:
-                raise ValueError("Buget was already sent")
+#            if budget.sent:
+#                raise ValueError("Buget was already sent")
 
             if not msg:
                 body = self.message(budget, client)
