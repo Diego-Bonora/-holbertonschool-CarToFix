@@ -3,28 +3,32 @@
     padding: 0;
     box-sizing: border-box;
 }
+body {
+    font: Serif;
 
+}
 
 nav {
     position: fixed;
-    top: 20px;
+    top: 1px;
     left: 20px;
+    width: 38%;
 }
 nav a {
-    color:#4AC29A;
+    color: #4AC29A;
     text-decoration: none;
     display: inline-block;
-    font-size: 20px;
+    font-size: 25px;
+    padding: 2%;
 }
 
 .container {
-    width: 95%;
+    width: 90%;
     display: flex;
     align-items: center;
     margin: auto;
     justify-content: space-around;
 }
-
 
 header {
     background: #4AC29A;  /* fallback for old browsers */
@@ -42,8 +46,9 @@ header {
     animation: moverderecha 2s ease-in;
 }
 .texto {
-    font-size: 25px;
+    font-size: 30px;
     color: black;
+    line-height: 1.5
 }
 
 .wave {
@@ -64,14 +69,26 @@ header {
 
     }
 }
+@keyframes moverarriba{
+    0%{
+        opacity: 0;
+        transform: translatey(100px);
+
+    }
+    100%{
+        opacity: 1;
+        transform: translate(0);
+
+    }
+}
 
 .InfoProyect {
     font-size: 20px;
     margin: 90px;
-
+    line-height: 1.5
 }
 .InfoProyect h1 {
-    font-size: 50px;
+    font-size: 70px;
     display: flex;
     justify-content: space-around;
     padding-bottom: 47px;
@@ -82,11 +99,12 @@ header {
 .Proyect {
     font-size: 20px;
     padding: 110px;
-    background-color: #F0F0F0;
+    background-color: #d8f3dc;
+    line-height: 1.5;
 }
 
 .Proyect h1 {
-    font-size: 40px;
+    font-size: 60px;
     display: flex;
     justify-content: space-around;
     padding-bottom: 47px;
@@ -100,15 +118,18 @@ header {
     flex-wrap: wrap;
 }
 .bor {
-    width: 50%;
-    margin: 5%;
+    width: 45%;
+    margin: 2%;
     border-color: black;
-    background-color: red;
+    padding: 1%;
+    border: 2px solid #4AC29A;
+    border-radius: 5%;
 }
 
 .images img {
     border-radius: 5%;
     width: 100%;
+    animation: moverarriba 2s ease-in;
 }
 
 .Team {
@@ -116,6 +137,7 @@ header {
     background: #4AC29A;  /* fallback for old browsers */
     background: -webkit-linear-gradient(to right, #BDFFF3, #4AC29A);  /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to right, #BDFFF3, #4AC29A); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    
 }
 .Team h1 {
     font-size: 50px;
@@ -125,38 +147,45 @@ header {
 }
 .members {
     text-align: center;
-}
+    line-height: 1.5;
+    display: flex;
+    flex-wrap: wrap; /* Permite que los miembros se muestren en filas */
+    justify-content: center; /* Centra los elementos horizontalmente */
+  }
   
-.pepole {
-    display: inline-block;
+  .pepole {
+    margin: 10px; /* Espacio entre los miembros del equipo */
+    flex: 1; /* Hace que cada miembro ocupe el espacio disponible horizontalmente */
     text-align: center;
-    margin: 25px;
-}
-
-.circle {
-    width: 200px; /* Tamaño fijo para todos los círculos */
-    height: 200px; /* Tamaño fijo para todos los círculos */
+    max-width: 250px; /* Ajusta el ancho máximo de cada miembro */
+  }
+  
+  .circle {
+    width: 200px;
+    height: 200px;
     border-radius: 50%;
     overflow: hidden;
     margin: 0 auto;
     box-shadow: 0 0 30px -5px #cfcfcf;
-}
-
-.circle img {
+  }
+  
+  .circle img {
     width: 100%;
     border-radius: 50%;
-    height: 100%; 
+    height: 100%;
     object-fit: cover;
-    
-}
+    animation: moverarriba 2s ease-in;
+  }
   
-.info {
+  .info {
     margin: 10px 0;
     text-align: center;
-}
-.info p {
+  }
+  
+  .info p {
     margin-top: 10px;
-}
+    margin-bottom: 10px;
+  }
 
 .Carto {
     padding: 70px;
@@ -184,6 +213,7 @@ footer {
 
 footer p {
     margin-right: 10px;
+    line-height: 1.5
 }
 
 footer .footer-column {
