@@ -7,6 +7,15 @@ from models.client import Client
 from models import storage
 
 
+
+def check(client):
+    """ Checks for the existence of the given Client """
+    for clnt in storage.all(Client).values():
+        if client.mail == clnt.mail and client.phone == clnt.phone:
+            return 409
+    return 0
+
+
 @app_views.route("/client/<clnId>/vehicle", methods=["GET"])
 def get_client_vehicles(clnId):
     """ Returns all the vehicles for a specific CLient """
@@ -46,9 +55,10 @@ def create_client():
             abort(400, {"error": f"{arg} missing"})
 
     new_clnt = Client(**krgs)
-    storage.save(new_clnt)
-
-    return jsonify(new_clnt.to_dict()), 201
+    if check(new_clnt) == 0:
+        storage.save(new_clnt)
+        return jsonify(new_clnt.to_dict()), 201
+    abort(409, {"error": f"{new_clnt.name} already exists"})
 
 @app_views.route("/client/<clnId>", methods=["DELETE"])
 def delete_client(clnId):
@@ -77,6 +87,8 @@ def update_client(clId):
     	if key is not "id":
             setattr(clnt, key, value)
 
-    storage.save()
-    return jsonify(clnt.to_dict()), 200
+    if check(clnt) == 0:
+        storage.save()
+        return jsonify(clnt.to_dict()), 200
+    abort(409, {"error": f"{clnt.name} already exists"})
 

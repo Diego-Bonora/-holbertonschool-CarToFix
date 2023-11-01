@@ -24,23 +24,29 @@ def get_budget(bdgtId):
     budget = storage.get(Budget, bdgtId)
     if not budget:
         abort(404, {"error": f"Budget: {bdgtId} instance not found"})
+    bdict = budget.to_dict()
+    bdict["services"] = [serv.to_dict() for serv in budget.services]
 
-    return jsonify(budget.to_dict()), 200
+    return jsonify(bdict), 200
 
 
 @app_views.route("/budget", methods=["GET"])
 def get_all_budgets():
     """ Returns all the Budget objects found """
-    bdgts = [bdgt.to_dict() for bdgt in storage.all(Budget).values()]
+    bdict = {}
 
-    return jsonify(bdgts), 200
+    for key, value in storage.all(Budget).items():
+        bdict[key] = value.to_dict()
+        bdict[key]["services"] = [serv.to_dict() for serv in value.services]
+
+    return jsonify(bdict), 200
 
 
 @app_views.route("/budget", methods=["POST"])
 def create_budget():
     """ Creates a Budget object """
     krgs = request.get_json()
-    needed = ["total_price", "payment_method", "user_id", "installments", "warranty", "vehicle_id"] # should set confirmed, set, and active
+    needed = ["total_price", "payment_method", "user_id", "installments", "warranty", "vehicle_id", "client_id", "services"]
     if not krgs:
         abort(400, {"error": "Couldn’t get request; not a json"})
 
@@ -82,7 +88,7 @@ def update_budget(bdgtId):
 
     krgs.update(prev.to_dict().pop("id", None))
 
-    needed = ["total_price", "payment_method", "user_id", "installments", "warranty", "vehicle_id"] # should set confirmed, set, and active
+    needed = ["total_price", "payment_method", "user_id", "installments", "warranty", "vehicle_id", "client_id", "services"]
 
     for arg in needed:
         if arg not in krgs:

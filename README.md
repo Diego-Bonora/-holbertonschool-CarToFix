@@ -35,68 +35,72 @@ At the end of the file:
 
 ## Routes
 ### User() Routes:
-- [x] GET /api/v1/usr/<usrId> | get a specific user
+- [x] GET /api/v1/usr/\<usrId> | get a specific user
 - [x] GET /api/v1/usr | get all users
 - [x] POST /api/v1/usr | create an user
-- [x] DELETE /api/v1/user/<usrId> | delete a specific user
-- [x] PUT /api/v1/user/<usrId> | update a specific user
+- [x] DELETE /api/v1/user/\<usrId> | delete a specific user
+- [x] PUT /api/v1/user/\<usrId> | update a specific user
 
 ### Service() Routes:
-- [x] GET /api/v1/service/<scId> | get a specific service
+- [x] GET /api/v1/service/\<scId> | get a specific service
 - [x] GET /api/v1/service | get all services 
 - [x] POST /api/v1/service | create a service
-- [x] DELETE /api/v1/service/<scId> | delete a specific service
-- [x] PUT /api/v1/service/<scId> | update a specific service
+- [x] DELETE /api/v1/service/\<scId> | delete a specific service
+- [x] PUT /api/v1/service/\<scId> | update a specific service
 
 ### Vehicle() Routes:
-- [x] GET /api/v1/vehicle/<veId>/service | get all services for a specific vehicle
-- [x] GET /api/v1/vehicle/<veId>/budget | get all budgets for a specific vehicle
-- [x] GET /api/v1/vehicle/<velId> | get a specific vehicle
+- [x] GET /api/v1/vehicle/\<veId>/service | get all services for a specific vehicle
+- [x] GET /api/v1/vehicle/\<veId>/budget | get all budgets for a specific vehicle
+- [x] GET /api/v1/vehicle/\<velId> | get a specific vehicle
 - [x] GET /api/v1/vehicle | get all vehicles
 - [x] POST /api/v1/vehicle | create a vehicle
-- [x] DELETE /api/v1/vehicle/<veId> | delete a specific vehicle
-- [x] PUT /api/v1/vehicle/<veId> | update a specific vehicle
+- [x] DELETE /api/v1/vehicle/\<veId> | delete a specific vehicle
+- [x] PUT /api/v1/vehicle/\<veId> | update a specific vehicle
 
 ### Brand() Routes:
-- [x] GET /api/v1/brand/<brId> | get a specific brand
+- [x] GET /api/v1/brand/\<brId> | get a specific brand
 - [x] GET /api/v1/brand | get all brands
 - [x] POST /api/v1/brand | create a brand
-- [x] DELETE /api/v1/brand/<brId> | delete a specific brand
-- [x] PUT /api/v1/brand/<brId> | update a specific brand
+- [x] DELETE /api/v1/brand/\<brId> | delete a specific brand
+- [x] PUT /api/v1/brand/\<brId> | update a specific brand
 
 ### Client() Routes:
-- [x] GET /api/v1/client/<clnId>/vehicle | get all vehicles for a specific client
-- [x] GET /api/v1/client/<clnId> | get a specific client
+- [x] GET /api/v1/client/\<clnId>/vehicle | get all vehicles for a specific client
+- [x] GET /api/v1/client/\<clnId> | get a specific client
 - [x] GET /api/v1/client | get all clients
 - [x] POST /api/v1/client | create a client
-- [x] DELETE /api/v1/client/<clnId> | delete a specific client
-- [x] PUT /api/v1/client/<clId> | update a specific client
+- [x] DELETE /api/v1/client/\<clnId> | delete a specific client
+- [x] PUT /api/v1/client/\<clId> | update a specific client
 
 ### Budget() Routes:
-- [x] GET /api/v1/budget/<bdgtId>/services | get all services for a specific budget
-- [x] GET /api/v1/budget/<bdgtId> | get a specific budget
+- [x] GET /api/v1/budget/\<bdgtId>/services | get all services for a specific budget
+- [x] GET /api/v1/budget/\<bdgtId> | get a specific budget
 - [x] GET /api/v1/budget | get all budgets
 - [x] POST /api/v1/budget | create a budget
-- [x] DELETE /api/v1/budget/<bdgtId> | delete a budget
-- [x] REPOST /api/v1/budget/<bdgtId> | update a budget (the object will be destroyed and re-made)
+- [x] DELETE /api/v1/budget/\<bdgtId> | delete a budget
+- [x] REPOST /api/v1/budget/\<bdgtId> | update a budget (the object will be destroyed and re-made)
 
 ### Type() Routes:
-- [x] GET /api/v1/type/<tId> | get a specific type of vehicle
+- [x] GET /api/v1/type/\<tId> | get a specific type of vehicle
 - [x] GET /api/v1/type | get all types of vehicle
 - [x] POST /api/v1/type | create a new type of vehicle
-- [x] DELETE /api/v1/type/<tId> | delete a specific type of vehicle
-- [x] PUT /api/v1/type/<tId> | update a specific type of vehicle
+- [x] DELETE /api/v1/type/\<tId> | delete a specific type of vehicle
+- [x] PUT /api/v1/type/\<tId> | update a specific type of vehicle
 
 ### Workers() Routes:
 - [x] GET /api/v1/worker | get all workers
-- [x] GET /api/v1/worker/<dsgnId>/services | get all the services for a specific designee
+- [x] GET /api/v1/worker/\<dsgnId>/services | get all the services for a specific designee
 
 No route should fail upon proper request.
 
 - [ ] Budgets call emailer
 #### Last:
-- The server handles multiple request at a time
-- All request are allowed, from anywhere.
-- No debug mode on by default.
-- Cannot create the a new brand with the same name as one that exists already.
-- New checking attributes for post and repost for budget
+- [x] The server handles multiple request at a time
+- [x] All request are allowed, from anywhere.
+- [x] No debug mode on by default.
+- [x] Cannot create a brand that exists already.
+- [x] Cannot create a Client that exists already.
+- [x] New checking attributes for post and repost for budget
+- [x] Services now are turn into dicts when using get for budgets
+- [x] Services required when posting budgets
+- [x] budget_id not required anymore when posting services

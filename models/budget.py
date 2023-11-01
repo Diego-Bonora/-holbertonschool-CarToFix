@@ -10,6 +10,7 @@ class Budget(BaseModel, Base):
     """ Representation of Budget """
     __tablename__ = 'budgets'
     user_id = Column(String(60), ForeignKey('users.id'), nullable=False)
+    client_id = Column(String(60), ForeignKey('clients.id'), nullable=False)
     total_price = Column(Float, nullable=False)
     payment_method = Column(String(128), nullable=False)
     installments = Column(Integer, nullable=False)
@@ -17,9 +18,9 @@ class Budget(BaseModel, Base):
     vehicle_id = Column(String(60), ForeignKey('vehicles.id'), nullable=False)
     issue_date = Column(DateTime, default=datetime.utcnow())
     due_date = Column(DateTime, default=datetime.utcnow() + timedelta(days=7))
-    confirmed = Column(Boolean, nullable=False)
-    sent = Column(Boolean, nullable=False)
-    active = Column(Boolean, nullable=False)
+    confirmed = Column(Boolean, default=False)
+    sent = Column(Boolean, default=False)
+    active = Column(Boolean, default=False)
     services = relationship("Service",
                             backref="budgets",
                             cascade="all, delete, delete-orphan")

@@ -15,7 +15,7 @@ class Service(BaseModel, Base):
     worker = Column(String(128), ForeignKey('workers.id'), nullable=True)
     vehicle_id = Column(String(60), ForeignKey('vehicles.id'), nullable=False)
     user_id = Column(String(60), ForeignKey('users.id'), nullable=False)
-    budget_id = Column(String(60), ForeignKey('budgets.id'), nullable=False)
+    budget_id = Column(String(60), ForeignKey('budgets.id'), nullable=True)
 
     def __init__(self, *args, **kwargs):
         """ initializes Service """
