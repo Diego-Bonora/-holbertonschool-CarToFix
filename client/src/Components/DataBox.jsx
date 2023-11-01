@@ -5,7 +5,7 @@ import Button from './button';
 export default function DataBox({ info, columns }) {
   return (
 
-    <table className="text-black my-5 w-full">
+    <table className="text-black mb-5 mt-14 w-full ">
       <thead>
         <tr className="w-screen bg-gris-footer">
           {columns.map((column, index) => (
@@ -28,7 +28,7 @@ export default function DataBox({ info, columns }) {
             {columns.map((column, indexcol) => (
               <td
                 key={indexcol}
-                className={`p-2 sm:px-8 px-5 align-middle  md:text-base text-sm
+                className={`p-2 sm:px-8 px-5 align-middle  md:text-base text-sm text-center
                 ${indexcol === 0 ? 'rounded-tl-2xl rounded-bl-2xl bg-gris-footer border-r-2' : indexcol === columns.length - 1 ? 'rounded-tr-2xl rounded-br-2xl bg-gris-footer border-l-2' : ''} 
                 ${indexcol === Math.floor(columns.length / 2) ? 'bg-gris-footer' : ''}`}
               >

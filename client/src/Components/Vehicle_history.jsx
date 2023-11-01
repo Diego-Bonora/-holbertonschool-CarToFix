@@ -22,7 +22,7 @@ export default function Vehicle_history() {
         <div className='w-screen h-screen bg-page_background'>
             <NavBar />
             {/* info del vehiculo y matricula*/}
-            <div className='bg-gris-background lg:mr-marg-5 mr-marg-1 lg:ml-marg-4 ml-marg-1 mt-marg-3 flex flex-wrap h-info_vehiculo rounded-r-lg shadow-md shadow-gray-300' >
+            <div className='bg-tabla_service lg:mr-marg-5 mr-marg-1 lg:ml-marg-4 ml-marg-1 mt-marg-3 flex flex-wrap h-info_vehiculo rounded-r-lg shadow-md shadow-gray-300' >
               {/* matricula general */}
               <div className='border border-azul-oscuro flex flex-col justify-start w-3/12 h-full' >
                 {/*tipo de vehiculo*/}
@@ -49,7 +49,7 @@ export default function Vehicle_history() {
               </div>
             </div>
             {/* info del historial */}
-            <div className='bg-gris-background items-center lg:h-info_history h-info_history_2 lg:mr-marg-5 mr-marg-1 lg:ml-marg-4 ml-marg-1 mt-marg-3 flex flex-wrap rounded-lg justify-items-center justify-center shadow-md shadow-gray-300 h-30'>
+            <div className='bg-tabla_service items-center lg:h-info_history h-info_history_2 lg:mr-marg-5 mr-marg-1 lg:ml-marg-4 ml-marg-1 mt-marg-3 flex flex-wrap rounded-lg justify-items-center justify-center shadow-md shadow-gray-300 h-30'>
             <div className='overflow-y-scroll h-full w-full ml-9'>
                 <DataBox columns={columns} info={data}/>
               </div>

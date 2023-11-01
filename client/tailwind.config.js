@@ -21,13 +21,15 @@ export default {
 		'gris-background' : '#C5C5C5',
 		'orange-claro': '#E83600',
 		'orange-oscuro': '#E81806',
+		'tabla_service': '#E8E6E6'
 			},
 			height: {
         'bloque': '98%',
         'bloque_login': '85%',
 		'info_vehiculo': '15%',
-		'info_history': '55%',
+		'info_history': '57%',
 		'info_history_2': '45%',
+		'info_history_3': '65%',
       },
 	width: {
 		'list': '85%',
