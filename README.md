@@ -5,26 +5,19 @@ To run it:
 $ cd api/v1/
 $ flask run
 ```
-
-## Create a basic fake Budget:
-You can also create multiple Budgets (without services related) using `create_a_budget.py` multiple times:
-```
-$ python3 create_a_budget.py
-[Budget] (83b59781-0861-4442-8764-07ff7a8207be) {'_sa_instance_state': <sqlalchemy.orm.state.InstanceState object at 0x7f9ec2a48da0>, 'total_price': 400.0, 'payment_method': 'Credit-Card', 'installments': 0, 'warranty': 0, 'confirmed': False, 'sent': False, 'active': False, 'created_at': datetime.datetime(2023, 10, 18, 21, 16, 16, 238591), 'id': '83b59781-0861-4442-8764-07ff7a8207be'}
-```
-
 ## Create a Budget:
 You can create a single Budget with vehicles related using `create_a_budget_service.py`:
 ```
 $ python3 create_a_budget_service.py 
-[Service] (cd6c0f80-c037-4674-9dc6-cbe37f3e0cd4) {'_sa_instance_state': <sqlalchemy.orm.state.InstanceState object at 0x7f4496c41630>, 'done': False, 'title': 'Kill delivery service', 'description': 'Summertime - George Gershwin', 'note': 'A piano was required', 'vehicle_id': '0c5fc03b-e145-4bd2-8a88-499933efeff9', 'user_id': '6b96b94e-3623-4ac7-8994-082a0913244c', 'budget_id': 'a9f83602-9bd7-4464-843f-af320853ad43', 'created_at': datetime.datetime(2023, 10, 19, 3, 58, 24, 440185), 'id': 'cd6c0f80-c037-4674-9dc6-cbe37f3e0cd4'}
+[Service] (d58af18c-0dd0-4277-89a2-b65b6f1f46c5) {'_sa_instance_state': <sqlalchemy.orm.state.InstanceState object at 0x7f8d0e8ee710>, 'title': 'House burn down', 'description': "Arsonist's Lullabye - Hozier", 'note': 'A piano was required', 'vehicle_id': 'ce6fd674-2cf9-4036-a906-129f2fc5efda', 'user_id': 'a39c6129-3855-48fd-9d71-d0ba1c0ef35c', 'budget_id': 'fe04c58b-a574-4bf1-b218-819394942b50', 'price': 4.9, 'created_at': datetime.datetime(2023, 10, 31, 20, 46, 58, 243731), 'id': 'd58af18c-0dd0-4277-89a2-b65b6f1f46c5'}
 ---------
-[Service] (3790f672-5d63-4e12-a069-f3ddb9213516) {'_sa_instance_state': <sqlalchemy.orm.state.InstanceState object at 0x7f4496c416a0>, 'done': False, 'title': 'Kill delivery service', 'description': 'Summertime - George Gershwin', 'note': 'A piano was required', 'vehicle_id': '0c5fc03b-e145-4bd2-8a88-499933efeff9', 'user_id': '6b96b94e-3623-4ac7-8994-082a0913244c', 'budget_id': 'a9f83602-9bd7-4464-843f-af320853ad43', 'created_at': datetime.datetime(2023, 10, 19, 3, 58, 24, 440421), 'id': '3790f672-5d63-4e12-a069-f3ddb9213516'}
+[Service] (6f4707dc-2d86-497d-9344-d2a3bc2d0f5a) {'_sa_instance_state': <sqlalchemy.orm.state.InstanceState object at 0x7f8d0e8ee780>, 'title': 'Electrify a hammock', 'description': "It Don't Mean a Thing (If It Ain't Got That Swing)", 'note': 'Worker died in the process', 'vehicle_id': 'ce6fd674-2cf9-4036-a906-129f2fc5efda', 'user_id': 'a39c6129-3855-48fd-9d71-d0ba1c0ef35c', 'budget_id': 'fe04c58b-a574-4bf1-b218-819394942b50', 'price': 0.0, 'created_at': datetime.datetime(2023, 10, 31, 20, 46, 58, 243792), 'id': '6f4707dc-2d86-497d-9344-d2a3bc2d0f5a'}
 ---------
-[Service] (3c06fc08-ca02-4177-b359-1a6fc6f85209) {'_sa_instance_state': <sqlalchemy.orm.state.InstanceState object at 0x7f4496c41710>, 'done': False, 'title': 'Kill delivery service', 'description': 'Summertime - George Gershwin', 'note': 'A piano was required', 'vehicle_id': '0c5fc03b-e145-4bd2-8a88-499933efeff9', 'user_id': '6b96b94e-3623-4ac7-8994-082a0913244c', 'budget_id': 'a9f83602-9bd7-4464-843f-af320853ad43', 'created_at': datetime.datetime(2023, 10, 19, 3, 58, 24, 440619), 'id': '3c06fc08-ca02-4177-b359-1a6fc6f85209'}
+[Service] (e5f99ee9-bda5-4587-a869-f16444f87cde) {'_sa_instance_state': <sqlalchemy.orm.state.InstanceState object at 0x7f8d0e8ee7f0>, 'title': 'Kill delivery service', 'description': 'Summertime - George Gershwin', 'note': 'A piano was required', 'vehicle_id': 'ce6fd674-2cf9-4036-a906-129f2fc5efda', 'user_id': 'a39c6129-3855-48fd-9d71-d0ba1c0ef35c', 'budget_id': 'fe04c58b-a574-4bf1-b218-819394942b50', 'price': 200000.0, 'created_at': datetime.datetime(2023, 10, 31, 20, 46, 58, 243845), 'id': 'e5f99ee9-bda5-4587-a869-f16444f87cde'}
 ---------
 BUDGET
-[Budget] (a9f83602-9bd7-4464-843f-af320853ad43) {'_sa_instance_state': <sqlalchemy.orm.state.InstanceState object at 0x7f449cbd12e8>, 'total_price': 400.0, 'payment_method': 'Credit-Card', 'installments': 0, 'warranty': 0, 'confirmed': False, 'sent': False, 'active': False, 'created_at': datetime.datetime(2023, 10, 19, 3, 58, 24, 353658), 'id': 'a9f83602-9bd7-4464-843f-af320853ad43', 'services': [<models.service.Service object at 0x7f4496c41668>, <models.service.Service object at 0x7f4496c416d8>, <models.service.Service object at 0x7f4496c41748>]}
+---------
+[Budget] (fe04c58b-a574-4bf1-b218-819394942b50) {'_sa_instance_state': <sqlalchemy.orm.state.InstanceState object at 0x7f8d0e8ee6a0>, 'user_id': 'a39c6129-3855-48fd-9d71-d0ba1c0ef35c', 'total_price': 400.0, 'payment_method': 'Credit-Card', 'installments': 0, 'warranty': 0, 'vehicle_id': 'ce6fd674-2cf9-4036-a906-129f2fc5efda', 'confirmed': False, 'sent': False, 'active': False, 'created_at': datetime.datetime(2023, 10, 31, 20, 46, 58, 243629), 'id': 'fe04c58b-a574-4bf1-b218-819394942b50', 'services': [<models.service.Service object at 0x7f8d0e8ee748>, <models.service.Service object at 0x7f8d0e8ee7b8>, <models.service.Service object at 0x7f8d0e8ee828>]}
 Alright
 ```
 At the end of the file:
@@ -94,8 +87,16 @@ At the end of the file:
 - [x] DELETE /api/v1/type/<tId> | delete a specific type of vehicle
 - [x] PUT /api/v1/type/<tId> | update a specific type of vehicle
 
-### Designee() Routes:
+### Workers() Routes:
 - [x] GET /api/v1/worker | get all workers
 - [x] GET /api/v1/worker/<dsgnId>/services | get all the services for a specific designee
 
 No route should fail upon proper request.
+
+- [ ] Budgets call emailer
+#### Last:
+- The server handles multiple request at a time
+- All request are allowed, from anywhere.
+- No debug mode on by default.
+- Cannot create the a new brand with the same name as one that exists already.
+- New checking attributes for post and repost for budget

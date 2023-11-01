@@ -40,7 +40,7 @@ def get_all_budgets():
 def create_budget():
     """ Creates a Budget object """
     krgs = request.get_json()
-    needed = ["total_price", "payment_method"]
+    needed = ["total_price", "payment_method", "user_id", "installments", "warranty", "vehicle_id"] # should set confirmed, set, and active
     if not krgs:
         abort(400, {"error": "Couldn’t get request; not a json"})
 
@@ -82,13 +82,15 @@ def update_budget(bdgtId):
 
     krgs.update(prev.to_dict().pop("id", None))
 
+    needed = ["total_price", "payment_method", "user_id", "installments", "warranty", "vehicle_id"] # should set confirmed, set, and active
+
+    for arg in needed:
+        if arg not in krgs:
+            abort(400, {"error": f"{arg} missing"})
+
     # Creating a new instance
     new_bdgt = Budget(**krgs)
+
     storage.new(new_bdgt)
-
-    # Setting the attrs
-    for key, value in krgs.items():
-        setattr(new_bdgt, key, value)
-
     storage.save()
     return jsonify(new_bdgt.to_dict()), 200

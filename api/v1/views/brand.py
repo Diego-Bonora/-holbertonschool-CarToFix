@@ -7,6 +7,13 @@ from models.brand import Brand
 from models import storage
 
 
+
+def check(brand):
+    """ Carries out some checks of validation """
+    if brand.name in [brand.name for brand in storage.all(Brand).values()]:
+        return 409
+    return 0
+
 @app_views.route("/brand/<brId>", methods=["GET"])
 def get_brand(brId):
     """ Returns the requested brand """
@@ -35,11 +42,15 @@ def create_brand():
     if "name" not in krgs:
         abort(400, {"error": "name is missing”"})
 
-    brand = Brand(**krgs)
-    storage.new(brand)
-    storage.save()
 
-    return jsonify(brand.to_dict()), 201
+    brand = Brand(**krgs)
+
+    if check(brand) == 0:
+        storage.new(brand)
+        storage.save()
+        return jsonify(brand.to_dict()), 201
+    else:
+        abort(409, {f"The Brand {krgs['name']} already exists"})
 
 
 @app_views.route("/brand/<brId>", methods=["DELETE"])
@@ -54,7 +65,6 @@ def delete_brand(brId):
 
     return jsonify(""), 204
 
-
 @app_views.route("/brand/<brId>", methods=["PUT"])
 def update_brand(brId):
     """ Updates a brand object """
@@ -68,7 +78,10 @@ def update_brand(brId):
 
     for key, value in krgs.items():
         if key == "name":
-    	    setattr(brand, key, value)
+            if check(brand) == 0:
+    	        setattr(brand, key, value)
+            else:
+                abort(404, {"error": f"Brand: {brId} not found"})
 
     storage.save()
     return jsonify(brand.to_dict()), 200
