@@ -4,7 +4,7 @@ import DataBox from './DataBox';
 import ButtonService from './ButtonService';
 import Searchbar from './Searchbar';
 import {FaTh} from 'react-icons/fa';
-import filter_type from './filter_per_type';
+import FilterType from './filterType';
 
 
 export default function Vehicle_history() {
@@ -26,10 +26,9 @@ export default function Vehicle_history() {
             <div className='lg:mr-80 mr-marg-1 lg:ml-marg-4 ml-marg-1 mt-24 font-bold text-black flex items-center justify-between'>
               <h1 className='text-7xl'>Servicios</h1>
               <div className='flex-1 flex items-center space-x-4 justify-end'>
-
-
-
-                <filter_type/>
+                <Searchbar/>
+                <FilterType/>
+                <FaTh/>
               </div>
             </div>
           {/* info del historial */}
