@@ -19,7 +19,7 @@ def check(client):
 @app_views.route("/client/<clnId>/vehicle", methods=["GET"])
 def get_client_vehicles(clnId):
     """ Returns all the vehicles for a specific CLient """
-    client = client.get(Client, veId)
+    client = client.get(Client, clnId)
     if not vehicle:
         abort(404, {"error": f"Client {clId} not found"})
 
@@ -29,7 +29,7 @@ def get_client_vehicles(clnId):
 @app_views.route("/client/<clnId>", methods=["GET"])
 def get_client(clnId):
     """ Returns an specific Client object """
-    client = storage.get(Client,clnId)
+    client = storage.get(Client, clnId)
     if not client:
         abort(404, {"error": f"Client {clnId} not found"})
 
@@ -75,7 +75,7 @@ def delete_client(clnId):
 @app_views.route("/api/v1/client/<clId>", methods=["PUT"])
 def update_client(clId):
     """ Updates a Client object """
-    clnt = storage.get(Client, clId)
+    clnt = storage.get(Client, clnId)
     if not clnt:
         abort (404, {"error": f"Client: {clId} not found"})
 
