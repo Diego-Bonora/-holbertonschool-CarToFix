@@ -5,6 +5,7 @@ from models.service import Service
 from models.vehicle import Vehicle
 from models.type_vehicle import TypeVehicle
 from models.user import User
+from models.workers import Worker
 from models import storage
 
 # Creating required instances (api for them not started yet)
@@ -82,9 +83,9 @@ veh_dict = {"plate": "T4K3M3T0CVRCH", "brand": brand2.id, "model": "swingduaduad
 veh = Vehicle(**veh_dict)
 
 krgs = {
-    "title": "Kill delivery service",
-    "description": "Summertime - George Gershwin",
-    "note": "A piano was required",
+    "title": "Sign your soul away",
+    "description": "Monsermash",
+    "note": "A piano got broken",
     "vehicle_id": vehicle.id,
     "user_id": user.id,
     "price": 200000.0
@@ -95,9 +96,6 @@ service4 = Service(**krgs)
 
 # Creating a budget with additional services
 budg_dict = {
-    "title": "Kill delivery service",
-    "description": "Summertime - George Gershwin",
-    "note": "A piano got broken",
     "user_id": user.id,
     "total_price": 200000.0,
     "payment_method": "Corpse",
@@ -122,7 +120,91 @@ print("_____\nAGAIN\n_____")
 
 # Retrieving and printing services associated with the first budget
 print(storage.get(Budget, budget.id).services)
-
 # Retrieving and printing services associated with the second budget
 print(storage.get(Budget, budget2.id).services)
 
+# ONE MORE BUDGET, SERVICE, SOME USERS, SOME WORKERS, SOME VEHICLES, SOME, CLIENTS
+#CLIENTS
+client1 = Client(name="Macksim", phone="fdsfa48", email="emanueltrias9@gmail.com")
+client2 = Client(name="Pablo", phone="fdadsfadsf8", email="emanueltrias9@gmail.com")
+#USERS
+user1 = User(name="Auto-destroy", mail="emanueltrias9@gmail.com", password="F#7b9/dbvv", phone="592222284982", logo="logeisbbhon")
+user2 = User(name="Skynet", mail="emanueltrias9@gmail.com", password="F#7b9/dbvv", phone="22284982", logo="lisbbhon")
+# VEHICLES
+vehicle = Vehicle(plate="FADSF987es", brand=brand.id, model="tha_model2", color="krasni", mileage=22931,
+                  user_id=user1.id, client_id=client1.id, type_vehicle_id=veh_type.id)
+vehicle1 = Vehicle(plate="098dafas", brand=brand.id, model="onceuponadeath", color="blind-green", mileage=9941,
+                  user_id=user2.id, client_id=client2.id, type_vehicle_id=veh_type.id)
+# WORKERS
+worker = Worker(name="Zombie Mickey Mouse")
+worker2 = Worker(name="Edward Scissorhands")
+# SERVICES
+krgs = {
+    "title": "Burn down a graveyard",
+    "description": "Zombie-apocalypse",
+    "note": "Worker turned into zombie in the process",
+    "vehicle_id": vehicle.id,
+    "user_id": user1.id,
+    "price": 0.291,
+    "worker": worker.id
+}
+service = Service(**krgs)
+krgs2 = {
+    "title": "Building contract",
+    "description": "Everione's happy",
+    "note": "People trapped in the elevator",
+    "vehicle_id": vehicle1.id,
+    "user_id": user2.id,
+    "price": 100000,
+    "worker": worker.id
+}
+service2 = Service(**krgs2)
+
+krgs3 = {
+    "title": "Itching poison",
+    "description": "Crazy Maria",
+    "note": "Christianity",
+    "vehicle_id": vehicle.id,
+    "user_id": user1.id,
+    "price": 0.2023,
+    "worker": worker2.id
+}
+service3 = Service(**krgs)
+krgs4 = {
+    "title": "Stiff Cows",
+    "description": "NO suspects",
+    "note": "People trapped inside",
+    "vehicle_id": vehicle1.id,
+    "user_id": user2.id,
+    "price": 0.2028,
+    "worker": worker2.id
+}
+service4 = Service(**krgs2)
+# BUDGETS
+budg_dict = {
+    "user_id": user1.id,
+    "total_price": 200000.0,
+    "payment_method": "Boiling water",
+    "installments": 1000,
+    "warranty": 0,
+    "vehicle_id": vehicle1.id,
+    "client_id": client1.id,
+    "services": [service2, service]
+}
+budg_dict2 = {
+    "user_id": user2.id,
+    "total_price": 200000.0,
+    "payment_method": "Boiling water",
+    "installments": 1000,
+    "warranty": 0,
+    "vehicle_id": vehicle.id,
+    "client_id": client2.id,
+    "services": [service3, service4]
+}
+budget = Budget(**budg_dict)
+budget2 = Budget(**budg_dict2)
+# SAVING...
+for instance in [user1, user2, client1, client2, vehicle, vehicle1, worker, worker2, service, service2, service3, service4, budget, budget2]:
+    storage.new(instance)
+
+storage.save()

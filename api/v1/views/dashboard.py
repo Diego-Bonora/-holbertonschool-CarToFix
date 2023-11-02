@@ -33,8 +33,9 @@ def dashboard(usrId):
 
     # Adds the required information of latest active budgets
     res["budgets"] = []
-    allbdgts = [bdgt for bdgt in storage.all(Budget).values() if bdgt.user_id == usrId and bdgt.confirmed == True and datetime.utcnow() - bdgt.created_at <= timedelta(days=3)]
-    for bdgt in allbdgts:
+    allbdgts = [bdgt for bdgt in storage.all(Budget).values() if bdgt.user_id == usrId]
+    last = [bdgt for bdgt in allbdgts if bdgt.confirmed == True and datetime.utcnow() - bdgt.created_at <= timedelta(days=3)]
+    for bdgt in last:
         bdgts = {
                 "id": bdgt.id,
                 "created": bdgt.created_at,
@@ -42,5 +43,9 @@ def dashboard(usrId):
                 "services": [service.title for service in budget.services],
                 }
         res["budgets"].append(bdgts)
+
+    # Adds the required stat informations
+    res["onhold"] = len([bdgt for bdgt in allbdgts if bdgt.confirmed == False])
+    res["vehicles_total"] = len(allbdgts)
 
     return jsonify(res), 200

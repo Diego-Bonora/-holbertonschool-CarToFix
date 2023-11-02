@@ -35,7 +35,17 @@ def uget_vehicle(veId):
     if vehicle:
         return jsonify(vehicle.to_dict()), 200
 
-    abort(404, {"error": f"Vehicle {vehicle.id} not found"})
+    abort(404, {"error": f"Vehicle {veId} not found"})
+
+@app_views.route("/vehicle/plate/<plate>", methods=["GET"])
+def get_by_plate(plate):
+    """ Return the resquested Vehicle object if found """
+    vehicle = next((veh for veh in storage.all(Vehicle).values() if veh.plate == plate), None)
+    if vehicle:
+        return jsonify(vehicle.to_dict()), 200
+
+    abort(404, {"error": f"Vehicle {plate} not found"})
+
 
 
 @app_views.route("/vehicle", methods=["GET"])

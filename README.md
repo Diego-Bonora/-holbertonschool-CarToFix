@@ -31,6 +31,8 @@ At the end of the file:
         * Type_vehicle
 	* 2(Vehicle)
 	* 2(Budget)
+	* Some workers
+	* Some more clients, budgets, vehicles ...
 
 
 ## Routes
@@ -51,7 +53,8 @@ At the end of the file:
 ### Vehicle() Routes:
 - [x] GET /api/v1/vehicle/\<veId>/service | get all services for a specific vehicle
 - [x] GET /api/v1/vehicle/\<veId>/budget | get all budgets for a specific vehicle
-- [x] GET /api/v1/vehicle/\<velId> | get a specific vehicle
+- [x] GET /api/v1/vehicle/\<velId> | get a specific vehicle by id
+- [x] GET /api/v1/vehicle/plate/\<plate> | get a specific vehicle by plate
 - [x] GET /api/v1/vehicle | get all vehicles
 - [x] POST /api/v1/vehicle | create a vehicle
 - [x] DELETE /api/v1/vehicle/\<veId> | delete a specific vehicle
@@ -96,6 +99,9 @@ At the end of the file:
 
 No route should fail upon proper request.
 
+- [ ] checks previous existence of user
+- [ ] checks previous existence of worker
+
 #### Last:
 - [x] The server handles multiple request at a time
 - [x] All request are allowed, from anywhere.
@@ -108,3 +114,5 @@ No route should fail upon proper request.
 - [x] budget_id not required anymore when posting services
 - [x] budget calls emailer each time a budget is created
 - [x] dashboard route added
+- [x] create 0 now creates more instances (even workers).
+- [x] get a vehicle by plate
