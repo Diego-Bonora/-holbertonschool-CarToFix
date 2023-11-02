@@ -89,7 +89,7 @@ def update_budget(bdgtId):
     """ Creates a new Budget object based on the given one's id """
     # Getting the Budget object
     prev = storage.get(Budget, bdgtId)
-    if not bdgt:
+    if not prev:
         abort (404, {"error": f"Budget: {bdgtId} not found"})
 
     # Extending the ditionary with previous instance attrs
@@ -107,7 +107,7 @@ def update_budget(bdgtId):
 
     # Creating a new instance
     new_bdgt = Budget(**krgs)
-    call_send(budget)
+    call_send(new_bdgt)
     storage.new(new_bdgt)
     storage.save()
     return jsonify(new_bdgt.to_dict()), 200
