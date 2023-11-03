@@ -17,13 +17,18 @@ const Login = () => {
   const handleSubmit = async (eventSubmit) => {
     eventSubmit.preventDefault();
 
-    try {
-      const response = await axios.post('http://localhost:5000/api/v1/login', {
-        mail: mail,
-        password: password,
-        recuerdame: recuerdame,
-      });
+    const formData = {
+      mail: mail,
+      password: password,
+      recuerdame: recuerdame
+    };
 
+    try {
+      const response = await axios.post('http://localhost:5000/api/v1/login', formData, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
       if (response.status === 200) {
         if (recuerdame) {
           Cookies.set('cookie_user', '', { expires: 7 });
@@ -38,12 +43,6 @@ const Login = () => {
       setError('An error occurred. Please try again later.');
     }
   };
-
-  useEffect(() => {
-    if (mail && password) {
-      handleSubmit();
-    }
-  }, [mail, password, recuerdame]);
 
   return (
     <>
