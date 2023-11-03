@@ -4,7 +4,7 @@ import Button from './button'
 import ServiceItem from './ServiceItem';
 import { useState } from "react";
 import Creatable from 'react-select/creatable';
-import { useFetcher, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import MessageZone from './MessageZone';
 
 
@@ -12,6 +12,8 @@ import MessageZone from './MessageZone';
 
 
 export default function NewBudget({ checkPlateRegistration, plates }) {
+
+	let baseURL = ''
 
 	const navigate = useNavigate();
 
@@ -32,6 +34,9 @@ export default function NewBudget({ checkPlateRegistration, plates }) {
 	{/* State for searching the vehicle Plate */ }
 
 	const [plate, setPlate] = useState('')
+
+
+
 
 
 	{/* reads the form  */ }

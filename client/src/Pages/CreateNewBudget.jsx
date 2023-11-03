@@ -8,6 +8,8 @@ export default function CreateNewBudget() {
 
 	const [registered, setRegistered] = useState(true)
 
+
+
 	const plates = [
 		{ plate: "BVA-1234" },
 		{ plate: "BBC-1234" },
@@ -23,6 +25,12 @@ export default function CreateNewBudget() {
 	const checkPlateRegistration = (plate, plates) => {
 		console.log("on ckecking plate")
 		if (plate.length === 8) {
+			useEffect(() => {
+				axios.get((`${baseURL}/api/v1/vehicle/plate/${plate}`))
+					.then((res) => {
+
+					})
+			})
 			const found = plates.some(p => p.plate === plate);
 			console.log("searching plate... ", plate)
 			if (!found) {
