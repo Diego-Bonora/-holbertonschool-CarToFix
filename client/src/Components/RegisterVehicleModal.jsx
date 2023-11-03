@@ -7,9 +7,9 @@ export default function RegisterVehicleModal({ display }) {
 
 	const [newData, setNewData] = useState([])
 
-	const [formVehicleClientData, setFormVehicleClientData] = useState({
-		name: "", mail: "", phone: "", type_vehicle_id: "", brand: "", model: "", color: "", kms: ""
-	})
+	const [formVehicleClientData, setFormVehicleClientData] = useState([{
+		name: "", mail: "", phone: "", plate: "", type_vehicle_id: "", brand: "", model: "", color: "", kms: ""
+	}])
 
 	const onFormChange = (event) => {
 		event.preventDefault();
@@ -32,17 +32,20 @@ export default function RegisterVehicleModal({ display }) {
 			name: event.target.name.value,
 			mail: event.target.mail.value,
 			phone: event.target.phone.value,
-			plate: event.target.plate,
+			plate: event.target.plate.value,
 			type_vehicle_id: event.target.type_vehicle_id.value,
 			brand: event.target.brand.value,
 			model: event.target.model.value,
 			coloe: event.target.coloe.value,
 			kms: event.target.kms.value,
 		}])
-		console.log("Vehiculo ingresado", newData)
+
 		navigate('/Home')
 	}
 
+	useEffect(() => {
+		console.log("Vehiculo ingresado", newData)
+	}, [newData])
 
 
 	const abortNewVehicle = () => {
