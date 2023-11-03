@@ -1,7 +1,22 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { Navigate, useNavigate } from 'react-router-dom';
 
-export default function RegisterVehicleModal({ display, plate }) {
+export default function RegisterVehicleModal({ display }) {
 
+	const navigate = useNavigate();
+
+	const [newData, setNewData] = useState([])
+
+	const [formVehicleClientData, setFormVehicleClientData] = useState({
+		name: "", mail: "", phone: "", type_vehicle_id: "", brand: "", model: "", color: "", kms: ""
+	})
+
+	const onFormChange = (event) => {
+		event.preventDefault();
+		const { name, value } = event.target;
+		setFormVehicleClientData((prevFormData) => ({ ...prevFormData, [name]: value }));
+
+	}
 
 
 	const displayModal = {
@@ -10,17 +25,38 @@ export default function RegisterVehicleModal({ display, plate }) {
 
 	}
 
-	const handleVehiculeSubmit = () => {
-		console.log("Vehiculo ingresado")
+
+	const handleNewData = (event) => {
+		event.preventDefault();
+		setNewData(current => [...current, {
+			name: event.target.name.value,
+			mail: event.target.mail.value,
+			phone: event.target.phone.value,
+			plate: event.target.plate,
+			type_vehicle_id: event.target.type_vehicle_id.value,
+			brand: event.target.brand.value,
+			model: event.target.model.value,
+			coloe: event.target.coloe.value,
+			kms: event.target.kms.value,
+		}])
+		console.log("Vehiculo ingresado", newData)
+		navigate('/Home')
 	}
 
+
+
+	const abortNewVehicle = () => {
+		setFormVehicleClientData([])
+		console.log("Aborting Add Vehicle or Clinet")
+		navigate('/NewBudget')
+	}
 
 
 	return (
 		<div>
 
 			<div className={`${displayModal[display]}`}>
-				<form className='FormToCreateVehicule' onSubmit={handleVehiculeSubmit}>
+				<form className='FormToCreateVehicule' onSubmit={handleNewData} onChange={onFormChange}>
 
 					<div classNam="fixed inset- bg-gray-500 bg-opacity-75 transition-opacity"></div>
 
@@ -34,87 +70,84 @@ export default function RegisterVehicleModal({ display, plate }) {
 										<div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
 											<h3 className="text-2xl font-semibold leading-6 text-gray-900" id="modal-title">Nuevo vehículo</h3>
 											<div className="grid mt-2 gap-y-3">
-												<p className="text-sm text-gray-500">Ingresa los datos del nuevo vehículo</p>
+												<p className="text-sm text-gray-500 mt-5">Ingresa datos del cliente</p>
+												<div className='flex flex-col-2 justify-between'>
+													<label className=" font-black mr-2 mt-3 " for="name">Nombre</label>
+
+													<div className='flex flex-row-reverse w-1/2'>
+														<input className='bg-[#B4D1D3]  text-right w-5/4 h-full px-6 mt-2' type='text' id='' name="name" value={formVehicleClientData.name} onChange={onFormChange} placeholder='Nombre y Apellido' ></input>
+													</div>
+
+												</div>
+												<div className='flex flex-col-2 justify-between'>
+													<label className=" font-black mr-2 mt-3 " for="mail">Mail</label>
+
+													<div className='flex flex-row-reverse w-1/2'>
+														<input className='bg-[#B4D1D3]  text-right w-5/4 h-full px-6 mt-2' type='text' id='' name="mail" value={formVehicleClientData.mail} onChange={onFormChange} placeholder='Correo' ></input>
+													</div>
+
+												</div>
+												<div className='flex flex-col-2 justify-between'>
+													<label className=" font-black mr-2 mt-3 " for="phone">Telefono</label>
+
+													<div className='flex flex-row-reverse w-1/2'>
+														<input className='bg-[#B4D1D3]  text-right w-3/4 h-full px-6 mt-2' type='text' id='' name="phone" value={formVehicleClientData.phone} onChange={onFormChange} placeholder='Teléfono' ></input>
+													</div>
+
+												</div>
+												<p className="text-sm text-gray-500 mt-3">Ingresa los datos del nuevo vehículo</p>
 												<div className='flex flex-col-2 justify-between'>
 													<label className=" font-black mr-2 mt-3 " for="plate">Matricula</label>
 
 													<div className='flex flex-row-reverse w-1/2'>
-														<input className='bg-[#B4D1D3]  text-right w-1/2 h-full px-6 mt-2' type='text' id='' name="" value='' placeholder='XXX-0000' ></input>
+														<input className='bg-[#B4D1D3]  text-right w-3/4 h-full px-6 mt-2' type='text' id='' name="" value={formVehicleClientData.plate} onChange={onFormChange} placeholder='XXX-0000' ></input>
 													</div>
 
 												</div>
 												<div className='flex flex-col-2 justify-between'>
-													<label className=" mr-2 mt-3 " for="plate">Marca</label>
+													<label className=" mr-2 mt-3 " for="type_vehicle_id">Tipo de vehiculo</label>
 
 													<div className='flex flex-row-reverse w-1/2'>
-														<input className='bg-[#B4D1D3]  text-right w-1/2 h-full px-6 mt-2' type='text' id='' name="" value=''  ></input>
+														<input className='bg-[#B4D1D3]  text-right w-3/4 h-full px-6 mt-2' type='text' id='' name="" value={formVehicleClientData.type_vehicle_id} onChange={onFormChange} placeholder='auto, moto, camión' ></input>
 													</div>
 
 												</div>
 												<div className='flex flex-col-2 justify-between'>
-													<label className=" mr-2 mt-3 " for="plate">Modelo</label>
+													<label className=" mr-2 mt-3 " for="brand">Marca</label>
 
 													<div className='flex flex-row-reverse w-1/2'>
-														<input className='bg-[#B4D1D3]  text-right w-1/2 h-full px-6 mt-2' type='text' id='' name="" value='' ></input>
+														<input className='bg-[#B4D1D3]  text-right w-3/4 h-full px-6 mt-2' type='text' id='' name="" value={formVehicleClientData.brand} onChange={onFormChange}  ></input>
+													</div>
+
+												</div>
+
+												<div className='flex flex-col-2 justify-between'>
+													<label className=" mr-2 mt-3 " for="model">Modelo</label>
+
+													<div className='flex flex-row-reverse w-1/2'>
+														<input className='bg-[#B4D1D3]  text-right w-3/4 h-full px-6 mt-2' type='text' id='' name="" value={formVehicleClientData.model} onChange={onFormChange} ></input>
+													</div>
+
+												</div>
+
+												<div className='flex flex-col-2 justify-between'>
+													<label className=" mr-2 mt-3 " for="color">Color</label>
+
+													<div className='flex flex-row-reverse w-1/2'>
+														<input className='bg-[#B4D1D3]  text-right w-3/4 h-full px-6 mt-2' type='text' id='' name="" value={formVehicleClientData.color} onChange={onFormChange}  ></input>
 													</div>
 
 												</div>
 												<div className='flex flex-col-2 justify-between'>
-													<label className=" mr-2 mt-3 " for="plate">Color</label>
+													<label className=" mr-2 mt-3 " for="kms">Kilñometraje</label>
 
 													<div className='flex flex-row-reverse w-1/2'>
-														<input className='bg-[#B4D1D3]  text-right w-1/2 h-full px-6 mt-2' type='text' id='' name="" value='' ></input>
+														<input className='bg-[#B4D1D3]  text-right w-1/2 h-full px-6 mt-2' type='text' id='' name="" value={formVehicleClientData.kms} onChange={onFormChange}  ></input>
 													</div>
 
 												</div>
-												<div className='flex flex-col-2 justify-between'>
-													<label className=" mr-2 mt-3 " for="plate">Color</label>
 
-													<div className='flex flex-row-reverse w-1/2'>
-														<input className='bg-[#B4D1D3]  text-right w-1/2 h-full px-6 mt-2' type='text' id='' name="" value=''  ></input>
-													</div>
 
-												</div>
-												<div className='flex flex-col-2 justify-between'>
-													<label className=" mr-2 mt-3 " for="plate">Kilñometraje</label>
-
-													<div className='flex flex-row-reverse w-1/2'>
-														<input className='bg-[#B4D1D3]  text-right w-1/2 h-full px-6 mt-2' type='text' id='' name="" value=''  ></input>
-													</div>
-
-												</div>
-												<div className='flex flex-col-2 justify-between'>
-													<label className=" mr-2 mt-3 " for="plate">Tipo de vehiculo</label>
-
-													<div className='flex flex-row-reverse w-1/2'>
-														<input className='bg-[#B4D1D3]  text-right w-1/2 h-full px-6 mt-2' type='text' id='' name="" value='' ></input>
-													</div>
-
-												</div>
-												<div className='flex flex-col-2 justify-between'>
-													<label className=" mr-2 mt-3 " for="plate">Propietario</label>
-
-													<div className='flex flex-row-reverse w-1/2'>
-														<input className='bg-[#B4D1D3]  text-right w-1/2 h-full px-6 mt-2' type='text' id='' name="" value='' ></input>
-													</div>
-
-												</div>
-												<div className='flex flex-col-2 justify-between'>
-													<label className=" mr-2 mt-3 " for="plate">E-mail</label>
-
-													<div className='flex flex-row-reverse w-1/2'>
-														<input className='bg-[#B4D1D3]  text-right w-1/2 h-full px-6 mt-2' type='text' id='' name="" value='' ></input>
-													</div>
-
-												</div>
-												<div className='flex flex-col-2 justify-between'>
-													<label className=" mr-2 mt-3 " for="plate">Teléfono</label>
-
-													<div className='flex flex-row-reverse w-1/2'>
-														<input className='bg-[#B4D1D3]  text-right w-1/2 h-full px-6 mt-2' type='text' id='' name="" value='' ></input>
-													</div>
-
-												</div>
 
 											</div>
 										</div>
@@ -122,14 +155,14 @@ export default function RegisterVehicleModal({ display, plate }) {
 								</div>
 								<div className="py-3 sm:flex sm:flex-row-reverse sm:px-6">
 									<button type='submit' className="inline-flex w-full justify-center rounded-md bg-teal-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-teal-700 sm:ml-3 sm:w-auto">Registrar</button>
-									<button type="button" className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">Cancel</button>
+									<button type="button" id="reset" className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto" onClick={abortNewVehicle}>Cancel</button>
 								</div>
 							</div>
 						</div>
 					</div>
 				</form>
-			</div>
-		</div>
+			</div >
+		</div >
 	)
 }
 

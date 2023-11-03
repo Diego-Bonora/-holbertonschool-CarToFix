@@ -12,6 +12,7 @@ from models.user import User
 user = next((usr for usr in storage.all(User).values() if usr.mail == "cartofixcostumers@gmail.com"), None)
 emailer = Emailer(user)
 
+
 def call_send(budget):
     """ Calls Emailer.send() """
     if budget.confirmed == False:

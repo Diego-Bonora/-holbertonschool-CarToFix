@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import NewBudget from '../Components/NewBudget'
 import RegisterVehicleModal from '../Components/RegisterVehicleModal'
-
+import axios from 'axios'
 
 
 export default function CreateNewBudget() {
@@ -10,34 +10,37 @@ export default function CreateNewBudget() {
 
 
 
-	const plates = [
-		{ plate: "BVA-1234" },
-		{ plate: "BBC-1234" },
-		{ plate: "CIA-1234" },
-		{ plate: "FBI-1234" },
-	]
-
-
+	let baseURL = 'http://127.0.0.1:5000/'
 
 	const [modalDisplayMode, setModalDisplayMode] = useState("none");
 
+	const checkPlate = (plate) => {
 
-	const checkPlateRegistration = (plate, plates) => {
+		axios.get((`${baseURL}/api/v1/vehicle/plate/${plate}`))
+			.then((res) => {
+				console.log("res", res)
+				if (res.status == 200) {
+					return res.data.plate
+				} else {
+					return ""
+				}
+			})
+
+	}
+
+
+
+	const checkPlateRegistration = (plate) => {
 		console.log("on ckecking plate")
 		if (plate.length === 8) {
-			useEffect(() => {
-				axios.get((`${baseURL}/api/v1/vehicle/plate/${plate}`))
-					.then((res) => {
-
-					})
-			})
-			const found = plates.some(p => p.plate === plate);
+			const found = checkPlate(plate)
 			console.log("searching plate... ", plate)
 			if (!found) {
 				setRegistered(false);
 				console.log("Vehicule is not registered")
 			} else {
-				console.log("Vehiculo registrado...")
+				console.log("Vehicle exist on Data Base...")
+				setRegistered(true)
 			}
 		}
 
@@ -57,7 +60,7 @@ export default function CreateNewBudget() {
 	return (
 		<>
 			<div className="w-screen h-screen  flex items-center  justify-center flex-row bg-cyan-200 justify-items-center">
-				<NewBudget checkPlateRegistration={checkPlateRegistration} plates={plates} />
+				<NewBudget checkPlateRegistration={checkPlateRegistration} />
 				<RegisterVehicleModal display={modalDisplayMode} />
 			</div>
 		</>
