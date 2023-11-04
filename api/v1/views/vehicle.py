@@ -33,19 +33,24 @@ def uget_vehicle(veId):
     """ Return the requested Vehicle object if found """
     vehicle = storage.get(Vehicle, veId)
     if vehicle:
-        return jsonify(vehicle.to_dict()), 200
+        vehd = vehicle.to_dict()
+        vehd["services"] = [serv.to_dict() for serv in vehicle.services]
+        vehd["budgets"] = [bdgt.to_dict() for bdgt in vehicle.budgets]
+        return jsonify(vehd), 200
 
     abort(404, {"error": f"Vehicle {veId} not found"})
+
 
 @app_views.route("/vehicle/plate/<plate>", methods=["GET"])
 def get_by_plate(plate):
     """ Return the resquested Vehicle object if found """
     vehicle = next((veh for veh in storage.all(Vehicle).values() if veh.plate == plate), None)
     if vehicle:
-        return jsonify(vehicle.to_dict()), 200
+        vehd["services"] = [serv.to_dict() for serv in vehicle.services]
+        vehd["budgets"] = [bdgt.to_dict() for bdgt in vehicle.budgets]
+        return jsonify(vehd), 200
 
     abort(404, {"error": f"Vehicle {plate} not found"})
-
 
 
 @app_views.route("/vehicle", methods=["GET"])
