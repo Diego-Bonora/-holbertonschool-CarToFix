@@ -5,14 +5,14 @@ export default function RegisterVehicleModal({ display }) {
 
 	const navigate = useNavigate();
 
-	const [newData, setNewData] = useState([])
+	const [newData, setNewData] = useState([]);
 
 	const [formVehicleClientData, setFormVehicleClientData] = useState([{
 		name: "", mail: "", phone: "", plate: "", type_vehicle_id: "", brand: "", model: "", color: "", kms: ""
 	}])
 
 	const onFormChange = (event) => {
-		event.preventDefault();
+
 		const { name, value } = event.target;
 		setFormVehicleClientData((prevFormData) => ({ ...prevFormData, [name]: value }));
 
@@ -28,30 +28,33 @@ export default function RegisterVehicleModal({ display }) {
 
 	const handleNewData = (event) => {
 		event.preventDefault();
-		setNewData(current => [...current, {
-			name: event.target.name.value,
-			mail: event.target.mail.value,
-			phone: event.target.phone.value,
-			plate: event.target.plate.value,
-			type_vehicle_id: event.target.type_vehicle_id.value,
-			brand: event.target.brand.value,
-			model: event.target.model.value,
-			coloe: event.target.coloe.value,
-			kms: event.target.kms.value,
-		}])
+		const newVehicleData = {
+			name: formVehicleClientData.name,
+			mail: formVehicleClientData.mail,
+			phone: formVehicleClientData.phone,
+			plate: formVehicleClientData.plate,
+			type_vehicle_id: formVehicleClientData.type_vehicle_id,
+			brand: formVehicleClientData.brand,
+			model: formVehicleClientData.model,
+			color: formVehicleClientData.color,
+			kms: formVehicleClientData.kms,
+		};
 
-		navigate('/Home')
-	}
+
+		setNewData((prevData) => [...prevData, newVehicleData]);
+
+		display = 'hidden'
+	};
+
 
 	useEffect(() => {
-		console.log("Vehiculo ingresado", newData)
-	}, [newData])
-
+		console.log("Vehiculo ingresado", newData);
+	}, [newData]);
 
 	const abortNewVehicle = () => {
 		setFormVehicleClientData([])
 		console.log("Aborting Add Vehicle or Clinet")
-		navigate('/NewBudget')
+		window.location.reload(false);
 	}
 
 
@@ -103,7 +106,7 @@ export default function RegisterVehicleModal({ display }) {
 													<label className=" font-black mr-2 mt-3 " for="plate">Matricula</label>
 
 													<div className='flex flex-row-reverse w-1/2'>
-														<input className='bg-[#B4D1D3]  text-right w-3/4 h-full px-6 mt-2' type='text' id='' name="" value={formVehicleClientData.plate} onChange={onFormChange} placeholder='XXX-0000' ></input>
+														<input className='bg-[#B4D1D3]  text-right w-3/4 h-full px-6 mt-2' type='text' id='' name="plate" value={formVehicleClientData.plate} onChange={onFormChange} placeholder='XXX-0000' ></input>
 													</div>
 
 												</div>
@@ -111,7 +114,7 @@ export default function RegisterVehicleModal({ display }) {
 													<label className=" mr-2 mt-3 " for="type_vehicle_id">Tipo de vehiculo</label>
 
 													<div className='flex flex-row-reverse w-1/2'>
-														<input className='bg-[#B4D1D3]  text-right w-3/4 h-full px-6 mt-2' type='text' id='' name="" value={formVehicleClientData.type_vehicle_id} onChange={onFormChange} placeholder='auto, moto, camión' ></input>
+														<input className='bg-[#B4D1D3]  text-right w-3/4 h-full px-6 mt-2' type='text' id='' name="type_vehicle_id" value={formVehicleClientData.type_vehicle_id} onChange={onFormChange} placeholder='auto, moto, camión' ></input>
 													</div>
 
 												</div>
@@ -119,7 +122,7 @@ export default function RegisterVehicleModal({ display }) {
 													<label className=" mr-2 mt-3 " for="brand">Marca</label>
 
 													<div className='flex flex-row-reverse w-1/2'>
-														<input className='bg-[#B4D1D3]  text-right w-3/4 h-full px-6 mt-2' type='text' id='' name="" value={formVehicleClientData.brand} onChange={onFormChange}  ></input>
+														<input className='bg-[#B4D1D3]  text-right w-3/4 h-full px-6 mt-2' type='text' id='' name="brand" value={formVehicleClientData.brand} onChange={onFormChange}  ></input>
 													</div>
 
 												</div>
@@ -128,7 +131,7 @@ export default function RegisterVehicleModal({ display }) {
 													<label className=" mr-2 mt-3 " for="model">Modelo</label>
 
 													<div className='flex flex-row-reverse w-1/2'>
-														<input className='bg-[#B4D1D3]  text-right w-3/4 h-full px-6 mt-2' type='text' id='' name="" value={formVehicleClientData.model} onChange={onFormChange} ></input>
+														<input className='bg-[#B4D1D3]  text-right w-3/4 h-full px-6 mt-2' type='text' id='' name="model" value={formVehicleClientData.model} onChange={onFormChange} ></input>
 													</div>
 
 												</div>
@@ -137,15 +140,15 @@ export default function RegisterVehicleModal({ display }) {
 													<label className=" mr-2 mt-3 " for="color">Color</label>
 
 													<div className='flex flex-row-reverse w-1/2'>
-														<input className='bg-[#B4D1D3]  text-right w-3/4 h-full px-6 mt-2' type='text' id='' name="" value={formVehicleClientData.color} onChange={onFormChange}  ></input>
+														<input className='bg-[#B4D1D3]  text-right w-3/4 h-full px-6 mt-2' type='text' id='' name="color" value={formVehicleClientData.color} onChange={onFormChange}  ></input>
 													</div>
 
 												</div>
 												<div className='flex flex-col-2 justify-between'>
-													<label className=" mr-2 mt-3 " for="kms">Kilñometraje</label>
+													<label className=" mr-2 mt-3 " for="kms">Kms</label>
 
 													<div className='flex flex-row-reverse w-1/2'>
-														<input className='bg-[#B4D1D3]  text-right w-1/2 h-full px-6 mt-2' type='text' id='' name="" value={formVehicleClientData.kms} onChange={onFormChange}  ></input>
+														<input className='bg-[#B4D1D3]  text-right w-1/2 h-full px-6 mt-2' type='text' id='' name="kms" value={formVehicleClientData.kms} onChange={onFormChange}  ></input>
 													</div>
 
 												</div>
