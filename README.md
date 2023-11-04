@@ -5,8 +5,28 @@ To run it:
 $ cd api/v1/
 $ flask run
 ```
+It's important for it to run properly, you to modify the `create0.py` file.
+
+## Modification of `create0.py`:
+```
+$ head -n 16 create0.py | tail -n 1
+user = User(name="CarToFix", mail="cartofixcostumers@gmail.com", password="F#7b9/db", phone="598984982", logo="logeishon")
+```
+As showed, the 16th line creates an instance of User.
+This special user doesn't contains the correct password, so you need to modify it, i.e:
+```
+$ head -n 16 create0.py | tail -n 1
+user = User(name="CarToFix", mail="cartofixcostumers@gmail.com", password="CORRECTPASSWORD", phone="598984982", logo="logeishon")
+```
+Once that's done, you can (must), execute it.
+Then, for security reasons after executing it, youll have to change the password again to a fake one;
+```
+$ head -n 16 create0.py | tail -n 1
+user = User(name="CarToFix", mail="cartofixcostumers@gmail.com", password="F#7b9/db", phone="598984982", logo="logeishon")
+```
+
 ## Create a Budget:
-You can create a single Budget with vehicles related using `create_a_budget_service.py`:
+You can create a some Budgets with vehicles related, and more, by using `create_a_budget_service.py`:
 ```
 $ python3 create_a_budget_service.py 
 [Service] (d58af18c-0dd0-4277-89a2-b65b6f1f46c5) {'_sa_instance_state': <sqlalchemy.orm.state.InstanceState object at 0x7f8d0e8ee710>, 'title': 'House burn down', 'description': "Arsonist's Lullabye - Hozier", 'note': 'A piano was required', 'vehicle_id': 'ce6fd674-2cf9-4036-a906-129f2fc5efda', 'user_id': 'a39c6129-3855-48fd-9d71-d0ba1c0ef35c', 'budget_id': 'fe04c58b-a574-4bf1-b218-819394942b50', 'price': 4.9, 'created_at': datetime.datetime(2023, 10, 31, 20, 46, 58, 243731), 'id': 'd58af18c-0dd0-4277-89a2-b65b6f1f46c5'}
