@@ -72,8 +72,9 @@ class Emailer():
 
             if not budget and not msg:
                 raise ValueError("Either budget or message should be provided")
-            if budget.sent:
-                raise ValueError("Buget was already sent")
+            if budget:
+                if budget.sent:
+                    raise ValueError("Buget was already sent")
 
             if not msg:
                 body = self.message(budget, client)
@@ -139,7 +140,7 @@ class Emailer():
         for msg in msgs:
 
             # If the sender is a client
-            print(msg["body"])
+            print(msg)
             sender = next((client for client in storage.all(Client).values() if client.email == msg["sender"]), None)
 
             # Iterate over the messages, extracts the response, budget.id, and sender

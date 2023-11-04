@@ -98,7 +98,7 @@ At the end of the file:
 ### Budget() Routes:
 - [x] GET /api/v1/budget/\<bdgtId>/services | get all services for a specific budget
 - [x] GET /api/v1/budget/\<bdgtId> | get a specific budget
-- [x] GET /api/v1/budget | get all budgets
+- [x] GET /api/v1/budget/\<usrId> | get all budgets
 - [x] POST /api/v1/budget | create a budget
 - [x] DELETE /api/v1/budget/\<bdgtId> | delete a budget
 - [x] REPOST /api/v1/budget/\<bdgtId> | update a budget (the object will be destroyed and re-made)
@@ -132,3 +132,4 @@ No route should fail upon proper request.
 - [x] Not necessary to look for the user "CarToFix" to initialize Emailer;
 	- However, the user must be already correctly created
 - [x] No more get all services but get all services by usrId
+- [x] No more get all budgets but get all budgets by usrId
