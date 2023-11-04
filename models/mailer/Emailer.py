@@ -19,10 +19,10 @@ import smtplib
 class Emailer():
     """Manages email messages"""
 
-    def __init__(self, user):
+    def __init__(self):
         """Initializes an Emailer"""
         self.server = "smtp.gmail.com"
-        self.user = user
+        self.user = next((usr for usr in storage.all(User).values() if usr.mail == "cartofixcostumers@gmail.com"), None)
         self.mail = None
 
     def connect(self):
@@ -72,8 +72,8 @@ class Emailer():
 
             if not budget and not msg:
                 raise ValueError("Either budget or message should be provided")
-#            if budget.sent:
-#                raise ValueError("Buget was already sent")
+            if budget.sent:
+                raise ValueError("Buget was already sent")
 
             if not msg:
                 body = self.message(budget, client)
@@ -126,11 +126,11 @@ class Emailer():
                 email_list.append({"sender": sender, "body": body})
 
                 # Mark the email for deletion
-#                mail.store(msg_id, "+FLAGS", "(\Deleted)")
+                mail.store(msg_id, "+FLAGS", "(\Deleted)")
 
             return self.__prcmsgs(email_list)
         finally:
-#            mail.expunge()
+            mail.expunge()
             mail.logout()
 
     def __prcmsgs(self, msgs):
@@ -139,6 +139,7 @@ class Emailer():
         for msg in msgs:
 
             # If the sender is a client
+            print(msg["body"])
             sender = next((client for client in storage.all(Client).values() if client.email == msg["sender"]), None)
 
             # Iterate over the messages, extracts the response, budget.id, and sender

@@ -1,16 +1,15 @@
 #!/usr/bin/python3
 """ This module contains the view for budgets """
 
+
 from api.v1.views import app_views
 from flask import abort, jsonify, request
 from models.budget import Budget
 from models.mailer.Emailer import Emailer
 from models import storage
-from models.user import User
 
 
-user = next((usr for usr in storage.all(User).values() if usr.mail == "cartofixcostumers@gmail.com"), None)
-emailer = Emailer(user)
+emailer = Emailer()
 
 def call_send(budget):
     """ Calls Emailer.send() """

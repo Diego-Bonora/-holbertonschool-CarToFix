@@ -151,7 +151,7 @@ krgs = {
 service = Service(**krgs)
 krgs2 = {
     "title": "Building contract",
-    "description": "Everione's happy",
+    "description": "Everyone's happy",
     "note": "People trapped in the elevator",
     "vehicle_id": vehicle1.id,
     "user_id": user2.id,
@@ -246,6 +246,7 @@ krgs2 = {
 }
 service2 = Service(**krgs2)
 
+# SERVICES
 krgs3 = {
     "title": "Flying Broom",
     "description": "Flying lessons",
@@ -255,7 +256,8 @@ krgs3 = {
     "price": 123283,
     "worker": worker2.id
 }
-service3 = Service(**krgs)
+service3 = Service(**krgs3)
+
 krgs4 = {
     "title": "headless headless",
     "description": "Still leaves",
@@ -265,7 +267,8 @@ krgs4 = {
     "price": 12908,
     "worker": worker2.id
 }
-service4 = Service(**krgs2)
+service4 = Service(**krgs4)
+
 # BUDGETS
 budg_dict = {
     "user_id": user1.id,

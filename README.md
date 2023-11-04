@@ -45,7 +45,7 @@ At the end of the file:
 
 ### Service() Routes:
 - [x] GET /api/v1/service/\<scId> | get a specific service
-- [x] GET /api/v1/service | get all services 
+- [x] GET /api/v1/service/user/\<usrId> | get all services
 - [x] POST /api/v1/service | create a service
 - [x] DELETE /api/v1/service/\<scId> | delete a specific service
 - [x] PUT /api/v1/service/\<scId> | update a specific service
@@ -55,7 +55,7 @@ At the end of the file:
 - [x] GET /api/v1/vehicle/\<veId>/budget | get all budgets for a specific vehicle
 - [x] GET /api/v1/vehicle/\<velId> | get a specific vehicle by id
 - [x] GET /api/v1/vehicle/plate/\<plate> | get a specific vehicle by plate
-- [x] GET /api/v1/vehicle | get all vehicles
+- [x] GET /api/v1/vehicle/user/\<usrId> | get all vehicles by user Id
 - [x] POST /api/v1/vehicle | create a vehicle
 - [x] DELETE /api/v1/vehicle/\<veId> | delete a specific vehicle
 - [x] PUT /api/v1/vehicle/\<veId> | update a specific vehicle
@@ -101,18 +101,14 @@ No route should fail upon proper request.
 
 - [ ] checks previous existence of user
 - [ ] checks previous existence of worker
+- [ ] checks budget is done, so that it cannot be updated
 
-#### Last:
-- [x] The server handles multiple request at a time
-- [x] All request are allowed, from anywhere.
-- [x] No debug mode on by default.
-- [x] Cannot create a brand that exists already.
-- [x] Cannot create a Client that exists already.
-- [x] New checking attributes for post and repost for budget
-- [x] Services now are turn into dicts when using get for budgets
-- [x] Services required when posting budgets
-- [x] budget_id not required anymore when posting services
+#### Latest:
 - [x] budget calls emailer each time a budget is created
 - [x] dashboard route added
 - [x] create 0 now creates more instances (even workers).
 - [x] get a vehicle by plate
+- [x] get all vehicles is now get all vehicles by user id
+- [x] Not necessary to look for the user "CarToFix" to initialize Emailer;
+	- However, the user must be already correctly created
+- [x] No more get all services but get all services by usrId
