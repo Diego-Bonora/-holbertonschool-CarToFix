@@ -9,6 +9,11 @@ from sqlalchemy.orm import relationship
 class Budget(BaseModel, Base):
     """ Representation of Budget """
     __tablename__ = 'budgets'
+<<<<<<< HEAD
+=======
+    user_id = Column(String(60), ForeignKey('users.id'), nullable=False)
+    client_id = Column(String(60), ForeignKey('clients.id'), nullable=False)
+>>>>>>> api_main
     total_price = Column(Float, nullable=False)
     payment_method = Column(String(128), nullable=False)
     installments = Column(Integer, nullable=False)
@@ -16,9 +21,15 @@ class Budget(BaseModel, Base):
     vehicle_id = Column(String(60), ForeignKey('vehicles.id'), nullable=False)
     issue_date = Column(DateTime, default=datetime.utcnow())
     due_date = Column(DateTime, default=datetime.utcnow() + timedelta(days=7))
+<<<<<<< HEAD
     confirmed = Column(Boolean, nullable=False)
     sent = Column(Boolean, nullable=False)
     active = Column(Boolean, nullable=False)
+=======
+    confirmed = Column(Boolean, default=False)
+    sent = Column(Boolean, default=False)
+    active = Column(Boolean, default=False)
+>>>>>>> api_main
     services = relationship("Service",
                             backref="budgets",
                             cascade="all, delete, delete-orphan")

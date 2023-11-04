@@ -19,4 +19,8 @@ class Service(BaseModel, Base):
 
     def __init__(self, *args, **kwargs):
         """ initializes Service """
+<<<<<<< HEAD
         super().__init__(*args, **kwargs)
+=======
+        super().__init__(*args, **kwargs)
+>>>>>>> api_main

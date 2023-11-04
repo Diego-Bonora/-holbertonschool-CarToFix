@@ -151,7 +151,11 @@ krgs = {
 service = Service(**krgs)
 krgs2 = {
     "title": "Building contract",
+<<<<<<< HEAD
     "description": "Everione's happy",
+=======
+    "description": "Everyone's happy",
+>>>>>>> api_main
     "note": "People trapped in the elevator",
     "vehicle_id": vehicle1.id,
     "user_id": user2.id,
@@ -208,3 +212,98 @@ for instance in [user1, user2, client1, client2, vehicle, vehicle1, worker, work
     storage.new(instance)
 
 storage.save()
+<<<<<<< HEAD
+=======
+
+# ONE MORE BUDGET, SERVICE, SOME USERS, SOME WORKERS, SOME VEHICLES, SOME, CLIENTS
+#CLIENTS
+client1 = Client(name="Annya", phone="09asdf", email="emanueltrias9@gmail.com")
+client2 = Client(name="Hozier", phone="nidealaverdad", email="emanueltrias9@gmail.com")
+#USERS
+user1 = User(name="Wheelson", mail="emanueltrias9@gmail.com", password="F#7b9/dbvv", phone="((9dsa", logo="LOGOASFASD")
+user2 = User(name="Icecream shop", mail="emanueltrias9@gmail.com", password="F#7b9/dbvv", phone="22889900", logo="http:/JYSHshnxFAIEU")
+# VEHICLES
+vehicle = Vehicle(plate="25**2", brand=brand.id, model="unregistered", color="malaria", mileage=22931,
+                  user_id=user1.id, client_id=client1.id, type_vehicle_id=veh_type.id)
+vehicle1 = Vehicle(plate="sapfsadmv", brand=brand.id, model="onceuponadeath", color="rottengrey", mileage=3321,
+                  user_id=user2.id, client_id=client2.id, type_vehicle_id=veh_type.id)
+# WORKERS
+worker = Worker(name="Freddy Krueger")
+worker2 = Worker(name="The Last Wheel Bender")
+# SERVICES
+krgs = {
+    "title": "Burn down a hospital",
+    "description": "Hot summer",
+    "note": "let lightning strike you",
+    "vehicle_id": vehicle.id,
+    "user_id": user1.id,
+    "price": 0.98211,
+    "worker": worker.id
+}
+service = Service(**krgs)
+krgs2 = {
+    "title": "Cat feeding",
+    "description": "Happy cats",
+    "note": "Someone lost they fingers",
+    "vehicle_id": vehicle1.id,
+    "user_id": user2.id,
+    "price": 100,
+    "worker": worker.id
+}
+service2 = Service(**krgs2)
+
+# SERVICES
+krgs3 = {
+    "title": "Flying Broom",
+    "description": "Flying lessons",
+    "note": "Old woman died",
+    "vehicle_id": vehicle.id,
+    "user_id": user1.id,
+    "price": 123283,
+    "worker": worker2.id
+}
+service3 = Service(**krgs3)
+
+krgs4 = {
+    "title": "headless headless",
+    "description": "Still leaves",
+    "note": "Under the sea",
+    "vehicle_id": vehicle1.id,
+    "user_id": user2.id,
+    "price": 12908,
+    "worker": worker2.id
+}
+service4 = Service(**krgs4)
+
+# BUDGETS
+budg_dict = {
+    "user_id": user1.id,
+    "total_price": 200000.0,
+    "payment_method": "four stickers",
+    "installments": 1000,
+    "warranty": 0,
+    "vehicle_id": vehicle1.id,
+    "client_id": client1.id,
+    "services": [service2, service]
+}
+budg_dict2 = {
+    "user_id": user2.id,
+    "total_price": 200000.0,
+    "payment_method": "charred money",
+    "installments": 1000,
+    "warranty": 0,
+    "vehicle_id": vehicle.id,
+    "client_id": client2.id,
+    "services": [service3, service4],
+    "confirmed": True,
+    "active": True
+}
+budget = Budget(**budg_dict)
+budget2 = Budget(**budg_dict2)
+# SAVING...
+for instance in [user1, user2, client1, client2, vehicle, vehicle1, worker, worker2, service, service2, service3, service4, budget, budget2]:
+    storage.new(instance)
+
+storage.save()
+
+>>>>>>> api_main

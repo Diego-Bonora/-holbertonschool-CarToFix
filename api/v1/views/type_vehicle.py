@@ -7,6 +7,17 @@ from models.type_vehicle import TypeVehicle
 from models import storage
 
 
+<<<<<<< HEAD
+=======
+
+def check(tyveh):
+    """ Checks for the previous existence of a TypeVehicle """
+    for kind in storage.all(TypeVehicle).values():
+        if kind.name == tyveh.name:
+            return 409
+    return 0
+
+>>>>>>> api_main
 @app_views.route("/type/<tId>", methods=["GET"])
 def get_type(type_name):
     """ Returns a specific TypeVehicle object """
