@@ -73,6 +73,7 @@ At the end of the file:
 ### Vehicle() Routes:
 - [x] GET /api/v1/vehicle/\<veId>/service | get all services for a specific vehicle
 - [x] GET /api/v1/vehicle/\<veId>/budget | get all budgets for a specific vehicle
+- [x] GET /api/v1/vehicle/plate/\<plate>/budget | get all the budgets for a specific vehicle
 - [x] GET /api/v1/vehicle/\<velId> | get a specific vehicle by id
 - [x] GET /api/v1/vehicle/plate/\<plate> | get a specific vehicle by plate
 - [x] GET /api/v1/vehicle/user/\<usrId> | get all vehicles by user Id
@@ -133,3 +134,4 @@ No route should fail upon proper request.
 	- However, the user must be already correctly created
 - [x] No more get all services but get all services by usrId
 - [x] No more get all budgets but get all budgets by usrId
+- [x] Now you can get the budgets for a vehicle by plate

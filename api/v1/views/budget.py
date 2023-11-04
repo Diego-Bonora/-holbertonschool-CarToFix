@@ -16,7 +16,7 @@ emailer = Emailer()
 def call_send(budget):
     """ Calls Emailer.send() """
     if budget.confirmed == False:
-        emailer.send(storage.get(Client, budget.client_id), budget)
+        emailer.send(storage.get(Client, budget.client_id), budget=budget)
 
 
 @app_views.route("/budget/<bdgtId>/services", methods=["GET"])
@@ -86,6 +86,8 @@ def delete_budget(bdgtId):
     bdgt = storage.get(Budget, bdgtId)
     if not bdgt:
         abort(404, {"error": f"Budget: {bdgtId} instance not found"})
+    if bdgt.done == True:
+        abort(409, {"error": f"Budget: {bdgtId} is already finished"})
 
     storage.delete(bdgt)
     storage.save()
@@ -98,7 +100,9 @@ def update_budget(bdgtId):
     # Getting the Budget object
     prev = storage.get(Budget, bdgtId)
     if not prev:
-        abort (404, {"error": f"Budget: {bdgtId} not found"})
+        abort(404, {"error": f"Budget: {bdgtId} not found"})
+    elif prev.done == True:
+        abort(409, {"error": f"Budget: {bdgtId} is already finished"})
 
     # Extending the ditionary with previous instance attrs
     krgs = request.get_json().pop("id", None)
@@ -115,7 +119,10 @@ def update_budget(bdgtId):
 
     # Creating a new instance
     new_bdgt = Budget(**krgs)
-    call_send(new_bdgt)
+    if new_bdgt.done == True:
+        emailer.send(storage.get(Client, new_bdgt.client_id), msg="Subject: Your car is ready!\n\nYour car is ready! Please reach out to the mechanical workshop")
+    else:
+        call_send(new_bdgt)
     storage.new(new_bdgt)
     storage.save()
     return jsonify(new_bdgt.to_dict()), 200

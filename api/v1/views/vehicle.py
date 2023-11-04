@@ -5,7 +5,7 @@ from api.v1.views import app_views
 from flask import abort, jsonify, request
 from models.vehicle import Vehicle
 from models import storage
-
+from models.type_vehicle import TypeVehicle
 
 
 def get_veh_dict(vehicle):
@@ -24,6 +24,27 @@ def get_vehicle_budgets(veId):
         abort(404, {"error": f"Vehicle {veId} not found"})
 
     return jsonify([bdgt.to_dict() for bdgt in vehicle.budgets]), 200
+
+
+@app_views.route("/vehicle/plate/<plate>/budget", methods=["GET"])
+def get_vehicle_budgets_by_plate(plate):
+    """ Returns all the Budget objects for a specific Vehicle """
+    vehicle = next((veh for veh in storage.all(Vehicle).values() if veh.plate == plate), None)
+    if not vehicle:
+        abort(404, {"error": f"Vehicle {plate} not found"})
+
+    btds = []
+    for bdgt in vehicle.budgets:
+        btd = {
+                "vehicle_type": storage.get(TypeVehicle, vehicle.type_vehicle_id).name,
+                "created": bdgt.created_at,
+                "total": bdgt.total_price,
+                "id": bdgt.id
+                }
+        btds.append(btd)
+
+    return jsonify(btds), 200
+
 
 @app_views.route("/vehicle/<veId>/service", methods=["GET"])
 def get_vehicle_service(veId):
