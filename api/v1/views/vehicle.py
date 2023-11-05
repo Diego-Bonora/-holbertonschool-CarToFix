@@ -5,8 +5,16 @@ from api.v1.views import app_views
 from flask import abort, jsonify, request
 from models.vehicle import Vehicle
 from models import storage
+from models.type_vehicle import TypeVehicle
 
 
+def get_veh_dict(vehicle):
+    """ Returns the complete vehicle dictionary """
+    vehd = vehicle.to_dict()
+    vehd["services"] = [serv.to_dict() for serv in vehicle.services]
+    vehd["budgets"] = [bdgt.to_dict() for bdgt in vehicle.budgets]
+    return vehd
+    
 # Mixed routes:
 @app_views.route("/vehicle/<veId>/budget", methods=["GET"])
 def get_vehicle_budgets(veId):
@@ -16,6 +24,27 @@ def get_vehicle_budgets(veId):
         abort(404, {"error": f"Vehicle {veId} not found"})
 
     return jsonify([bdgt.to_dict() for bdgt in vehicle.budgets]), 200
+
+
+@app_views.route("/vehicle/plate/<plate>/budget", methods=["GET"])
+def get_vehicle_budgets_by_plate(plate):
+    """ Returns all the Budget objects for a specific Vehicle """
+    vehicle = next((veh for veh in storage.all(Vehicle).values() if veh.plate == plate), None)
+    if not vehicle:
+        abort(404, {"error": f"Vehicle {plate} not found"})
+
+    btds = []
+    for bdgt in vehicle.budgets:
+        btd = {
+                "vehicle_type": storage.get(TypeVehicle, vehicle.type_vehicle_id).name,
+                "created": bdgt.created_at,
+                "total": bdgt.total_price,
+                "id": bdgt.id
+                }
+        btds.append(btd)
+
+    return jsonify(btds), 200
+
 
 @app_views.route("/vehicle/<veId>/service", methods=["GET"])
 def get_vehicle_service(veId):
@@ -33,25 +62,25 @@ def uget_vehicle(veId):
     """ Return the requested Vehicle object if found """
     vehicle = storage.get(Vehicle, veId)
     if vehicle:
-        return jsonify(vehicle.to_dict()), 200
+        return jsonify(get_veh_dict(vehicle)), 200
 
     abort(404, {"error": f"Vehicle {veId} not found"})
+
 
 @app_views.route("/vehicle/plate/<plate>", methods=["GET"])
 def get_by_plate(plate):
     """ Return the resquested Vehicle object if found """
     vehicle = next((veh for veh in storage.all(Vehicle).values() if veh.plate == plate), None)
     if vehicle:
-        return jsonify(vehicle.to_dict()), 200
+        return jsonify(get_veh_dict(vehicle)), 200
 
     abort(404, {"error": f"Vehicle {plate} not found"})
 
 
-
-@app_views.route("/vehicle", methods=["GET"])
-def get_all_vehicles():
+@app_views.route("/vehicle/user/<usrId>", methods=["GET"])
+def get_all_vehicles(usrId):
     """ Returns all the Vehicle objects """
-    vehs = [veh.to_dict() for veh in storage.all(Vehicle).values()]
+    vehs = [get_veh_dict(veh) for veh in storage.all(Vehicle).values() if veh.user_id == usrId]
 
     return jsonify(vehs), 200
 

@@ -5,8 +5,28 @@ To run it:
 $ cd api/v1/
 $ flask run
 ```
+It's important for it to run properly, you to modify the `create0.py` file.
+
+## Modification of `create0.py`:
+```
+$ head -n 16 create0.py | tail -n 1
+user = User(name="CarToFix", mail="cartofixcostumers@gmail.com", password="F#7b9/db", phone="598984982", logo="logeishon")
+```
+As showed, the 16th line creates an instance of User.
+This special user doesn't contains the correct password, so you need to modify it, i.e:
+```
+$ head -n 16 create0.py | tail -n 1
+user = User(name="CarToFix", mail="cartofixcostumers@gmail.com", password="CORRECTPASSWORD", phone="598984982", logo="logeishon")
+```
+Once that's done, you can (must), execute it.
+Then, for security reasons after executing it, youll have to change the password again to a fake one;
+```
+$ head -n 16 create0.py | tail -n 1
+user = User(name="CarToFix", mail="cartofixcostumers@gmail.com", password="F#7b9/db", phone="598984982", logo="logeishon")
+```
+
 ## Create a Budget:
-You can create a single Budget with vehicles related using `create_a_budget_service.py`:
+You can create a some Budgets with vehicles related, and more, by using `create_a_budget_service.py`:
 ```
 $ python3 create_a_budget_service.py 
 [Service] (d58af18c-0dd0-4277-89a2-b65b6f1f46c5) {'_sa_instance_state': <sqlalchemy.orm.state.InstanceState object at 0x7f8d0e8ee710>, 'title': 'House burn down', 'description': "Arsonist's Lullabye - Hozier", 'note': 'A piano was required', 'vehicle_id': 'ce6fd674-2cf9-4036-a906-129f2fc5efda', 'user_id': 'a39c6129-3855-48fd-9d71-d0ba1c0ef35c', 'budget_id': 'fe04c58b-a574-4bf1-b218-819394942b50', 'price': 4.9, 'created_at': datetime.datetime(2023, 10, 31, 20, 46, 58, 243731), 'id': 'd58af18c-0dd0-4277-89a2-b65b6f1f46c5'}
@@ -45,7 +65,7 @@ At the end of the file:
 
 ### Service() Routes:
 - [x] GET /api/v1/service/\<scId> | get a specific service
-- [x] GET /api/v1/service | get all services 
+- [x] GET /api/v1/service/user/\<usrId> | get all services
 - [x] POST /api/v1/service | create a service
 - [x] DELETE /api/v1/service/\<scId> | delete a specific service
 - [x] PUT /api/v1/service/\<scId> | update a specific service
@@ -53,9 +73,10 @@ At the end of the file:
 ### Vehicle() Routes:
 - [x] GET /api/v1/vehicle/\<veId>/service | get all services for a specific vehicle
 - [x] GET /api/v1/vehicle/\<veId>/budget | get all budgets for a specific vehicle
+- [x] GET /api/v1/vehicle/plate/\<plate>/budget | get all the budgets for a specific vehicle
 - [x] GET /api/v1/vehicle/\<velId> | get a specific vehicle by id
 - [x] GET /api/v1/vehicle/plate/\<plate> | get a specific vehicle by plate
-- [x] GET /api/v1/vehicle | get all vehicles
+- [x] GET /api/v1/vehicle/user/\<usrId> | get all vehicles by user Id
 - [x] POST /api/v1/vehicle | create a vehicle
 - [x] DELETE /api/v1/vehicle/\<veId> | delete a specific vehicle
 - [x] PUT /api/v1/vehicle/\<veId> | update a specific vehicle
@@ -78,7 +99,7 @@ At the end of the file:
 ### Budget() Routes:
 - [x] GET /api/v1/budget/\<bdgtId>/services | get all services for a specific budget
 - [x] GET /api/v1/budget/\<bdgtId> | get a specific budget
-- [x] GET /api/v1/budget | get all budgets
+- [x] GET /api/v1/budget/\<usrId> | get all budgets
 - [x] POST /api/v1/budget | create a budget
 - [x] DELETE /api/v1/budget/\<bdgtId> | delete a budget
 - [x] REPOST /api/v1/budget/\<bdgtId> | update a budget (the object will be destroyed and re-made)
@@ -101,18 +122,16 @@ No route should fail upon proper request.
 
 - [ ] checks previous existence of user
 - [ ] checks previous existence of worker
+- [ ] checks budget is done, so that it cannot be updated
 
-#### Last:
-- [x] The server handles multiple request at a time
-- [x] All request are allowed, from anywhere.
-- [x] No debug mode on by default.
-- [x] Cannot create a brand that exists already.
-- [x] Cannot create a Client that exists already.
-- [x] New checking attributes for post and repost for budget
-- [x] Services now are turn into dicts when using get for budgets
-- [x] Services required when posting budgets
-- [x] budget_id not required anymore when posting services
+#### Latest:
 - [x] budget calls emailer each time a budget is created
 - [x] dashboard route added
 - [x] create 0 now creates more instances (even workers).
 - [x] get a vehicle by plate
+- [x] get all vehicles is now get all vehicles by user id
+- [x] Not necessary to look for the user "CarToFix" to initialize Emailer;
+	- However, the user must be already correctly created
+- [x] No more get all services but get all services by usrId
+- [x] No more get all budgets but get all budgets by usrId
+- [x] Now you can get the budgets for a vehicle by plate

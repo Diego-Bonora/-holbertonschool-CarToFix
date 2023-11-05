@@ -4,6 +4,8 @@
 from api.v1.views import app_views
 from flask import abort, jsonify
 from models.budget import Budget
+from datetime import datetime
+from datetime import timedelta
 from models.service import Service
 from models import storage
 from models.user import User
@@ -40,7 +42,7 @@ def dashboard(usrId):
                 "id": bdgt.id,
                 "created": bdgt.created_at,
                 "plate": storage.get(Vehicle, bdgt.vehicle_id).plate,
-                "services": [service.title for service in budget.services],
+                "services": [service.title for service in bdgt.services],
                 }
         res["budgets"].append(bdgts)
 
