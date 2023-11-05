@@ -108,13 +108,17 @@ export default function CreateNewBudget() {
 		console.log("data sumbmited", dataSubmited);
 	}, [dataSubmited]);
 
-
+	useEffect(() => {
+		if (clientExist) {
+			setClientRetRegistered(true)
+		}
+	}, clientExist)
 
 	return (
 		<>
 			<div className="w-screen h-screen  flex items-center  justify-center flex-row bg-cyan-200 justify-items-center">
 				<NewBudget checkPlateRegistration={checkPlateRegistration} />
-				<RegisterVehicleModal display={modalDisplayMode} checkClient={checkClient} modalState={(displayModal) => modalState(displayModal, () => { })} data={getVehCliData} />
+				<RegisterVehicleModal display={modalDisplayMode} checkClient={checkClient} modalState={(displayModal) => modalState(displayModal, () => { })} data={getVehCliData} clientExiste={clientRegistered} />
 			</div>
 		</>
 	)

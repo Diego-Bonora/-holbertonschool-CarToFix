@@ -1,8 +1,10 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom';
+import MessageZone from './MessageZone';
 
-export default function RegisterVehicleModal({ display, checkClient, modalState, data }) {
+
+export default function RegisterVehicleModal({ display, checkClient, modalState, data, clientExiste }) {
 
 
 
@@ -22,8 +24,8 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 		setFormVehicleClientData((prevFormData) => ({ ...prevFormData, [name]: value }));
 
 
-
 	}
+
 
 
 
@@ -77,6 +79,9 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 		window.location.reload(false);
 	}
 
+	useEffect(() => {
+		console.log("estado de cliente ", clientExiste)
+	}, clientExiste)
 
 
 
@@ -97,6 +102,7 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 
 										<div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
 											<h3 className="text-2xl font-semibold leading-6 text-gray-900" id="modal-title">Nuevo vehículo</h3>
+											<MessageZone display={clientExiste ? 'succes' : 'none'} text="Cliente registrado" />
 											<div className="grid mt-2 gap-y-3">
 												<p className="text-sm text-gray-500 mt-5">Ingresa datos del cliente</p>
 												<div className='flex flex-col-2 justify-between'>
@@ -106,7 +112,11 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 														<input className='bg-[#B4D1D3]  text-right w-5/4 h-full px-6 mt-2' type='text' id='' name="name" value={formVehicleClientData.name} onChange={onFormChange} placeholder='Nombre y Apellido' ></input>
 													</div>
 
+
+
 												</div>
+
+
 												<div className='flex flex-col-2 justify-between'>
 													<label className=" font-black mr-2 mt-3 " for="mail">Mail</label>
 
