@@ -108,7 +108,10 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 				console.log(error);
 			});
 	}
-
+	let status = [{
+		to_fill: ' ',
+		disabled: 'disabled',
+	}]
 
 
 	return (
@@ -143,19 +146,21 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 												</div>
 
 
+
 												<div className='flex flex-col-2 justify-between'>
 													<label className=" font-black mr-2 mt-3 " for="mail">Mail</label>
 
 													<div className='flex flex-row-reverse w-1/2'>
-														<input className='bg-[#B4D1D3]  text-right w-5/4 h-full px-6 mt-2' type='text' id='' name="mail" value={formVehicleClientData.mail} onChange={onFormChange} onFocus={checkClient(formVehicleClientData.name)} placeholder='Correo' ></input>
+														<input className='bg-[#B4D1D3]  text-right w-5/4 h-full px-6 mt-2' type='text' id='' name="mail" value={formVehicleClientData.mail} onChange={onFormChange} onFocus={checkClient(formVehicleClientData.name)} placeholder='Correo' disabled={clientExiste} ></input>
 													</div>
+
 
 												</div>
 												<div className='flex flex-col-2 justify-between'>
 													<label className=" font-black mr-2 mt-3 " for="phone">Telefono</label>
 
 													<div className='flex flex-row-reverse w-1/2'>
-														<input className='bg-[#B4D1D3]  text-right w-3/4 h-full px-6 mt-2' type='text' id='' name="phone" value={formVehicleClientData.phone} onChange={onFormChange} placeholder='Teléfono' ></input>
+														<input className='bg-[#B4D1D3]  text-right w-3/4 h-full px-6 mt-2' type='text' id='' name="phone" value={formVehicleClientData.phone} onChange={onFormChange} placeholder='Teléfono' disabled={clientExiste} ></input>
 													</div>
 
 												</div>
