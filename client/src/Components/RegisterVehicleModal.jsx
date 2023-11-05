@@ -2,11 +2,13 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom';
 
-export default function RegisterVehicleModal({ display }) {
+export default function RegisterVehicleModal({ display, checkClient, modalState, data }) {
 
-	let clientExist = false
+
 
 	let baseURL = 'http://127.0.0.1:5000'
+
+	let [newVehicleSubmited, setnewVehicleSubmited] = useState(false)
 
 	const [newData, setNewData] = useState([]);
 
@@ -22,34 +24,6 @@ export default function RegisterVehicleModal({ display }) {
 
 
 	}
-
-
-
-
-
-	const checkClient = () => {
-		console.log("cliente ingresado", formVehicleClientData.name)
-		axios.get(`${baseURL}/api/v1/client`)
-			.then((res) => {
-				const clients = res.data
-				console.log("clients", clients)
-				const clientONBase = clients.filter((client) => client.name === formVehicleClientData.name)
-				console.log("search result", clientONBase)
-				if (clientONBase != 0) {
-
-					formVehicleClientData.mail = res.data.mail
-					formVehicleClientData.phone = res.data.phone
-					clientExist = true
-
-					console.log("client exist: ", clientExist)
-				} else {
-					clientExist = false
-					console.log("client exist: ", clientExist)
-				}
-
-			})
-	}
-
 
 
 
@@ -76,13 +50,25 @@ export default function RegisterVehicleModal({ display }) {
 
 
 		setNewData((prevData) => [...prevData, newVehicleData]);
+		setnewVehicleSubmited(true)
+		data((prevData) => [...prevData, newVehicleData])
 
-		display = 'hidden'
+		modalState('none', () => {
+			// Código que se ejecuta después de actualizar el estado
+		});
+
+
+
 	};
 
 
 	useEffect(() => {
 		console.log("Vehiculo ingresado", newData);
+		if (newVehicleSubmited === true) {
+
+			modalState('none', () => { });
+			console.log("submit has close the modal")
+		}
 	}, [newData]);
 
 	const abortNewVehicle = () => {
@@ -90,6 +76,8 @@ export default function RegisterVehicleModal({ display }) {
 		console.log("Aborting Add Vehicle or Clinet")
 		window.location.reload(false);
 	}
+
+
 
 
 	return (
@@ -123,7 +111,7 @@ export default function RegisterVehicleModal({ display }) {
 													<label className=" font-black mr-2 mt-3 " for="mail">Mail</label>
 
 													<div className='flex flex-row-reverse w-1/2'>
-														<input className='bg-[#B4D1D3]  text-right w-5/4 h-full px-6 mt-2' type='text' id='' name="mail" value={formVehicleClientData.mail} onChange={onFormChange} onFocus={checkClient} placeholder='Correo' ></input>
+														<input className='bg-[#B4D1D3]  text-right w-5/4 h-full px-6 mt-2' type='text' id='' name="mail" value={formVehicleClientData.mail} onChange={onFormChange} onFocus={checkClient(formVehicleClientData.name)} placeholder='Correo' ></input>
 													</div>
 
 												</div>
