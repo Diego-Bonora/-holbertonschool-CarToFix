@@ -56,9 +56,11 @@ def create_client():
 
     new_clnt = Client(**krgs)
     if check(new_clnt) == 0:
+        storage.new(new_clnt)
         storage.save()
         return jsonify(new_clnt.to_dict()), 201
-    abort(409, {"error": f"{new_clnt.name} already exists"})
+    else:
+        abort(409, {"error": f"{new_clnt.name} already exists"})
 
 @app_views.route("/client/<clnId>", methods=["DELETE"])
 def delete_client(clnId):
