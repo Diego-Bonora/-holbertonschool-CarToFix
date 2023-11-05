@@ -4,6 +4,8 @@ from models.budget import Budget
 from models.mailer.Emailer import Emailer
 from models import storage
 from models.user import User
+from models.client import Client
 
 
-print(storage.get(User, "bf66f456-c2a0-44d3-aba4-2dff0afb1694").name)
+for client in storage.all(Client).values():
+    print(client.name)
