@@ -12,6 +12,9 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 
 	let [newVehicleSubmited, setnewVehicleSubmited] = useState(false)
 
+	let clientCreated = false
+	let cliResponse = ''
+
 	const [newData, setNewData] = useState([]);
 
 	const [formVehicleClientData, setFormVehicleClientData] = useState([{
@@ -83,6 +86,29 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 		console.log("estado de cliente ", clientExiste)
 	}, clientExiste)
 
+	const createClient = () => {
+		const clientToSend = JSON.stringify({
+			name: formVehicleClientData.name,
+			email: formVehicleClientData.mail,
+			phone: formVehicleClientData.phone,
+
+		})
+		axios.post(`${baseURL}/api/v1/client`, clientToSend, {
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json'
+			}
+		})
+			.then(function (response) {
+				console.log(response);
+				clientCreated = true
+				cliResponse = response
+			})
+			.catch(function (error) {
+				console.log(error);
+			});
+	}
+
 
 
 	return (
@@ -133,12 +159,14 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 													</div>
 
 												</div>
+												<MessageZone display={clientCreated ? 'succes' : 'none'} text="Nuevo Cliente Creado" />
+												<MessageZone display={cliResponse ? 'alert' : 'none'} text={cliResponse} />
 												<p className="text-sm text-gray-500 mt-3">Ingresa los datos del nuevo vehículo</p>
 												<div className='flex flex-col-2 justify-between'>
 													<label className=" font-black mr-2 mt-3 " for="plate">Matricula</label>
 
 													<div className='flex flex-row-reverse w-1/2'>
-														<input className='bg-[#B4D1D3]  text-right w-3/4 h-full px-6 mt-2' type='text' id='' name="plate" value={formVehicleClientData.plate} onChange={onFormChange} placeholder='XXX-0000' ></input>
+														<input className='bg-[#B4D1D3]  text-right w-3/4 h-full px-6 mt-2' type='text' id='' name="plate" value={formVehicleClientData.plate} onChange={onFormChange} onFocus={createClient} placeholder='XXX-0000' ></input>
 													</div>
 
 												</div>
