@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaBars, FaTimes } from 'react-icons/fa';
+import isologotipo from '../assets/isologotipo.png';
+import nobre_taller from '../assets/nobre_taller.png';
 
 export default function NavBar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -11,9 +13,10 @@ export default function NavBar() {
 
   return (
     <header>
-      <div className=" py-5 pr-14 pl-8 bg-cian-oscuro md:rounded-b-header_border flex items-center justify-between">
+      <div className=" py-1 pr-14 pl-8 bg-cian-oscuro md:rounded-b-header_border flex items-center justify-between">
         <div className='flex flex-grow items-center'>
-          <img src="" alt="" />
+          <img src={isologotipo} alt=""  className='w-16 md:block hidden'/>
+          <img src={nobre_taller} alt=""  className='w-48 mr-5'/>
         </div>
         {/* Icono de menú */}
         <div className="md:hidden pr-10">
