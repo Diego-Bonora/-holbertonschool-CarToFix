@@ -74,7 +74,7 @@ def get_all_budgets(usrId):
 def create_budget():
     """ Creates a Budget object """
     krgs = request.get_json()
-    needed = ["total_price", "payment_method", "user_id", "installments", "warranty", "vehicle_id", "client_id", "services"]
+    needed = ["total_price", "payment_method", "user_id", "installments", "warranty", "vehicle_id", "client_id"]
     if not krgs:
         abort(400, {"error": "Couldn’t get request; not a json"})
 
@@ -121,7 +121,7 @@ def update_budget(bdgtId):
 
     krgs.update(prev.to_dict().pop("id", None))
 
-    needed = ["total_price", "payment_method", "user_id", "installments", "warranty", "vehicle_id", "client_id", "services"]
+    needed = ["total_price", "payment_method", "user_id", "installments", "warranty", "vehicle_id", "client_id"]
 
     for arg in needed:
         if arg not in krgs:
