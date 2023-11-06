@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
-import Button from './button';
 
 export default function DataBox({ info, columns }) {
   return (

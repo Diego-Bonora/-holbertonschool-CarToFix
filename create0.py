@@ -13,7 +13,7 @@ veh_type = TypeVehicle(name="tha_type")
 client = Client(name="ET", phone="3802348", email="emanueltrias9@gmail.com")
 brand = Brand(name="tha_brand")
 brand2 = Brand(name="brand-on")
-user = User(name="CarToFix", mail="cartofixcostumers@gmail.com", password="F#7b9/db", phone="598984982", logo="logeishon")
+user = User(name="CarToFix", mail="cartofixcostumers@gmail.com", password="gjvx jqom uhpa lnpo", phone="598984982", logo="logeishon")
 
 # Save user instance before referencing it in other instances
 storage.new(user)
@@ -151,11 +151,7 @@ krgs = {
 service = Service(**krgs)
 krgs2 = {
     "title": "Building contract",
-<<<<<<< HEAD
-    "description": "Everione's happy",
-=======
     "description": "Everyone's happy",
->>>>>>> api_main
     "note": "People trapped in the elevator",
     "vehicle_id": vehicle1.id,
     "user_id": user2.id,
@@ -212,8 +208,6 @@ for instance in [user1, user2, client1, client2, vehicle, vehicle1, worker, work
     storage.new(instance)
 
 storage.save()
-<<<<<<< HEAD
-=======
 
 # ONE MORE BUDGET, SERVICE, SOME USERS, SOME WORKERS, SOME VEHICLES, SOME, CLIENTS
 #CLIENTS
@@ -306,4 +300,3 @@ for instance in [user1, user2, client1, client2, vehicle, vehicle1, worker, work
 
 storage.save()
 
->>>>>>> api_main

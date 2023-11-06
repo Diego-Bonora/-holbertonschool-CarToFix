@@ -7,12 +7,6 @@ from models.client import Client
 from models import storage
 
 
-<<<<<<< HEAD
-@app_views.route("/client/<clnId>/vehicle", methods=["GET"])
-def get_client_vehicles(clnId):
-    """ Returns all the vehicles for a specific CLient """
-    client = client.get(Client, veId)
-=======
 
 def check(client):
     """ Checks for the existence of the given Client """
@@ -26,7 +20,6 @@ def check(client):
 def get_client_vehicles(clnId):
     """ Returns all the vehicles for a specific CLient """
     client = client.get(Client, clnId)
->>>>>>> api_main
     if not vehicle:
         abort(404, {"error": f"Client {clId} not found"})
 
@@ -36,11 +29,7 @@ def get_client_vehicles(clnId):
 @app_views.route("/client/<clnId>", methods=["GET"])
 def get_client(clnId):
     """ Returns an specific Client object """
-<<<<<<< HEAD
-    client = storage.get(Client,clnId)
-=======
     client = storage.get(Client, clnId)
->>>>>>> api_main
     if not client:
         abort(404, {"error": f"Client {clnId} not found"})
 
@@ -66,16 +55,10 @@ def create_client():
             abort(400, {"error": f"{arg} missing"})
 
     new_clnt = Client(**krgs)
-<<<<<<< HEAD
-    storage.save(new_clnt)
-
-    return jsonify(new_clnt.to_dict()), 201
-=======
     if check(new_clnt) == 0:
         storage.save(new_clnt)
         return jsonify(new_clnt.to_dict()), 201
     abort(409, {"error": f"{new_clnt.name} already exists"})
->>>>>>> api_main
 
 @app_views.route("/client/<clnId>", methods=["DELETE"])
 def delete_client(clnId):
@@ -92,11 +75,7 @@ def delete_client(clnId):
 @app_views.route("/api/v1/client/<clId>", methods=["PUT"])
 def update_client(clId):
     """ Updates a Client object """
-<<<<<<< HEAD
-    clnt = storage.get(Client, clId)
-=======
     clnt = storage.get(Client, clnId)
->>>>>>> api_main
     if not clnt:
         abort (404, {"error": f"Client: {clId} not found"})
 
@@ -108,13 +87,8 @@ def update_client(clId):
     	if key is not "id":
             setattr(clnt, key, value)
 
-<<<<<<< HEAD
-    storage.save()
-    return jsonify(clnt.to_dict()), 200
-=======
     if check(clnt) == 0:
         storage.save()
         return jsonify(clnt.to_dict()), 200
     abort(409, {"error": f"{clnt.name} already exists"})
->>>>>>> api_main
 

@@ -3,12 +3,6 @@
 
 from api.v1.views import app_views
 from flask import abort, jsonify, request
-<<<<<<< HEAD
-from models.service import Service
-from models import storage
-
-
-=======
 from models.budget import Budget
 from models.service import Service
 from models import storage
@@ -33,7 +27,6 @@ def custom_get_serv(all_servs):
 
     return servs
 
->>>>>>> api_main
 @app_views.route("/service/<scId>", methods=["GET"])
 def get_service(scId):
     """ Returns a Service object based on its id """
@@ -44,30 +37,17 @@ def get_service(scId):
     return jsonify(service.to_dict()), 200
 
 
-<<<<<<< HEAD
-@app_views.route("/service", methods=["GET"])
-def get_all_services():
-    """ Returns all Service objects """
-    serv_list = [serv.to_dict() for serv in storage.all(Service).values()]
-
-    return jsonify(serv_list), 200
-=======
 @app_views.route("/service/user/<usrId>", methods=["GET"])
 def get_all_services(usrId):
     """ Returns all Service objects """
     servs = [serv for serv in storage.all(Service).values() if serv.user_id == usrId]
 
     return jsonify(custom_get_serv(servs)), 200
->>>>>>> api_main
 
 
 @app_views.route("/service", methods=["POST"])
 def create_service():
-<<<<<<< HEAD
-    """ Creates a Service object """
-=======
     """ Creates astorage.get(Budget, serv.budget_id).active Service object """
->>>>>>> api_main
     krgs = request.get_json()
     needed = ["price", "title", "description", "vehicle_id", "user_id", "budget_id"]
     if not krgs:

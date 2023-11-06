@@ -48,8 +48,8 @@ export default {
         'marg-1': '8%',
         'marg-2': '15%',
         'marg-3': '4%',
-        'marg-4': '10%',
-		'marg-5': '30%',
+        'marg-4': '15%',
+		'marg-5': '22%',
 		'marg-6': '20%',
 	},
 	borderRadius: {

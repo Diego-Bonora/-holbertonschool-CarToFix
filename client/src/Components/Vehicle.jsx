@@ -16,9 +16,11 @@ export default function Vehicle() {
       { plate: '', services: '', created_at: ''}
     ]);
     
+    const usrId = '277b70d9-34d7-4582-9ce4-456f81edcb34';
+
     {/*get plate*/}
     useEffect(() => {
-      axios.get(`${baseURL}/api/v1/vehicle`)
+      axios.get(`${baseURL}/api/v1/service/user/${usrId}`)
         .then((res) => {
           setVehicleData(Object.values(res.data))
           console.log(VehicleData);
