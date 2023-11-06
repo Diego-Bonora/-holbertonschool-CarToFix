@@ -36,8 +36,18 @@ def get_budget(bdgtId):
     budget = storage.get(Budget, bdgtId)
     if not budget:
         abort(404, {"error": f"Budget: {bdgtId} instance not found"})
+
+    vehicle = storage.get(Vehicle, budget.vehicle_id)
+
     bdict = budget.to_dict()
-    bdict["services"] = [serv.to_dict() for serv in budget.services]
+    bdict = {
+        "vehicle_type": storage.get(TypeVehicle, vehicle.type_vehicle_id).name,
+        "created": budget.created_at,
+        "total": budget.total_price,
+        "id": budget.id,
+        "services": [serv.to_dict() for serv in budget.services],
+        "vehicle": vehicle.to_dict()
+        }
 
     return jsonify(bdict), 200
 

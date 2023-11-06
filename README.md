@@ -122,7 +122,6 @@ No route should fail upon proper request.
 
 - [ ] checks previous existence of user
 - [ ] checks previous existence of worker
-- [ ] checks budget is done, so that it cannot be updated
 
 #### Latest:
 - [x] budget calls emailer each time a budget is created
@@ -135,3 +134,4 @@ No route should fail upon proper request.
 - [x] No more get all services but get all services by usrId
 - [x] No more get all budgets but get all budgets by usrId
 - [x] Now you can get the budgets for a vehicle by plate
+- [x] If budget is done, it cannot be updated
