@@ -19,8 +19,7 @@ const Login = () => {
 
     const formData = {
       mail: mail,
-      password: password,
-      recuerdame: recuerdame
+      password: password
     };
 
     try {
@@ -29,10 +28,9 @@ const Login = () => {
           'Content-Type': 'application/json'
         }
       });
+      console.log(response.data);
       if (response.status === 200) {
-        if (recuerdame) {
-          Cookies.set('cookie_user', '', { expires: 7 });
-        }
+        localStorage.setItem('sessionToken', response.data.sessionToken);
         navigate('/home');
       } else if ([400, 404, 401].includes(response.status)) {
         setError(response.data.error);
@@ -42,7 +40,10 @@ const Login = () => {
     } catch (error) {
       setError('An error occurred. Please try again later.');
     }
+    // when log out
+    // localStorage.removeItem('sessionToken');
   };
+
 
   return (
     <>
