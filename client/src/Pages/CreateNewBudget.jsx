@@ -12,6 +12,19 @@ export default function CreateNewBudget() {
 	const [formSubmited, setFormSubmited] = useState(false)
 	const [dataSubmited, setDataSubmited] = useState([])
 	const [actualClient, setActualClient] = useState([])
+	const [vehicleToSend, setVehicleToSend] = useState({
+		plate: '',
+		brand: '',
+		model: '',
+		color: '',
+		mileage: '',
+		user_id: '',
+		client_id: '',
+		vehicle_type: '',
+
+	})
+
+
 
 	let clientExist = false
 	let userId = 'a6fbfd74-fc6f-48e7-ac16-90ee90121669'
@@ -88,7 +101,6 @@ export default function CreateNewBudget() {
 	}
 
 
-
 	useEffect(() => {
 
 		if (!plateRegistered) {
@@ -100,8 +112,6 @@ export default function CreateNewBudget() {
 			setModalDisplayMode("none");
 		}
 
-
-
 	})
 
 	const getVehCliData = (newdata) => {
@@ -110,40 +120,61 @@ export default function CreateNewBudget() {
 
 	useEffect(() => {
 		console.log("data sumbmited", dataSubmited);
+		console.log("actual client  sumbmited", actualClient);
 
-		if (dataSubmited) {
-			const vehicleToSend = ({
-				plate: dataSubmited.plate,
-				brand: dataSubmited.brand,
-				model: dataSubmited.model,
-				color: dataSubmited.color,
-				mileage: dataSubmited.kms,
-				user_id: userId,
-				client_id: actualClient.id,
-				type_vehicle_id: dataSubmited.type_vehicle_id,
 
-			})
-			axios.post(`${baseURL}/api/v1/vehicle/${userId}`, vehicleToSend, {
-				headers: {
-					Accept: 'application/json',
-					'Content-Type': 'application/json'
-				}
-			})
-				.then(function (response) {
-					console.log(response);
 
-				})
-				.catch(function (error) {
-					console.log(error);
-				});
-		}
-	}, [dataSubmited]);
+
+
+	}, [dataSubmited])
 
 	useEffect(() => {
 		if (clientExist) {
 			setClientRetRegistered(true)
 		}
 	}, clientExist)
+
+
+
+
+
+
+
+
+	const createVehicle = (dataSubmited, actualClient, actualTypeOfVehicle) => {
+		console.log("creating vehicle")
+		console.log("data sumbmited on create ", dataSubmited);
+		console.log("actual client sumbmited on create ", actualClient);
+		console.log("actual type of vehicle on create ", actualTypeOfVehicle);
+
+		setVehicleToSend({
+			plate: dataSubmited.plate,
+			brand: dataSubmited.brand,
+			model: dataSubmited.model,
+			color: dataSubmited.color,
+			mileage: dataSubmited.kms,
+			user_id: userId,
+			client_id: actualClient.id,
+			vehicle_type: dataSubmited.vehicle_type,
+
+		})
+		console.log("VEHICLE TO SEND ", vehicleToSend)
+		// axios.post(`${baseURL}/api/v1/vehicle/`, vehicleToSend, {
+		// 	headers: {
+		// 		Accept: 'application/json',
+		// 		'Content-Type': 'application/json'
+		// 	}
+		// })
+		// 	.then(function (response) {
+		// 		console.log(response);
+
+		// 	})
+		// 	.catch(function (error) {
+		// 		console.log(error);
+		// 	});
+
+	}
+
 
 	return (
 		<>

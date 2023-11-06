@@ -47,8 +47,9 @@ def create_type():
         if arg not in krgs:
     	    abort(400, {"error": f"{arg} missing"})
 
-    new_type = Type(**krgs)
-    storage.save(new_type)
+    new_type = TypeVehicle(**krgs)
+    storage.new(new_type)
+    storage.save()
 
     return jsonify(new_type.to_dict()), 201
 

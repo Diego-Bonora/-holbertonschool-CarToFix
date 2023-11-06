@@ -7,7 +7,7 @@ import MessageZone from './MessageZone';
 export default function RegisterVehicleModal({ display, checkClient, modalState, data, clientExiste }) {
 
 
-
+	let userId = 'a6fbfd74-fc6f-48e7-ac16-90ee90121669'
 	let baseURL = 'http://127.0.0.1:5000'
 
 	let [newVehicleSubmited, setnewVehicleSubmited] = useState(false)
@@ -19,8 +19,13 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 	const [newData, setNewData] = useState([]);
 
 	const [formVehicleClientData, setFormVehicleClientData] = useState([{
-		name: "", email: "", phone: "", plate: "", type_vehicle_id: "", brand: "", model: "", color: "", kms: ""
+		name: "", email: "", phone: "", plate: "", viehicle_type: "", brand: "", model: "", color: "", kms: ""
 	}])
+
+	let typeExist = false
+	const [typeOndVehicle, setTypeOnVehicle] = useState([])
+	const [actualTypeOfVehicle, setActualTypeOfVehicle] = useState([])
+	let vehicletype = null
 
 	const onFormChange = (event) => {
 
@@ -46,7 +51,7 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 		const newVehicleData = {
 			name: formVehicleClientData.name,
 			plate: formVehicleClientData.plate,
-			type_vehicle_id: formVehicleClientData.type_vehicle_id,
+			viehicle_type: formVehicleClientData.viehicle_type,
 			brand: formVehicleClientData.brand,
 			model: formVehicleClientData.model,
 			color: formVehicleClientData.color,
@@ -57,7 +62,7 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 		setNewData((prevData) => [...prevData, newVehicleData]);
 		setnewVehicleSubmited(true)
 		data((prevData) => [...prevData, newVehicleData])
-
+		createTypeVehicle(formVehicleClientData.viehicle_type)
 		modalState('none', () => {
 			// Código que se ejecuta después de actualizar el estado
 		});
@@ -107,6 +112,54 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 			.catch(function (error) {
 				console.log(error);
 			});
+	}
+
+	const createTypeVehicle = (type) => {
+
+		console.log("typed TYPE", type)
+		console.log("type ingresado", type)
+		if (type != 0) {
+			console.log("searchig TYPE...")
+
+			axios.get(`${baseURL}/api/v1/type`)
+				.then((res) => {
+					const types = res.data
+					console.log("existence types", types)
+					const typesOnBase = types.filter((eachtype) => eachtype.name === type)
+					console.log("type search result", typesOnBase)
+					if (typesOnBase != 0) {
+						typeExist = true
+						setTypeOnVehicle(true)
+						setActualTypeOfVehicle(typesOnBase)
+						console.log("type exist: ", typesOnBase)
+					} else {
+						typeExist = false
+						setActualTypeOfVehicle(false)
+						console.log("type is new : ", type)
+					}
+
+				})
+		}
+		if (!typeExist) {
+			console.log("creating TYPE of Vehicle...", type)
+			axios.post(`${baseURL}/api/v1/type`, JSON.stringify({
+				name: type
+			}), {
+				headers: {
+					Accept: 'application/json',
+					'Content-Type': 'application/json'
+				}
+			})
+				.then(function (response) {
+					console.log(response);
+					vehicletype = response.data.id
+
+
+				})
+				.catch(function (error) {
+					console.log(error);
+				});
+		}
 	}
 
 
@@ -173,10 +226,10 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 
 												</div>
 												<div className='flex flex-col-2 justify-between'>
-													<label className=" mr-2 mt-3 " for="type_vehicle_id">Tipo de vehiculo</label>
+													<label className=" mr-2 mt-3 " for="viehicle_type">Tipo de vehiculo</label>
 
 													<div className='flex flex-row-reverse w-1/2'>
-														<input className='bg-[#B4D1D3]  text-right w-3/4 h-full px-6 mt-2' type='text' id='' name="type_vehicle_id" value={formVehicleClientData.type_vehicle_id} onChange={onFormChange} placeholder='auto, moto, camión' ></input>
+														<input className='bg-[#B4D1D3]  text-right w-3/4 h-full px-6 mt-2' type='text' id='viehicle_type' name="viehicle_type" value={formVehicleClientData.viehicle_type} onChange={onFormChange} placeholder='auto, moto, camión' ></input>
 													</div>
 
 												</div>
@@ -233,5 +286,3 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 		</div >
 	)
 }
-
-
