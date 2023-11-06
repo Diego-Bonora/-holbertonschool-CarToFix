@@ -2,7 +2,7 @@
 """register api"""
 
 from api.v1.views import app_views
-from flask import abort, jsonify, request
+from flask import jsonify, request, session
 from models.user import User
 from models import storage
 import bcrypt
@@ -37,4 +37,10 @@ def registration():
     storage.new(new_user)
     storage.save()
 
-    return jsonify({'message': 'User registered successfully'}), 201
+    return jsonify({
+        "id": new_user.id,
+        "mail": new_user.mail
+    }), 201
+
+
+"""    return jsonify({'message': 'User registered successfully'}), 201"""

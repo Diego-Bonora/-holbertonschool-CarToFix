@@ -2,10 +2,11 @@
 """login api"""
 
 from api.v1.views import app_views
-from flask import abort, jsonify, request
+from flask import jsonify, request, session
 from models.user import User
 from models import storage
 import bcrypt
+from models.session import Session
 
 
 @app_views.route('/login', methods=['POST'])
@@ -27,14 +28,25 @@ def login():
         return jsonify({"error": "User not found"}), 404
 
     if bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8')):
-        return jsonify({"message": "Logged in successfully"})
+        session['user_id'] = user.id
+        new_session = Session(data=None)
+        storage.new(new_session)
+        storage.save()
+        return jsonify({"id": user.id, "mail": user.mail}), 200
     else:
         return jsonify({"error": "Invalid email or password"}), 401
 
 
-"""
-POST /api/logout i need to do this
-"""
+@app_views.route("/logout", methods=["POST"])
+def logout_user():
+    user_id = session.pop("user_id", None)
+    if user_id:
+        user_session = storage.get(Session, user_id)
+        if user_session:
+            storage.delete(user_session)
+            storage.save()
+    return jsonify({"message": "Logged out successfully"}), 200
+
 
 """
 @app_views.route('/reset-password/request', methods=['POST'])
