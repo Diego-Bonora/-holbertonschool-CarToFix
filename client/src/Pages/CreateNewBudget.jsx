@@ -11,9 +11,10 @@ export default function CreateNewBudget() {
 	const [modalDisplayMode, setModalDisplayMode] = useState("none");
 	const [formSubmited, setFormSubmited] = useState(false)
 	const [dataSubmited, setDataSubmited] = useState([])
+	const [actualClient, setActualClient] = useState([])
 
 	let clientExist = false
-
+	let userId = 'a6fbfd74-fc6f-48e7-ac16-90ee90121669'
 
 
 	let baseURL = 'http://127.0.0.1:5000/'
@@ -37,7 +38,8 @@ export default function CreateNewBudget() {
 
 	const checkPlateRegistration = (plate) => {
 		console.log("on ckecking plate")
-		if (plate.length === 8) {
+
+		if (plate.length === 8 && actualClient.length === 0) {
 			const found = checkPlate(plate)
 			console.log("searching plate... ", plate)
 			if (!found) {
@@ -62,6 +64,7 @@ export default function CreateNewBudget() {
 				if (clientONBase != 0) {
 					clientExist = true
 					setClientRetRegistered(true)
+					setActualClient(clientONBase)
 					console.log("client exist: ", clientExist)
 				} else {
 					clientExist = false
@@ -70,6 +73,7 @@ export default function CreateNewBudget() {
 				}
 
 			})
+
 	}
 
 
@@ -106,6 +110,33 @@ export default function CreateNewBudget() {
 
 	useEffect(() => {
 		console.log("data sumbmited", dataSubmited);
+
+		if (dataSubmited) {
+			const vehicleToSend = ({
+				plate: dataSubmited.plate,
+				brand: dataSubmited.brand,
+				model: dataSubmited.model,
+				color: dataSubmited.color,
+				mileage: dataSubmited.kms,
+				user_id: userId,
+				client_id: actualClient.id,
+				type_vehicle_id: dataSubmited.type_vehicle_id,
+
+			})
+			axios.post(`${baseURL}/api/v1/vehicle/${userId}`, vehicleToSend, {
+				headers: {
+					Accept: 'application/json',
+					'Content-Type': 'application/json'
+				}
+			})
+				.then(function (response) {
+					console.log(response);
+
+				})
+				.catch(function (error) {
+					console.log(error);
+				});
+		}
 	}, [dataSubmited]);
 
 	useEffect(() => {

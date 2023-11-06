@@ -11,6 +11,7 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 	let baseURL = 'http://127.0.0.1:5000'
 
 	let [newVehicleSubmited, setnewVehicleSubmited] = useState(false)
+	const [clientData, setClientData] = useState({ email: "", phone: "" });
 
 	let clientCreated = false
 	let cliResponse = ''
@@ -18,7 +19,7 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 	const [newData, setNewData] = useState([]);
 
 	const [formVehicleClientData, setFormVehicleClientData] = useState([{
-		name: "", mail: "", phone: "", plate: "", type_vehicle_id: "", brand: "", model: "", color: "", kms: ""
+		name: "", email: "", phone: "", plate: "", type_vehicle_id: "", brand: "", model: "", color: "", kms: ""
 	}])
 
 	const onFormChange = (event) => {
@@ -41,10 +42,9 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 
 	const handleNewData = (event) => {
 		event.preventDefault();
+
 		const newVehicleData = {
 			name: formVehicleClientData.name,
-			mail: formVehicleClientData.mail,
-			phone: formVehicleClientData.phone,
 			plate: formVehicleClientData.plate,
 			type_vehicle_id: formVehicleClientData.type_vehicle_id,
 			brand: formVehicleClientData.brand,
@@ -108,10 +108,7 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 				console.log(error);
 			});
 	}
-	let status = [{
-		to_fill: ' ',
-		disabled: 'disabled',
-	}]
+
 
 
 	return (
@@ -151,7 +148,7 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 													<label className=" font-black mr-2 mt-3 " for="mail">Mail</label>
 
 													<div className='flex flex-row-reverse w-1/2'>
-														<input className='bg-[#B4D1D3]  text-right w-5/4 h-full px-6 mt-2' type='text' id='' name="mail" value={formVehicleClientData.mail} onChange={onFormChange} onFocus={checkClient(formVehicleClientData.name)} placeholder='Correo' disabled={clientExiste} ></input>
+														<input className='bg-[#B4D1D3]  text-right w-5/4 h-full px-6 mt-2' type='text' id='' name="mail" value={formVehicleClientData.mail} onChange={onFormChange} onFocus={clientExiste ? formVehicleClientData.name : checkClient(formVehicleClientData.name)} placeholder='Correo' disabled={clientExiste} ></input>
 													</div>
 
 
