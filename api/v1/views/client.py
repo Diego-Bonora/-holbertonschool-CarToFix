@@ -11,7 +11,7 @@ from models import storage
 def check(client):
     """ Checks for the existence of the given Client """
     for clnt in storage.all(Client).values():
-        if client.mail == clnt.mail:
+        if client.email == clnt.email:
             return 409
     return 0
 
@@ -46,7 +46,7 @@ def get_all_clients():
 def create_client():
     """ Creates a specific Client object """
     krgs = request.get_json()
-    needed = ["name", "email", "phone", "vehicles"]
+    needed = ["name", "email", "phone"]
     if not krgs:
         abort(400, {"error": "Couldn’t get request; not a json"})
 
@@ -56,9 +56,11 @@ def create_client():
 
     new_clnt = Client(**krgs)
     if check(new_clnt) == 0:
-        storage.save(new_clnt)
+        storage.new(new_clnt)
+        storage.save()
         return jsonify(new_clnt.to_dict()), 201
-    abort(409, {"error": f"{new_clnt.name} already exists"})
+    else:
+        abort(409, {"error": f"{new_clnt.name} already exists"})
 
 @app_views.route("/client/<clnId>", methods=["DELETE"])
 def delete_client(clnId):

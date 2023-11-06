@@ -73,6 +73,7 @@ At the end of the file:
 ### Vehicle() Routes:
 - [x] GET /api/v1/vehicle/\<veId>/service | get all services for a specific vehicle
 - [x] GET /api/v1/vehicle/\<veId>/budget | get all budgets for a specific vehicle
+- [x] GET /api/v1/vehicle/plate/\<plate>/budget | get all the budgets for a specific vehicle
 - [x] GET /api/v1/vehicle/\<velId> | get a specific vehicle by id
 - [x] GET /api/v1/vehicle/plate/\<plate> | get a specific vehicle by plate
 - [x] GET /api/v1/vehicle/user/\<usrId> | get all vehicles by user Id
@@ -98,7 +99,7 @@ At the end of the file:
 ### Budget() Routes:
 - [x] GET /api/v1/budget/\<bdgtId>/services | get all services for a specific budget
 - [x] GET /api/v1/budget/\<bdgtId> | get a specific budget
-- [x] GET /api/v1/budget | get all budgets
+- [x] GET /api/v1/budget/\<usrId> | get all budgets
 - [x] POST /api/v1/budget | create a budget
 - [x] DELETE /api/v1/budget/\<bdgtId> | delete a budget
 - [x] REPOST /api/v1/budget/\<bdgtId> | update a budget (the object will be destroyed and re-made)
@@ -121,7 +122,6 @@ No route should fail upon proper request.
 
 - [ ] checks previous existence of user
 - [ ] checks previous existence of worker
-- [ ] checks budget is done, so that it cannot be updated
 
 #### Latest:
 - [x] budget calls emailer each time a budget is created
@@ -132,3 +132,6 @@ No route should fail upon proper request.
 - [x] Not necessary to look for the user "CarToFix" to initialize Emailer;
 	- However, the user must be already correctly created
 - [x] No more get all services but get all services by usrId
+- [x] No more get all budgets but get all budgets by usrId
+- [x] Now you can get the budgets for a vehicle by plate
+- [x] If budget is done, it cannot be updated
