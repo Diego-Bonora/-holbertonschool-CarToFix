@@ -10,19 +10,8 @@ export default function CreateNewBudget() {
 	const [clientRegistered, setClientRetRegistered] = useState(false)
 	const [modalDisplayMode, setModalDisplayMode] = useState("none");
 	const [formSubmited, setFormSubmited] = useState(false)
-	const [dataSubmited, setDataSubmited] = useState([])
 	const [actualClient, setActualClient] = useState([])
-	const [vehicleToSend, setVehicleToSend] = useState({
-		plate: '',
-		brand: '',
-		model: '',
-		color: '',
-		mileage: '',
-		user_id: '',
-		client_id: '',
-		vehicle_type: '',
 
-	})
 
 
 
@@ -78,6 +67,7 @@ export default function CreateNewBudget() {
 					clientExist = true
 					setClientRetRegistered(true)
 					setActualClient(clientONBase)
+
 					console.log("client exist: ", clientExist)
 				} else {
 					clientExist = false
@@ -114,19 +104,7 @@ export default function CreateNewBudget() {
 
 	})
 
-	const getVehCliData = (newdata) => {
-		setDataSubmited(newdata);
-	}
 
-	useEffect(() => {
-		console.log("data sumbmited", dataSubmited);
-		console.log("actual client  sumbmited", actualClient);
-
-
-
-
-
-	}, [dataSubmited])
 
 	useEffect(() => {
 		if (clientExist) {
@@ -137,50 +115,11 @@ export default function CreateNewBudget() {
 
 
 
-
-
-
-
-	const createVehicle = (dataSubmited, actualClient, actualTypeOfVehicle) => {
-		console.log("creating vehicle")
-		console.log("data sumbmited on create ", dataSubmited);
-		console.log("actual client sumbmited on create ", actualClient);
-		console.log("actual type of vehicle on create ", actualTypeOfVehicle);
-
-		setVehicleToSend({
-			plate: dataSubmited.plate,
-			brand: dataSubmited.brand,
-			model: dataSubmited.model,
-			color: dataSubmited.color,
-			mileage: dataSubmited.kms,
-			user_id: userId,
-			client_id: actualClient.id,
-			vehicle_type: dataSubmited.vehicle_type,
-
-		})
-		console.log("VEHICLE TO SEND ", vehicleToSend)
-		// axios.post(`${baseURL}/api/v1/vehicle/`, vehicleToSend, {
-		// 	headers: {
-		// 		Accept: 'application/json',
-		// 		'Content-Type': 'application/json'
-		// 	}
-		// })
-		// 	.then(function (response) {
-		// 		console.log(response);
-
-		// 	})
-		// 	.catch(function (error) {
-		// 		console.log(error);
-		// 	});
-
-	}
-
-
 	return (
 		<>
 			<div className="w-screen h-screen  flex items-center  justify-center flex-row bg-cyan-200 justify-items-center">
 				<NewBudget checkPlateRegistration={checkPlateRegistration} />
-				<RegisterVehicleModal display={modalDisplayMode} checkClient={checkClient} modalState={(displayModal) => modalState(displayModal, () => { })} data={getVehCliData} clientExiste={clientRegistered} />
+				<RegisterVehicleModal display={modalDisplayMode} checkClient={checkClient} modalState={(displayModal) => modalState(displayModal, () => { })} clientExiste={clientRegistered} actualClient={actualClient} />
 			</div>
 		</>
 	)

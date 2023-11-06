@@ -1,22 +1,37 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate, json, useNavigate } from 'react-router-dom';
 import MessageZone from './MessageZone';
 
 
-export default function RegisterVehicleModal({ display, checkClient, modalState, data, clientExiste }) {
+export default function RegisterVehicleModal({ display, checkClient, modalState, clientExiste, actualClient }) {
 
 
 	let userId = 'a6fbfd74-fc6f-48e7-ac16-90ee90121669'
 	let baseURL = 'http://127.0.0.1:5000'
 
 	let [newVehicleSubmited, setnewVehicleSubmited] = useState(false)
-	const [clientData, setClientData] = useState({ email: "", phone: "" });
+	const [clientData, setClientData] = useState([])
+
+
+	useEffect(() => {
+		setClientData(actualClient);
+	}, actualClient)
 
 	let clientCreated = false
 	let cliResponse = ''
 
-	const [newData, setNewData] = useState([]);
+	const [newData, setNewData] = useState([{
+		plate: '',
+		brand: '',
+		model: '',
+		color: '',
+		mileage: '',
+		vehicle_type: '',
+		type_vehicle_id: "",
+		cliend_id: "",
+		user_id: "",
+	}]);
 
 	const [formVehicleClientData, setFormVehicleClientData] = useState([{
 		name: "", email: "", phone: "", plate: "", viehicle_type: "", brand: "", model: "", color: "", kms: ""
@@ -25,7 +40,24 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 	let typeExist = false
 	const [typeOndVehicle, setTypeOnVehicle] = useState([])
 	const [actualTypeOfVehicle, setActualTypeOfVehicle] = useState([])
-	let vehicletype = null
+
+
+
+	const [vehicleToSend, setVehicleToSend] = useState([{
+		plate: '',
+		brand: '',
+		model: '',
+		color: '',
+		mileage: '',
+		vehicle_type: '',
+		type_vehicle_id: "",
+		cliend_id: "",
+		user_id: ","
+
+
+	}])
+
+
 
 	const onFormChange = (event) => {
 
@@ -48,21 +80,24 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 	const handleNewData = (event) => {
 		event.preventDefault();
 
-		const newVehicleData = {
+		const newVehicleData = [{
 			name: formVehicleClientData.name,
 			plate: formVehicleClientData.plate,
-			viehicle_type: formVehicleClientData.viehicle_type,
+			vehicle_type: formVehicleClientData.vehicle_type,
 			brand: formVehicleClientData.brand,
 			model: formVehicleClientData.model,
 			color: formVehicleClientData.color,
-			kms: formVehicleClientData.kms,
-		};
+			mileage: formVehicleClientData.kms,
+
+		}];
 
 
+		console.log("vehicle data ", newVehicleData)
 		setNewData((prevData) => [...prevData, newVehicleData]);
-		setnewVehicleSubmited(true)
-		data((prevData) => [...prevData, newVehicleData])
+		setClientData(actualClient)
+
 		createTypeVehicle(formVehicleClientData.viehicle_type)
+		createVehicle(newVehicleData)
 		modalState('none', () => {
 			// Código que se ejecuta después de actualizar el estado
 		});
@@ -115,54 +150,92 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 	}
 
 	const createTypeVehicle = (type) => {
-
-		console.log("typed TYPE", type)
-		console.log("type ingresado", type)
-		if (type != 0) {
-			console.log("searchig TYPE...")
+		let typeIsIn = false;
+		console.log("typed TYPE", type);
+		console.log("type ingresado", type);
+		if (type !== 0) {
+			console.log("searching TYPE...");
 
 			axios.get(`${baseURL}/api/v1/type`)
 				.then((res) => {
-					const types = res.data
-					console.log("existence types", types)
-					const typesOnBase = types.filter((eachtype) => eachtype.name === type)
-					console.log("type search result", typesOnBase)
-					if (typesOnBase != 0) {
-						typeExist = true
-						setTypeOnVehicle(true)
-						setActualTypeOfVehicle(typesOnBase)
-						console.log("type exist: ", typesOnBase)
+					const types = res.data;
+					console.log("existence types", types);
+					const typesOnBase = types.filter((eachtype) => eachtype.name === type);
+					console.log("type search result", typesOnBase);
+					if (typesOnBase.length !== 0) {
+						typeExist = true;
+						setTypeOnVehicle(true);
+						setActualTypeOfVehicle(typesOnBase[0].id);
+						console.log("type exist: ", typesOnBase[0]);
 					} else {
-						typeExist = false
-						setActualTypeOfVehicle(false)
-						console.log("type is new : ", type)
+						typeExist = false;
+
+						console.log("type is not Registered : ", type);
+
+						console.log("creating TYPE of Vehicle...", type);
+						axios.post(`${baseURL}/api/v1/type`, JSON.stringify({
+							name: type
+						}), {
+							headers: {
+								Accept: 'application/json',
+								'Content-Type': 'application/json'
+							}
+						})
+							.then(function (response) {
+								console.log(response);
+								setActualTypeOfVehicle(response.data.id);
+								typeExist = true;
+							})
+							.catch(function (error) {
+								console.log(error);
+								typeExist = false;
+							});
 					}
-
-				})
-		}
-		if (!typeExist) {
-			console.log("creating TYPE of Vehicle...", type)
-			axios.post(`${baseURL}/api/v1/type`, JSON.stringify({
-				name: type
-			}), {
-				headers: {
-					Accept: 'application/json',
-					'Content-Type': 'application/json'
-				}
-			})
-				.then(function (response) {
-					console.log(response);
-					vehicletype = response.data.id
-
-
-				})
-				.catch(function (error) {
-					console.log(error);
 				});
 		}
+	};
+
+	const createVehicle = (newData) => {
+		console.log("creating vehicle")
+		console.log("data sumbmited on create ", newData);
+		console.log("actual client sumbmited on create ", actualClient);
+		console.log("actual type of vehicle on create ", actualTypeOfVehicle);
+
+		let client_id = actualClient[0].id
+		let type_vehicle_id = actualTypeOfVehicle;
+
+		let vdata = newData.map((e) => ({
+			plate: e.plate,
+			brand: e.brand,
+			model: e.model,
+			color: e.color,
+			mileage: e.mileage,
+			type_vehicle_id: type_vehicle_id,
+			client_id: client_id,
+			user_id: userId,
+
+
+		}))
+
+
+
+
+		console.log("VEHICLE TO SEND ", vdata)
+		axios.post(`${baseURL}/api/v1/vehicle/`, JSON.stringify(vdata), {
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json'
+			}
+		})
+			.then(function (response) {
+				console.log(response);
+
+			})
+			.catch(function (error) {
+				console.log(error);
+			});
+
 	}
-
-
 
 	return (
 		<div>
