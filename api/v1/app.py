@@ -7,25 +7,19 @@ from flask import Flask
 from flask_bcrypt import Bcrypt
 from flask_session import Session
 from api.v1.views.config import ApplicationConfig
-from models.user import User
 from models.engine.db_storage import DBStorage
 
 app = Flask(__name__)
+app.config.from_object(ApplicationConfig)
 
 app.url_map.strict_slashes = False
-
-app.secret_key = 'secret_key'
-
-CORS(app, supports_credentials=True)
-bcrypt = Bcrypt(app)
-
 app.register_blueprint(app_views)
 
-app.config.from_object(ApplicationConfig)
-storage = DBStorage()
-storage.reload()
-app.config['SESSION_SQLALCHEMY_TABLE'] = 'sessions'
-Session(app)
+bcrypt = Bcrypt(app)
+CORS(app, supports_credentials=True)
+server_session = Session(app)
+with app.app_context():
+    app.config['SESSION_SQLALCHEMY_TABLE'] = 'sessions'
 
 
 if __name__ == "__main__":

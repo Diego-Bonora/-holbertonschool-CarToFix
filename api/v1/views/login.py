@@ -6,7 +6,6 @@ from flask import jsonify, request, session
 from models.user import User
 from models import storage
 import bcrypt
-from models.session import Session
 
 
 @app_views.route('/login', methods=['POST'])
@@ -29,9 +28,6 @@ def login():
 
     if bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8')):
         session['user_id'] = user.id
-        new_session = Session(data=None)
-        storage.new(new_session)
-        storage.save()
         return jsonify({"id": user.id, "mail": user.mail}), 200
     else:
         return jsonify({"error": "Invalid email or password"}), 401
@@ -39,12 +35,7 @@ def login():
 
 @app_views.route("/logout", methods=["POST"])
 def logout_user():
-    user_id = session.pop("user_id", None)
-    if user_id:
-        user_session = storage.get(Session, user_id)
-        if user_session:
-            storage.delete(user_session)
-            storage.save()
+    session.pop("user_id")
     return jsonify({"message": "Logged out successfully"}), 200
 
 
