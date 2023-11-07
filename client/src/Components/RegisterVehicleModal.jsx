@@ -12,6 +12,7 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 
 	let [newVehicleSubmited, setnewVehicleSubmited] = useState(false)
 	const [clientData, setClientData] = useState([])
+	let [type, setType] = useState ([])
 
 
 	useEffect(() => {
@@ -39,7 +40,7 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 
 	let typeExist = false
 	const [typeOndVehicle, setTypeOnVehicle] = useState([])
-	const [actualTypeOfVehicle, setActualTypeOfVehicle] = useState([])
+	let [actualTypeOfVehicle, setActualTypeOfVehicle] = useState([{id:""}])
 
 
 
@@ -155,18 +156,25 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 		console.log("type ingresado", type);
 		if (type !== 0) {
 			console.log("searching TYPE...");
-
+			
 			axios.get(`${baseURL}/api/v1/type`)
-				.then((res) => {
-					const types = res.data;
+			.then((res) => {
+				const types = res.data;
 					console.log("existence types", types);
 					const typesOnBase = types.filter((eachtype) => eachtype.name === type);
 					console.log("type search result", typesOnBase);
-					if (typesOnBase.length !== 0) {
+					if (typesOnBase.length != 0) {
 						typeExist = true;
-						setTypeOnVehicle(true);
-						setActualTypeOfVehicle(typesOnBase[0].id);
-						console.log("type exist: ", typesOnBase[0]);
+						setTypeOnVehicle(true)
+						let id = typesOnBase[0].id
+						
+						setActualTypeOfVehicle({
+							id: id,
+						}
+						);
+						return typesOnBase[0].id
+						
+						console.log("type exist: ", typesOnBase[0].id);
 					} else {
 						typeExist = false;
 
@@ -183,7 +191,6 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 						})
 							.then(function (response) {
 								console.log(response);
-								setActualTypeOfVehicle(response.data.id);
 								typeExist = true;
 							})
 							.catch(function (error) {
@@ -193,6 +200,7 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 					}
 				});
 		}
+		
 	};
 
 	const createVehicle = (newData) => {
@@ -202,7 +210,7 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 		console.log("actual type of vehicle on create ", actualTypeOfVehicle);
 
 		let client_id = actualClient[0].id
-		let type_vehicle_id = actualTypeOfVehicle;
+		let type_vehicle_id = actualTypeOfVehicle
 
 		let vdata = newData.map((e) => ({
 			plate: e.plate,
