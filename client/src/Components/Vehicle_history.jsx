@@ -12,25 +12,38 @@ export default function Vehicle_history() {
   }]
   const columns = ['created_at', 'description'];
   const [historyData, sethistoryData] = useState([]); {/* datos de las historias*/}
+  const [datavehicle, setdatavehicle] = useState([]);
 
   const vehId = 'fc2c180e-5828-4f5b-a408-70390655711b';
   const baseURL = 'http://127.0.0.1:5000';
 
   useEffect(() => {
-    axios.get(`${baseURL}/api/v1/vehicle/${vehId}/service`)
+    axios.get(`${baseURL}/api/v1/vehicle/${vehId}`)
       .then((res) => {
         console.log('history', res.data);
-        const filterHistory = res.data.map(item => ({
+        const filterHistory = res.data.services.map(item => ({
           created_at: item.created_at,
           description: item.description,
         }));
         sethistoryData(filterHistory);
         console.log('historial', filterHistory);
+        const vehicleData = {
+          model: res.data.model,
+          color: res.data.color,
+          brand: res.data.brand,
+          type: res.data.type,
+          plate: res.data.plate,
+        };
+        setdatavehicle(vehicleData);
+        console.log('info de vehiculo', vehicleData);
       })
       .catch((error) => {
         console.error('Errormio', error);
       });
+
   }, [vehId]);
+
+  
     return (
 		<>
         <div className='w-screen h-screen bg-page_background'>
@@ -41,11 +54,11 @@ export default function Vehicle_history() {
               <div className='border border-azul-oscuro flex flex-col justify-start w-3/12 h-full' >
                 {/*tipo de vehiculo*/}
                 <div className='bg-azul-oscuro flex items-center justify-center text-lg text-white py-2 h-22/5'>
-                  <p>{tipo_vehiculo}</p>
+                  <p>{datavehicle.type}</p>
                 </div>
                 {/* N° matricula*/}
                 <div className='bg-white flex items-center justify-center text-xl font-bold py-4 h-3/5'>
-                  <p>{matricula}</p>
+                  <p>{datavehicle.plate}</p>
                 </div>
                 {/*info del vehiculo */}
               </div>
@@ -53,11 +66,11 @@ export default function Vehicle_history() {
                 {info_vehiculo.map((info, index) => (
                 <div key={index} className='text-black h-full  sm:flex flex-col flex-wrap hidden text-xl my-4 w-9/12'>
                   <div  className='py-2'>
-                    Marca: <span className='font-bold'>{info.Marca}</span></div>
+                    Marca: <span className='font-bold'>{datavehicle.brand}</span></div>
                   <div className='pb-1'>
-                    Modelo: <span className='font-bold'>{info.Modelo}</span></div>
+                    Modelo: <span className='font-bold'>{datavehicle.model}</span></div>
                   <div className='py-2'>
-                    Color: <span className='font-bold'>{info.Color}</span></div>
+                    Color: <span className='font-bold'>{datavehicle.color}</span></div>
                 </div>
                 ))}
               </div>
