@@ -122,7 +122,7 @@ At the end of the file:
 
 No route should fail upon proper request.
 
-- [ ] checks previous existence of user
+- [ ] checks previous existence of all the objects that a user has
 
 #### Latest:
 - [x] budget calls `Emailer` each time a budget is created
@@ -136,10 +136,10 @@ No route should fail upon proper request.
 - [x] No more get all budgets but get all budgets by usrId
 - [x] Now you can get the budgets for a vehicle by plate
 - [x] If budget is done, it cannot be updated
-------
 - [x] Get a vehicle type by name :)
 - [x] Cannot create a vehicle type that already exists :(
 - [x] Create a worker :)
 - [x] Cannot create a worker that already exists :(
 - [x] Use `get.py` to print all the `budgets.id` and `client.names` :)
-- [x] Vehicle by id now returns the name of its type
+- [x] Vehicle by id now returns the name of its type :)
+- [x] Cannot create a user that already exists :(

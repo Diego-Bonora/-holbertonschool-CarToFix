@@ -109,29 +109,33 @@ class Emailer():
 
             # Iterate over each email
             for msg_id in messages:
-                _, msg_data = mail.fetch(msg_id, "(RFC822)")
-                msg = email.message_from_bytes(msg_data[0][1])
+                try:
+                    _, msg_data = mail.fetch(msg_id, "(RFC822)")
+                    msg = email.message_from_bytes(msg_data[0][1])
 
-                # Get the sender's email
-                _, sender = parseaddr(msg.get("From"))
+                    # Get the sender's email
+                    _, sender = parseaddr(msg.get("From"))
 
-                # Get the email body
-                if msg.is_multipart():
-                    body = ""
-                    for part in msg.walk():
-                        if part.get_content_type() == "text/plain":
-                            body += part.get_payload(decode=True).decode("utf-8", errors="ignore")
-                else:
-                    body = msg.get_payload(decode=True).decode("utf-8", errors="ignore")
+                    # Get the email body
+                    if msg.is_multipart():
+                        body = ""
+                        for part in msg.walk():
+                            if part.get_content_type() == "text/plain":
+                                body += part.get_payload(decode=True).decode("utf-8", errors="ignore")
+                    else:
+                        body = msg.get_payload(decode=True).decode("utf-8", errors="ignore")
 
-                email_list.append({"sender": sender, "body": body})
+                    email_list.append({"sender": sender, "body": body})
 
-                # Mark the email for deletion
-                mail.store(msg_id, "+FLAGS", "(\Deleted)")
+                    # Mark the email for deletion
+                    mail.store(msg_id, "+FLAGS", "(\Deleted)")
+                except Exception as e:
+                    logging.error(f"Error processing email {msg_id}: {e}")
 
             return self.__prcmsgs(email_list)
         finally:
-            mail.expunge()
+            if messages:
+                mail.expunge()
             mail.logout()
 
     def __prcmsgs(self, msgs):
