@@ -7,6 +7,12 @@ from models.user import User
 from models import storage
 
 
+def check(user):
+    """ Checks for the previous existence of an user object """
+    if user.mail in [usr.mail for usr in storage.all(User).values()]:
+        return 409
+    return 0
+
 @app_views.route("/usr/<usrId>", methods=["GET"])
 def get_user(usrId):
     """Returns a specific User"""
@@ -39,9 +45,12 @@ def create_user():
 
     data = request.get_json()
     new_usr = User(**data)
-    storage.new(new_usr)
-    storage.save()
-    return jsonify(new_usr.to_dict()), 201
+    if check(new_usr):
+        storage.new(new_usr)
+        storage.save()
+        return jsonify(new_usr.to_dict()), 201
+
+    abort(404, {"error": f"{new_usr.name} already exists"})
 
 
 @app_views.route("/user/<usrId>", methods=["DELETE"])
