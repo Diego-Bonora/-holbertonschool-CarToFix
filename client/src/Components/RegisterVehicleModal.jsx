@@ -167,7 +167,7 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 						typeExist = true;
 						setTypeOnVehicle(true)
 						let id = typesOnBase[0].id
-
+						localStorage.setItem('tyID', id);
 						setActualTypeOfVehicle({
 							id: id,
 						}
@@ -210,7 +210,8 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 		console.log("actual type of vehicle on create ", actualTypeOfVehicle);
 
 		let client_id = actualClient[0].id
-		let type_vehicle_id = actualTypeOfVehicle
+		let type_vehicle_id = localStorage.getItem('tyID');
+		console.log("id EN LOCAL STORAGE", type_vehicle_id)
 
 		let vdata = newData.map((e) => ({
 			plate: e.plate,
