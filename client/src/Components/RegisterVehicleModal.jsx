@@ -29,9 +29,9 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 		color: '',
 		mileage: '',
 		vehicle_type: '',
-		type_vehicle_id: "",
-		cliend_id: "",
-		user_id: "",
+		type_vehicle_id: '',
+		cliend_id: '',
+		user_id: '',
 	}]);
 
 	const [formVehicleClientData, setFormVehicleClientData] = useState([{
@@ -98,6 +98,7 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 		setClientData(actualClient)
 
 		createTypeVehicle(formVehicleClientData.vehicle_type)
+		createBrand(formVehicleClientData.brand)
 		createVehicle(newVehicleData)
 		modalState('none', () => {
 			// Código que se ejecuta después de actualizar el estado
@@ -211,38 +212,85 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 
 		let client_id = actualClient[0].id
 		let type_vehicle_id = localStorage.getItem('tyID');
+		let brand_id = localStorage.getItem('brandId');
+		console.log("actual brand of vehicle on create ", brand_id);
 		console.log("id EN LOCAL STORAGE", type_vehicle_id)
+		if (newData) {
 
-		let vdata = newData.map((e) => ({
-			plate: e.plate,
-			brand: e.brand,
-			model: e.model,
-			color: e.color,
-			mileage: e.mileage,
-			type_vehicle_id: type_vehicle_id,
-			client_id: client_id,
-			user_id: userId,
-
-
-		}))
+			let vdata = newData.map((e) => ({
+				plate: e.plate,
+				brand: brand_id,
+				model: e.model,
+				color: e.color,
+				mileage: parseInt(e.mileage),
+				type_vehicle_id: type_vehicle_id,
+				client_id: client_id,
+				user_id: userId,
 
 
+			}))
 
 
-		console.log("VEHICLE TO SEND ", vdata)
-		axios.post(`${baseURL}/api/v1/vehicle/`, JSON.stringify(vdata), {
-			headers: {
-				Accept: 'application/json',
-				'Content-Type': 'application/json'
-			}
-		})
-			.then(function (response) {
-				console.log(response);
-
+			console.log("VEHICLE TO SEND ", vdata)
+			axios.post(`${baseURL}/api/v1/vehicle/`, JSON.stringify(vdata), {
+				headers: {
+					Accept: 'application/json',
+					'Content-Type': 'application/json'
+				}
 			})
-			.catch(function (error) {
-				console.log(error);
-			});
+				.then(function (response) {
+					console.log(response);
+
+				})
+				.catch(function (error) {
+					console.log(error);
+				});
+		}
+
+	}
+	const createBrand = (brand) => {
+		if (brand) {
+			console.log("searching for brand", brand)
+			axios.get(`${baseURL}/api/v1/brand`)
+				.then((res) => {
+					const brands = res.data;
+					console.log("existence brands", brands);
+					const brandsOnBase = brands.filter((eachbrand) => eachbrand.name === brand);
+					if (brandsOnBase.length != 0) {
+						console.log("brand is registered", brand)
+						let id = brandsOnBase[0].id
+						localStorage.setItem('brandId', id);
+
+					} else {
+						console.log("brand is not registered", brand)
+						console.log("creating brand", brand)
+						axios.post(`${baseURL}/api/v1/type`, JSON.stringify({
+							name: brand
+						}), {
+							headers: {
+								Accept: 'application/json',
+								'Content-Type': 'application/json'
+							}
+						})
+							.then(function (response) {
+								console.log(response);
+								let id = response.data[0].id
+								console.log("brand created , id")
+								localStorage.setItem('brandId', id);
+
+							})
+							.catch(function (error) {
+								console.log(error);
+
+							});
+
+
+					}
+
+				}
+				)
+		}
+
 
 	}
 
