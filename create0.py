@@ -13,7 +13,8 @@ veh_type = TypeVehicle(name="tha_type")
 client = Client(name="ET", phone="3802348", email="emanueltrias9@gmail.com")
 brand = Brand(name="tha_brand")
 brand2 = Brand(name="brand-on")
-user = User(name="CarToFix", mail="cartofixcostumers@gmail.com", password="aldfj", phone="598984982", logo="logeishon")
+user = User(name="CarToFix", mail="cartofixcostumers@gmail.com",
+            password="wrong password", phone="598984982", logo="logeishon")
 
 # Save user instance before referencing it in other instances
 storage.new(user)
@@ -124,17 +125,21 @@ print(storage.get(Budget, budget.id).services)
 print(storage.get(Budget, budget2.id).services)
 
 # ONE MORE BUDGET, SERVICE, SOME USERS, SOME WORKERS, SOME VEHICLES, SOME, CLIENTS
-#CLIENTS
-client1 = Client(name="Macksim", phone="fdsfa48", email="emanueltrias9@gmail.com")
-client2 = Client(name="Pablo", phone="fdadsfadsf8", email="emanueltrias9@gmail.com")
-#USERS
-user1 = User(name="Auto-destroy", mail="emanueltrias9@gmail.com", password="F#7b9/dbvv", phone="592222284982", logo="logeisbbhon")
-user2 = User(name="Skynet", mail="emanueltrias9@gmail.com", password="F#7b9/dbvv", phone="22284982", logo="lisbbhon")
+# CLIENTS
+client1 = Client(name="Macksim", phone="fdsfa48",
+                 email="emanueltrias9@gmail.com")
+client2 = Client(name="Pablo", phone="fdadsfadsf8",
+                 email="emanueltrias9@gmail.com")
+# USERS
+user1 = User(name="Auto-destroy", mail="emanueltrias9@gmail.com",
+             password="F#7b9/dbvv", phone="592222284982", logo="logeisbbhon")
+user2 = User(name="Skynet", mail="emanueltrias9@gmail.com",
+             password="F#7b9/dbvv", phone="22284982", logo="lisbbhon")
 # VEHICLES
 vehicle = Vehicle(plate="FADSF987es", brand=brand.id, model="tha_model2", color="krasni", mileage=22931,
                   user_id=user1.id, client_id=client1.id, type_vehicle_id=veh_type.id)
 vehicle1 = Vehicle(plate="098dafas", brand=brand.id, model="onceuponadeath", color="blind-green", mileage=9941,
-                  user_id=user2.id, client_id=client2.id, type_vehicle_id=veh_type.id)
+                   user_id=user2.id, client_id=client2.id, type_vehicle_id=veh_type.id)
 # WORKERS
 worker = Worker(name="Zombie Mickey Mouse")
 worker2 = Worker(name="Edward Scissorhands")
@@ -210,17 +215,20 @@ for instance in [user1, user2, client1, client2, vehicle, vehicle1, worker, work
 storage.save()
 
 # ONE MORE BUDGET, SERVICE, SOME USERS, SOME WORKERS, SOME VEHICLES, SOME, CLIENTS
-#CLIENTS
+# CLIENTS
 client1 = Client(name="Annya", phone="09asdf", email="emanueltrias9@gmail.com")
-client2 = Client(name="Hozier", phone="nidealaverdad", email="emanueltrias9@gmail.com")
-#USERS
-user1 = User(name="Wheelson", mail="emanueltrias9@gmail.com", password="F#7b9/dbvv", phone="((9dsa", logo="LOGOASFASD")
-user2 = User(name="Icecream shop", mail="emanueltrias9@gmail.com", password="F#7b9/dbvv", phone="22889900", logo="http:/JYSHshnxFAIEU")
+client2 = Client(name="Hozier", phone="nidealaverdad",
+                 email="emanueltrias9@gmail.com")
+# USERS
+user1 = User(name="Wheelson", mail="emanueltrias9@gmail.com",
+             password="F#7b9/dbvv", phone="((9dsa", logo="LOGOASFASD")
+user2 = User(name="Icecream shop", mail="emanueltrias9@gmail.com",
+             password="F#7b9/dbvv", phone="22889900", logo="http:/JYSHshnxFAIEU")
 # VEHICLES
 vehicle = Vehicle(plate="25**2", brand=brand.id, model="unregistered", color="malaria", mileage=22931,
                   user_id=user1.id, client_id=client1.id, type_vehicle_id=veh_type.id)
 vehicle1 = Vehicle(plate="sapfsadmv", brand=brand.id, model="onceuponadeath", color="rottengrey", mileage=3321,
-                  user_id=user2.id, client_id=client2.id, type_vehicle_id=veh_type.id)
+                   user_id=user2.id, client_id=client2.id, type_vehicle_id=veh_type.id)
 # WORKERS
 worker = Worker(name="Freddy Krueger")
 worker2 = Worker(name="The Last Wheel Bender")
@@ -299,4 +307,3 @@ for instance in [user1, user2, client1, client2, vehicle, vehicle1, worker, work
     storage.new(instance)
 
 storage.save()
-

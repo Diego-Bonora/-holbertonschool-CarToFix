@@ -12,7 +12,7 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 
 	let [newVehicleSubmited, setnewVehicleSubmited] = useState(false)
 	const [clientData, setClientData] = useState([])
-	let [type, setType] = useState ([])
+	let [type, setType] = useState([])
 
 
 	useEffect(() => {
@@ -35,12 +35,12 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 	}]);
 
 	const [formVehicleClientData, setFormVehicleClientData] = useState([{
-		name: "", email: "", phone: "", plate: "", viehicle_type: "", brand: "", model: "", color: "", kms: ""
+		name: "", email: "", phone: "", plate: "", vehicle_type: "", brand: "", model: "", color: "", kms: ""
 	}])
 
 	let typeExist = false
 	const [typeOndVehicle, setTypeOnVehicle] = useState([])
-	let [actualTypeOfVehicle, setActualTypeOfVehicle] = useState([{id:""}])
+	let [actualTypeOfVehicle, setActualTypeOfVehicle] = useState([{ id: "" }])
 
 
 
@@ -97,7 +97,7 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 		setNewData((prevData) => [...prevData, newVehicleData]);
 		setClientData(actualClient)
 
-		createTypeVehicle(formVehicleClientData.viehicle_type)
+		createTypeVehicle(formVehicleClientData.vehicle_type)
 		createVehicle(newVehicleData)
 		modalState('none', () => {
 			// Código que se ejecuta después de actualizar el estado
@@ -156,10 +156,10 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 		console.log("type ingresado", type);
 		if (type !== 0) {
 			console.log("searching TYPE...");
-			
+
 			axios.get(`${baseURL}/api/v1/type`)
-			.then((res) => {
-				const types = res.data;
+				.then((res) => {
+					const types = res.data;
 					console.log("existence types", types);
 					const typesOnBase = types.filter((eachtype) => eachtype.name === type);
 					console.log("type search result", typesOnBase);
@@ -167,13 +167,13 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 						typeExist = true;
 						setTypeOnVehicle(true)
 						let id = typesOnBase[0].id
-						
+
 						setActualTypeOfVehicle({
 							id: id,
 						}
 						);
-						return typesOnBase[0].id
-						
+
+
 						console.log("type exist: ", typesOnBase[0].id);
 					} else {
 						typeExist = false;
@@ -200,7 +200,7 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 					}
 				});
 		}
-		
+
 	};
 
 	const createVehicle = (newData) => {
@@ -310,7 +310,7 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 													<label className=" mr-2 mt-3 " for="viehicle_type">Tipo de vehiculo</label>
 
 													<div className='flex flex-row-reverse w-1/2'>
-														<input className='bg-[#B4D1D3]  text-right w-3/4 h-full px-6 mt-2' type='text' id='viehicle_type' name="viehicle_type" value={formVehicleClientData.viehicle_type} onChange={onFormChange} placeholder='auto, moto, camión' ></input>
+														<input className='bg-[#B4D1D3]  text-right w-3/4 h-full px-6 mt-2' type='text' id='vehicle_type' name="vehicle_type" value={formVehicleClientData.vehicle_type} onChange={onFormChange} placeholder='auto, moto, camión' ></input>
 													</div>
 
 												</div>
