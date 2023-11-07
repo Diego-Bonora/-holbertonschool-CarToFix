@@ -1,56 +1,125 @@
 import React, { useEffect, useState } from 'react'
 import NewBudget from '../Components/NewBudget'
 import RegisterVehicleModal from '../Components/RegisterVehicleModal'
-
+import axios from 'axios'
 
 
 export default function CreateNewBudget() {
 
-	const [registered, setRegistered] = useState(true)
-
-	const plates = [
-		{ plate: "BVA-1234" },
-		{ plate: "BBC-1234" },
-		{ plate: "CIA-1234" },
-		{ plate: "FBI-1234" },
-	]
-
-
-
+	const [plateRegistered, setPlateRetRegistered] = useState(true)
+	const [clientRegistered, setClientRetRegistered] = useState(false)
 	const [modalDisplayMode, setModalDisplayMode] = useState("none");
+	const [formSubmited, setFormSubmited] = useState(false)
+	const [actualClient, setActualClient] = useState([])
 
 
-	const checkPlateRegistration = (plate, plates) => {
+
+
+	let clientExist = false
+	let userId = 'a6fbfd74-fc6f-48e7-ac16-90ee90121669'
+
+
+	let baseURL = 'http://127.0.0.1:5000/'
+
+
+	const checkPlate = (plate) => {
+
+		axios.get((`${baseURL}/api/v1/vehicle/plate/${plate}`))
+			.then((res) => {
+				console.log("res", res)
+				if (res.status == 200) {
+					return res.data.plate
+				} else {
+					return ""
+				}
+			})
+
+	}
+
+
+
+	const checkPlateRegistration = (plate) => {
 		console.log("on ckecking plate")
-		if (plate.length === 8) {
-			const found = plates.some(p => p.plate === plate);
+
+		if (plate.length === 8 && actualClient.length === 0) {
+			const found = checkPlate(plate)
 			console.log("searching plate... ", plate)
 			if (!found) {
-				setRegistered(false);
+				setPlateRetRegistered(false);
 				console.log("Vehicule is not registered")
 			} else {
-				console.log("Vehiculo registrado...")
+				console.log("Vehicle exist on Data Base...")
+				setPlateRetRegistered(true)
 			}
 		}
 
 	}
 
-	useEffect(() => {
-		if (!registered) {
-			setModalDisplayMode("active");
-		} else {
-			setModalDisplayMode("none");
+	const checkClient = (clientName) => {
+		console.log("cliente ingresado", clientName)
+		axios.get(`${baseURL}/api/v1/client`)
+			.then((res) => {
+				const clients = res.data
+				console.log("clients", clients)
+				const clientONBase = clients.filter((client) => client.name === clientName)
+				console.log("search result", clientONBase)
+				if (clientONBase != 0) {
+					clientExist = true
+					setClientRetRegistered(true)
+					setActualClient(clientONBase)
 
+					console.log("client exist: ", clientExist)
+				} else {
+					clientExist = false
+					setClientRetRegistered(false)
+					console.log("client exist: ", clientExist)
+				}
+
+			})
+
+	}
+
+
+	const modalState = (displayModal, callback) => {
+		if (displayModal === 'active') {
+			setFormSubmited(false)
+		}
+		if (displayModal === 'none') {
+			setFormSubmited(true)
+		}
+		callback(); // Llama a la función de devolución de llamada
+	}
+
+
+	useEffect(() => {
+
+		if (!plateRegistered) {
+			setModalDisplayMode("active");
+		}
+
+		if (clientRegistered && formSubmited) {
+
+			setModalDisplayMode("none");
 		}
 
 	})
 
 
+
+	useEffect(() => {
+		if (clientExist) {
+			setClientRetRegistered(true)
+		}
+	}, clientExist)
+
+
+
+
 	return (
 		<>
 			<div className="w-screen h-screen  flex items-center  justify-center flex-row bg-cyan-200 justify-items-center">
-				<NewBudget checkPlateRegistration={checkPlateRegistration} plates={plates} />
-				<RegisterVehicleModal display={modalDisplayMode} />
+				<NewBudget checkPlateRegistration={checkPlateRegistration} />
+				<RegisterVehicleModal display={modalDisplayMode} checkClient={checkClient} modalState={(displayModal) => modalState(displayModal, () => { })} clientExiste={clientRegistered} actualClient={actualClient} />
 			</div>
 		</>
 	)

@@ -4,14 +4,15 @@ import Button from './button'
 import ServiceItem from './ServiceItem';
 import { useState } from "react";
 import Creatable from 'react-select/creatable';
-import { useFetcher, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import MessageZone from './MessageZone';
 
 
 
 
 
-export default function NewBudget({ checkPlateRegistration, plates }) {
+export default function NewBudget({ checkPlateRegistration }) {
+
 
 	const navigate = useNavigate();
 
@@ -34,6 +35,9 @@ export default function NewBudget({ checkPlateRegistration, plates }) {
 	const [plate, setPlate] = useState('')
 
 
+
+
+
 	{/* reads the form  */ }
 
 	const handleChange = (event) => {
@@ -42,7 +46,6 @@ export default function NewBudget({ checkPlateRegistration, plates }) {
 		setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
 
 	};
-
 
 
 
@@ -235,7 +238,7 @@ export default function NewBudget({ checkPlateRegistration, plates }) {
 								<label className="text-2xl font-black mr-5" for="plate">Matricula</label>
 
 								<div className='flex flex-row-reverse w-1/2'>
-									<input className='bg-[#B4D1D3] p-1 my-4 text-right w-1/2' type='text' id='plate' name="plate" value={formData.plate} placeholder='XXX-0000' onBlur={() => checkPlateRegistration(plate, plates)}></input>
+									<input className='bg-[#B4D1D3] p-1 my-4 text-right w-1/2' type='text' id='plate' name="plate" value={formData.plate} placeholder='XXX-0000' onBlur={() => checkPlateRegistration(plate)}></input>
 								</div>
 							</div>
 							{/* TITULO */}
@@ -248,7 +251,7 @@ export default function NewBudget({ checkPlateRegistration, plates }) {
 										options={titles}
 										placeholder='Agrega un título'
 										value={titleValue}
-										onFocus={checkPlateRegistration(plate, plates)} />
+										onFocus={checkPlateRegistration(plate)} />
 								</div>
 							</div>
 							{/* SERVICIOS */}
