@@ -12,6 +12,7 @@ from models.vehicle import Vehicle
 from models.budget import Budget
 from models.type_vehicle import TypeVehicle
 from models.brand import Brand
+from models.workers import Worker
 from os import getenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -23,7 +24,8 @@ classes = {
     "User": User,
     "Budget": Budget,
     "TypeVehicle": TypeVehicle,
-    "Brand": Brand
+    "Brand": Brand,
+    "Worker": Worker
 }
 
 
