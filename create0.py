@@ -49,7 +49,7 @@ service2 = Service(**krgs2)
 print(service1)
 print("---------")
 print(service2)
-print("---------\nBUDGET")
+print("---------\nBUDGET\n---------")
 
 # Creating a budget
 budget = Budget(
@@ -117,7 +117,6 @@ storage.new(veh)
 # Commit changes to the storage
 storage.save()
 
-print("_____\nAGAIN\n_____")
 
 # Retrieving and printing services associated with the first budget
 print(storage.get(Budget, budget.id).services)

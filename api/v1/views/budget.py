@@ -20,6 +20,22 @@ def call_send(budget):
         emailer.send(storage.get(Client, budget.client_id), budget=budget)
 
 
+def bdgt_dict_generator(bdgt):
+    """ Generates the dictioary for a single budget object """
+    vehicle = storage.get(Vehicle, bdgt.vehicle_id)
+
+    bdict = bdgt.to_dict()
+    bdict = {
+        "vehicle_type": storage.get(TypeVehicle, vehicle.type_vehicle_id).name,
+        "created": bdgt.created_at,
+        "total": bdgt.total_price,
+        "id": bdgt.id,
+        "services": [serv.to_dict() for serv in bdgt.services],
+        "vehicle": vehicle.to_dict()
+        }
+
+    return bdict
+
 @app_views.route("/budget/<bdgtId>/services", methods=["GET"])
 def get_budget_services(bdgtId):
     """ Returns the services a budget contains """
@@ -37,10 +53,8 @@ def get_budget(bdgtId):
     budget = storage.get(Budget, bdgtId)
     if not budget:
         abort(404, {"error": f"Budget: {bdgtId} instance not found"})
-    bdict = budget.to_dict()
-    bdict["services"] = [serv.to_dict() for serv in budget.services]
 
-    return jsonify(bdict), 200
+    return jsonify(bdgt_dict_generator(budget)), 200
 
 
 @app_views.route("/budget/user/<usrId>", methods=["GET"])
@@ -49,14 +63,8 @@ def get_all_budgets(usrId):
     bdgts = []
 
     for bdgt in storage.all(Budget).values():
-        if bdgt.user_id == usrId:
-            btd = {
-                    "vehicle_type": storage.get(TypeVehicle, storage.get(Vehicle, bdgt.vehicle_id).type_vehicle_id).name,
-                    "created": bdgt.created_at,
-                    "total": bdgt.total_price,
-                    "id": bdgt.id
-                    }
-            bdgts.append(btd)
+       if bdgt.user_id == usrId:
+            bdgts.append(bdgt_dict_generator(bdgt))
 
     return jsonify(bdgts), 200
 
@@ -65,7 +73,7 @@ def get_all_budgets(usrId):
 def create_budget():
     """ Creates a Budget object """
     krgs = request.get_json()
-    needed = ["total_price", "payment_method", "user_id", "installments", "warranty", "vehicle_id", "client_id", "services"]
+    needed = ["total_price", "payment_method", "user_id", "installments", "warranty", "vehicle_id", "client_id"]
     if not krgs:
         abort(400, {"error": "Couldn’t get request; not a json"})
 
@@ -112,7 +120,7 @@ def update_budget(bdgtId):
 
     krgs.update(prev.to_dict().pop("id", None))
 
-    needed = ["total_price", "payment_method", "user_id", "installments", "warranty", "vehicle_id", "client_id", "services"]
+    needed = ["total_price", "payment_method", "user_id", "installments", "warranty", "vehicle_id", "client_id"]
 
     for arg in needed:
         if arg not in krgs:

@@ -6,6 +6,13 @@ from flask import abort, jsonify, request
 from models.workers import Worker
 from models import storage
 
+
+def check(dgnee):
+    """ Checks for the previous existence of a worker """
+    if dgnee.name in [worker.name for worker in storage.all(Worker).values()]:
+        return 409
+    return 0
+
 @app_views.route("/worker/<dsgnId>/services", methods=["GET"])
 def get_designee(dsgnId):
     """ Returns all the Services for a specific Designee """
@@ -21,3 +28,23 @@ def get_all_designee():
     dgnee = [worker.to_dict() for worker in storage.all(Worker)]
 
     return jsonify(dgnee), 200
+
+@app_views.route("/worker", methods=["POST"])
+def create_designee():
+    """ Creates a worker object """
+    krgs = request.get_json()
+    if not krgs:
+        abort(400, {"error": f"Couldn't get request, not a json"})
+
+    if "name" not in krgs:
+        abort(400, {"error": "name is missing”"})
+
+
+    worker = Worker(**krgs)
+
+    if check(worker) == 0:
+        storage.new(worker)
+        storage.save()
+        return jsonify(worker.to_dict()), 201
+
+    abort(409, {f"The Worker {worker.name} already exists"})

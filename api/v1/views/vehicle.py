@@ -3,6 +3,7 @@
 
 from api.v1.views import app_views
 from flask import abort, jsonify, request
+from models.brand import Brand
 from models.vehicle import Vehicle
 from models import storage
 from models.type_vehicle import TypeVehicle
@@ -11,6 +12,8 @@ from models.type_vehicle import TypeVehicle
 def get_veh_dict(vehicle):
     """ Returns the complete vehicle dictionary """
     vehd = vehicle.to_dict()
+    vehd["brand"] = storage.get(Brand, vehicle.brand).name
+    vehd["type"] = storage.get(TypeVehicle, vehicle.type_vehicle_id).name
     vehd["services"] = [serv.to_dict() for serv in vehicle.services]
     vehd["budgets"] = [bdgt.to_dict() for bdgt in vehicle.budgets]
     return vehd
