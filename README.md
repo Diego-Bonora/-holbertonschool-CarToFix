@@ -104,8 +104,9 @@ At the end of the file:
 - [x] DELETE /api/v1/budget/\<bdgtId> | delete a budget
 - [x] REPOST /api/v1/budget/\<bdgtId> | update a budget (the object will be destroyed and re-made)
 
-### Type() Routes:
+### TypeVehicle() Routes:
 - [x] GET /api/v1/type/\<tId> | get a specific type of vehicle
+- [x] GET /api/v1/type/name/\<name> | get a specific vehicle type by name
 - [x] GET /api/v1/type | get all types of vehicle
 - [x] POST /api/v1/type | create a new type of vehicle
 - [x] DELETE /api/v1/type/\<tId> | delete a specific type of vehicle
@@ -114,6 +115,7 @@ At the end of the file:
 ### Workers() Routes:
 - [x] GET /api/v1/worker | get all workers
 - [x] GET /api/v1/worker/\<dsgnId>/services | get all the services for a specific designee
+- [x] GET /api/v1/worker | create a worker
 
 ### Other Routes:
 - [x] GET /api/v1/dashboard/\<usrId> | get all the information required for the dashboard
@@ -121,7 +123,6 @@ At the end of the file:
 No route should fail upon proper request.
 
 - [ ] checks previous existence of user
-- [ ] checks previous existence of worker
 
 #### Latest:
 - [x] budget calls emailer each time a budget is created
@@ -135,3 +136,7 @@ No route should fail upon proper request.
 - [x] No more get all budgets but get all budgets by usrId
 - [x] Now you can get the budgets for a vehicle by plate
 - [x] If budget is done, it cannot be updated
+- [x] Get a vehicle type by name
+- [x] Cannot create a vehicle type that already exists :(
+- [x] Create a worker :)
+- [x] Cannot create a worker that already exists :(
