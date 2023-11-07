@@ -142,3 +142,4 @@ No route should fail upon proper request.
 - [x] Create a worker :)
 - [x] Cannot create a worker that already exists :(
 - [x] Use `get.py` to print all the `budgets.id` and `client.names` :)
+- [x] Vehicle by id now returns the name of its type
