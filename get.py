@@ -7,5 +7,10 @@ from models.user import User
 from models.client import Client
 
 
+print("BUDGETS:")
+for client in storage.all(Bugdet).values():
+    print(client.id)
+
+print("CLIENTS:")
 for client in storage.all(Client).values():
     print(client.name)

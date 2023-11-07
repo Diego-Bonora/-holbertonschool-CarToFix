@@ -125,18 +125,20 @@ No route should fail upon proper request.
 - [ ] checks previous existence of user
 
 #### Latest:
-- [x] budget calls emailer each time a budget is created
+- [x] budget calls `Emailer` each time a budget is created
 - [x] dashboard route added
 - [x] create 0 now creates more instances (even workers).
 - [x] get a vehicle by plate
-- [x] get all vehicles is now get all vehicles by user id
-- [x] Not necessary to look for the user "CarToFix" to initialize Emailer;
+- [x] get all vehicles is now get all vehicles by `user.id`
+- [x] Not necessary to look for the user `CarToFix` to initialize Emailer;
 	- However, the user must be already correctly created
 - [x] No more get all services but get all services by usrId
 - [x] No more get all budgets but get all budgets by usrId
 - [x] Now you can get the budgets for a vehicle by plate
 - [x] If budget is done, it cannot be updated
-- [x] Get a vehicle type by name
+------
+- [x] Get a vehicle type by name :)
 - [x] Cannot create a vehicle type that already exists :(
 - [x] Create a worker :)
 - [x] Cannot create a worker that already exists :(
+- [x] Use `get.py` to print all the `budgets.id` and `client.names` :)
