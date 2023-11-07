@@ -10,25 +10,28 @@ import axios from 'axios';
 export default function Vehicle() {
 
     {/* column for databox*/}
-    const vehiclecolumn = ['plate', 'services', 'created_at'];
+    const vehiclecolumn = ['plate', 'title', 'created_at'];
     const baseURL = 'http://127.0.0.1:5000'
-    const [VehicleData, setVehicleData] = useState([
-      { plate: '', services: '', created_at: ''}
-    ]);
+    const [VehicleData, setVehicleData] = useState([]);
     
-    const usrId = '277b70d9-34d7-4582-9ce4-456f81edcb34';
+    const usrId = '74292fde-f738-454e-88ef-ab59818d2ba3';
 
-    {/*get plate*/}
     useEffect(() => {
-      axios.get(`${baseURL}/api/v1/service/user/${usrId}`)
+      axios.get(`${baseURL}/api/v1/vehicle/user/${usrId}`)
         .then((res) => {
-          setVehicleData(Object.values(res.data))
-          console.log(VehicleData);
+          console.log('datos compretos', res.data);
+          const dataofvehicle = res.data.map(item => ({
+            plate: item.plate,
+            title: item.title,
+            created_at: item.created_at,
+          }))
+          setVehicleData(dataofvehicle)
+          console.log('tabla', VehicleData);
         })
         .catch(error => {
           console.error('Error', error);
         });
-    })
+    }, [usrId])
     {/*Search*/}
     const [searchQuery, setSearchQuery] = useState('');
     const handleSearch = (query) => {
