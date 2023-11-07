@@ -3,18 +3,12 @@ import NavBar from './NavBar';
 import DataBox from './DataBox';
 import ButtonService from './ButtonService';
 import {FaTh} from 'react-icons/fa';
+import axios from 'axios';
+import FilterActive from './filterActive';
 
 export default function AllBudget() {
 
-    const columns = ['Ingreso', 'detalle'];
-    const data = [{ Ingreso: '24/10/2022', detalle: 'Cambio de aceite hjsen jhndxecWUO HNDXEJKWHCI'},
-    { Ingreso: '24/10/2022', detalle: 'Chequeo general dl condnsador de flujos'},
-    { Ingreso: '24/10/2022', detalle: 'Revision de frenos', data: 'hdkjckf'},
-      { Ingreso: '24/10/2022', detalle: 'Electricidad', data: 'hdkjckf'},
-      { Ingreso: '24/10/2022', detalle: 'Tren delantero'},
-    { Ingreso: '24/10/2022', detalle: 'Tren delantero'},
-    { Ingreso: '24/10/2022', detalle: ''}];
-
+  const columns = []
     return (
 		<>
         <div className='w-screen h-screen bg-page_background'>

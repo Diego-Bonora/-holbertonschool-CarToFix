@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import NavBar from './NavBar';
 import DataBox from './DataBox';
 import NewBudgetButton from './NewBudgetButton';
+import axios from 'axios';
 
 
 export default function Vehicle_history() {
@@ -9,14 +10,27 @@ export default function Vehicle_history() {
   let matricula = 'saf 6255'
   let info_vehiculo = [{ Marca: 'Hyundai', Modelo: 'Electra', Color: 'Gris'
   }]
-  const columns = ['Ingreso', 'detalle'];
-  const data = [{ Ingreso: '24/10/2022', detalle: 'Cambio de aceite hjsen jhndxecWUO HNDXEJKWHCI'},
-  { Ingreso: '24/10/2022', detalle: 'Chequeo general dl condnsador de flujos'},
-  { Ingreso: '24/10/2022', detalle: 'Revision de frenos', data: 'hdkjckf'},
-	{ Ingreso: '24/10/2022', detalle: 'Electricidad', data: 'hdkjckf'},
-	{ Ingreso: '24/10/2022', detalle: 'Tren delantero'},
-  { Ingreso: '24/10/2022', detalle: 'Tren delantero'},
-  { Ingreso: '24/10/2022', detalle: ''}];
+  const columns = ['created_at', 'description'];
+  const [historyData, sethistoryData] = useState([]); {/* datos de las historias*/}
+
+  const vehId = 'fc2c180e-5828-4f5b-a408-70390655711b';
+  const baseURL = 'http://127.0.0.1:5000';
+
+  useEffect(() => {
+    axios.get(`${baseURL}/api/v1/vehicle/${vehId}/service`)
+      .then((res) => {
+        console.log('history', res.data);
+        const filterHistory = res.data.map(item => ({
+          created_at: item.created_at,
+          description: item.description,
+        }));
+        sethistoryData(filterHistory);
+        console.log('historial', filterHistory);
+      })
+      .catch((error) => {
+        console.error('Errormio', error);
+      });
+  }, [vehId]);
     return (
 		<>
         <div className='w-screen h-screen bg-page_background'>
@@ -51,7 +65,7 @@ export default function Vehicle_history() {
             {/* info del historial */}
             <div className='bg-tabla_service items-center lg:h-info_history h-info_history_2 lg:mr-marg-5 mr-marg-1 lg:ml-marg-4 ml-marg-1 mt-marg-3 flex flex-wrap rounded-lg justify-items-center justify-center shadow-md shadow-gray-300 h-30'>
             <div className='overflow-y-scroll h-full w-full ml-9'>
-                <DataBox columns={columns} info={data}/>
+                <DataBox columns={columns} info={historyData}/>
               </div>
             <NewBudgetButton />
             </div>
