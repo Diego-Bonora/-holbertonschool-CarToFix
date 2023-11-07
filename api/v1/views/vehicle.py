@@ -11,6 +11,7 @@ from models.type_vehicle import TypeVehicle
 def get_veh_dict(vehicle):
     """ Returns the complete vehicle dictionary """
     vehd = vehicle.to_dict()
+    vehd["type"] = storage.get(TypeVehicle, vehicle.type_vehicle_id).name
     vehd["services"] = [serv.to_dict() for serv in vehicle.services]
     vehd["budgets"] = [bdgt.to_dict() for bdgt in vehicle.budgets]
     return vehd
