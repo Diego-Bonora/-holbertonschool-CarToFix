@@ -34,6 +34,7 @@ export default {
 	width: {
 		'list': '85%',
 		'list-1': '80%',
+		'info_detalles': '70%',
 	},
       fontFamily: {
         'Inter': ['Inter', 'sans'],
@@ -51,6 +52,8 @@ export default {
         'marg-4': '15%',
 		'marg-5': '22%',
 		'marg-6': '20%',
+		'marg_detalles': '25%',
+		'marg_detalles2': '5%',
 	},
 	borderRadius: {
         'header_border': '20px',

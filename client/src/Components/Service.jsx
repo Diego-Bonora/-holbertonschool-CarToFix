@@ -75,7 +75,7 @@ export default function VehicleHistory() {
       <div className='w-screen h-screen bg-page_background'>
         <NavBar />
         <div className='xl:mr-72 mr-marg-1 lg:ml-marg-4 ml-marg-1 mt-16 font-bold text-black flex items-center justify-between'>
-          <h1 className='text-8xl font-black'>Servicios</h1>
+          <h1 className='text-7xl font-black'>Servicios</h1>
           <div className='flex-1 flex h-20 items-center space-x-4 justify-end'>
             <FilterActive activeFilter={activeFilter} handleFilterChange={handleFilterChange}/>
             <FilterService typeservice={typeservice} filterByType={filterByType} selectedType={selectedType} classname="md:w-full w-2/5"/>

@@ -16,17 +16,27 @@ export default function Vehicle() {
     
     const usrId = '74292fde-f738-454e-88ef-ab59818d2ba3';
 
+    const truncateServicesTitles = (arr, lNum) => {
+      if (arr) {
+  
+        let stringedArray = arr.join()
+        if (stringedArray.length > lNum) {
+          return stringedArray.slice(0, lNum) + '... '
+        }
+      } else { return "sin servios" }
+    }
+
     useEffect(() => {
       axios.get(`${baseURL}/api/v1/vehicle/user/${usrId}`)
         .then((res) => {
           console.log('datos compretos', res.data);
           const dataofvehicle = res.data.map(item => ({
             plate: item.plate,
-            title: item.title,
             created_at: item.created_at,
+            title: truncateServicesTitles(item.services.map((service) => service.title), 20),
           }))
           setVehicleData(dataofvehicle)
-          console.log('tabla', VehicleData);
+          console.log('tabla', dataofvehicle);
         })
         .catch(error => {
           console.error('Error', error);
@@ -47,7 +57,7 @@ export default function Vehicle() {
         <div className='w-screen h-screen bg-page_background'>
             <NavBar />
             <div className='lg:mr-80 mr-marg-1 lg:ml-marg-4 ml-marg-1 mt-20 font-bold text-black flex items-center justify-between'>
-          <h1 className='text-7xl'>Vehículos</h1>
+          <h1 className='text-7xl font-black'>Vehículos</h1>
           <div className='flex-1 flex items-center space-x-4 justify-end'>
             <Searchbar onSearch={handleSearch}/>
             <FaTh className='text-3xl' />
