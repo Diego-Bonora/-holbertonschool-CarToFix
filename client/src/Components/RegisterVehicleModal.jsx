@@ -217,7 +217,7 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 		console.log("id EN LOCAL STORAGE", type_vehicle_id)
 		if (newData) {
 
-			let vdata = newData.map((e) => ({
+			let vdata = newData.map((e) => JSON.parse(JSON.stringify({
 				plate: e.plate,
 				brand: brand_id,
 				model: e.model,
@@ -226,13 +226,12 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 				type_vehicle_id: type_vehicle_id,
 				client_id: client_id,
 				user_id: userId,
+			})));
 
 
-			}))
 
-
-			console.log("VEHICLE TO SEND ", vdata)
-			axios.post(`${baseURL}/api/v1/vehicle/`, JSON.stringify(vdata), {
+			console.log("VEHICLE TO SEND ", vdata[0])
+			axios.post(`${baseURL}/api/v1/vehicle/`, JSON.stringify(vdata[0]), {
 				headers: {
 					Accept: 'application/json',
 					'Content-Type': 'application/json'

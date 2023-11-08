@@ -13,7 +13,6 @@ from models.vehicle import Vehicle
 
 emailer = Emailer()
 
-
 def call_send(budget):
     """ Calls Emailer.send() """
     if budget.confirmed == False:
