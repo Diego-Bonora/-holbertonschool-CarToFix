@@ -100,6 +100,7 @@ At the end of the file:
 - [x] GET /api/v1/budget/\<bdgtId>/services | get all services for a specific budget
 - [x] GET /api/v1/budget/\<bdgtId> | get a specific budget
 - [x] GET /api/v1/budget/\<usrId> | get all budgets
+	- [x] this route recieves an optional parameter `done`, if `True` all the "done" budgets will be returned
 - [x] POST /api/v1/budget | create a budget
 - [x] DELETE /api/v1/budget/\<bdgtId> | delete a budget
 - [x] REPOST /api/v1/budget/\<bdgtId> | update a budget (the object will be destroyed and re-made)
@@ -136,10 +137,12 @@ No route should fail upon proper request.
 - [x] No more get all budgets but get all budgets by usrId
 - [x] Now you can get the budgets for a vehicle by plate
 - [x] If budget is done, it cannot be updated
-- [x] Get a vehicle type by name :)
-- [x] Cannot create a vehicle type that already exists :(
-- [x] Create a worker :)
-- [x] Cannot create a worker that already exists :(
-- [x] Use `get.py` to print all the `budgets.id` and `client.names` :)
-- [x] Vehicle by id now returns the name of its type :)
-- [x] Cannot create a user that already exists :(
+- [x] Get a vehicle type by name
+- [x] Cannot create a vehicle type that already exists
+- [x] Create a worker
+- [x] Cannot create a worker that already exists
+- [x] Use `get.py` to print all the `budgets.id` and `client.names`
+- [x] Vehicle by id now returns the name of its type
+- [x] Cannot create a user that already exists
+- [x] Get all the done budgets
+- [x] API prints its version

@@ -59,10 +59,11 @@ def get_budget(bdgtId):
 @app_views.route("/budget/user/<usrId>", methods=["GET"])
 def get_all_budgets(usrId):
     """ Returns all the Budget objects found """
+    done = request.args.get("done", default=False)
     bdgts = []
 
     for bdgt in storage.all(Budget).values():
-       if bdgt.user_id == usrId:
+        if bdgt.user_id == usrId and (not done or all(service.done for service in budget.services)):
             bdgts.append(bdgt_dict_generator(bdgt))
 
     return jsonify(bdgts), 200

@@ -151,9 +151,10 @@ class Emailer():
             if len(msg["body"].split(": ")) == 2:
                 acptd, bdgt = msg["body"].split(": ")
                 bdgt =  storage.get(Budget, bdgt.replace("\r\n", ""))
+                client = storage.get(Client, bdgt.client_id)
 
                 # If the budget is found and the sender is the same as the workshop costumer
-                if bdgt:
+                if bdgt and client.email == sender.email:
 
                     # If it was previously confirmed
                     if bdgt.confirmed == True:

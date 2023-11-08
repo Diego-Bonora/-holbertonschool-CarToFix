@@ -32,5 +32,8 @@ def close(E):
     """Calls storage.close() when server stops"""
     storage.close()
 
+print("version: 1.0")
+
+
 if __name__ == "__main__":
     app.run(threaded=True)
