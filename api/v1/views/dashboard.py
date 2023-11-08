@@ -52,9 +52,7 @@ def dashboard(usrId):
     else:
         vehicles = [b.vehicles for b in allbdgts]
 
-    res = {
-            "onhold": len([bdgt for bdgt in allbdgts if bdgt.confirmed == False]),
-            "vehicles_total": len(vehicles),
-            }
+    res["onhold"] = len([bdgt for bdgt in allbdgts if bdgt.confirmed == False])
+    res["vehicles_total"] = len(vehicles)
 
     return jsonify(res), 200
