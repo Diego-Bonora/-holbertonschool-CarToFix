@@ -30,7 +30,7 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 		mileage: '',
 		vehicle_type: '',
 		type_vehicle_id: '',
-		cliend_id: '',
+		client_id: '',
 		user_id: '',
 	}]);
 
@@ -53,7 +53,7 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 		vehicle_type: '',
 		type_vehicle_id: "",
 		cliend_id: "",
-		user_id: ","
+		user_id: "",
 
 
 	}])
@@ -273,9 +273,9 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 							}
 						})
 							.then(function (response) {
-								console.log(response);
-								let id = response.data[0].id
-								console.log("brand created , id")
+								console.log("response from brand CREATE", response.data);
+								let id = response.data[0]
+								console.log("brand created ", id)
 								localStorage.setItem('brandId', id);
 
 							})
