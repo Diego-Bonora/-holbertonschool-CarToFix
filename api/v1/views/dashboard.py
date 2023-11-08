@@ -47,11 +47,14 @@ def dashboard(usrId):
         res["budgets"].append(bdgts)
 
     # Adds the required stat informations
-    vehicles = [vehicle for b in allbdgts for vehicle in b.vehicles]
+    if type([b.vehicles for b in allbdgts][0]) == list:
+        vehicles = [vehicle for b in allbdgts for vehicle in b.vehicles]
+    else:
+        vehicles = [b.vehicles for b in allbdgts]
+
     res = {
             "onhold": len([bdgt for bdgt in allbdgts if bdgt.confirmed == False]),
             "vehicles_total": len(vehicles),
-            "active_vehicles": [v for v in vehicles if storage.get(v.budget_id).active == True]
             }
 
     return jsonify(res), 200
