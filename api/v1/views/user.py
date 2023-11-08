@@ -77,7 +77,7 @@ def update_user(usrId):
 
     data = request.get_json()
     for key, value in data.items():
-        if key is not "id":
+        if key != "id":
             setattr(user, key, value)
 
     storage.save()
