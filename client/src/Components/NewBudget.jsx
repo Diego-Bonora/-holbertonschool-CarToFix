@@ -6,13 +6,17 @@ import { useState } from "react";
 import Creatable from 'react-select/creatable';
 import { useNavigate } from 'react-router-dom';
 import MessageZone from './MessageZone';
+import axios from "axios"
 
 
 
 
+export default function NewBudget({ checkPlateRegistration, actualClient }) {
 
-export default function NewBudget({ checkPlateRegistration }) {
+	let userId = 'bc625955-0b33-4eec-837f-110619845a6c'
 
+
+	let baseURL = 'http://127.0.0.1:5000/'
 
 	const navigate = useNavigate();
 
@@ -52,6 +56,7 @@ export default function NewBudget({ checkPlateRegistration }) {
 	useEffect(() => {
 		setPlate((formData.plate).toUpperCase())
 		console.log("typed plate", plate)
+		localStorage.setItem('plate', plate);
 	}, [formData.plate])
 
 	{/* Total price of budget */ }
@@ -87,29 +92,44 @@ export default function NewBudget({ checkPlateRegistration }) {
 
 	const handeleFinalSubmit = (event) => {
 		event.preventDefault();
-		setBudget([
+		setBudget(
 			{
+				user_id: userId,
+				client_id: actualVehicle.id,
 				total_price: total,
 				payment_method: event.target.installments.value ? "CREDITO" : "EFECTIVO",
 				installments: event.target.installments.value,
 				warranty: "agregar",
-				vehicle_id: event.target.plate.value,
+				vehicle_id: localStorage.getItem('vehicle_id'),
 				issue_date: today,
 				due_date: event.target.due_date.value,
 				confirmed: confirmed,
-				sent: !confirmed,
-				active: confirmed,
 				services: items,
 			}
-		]);
-
+		);
+		console.log("budget to post ", budget)
 		if (confirmed) {
 			console.log("Presupuesto Guardado")
 			submited = true;
 		}
 		else {
-			console.log('Presupuesto Enviado por mail pendiente de confirmacon');
-			submited = true;
+			axios.post(`${baseURL}/api/v1/budget`, JSON.stringify(budget), {
+				headers: {
+					Accept: 'application/json',
+					'Content-Type': 'application/json'
+				}
+			})
+				.then(function (response) {
+					console.log("from create budget", response);
+					console.log('Presupuesto Enviado por mail pendiente de confirmacon');
+					submited = true;
+
+
+				})
+				.catch(function (error) {
+					console.log(error);
+				});
+
 		}
 
 	}
@@ -125,9 +145,7 @@ export default function NewBudget({ checkPlateRegistration }) {
 	{/* launcher for finished budget */ }
 
 	useEffect(() => {
-		if (budget.length != 0) {
-			console.log("Budget ready to save ", budget)
-		}
+		console.log("Budget has change to save ", budget)
 	}, [budget])
 
 	{/* Var to indicate if budget is confirmed */ }
@@ -165,6 +183,7 @@ export default function NewBudget({ checkPlateRegistration }) {
 	const [titleValue, setTitleValue] = useState('');
 	const [serviceValue, setServiceValue] = useState('');
 	const [workersValue, setWorkersValue] = useState('');
+	const [actualVehicle, setActualvehicle] = useState([])
 
 	{/* Hadlers  for selects values    */ }
 

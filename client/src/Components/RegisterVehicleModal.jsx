@@ -7,10 +7,10 @@ import MessageZone from './MessageZone';
 export default function RegisterVehicleModal({ display, checkClient, modalState, clientExiste, actualClient }) {
 
 
-	let userId = 'a6fbfd74-fc6f-48e7-ac16-90ee90121669'
+	let userId = 'bc625955-0b33-4eec-837f-110619845a6c'
 	let baseURL = 'http://127.0.0.1:5000'
 
-	let [newVehicleSubmited, setnewVehicleSubmited] = useState(false)
+	let [newVehicleSubmited, setNewVehicleSubmited] = useState(false)
 	const [clientData, setClientData] = useState([])
 	let [type, setType] = useState([])
 
@@ -204,6 +204,18 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 
 	};
 
+	const checkVehicle = (plate) => {
+		axios.get(`${baseURL}/api/v1/vehicle/plate/${plate}`)
+			.then((res) => {
+				const plateOnBase = res.data
+				if (plateOnBase > 0) {
+					localStorage.setItem('vehicle_id', res.data.id)
+					console.log("vehicle exist")
+					return res.data.id
+				}
+			})
+	}
+
 	const createVehicle = (newData) => {
 		console.log("creating vehicle")
 		console.log("data sumbmited on create ", newData);
@@ -214,7 +226,7 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 		let type_vehicle_id = localStorage.getItem('tyID');
 		let brand_id = localStorage.getItem('brandId');
 		console.log("actual brand of vehicle on create ", brand_id);
-		console.log("id EN LOCAL STORAGE", type_vehicle_id)
+		console.log("type_vehicle ID LOCAL STORAGE", type_vehicle_id)
 		if (newData) {
 
 			let vdata = newData.map((e) => JSON.parse(JSON.stringify({
@@ -229,8 +241,7 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 			})));
 
 
-
-			console.log("VEHICLE TO SEND ", vdata[0])
+			console.log("VEHICLE TO CREATE ", JSON.stringify(vdata[0]))
 			axios.post(`${baseURL}/api/v1/vehicle/`, JSON.stringify(vdata[0]), {
 				headers: {
 					Accept: 'application/json',
@@ -239,10 +250,11 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 			})
 				.then(function (response) {
 					console.log(response);
+					localStorage.setItem('vehicle_id', response.data.id)
 
 				})
 				.catch(function (error) {
-					console.log(error);
+					console.log("error on vehicle create", error);
 				});
 		}
 

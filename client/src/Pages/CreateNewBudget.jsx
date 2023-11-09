@@ -12,6 +12,7 @@ export default function CreateNewBudget() {
 	const [modalDisplayMode, setModalDisplayMode] = useState("none");
 	const [formSubmited, setFormSubmited] = useState(false)
 	const [actualClient, setActualClient] = useState([])
+	const [actualVehicle, setActualVehicle] = useState([])
 
 
 
@@ -29,6 +30,7 @@ export default function CreateNewBudget() {
 			.then((res) => {
 				console.log("res", res)
 				if (res.status == 200) {
+					checkPlateRegistration(plate)
 					return res.data.plate
 				} else {
 					return ""
@@ -50,6 +52,18 @@ export default function CreateNewBudget() {
 				console.log("Vehicule is not registered")
 			} else {
 				console.log("Vehicle exist on Data Base...")
+				const actualVehicle_id = axios.get((`${baseURL}/api/v1/vehicle/plate/${plate}`))
+					.then((res) => {
+						console.log("res", res)
+						if (res.status == 200) {
+							console.log("id of the vehicle with this plate is ", res.data.id)
+							localStorage.setItem('vehicle_id', actualVehicle_id)
+							return res.data.id
+						} else {
+							return null
+						}
+					})
+
 				setPlateRetRegistered(true)
 			}
 		}
@@ -111,7 +125,7 @@ export default function CreateNewBudget() {
 		if (clientExist) {
 			setClientRetRegistered(true)
 		}
-	}, clientExist)
+	}, [clientExist])
 
 
 
@@ -120,7 +134,7 @@ export default function CreateNewBudget() {
 		<>
 			<NavBar />
 			<div className="w-screen h-screen  flex items-center  justify-center flex-row bg-cyan-200 justify-items-center ">
-				<NewBudget checkPlateRegistration={checkPlateRegistration} />
+				<NewBudget checkPlateRegistration={checkPlateRegistration} actualVehicle={actualVehicle} actualClient={actualClient} />
 				<RegisterVehicleModal display={modalDisplayMode} checkClient={checkClient} modalState={(displayModal) => modalState(displayModal, () => { })} clientExiste={clientRegistered} actualClient={actualClient} />
 			</div>
 		</>
