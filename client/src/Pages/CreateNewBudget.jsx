@@ -30,11 +30,12 @@ export default function CreateNewBudget() {
 			.then((res) => {
 				console.log("res", res)
 				if (res.status == 200) {
+					console.log("PLATE is on base")
 					checkPlateRegistration(plate)
 					localStorage.setItem('client_id', res.data.client_id)
-					return res.data.plate
+					return res.data
 				} else {
-					return ""
+					return null
 				}
 			})
 
@@ -44,7 +45,7 @@ export default function CreateNewBudget() {
 
 	const checkPlateRegistration = (plate) => {
 		console.log("on ckecking plate")
-
+		const client_id = localStorage.getItem('client_id')
 		if (plate.length === 8 && actualClient.length === 0) {
 			const found = checkPlate(plate)
 			console.log("searching plate... ", plate)
