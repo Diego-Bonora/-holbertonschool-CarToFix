@@ -92,15 +92,17 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
 
 	const handeleFinalSubmit = (event) => {
 		event.preventDefault();
+		let client_id = localStorage.getItem('client_id')
+		let vehicle_id = localStorage.getItem('vehicle_id')
 		setBudget(
 			{
 				user_id: userId,
-				client_id: actualVehicle.id,
+				client_id: client_id,
 				total_price: total,
 				payment_method: event.target.installments.value ? "CREDITO" : "EFECTIVO",
 				installments: event.target.installments.value,
 				warranty: "agregar",
-				vehicle_id: localStorage.getItem('vehicle_id'),
+				vehicle_id: vehicle_id,
 				issue_date: today,
 				due_date: event.target.due_date.value,
 				confirmed: confirmed,

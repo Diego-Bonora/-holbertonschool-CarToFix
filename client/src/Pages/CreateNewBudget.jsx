@@ -31,6 +31,7 @@ export default function CreateNewBudget() {
 				console.log("res", res)
 				if (res.status == 200) {
 					checkPlateRegistration(plate)
+					localStorage.setItem('client_id', res.data.client_id)
 					return res.data.plate
 				} else {
 					return ""
@@ -49,15 +50,14 @@ export default function CreateNewBudget() {
 			console.log("searching plate... ", plate)
 			if (!found) {
 				setPlateRetRegistered(false);
-				console.log("Vehicule is not registered")
+				console.log("Vehicle is not registered")
 			} else {
 				console.log("Vehicle exist on Data Base...")
-				const actualVehicle_id = axios.get((`${baseURL}/api/v1/vehicle/plate/${plate}`))
+				axios.get((`${baseURL}/api/v1/vehicle/plate/${plate}`))
 					.then((res) => {
 						console.log("res", res)
 						if (res.status == 200) {
 							console.log("id of the vehicle with this plate is ", res.data.id)
-							localStorage.setItem('vehicle_id', actualVehicle_id)
 							return res.data.id
 						} else {
 							return null
