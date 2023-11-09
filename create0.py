@@ -13,7 +13,7 @@ veh_type = TypeVehicle(name="tha_type")
 client = Client(name="ET", phone="3802348", email="emanueltrias9@gmail.com")
 brand = Brand(name="tha_brand")
 brand2 = Brand(name="brand-on")
-user = User(name="CarToFix", mail="cartofixcostumers@gmail.com", password="aldfj", phone="598984982", logo="logeishon")
+user = User(name="CarToFix", mail="cartofixcostumers@gmail.com", password="adfklj", phone="598984982", logo="logeishon")
 
 # Save user instance before referencing it in other instances
 storage.new(user)

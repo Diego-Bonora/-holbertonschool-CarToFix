@@ -5,9 +5,8 @@ To run it:
 $ cd api/v1/
 $ flask run
 ```
-It's important for it to run properly, you to modify the `create0.py` file.
 
-## Modification of `create0.py`:
+## Create the required user for Emailer:
 ```
 $ head -n 16 create0.py | tail -n 1
 user = User(name="CarToFix", mail="cartofixcostumers@gmail.com", password="F#7b9/db", phone="598984982", logo="logeishon")
@@ -19,10 +18,11 @@ $ head -n 16 create0.py | tail -n 1
 user = User(name="CarToFix", mail="cartofixcostumers@gmail.com", password="CORRECTPASSWORD", phone="598984982", logo="logeishon")
 ```
 Once that's done, you can (must), execute it.
-Then, for security reasons after executing it, youll have to change the password again to a fake one;
+Then, for security reasons after executing it, you'll have to mode the file to the parent directory of the repository root.
 ```
-$ head -n 16 create0.py | tail -n 1
-user = User(name="CarToFix", mail="cartofixcostumers@gmail.com", password="F#7b9/db", phone="598984982", logo="logeishon")
+$ mv create0.py ..
+$ ls
+api  get.py  models  README.md
 ```
 
 ## Create a Budget:
@@ -66,9 +66,9 @@ At the end of the file:
 ### Service() Routes:
 - [x] GET /api/v1/service/\<scId> | get a specific service
 - [x] GET /api/v1/service/user/\<usrId> | get all services
-- [x] POST /api/v1/service | create a service
-- [x] DELETE /api/v1/service/\<scId> | delete a specific service
-- [x] PUT /api/v1/service/\<scId> | update a specific service
+- [] POST /api/v1/service | create a service
+- [] DELETE /api/v1/service/\<scId> | delete a specific service
+- [] PUT /api/v1/service/\<scId> | update a specific service
 
 ### Vehicle() Routes:
 - [x] GET /api/v1/vehicle/\<veId>/service | get all services for a specific vehicle
@@ -103,7 +103,7 @@ At the end of the file:
 	- [x] this route recieves an optional parameter `done`, if `True` all the "done" budgets will be returned
 - [x] POST /api/v1/budget | create a budget
 - [x] DELETE /api/v1/budget/\<bdgtId> | delete a budget
-- [x] REPOST /api/v1/budget/\<bdgtId> | update a budget (the object will be destroyed and re-made)
+- [] REPOST /api/v1/budget/\<bdgtId> | update a budget (the object will be destroyed and re-made)
 
 ### TypeVehicle() Routes:
 - [x] GET /api/v1/type/\<tId> | get a specific type of vehicle
@@ -136,7 +136,7 @@ No route should fail upon proper request.
 - [x] No more get all services but get all services by usrId
 - [x] No more get all budgets but get all budgets by usrId
 - [x] Now you can get the budgets for a vehicle by plate
-- [x] If budget is done, it cannot be updated
+- [x] If the all the services of a budget is done, it cannot be updated
 - [x] Get a vehicle type by name
 - [x] Cannot create a vehicle type that already exists
 - [x] Create a worker
@@ -146,3 +146,6 @@ No route should fail upon proper request.
 - [x] Cannot create a user that already exists
 - [x] Get all the done budgets
 - [x] API prints its version
+- [x] Print a more understandable error when user not set correctly
+- [x] Cannot create a vehicle that already exists
+- [x] If updating a service 

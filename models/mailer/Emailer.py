@@ -142,6 +142,7 @@ class Emailer():
         """ Process the messages """
         come_again = "Subject: Please try again\n\nResponse not understood, read the instrucctions in the confirmation mail and try again"
         for msg in msgs:
+            msg["body"] = msg["body"].split("\n")[0]
 
             # If the sender is a client
             print(msg)
