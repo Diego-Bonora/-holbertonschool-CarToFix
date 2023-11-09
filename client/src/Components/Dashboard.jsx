@@ -7,7 +7,7 @@ import TitleBox from './TitleBox'
 import axios from "axios"
 import { useState } from 'react'
 import { useEffect } from 'react'
-
+import NavBar from './NavBar';
 
 export default function Dashboard() {
 
@@ -56,7 +56,7 @@ export default function Dashboard() {
 
 	// Get all data from API
 
-	let userId = 'f777bb61-f93a-4f91-9f33-7f57168e7b25'
+	let userId = '08a3d82f-016e-49d2-a6ad-f8847693d4cf'
 	const [dashboardData, setDashboardData] = useState({})
 
 	useEffect(() => {
@@ -99,7 +99,8 @@ export default function Dashboard() {
 	return (
 		<>
 
-			<div className='father flex flex-wrap  max-w-full mt-5'>
+			<div className='w-screen h-screen bg-page_background'>
+				<NavBar />
 				<div className='flex flex-wrap md:grid md:grid-cols-1  md:place-content-evenly justify-center align-top h-full'>
 					<div className="flex flex-wrap h-fit md:grid md:grid-cols-2 md:w-screen justify-items-center justify-center">
 						{/* Titulo y DataFrames */}
