@@ -263,7 +263,7 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 					} else {
 						console.log("brand is not registered", brand)
 						console.log("creating brand", brand)
-						axios.post(`${baseURL}/api/v1/type`, JSON.stringify({
+						axios.post(`${baseURL}/api/v1/brand`, JSON.stringify({
 							name: brand
 						}), {
 							headers: {
@@ -273,8 +273,9 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 						})
 							.then(function (response) {
 								console.log("response from brand CREATE", response.data);
-								let id = response.data[0]
-								console.log("brand created ", id)
+								let id = response.data.id
+								localStorage.setItem('brandId', id);
+								console.log("brand id created ", id)
 								localStorage.setItem('brandId', id);
 
 							})

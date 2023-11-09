@@ -227,8 +227,8 @@ export default function NewBudget({ checkPlateRegistration }) {
 
 	return (
 		<>
-			<div className='w-screen bg-[#F5F5F5] h-screen overflow-scroll  px-20   text-black'>
-				<h1 className=' font-black'>Nuevo Presupuesto</h1>
+			<div className='w-screen bg-[rgb(245,245,245)] h-screen overflow-scroll  px-20   text-black'>
+				<h1 className=' font-black mt-5'>Nuevo Presupuesto</h1>
 				<section className='principalFrames grid grid-flow-col grid-rows-3 gap-4 mt-10 justify-items-center'>
 					<section className='CreateBudget p-4 w-full  bg-[#EBEBEB] rounded-lg row-span-4 col-span-2 h-fit'>
 						<form className='FormToCreateBudget' onSubmit={handleSubmit} onChange={handleChange}>

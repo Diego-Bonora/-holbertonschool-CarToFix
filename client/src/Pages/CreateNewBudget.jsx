@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import NewBudget from '../Components/NewBudget'
 import RegisterVehicleModal from '../Components/RegisterVehicleModal'
 import axios from 'axios'
+import NavBar from '../Components/NavBar'
 
 
 export default function CreateNewBudget() {
@@ -117,7 +118,8 @@ export default function CreateNewBudget() {
 
 	return (
 		<>
-			<div className="w-screen h-screen  flex items-center  justify-center flex-row bg-cyan-200 justify-items-center">
+			<NavBar />
+			<div className="w-screen h-screen  flex items-center  justify-center flex-row bg-cyan-200 justify-items-center ">
 				<NewBudget checkPlateRegistration={checkPlateRegistration} />
 				<RegisterVehicleModal display={modalDisplayMode} checkClient={checkClient} modalState={(displayModal) => modalState(displayModal, () => { })} clientExiste={clientRegistered} actualClient={actualClient} />
 			</div>
