@@ -95,11 +95,12 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
 		event.preventDefault();
 		let client_id = localStorage.getItem('client_id')
 		console.log('client id on SUBMIT', client_id)
+
 		let vehicle_id = localStorage.getItem('vehicle_id')
 		const budgetToSend = (
 			{
 				user_id: userId,
-				client_id: client_id,
+				client_id: "4fb8e159-b277-4fc0-915b-9477fe8a67f4",
 				total_price: total,
 				confirmed: false,
 				payment_method: event.target.installments.value ? "CREDITO" : "EFECTIVO",
