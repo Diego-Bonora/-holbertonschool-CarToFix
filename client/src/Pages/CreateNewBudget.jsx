@@ -36,7 +36,9 @@ export default function CreateNewBudget() {
 					clientExist = true
 					setClientRetRegistered(true)
 					setActualClient(clientONBase)
-
+					localStorage.setItem('client_id', res.data.id)
+					let id_from_base = localStorage.getItem('client_id')
+					console.log("client id from base", id_from_base)
 					console.log("client exist: ", clientExist)
 				} else {
 					clientExist = false
@@ -51,14 +53,15 @@ export default function CreateNewBudget() {
 
 	const checkPlateRegistration = (plate) => {
 		console.log("on ckecking plate")
+		let first_look = true
 
-		if (plate.length === 8 && actualClient.length === 0) {
+		if (plate.length === 8 && actualClient.length === 0 && first_look === true) {
 			axios.get((`${baseURL}/api/v1/vehicle/plate/${plate}`))
 				.then((res) => {
 					console.log("complete res vhe by plate", res)
 					if (res.status === 200) {
-						console.log("PLATE is on base", res.data.client_id)
-						localStorage.setItem('client_id', res.data.client_is)
+						console.log("PLATE is on base", res.data.id)
+						localStorage.setItem('client_id', res.data.id)
 						setPlateRetRegistered(true)
 						setActualVehicle(res.data)
 						return res.data
@@ -70,6 +73,7 @@ export default function CreateNewBudget() {
 				})
 				.then(function (response) {
 					console.log(response);
+					localStorage.setItem('client_id', response.data.client_id)
 
 
 
@@ -78,6 +82,7 @@ export default function CreateNewBudget() {
 					console.log("error creating Plate", error);
 					setPlateRetRegistered(false);
 				});
+			first_look = false
 
 		}
 

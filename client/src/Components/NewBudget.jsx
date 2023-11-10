@@ -93,18 +93,18 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
 	const handeleFinalSubmit = (event) => {
 		event.preventDefault();
 		let client_id = localStorage.getItem('client_id')
+		console.log('client id on SUBMIT', client_id)
 		let vehicle_id = localStorage.getItem('vehicle_id')
-		let budgetToSend =
-		{
-			user_id: userId,
-			client_id: client_id,
-			total_price: total,
-			payment_method: event.target.installments.value ? "CREDITO" : "EFECTIVO",
-			installments: event.target.installments.value,
-			vehicle_id: vehicle_id,
+		let budgetToSend = ([
+			{
+				user_id: userId,
+				client_id: client_id,
+				total_price: total,
+				payment_method: event.target.installments.value ? "CREDITO" : "EFECTIVO",
+				installments: event.target.installments.value,
+				vehicle_id: vehicle_id,
 
-			confirmed: confirmed,
-		}
+			}])
 
 		setBudget(budgetToSend)
 		console.log("budget to post ", budgetToSend)
@@ -114,7 +114,7 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
 			submited = true;
 		}
 		else {
-			axios.post(`${baseURL}/api/v1/budget`, JSON.stringify(budgetToSend), {
+			axios.post(`${baseURL}/api/v1/budget`, budgetToSend, {
 				headers: {
 					Accept: 'application/json',
 					'Content-Type': 'application/json'

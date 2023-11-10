@@ -4,11 +4,14 @@
 from api.v1.views import app_views
 from flask import abort, jsonify, request
 from models.budget import Budget
+from models.mailer.Emailer import Emailer
 from models.service import Service
 from models import storage
 from models.type_vehicle import TypeVehicle
 from models.vehicle import Vehicle
 
+
+emailer = Emailer()
 
 def custom_get_serv(all_servs):
     servs = []
@@ -45,40 +48,9 @@ def get_all_services(usrId):
     return jsonify(custom_get_serv(servs)), 200
 
 
-@app_views.route("/service", methods=["POST"])
-def create_service():
-    """ Creates astorage.get(Budget, serv.budget_id).active Service object """
-    krgs = request.get_json()
-    needed = ["price", "title", "description", "vehicle_id", "user_id", "budget_id"]
-    if not krgs:
-        abort(400, {"error": "Couldn’t get request; not a json"})
-
-    for arg in needed:
-        if arg not in krgs:
-    	    abort(400, {"error": f"{arg} missing"})
-
-    new_srv = Service(**krgs)
-    storage.new(new_srv)
-    storage.save()
-
-    return jsonify(new_srv.to_dict()), 201
-
-
-@app_views.route("/service/<scId>", methods=["DELETE"])
-def delete_service(scId):
-    """ Deletes a service """
-    service = storage.get(Service, scId)
-    if not service:
-    	abort(404, {"error": f"Service: {veId} instance not found"})
-
-    storage.delete(service)
-    storage.save()
-    return jsonify(""), 204
-
-
-@app_views.route("/service/<scId>", methods=["PUT"])
+@app_views.route("/service/done/<scId>", methods=["PUT"])
 def update_service(scId):
-    """ Updates a service """
+    """ Updates a services to be done to true"""
     service = storage.get(Service, scId)
     if not service:
         abort (404, {"error": f"Service: {scId} not found"})
@@ -87,10 +59,16 @@ def update_service(scId):
     if not krgs:
         abort(400, {"error": "Couldn’t get request; not a json"})
 
+    budget = storage.get(Budget, service.budget_id)
+    services = budget.services if isinstance(budget.services, list) else [budget.services]
+
+    if budget.active == True and all(service.done for service in services):
+        budget.active = False
+        emailer.send(storage.get(Client, new_bdgt.client_id), msg="Subject: Your car is ready!\n\nYour car is ready! Please reach out to the mechanical workshop")
+
     for key, value in krgs.items():
-        if key != "id":
+        if key == "done" and value == True:
             setattr(service, key, value)
 
     storage.save()
     return jsonify(service.to_dict()), 200
-
