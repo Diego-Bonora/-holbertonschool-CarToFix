@@ -21,15 +21,18 @@ def call_send(budget):
     if budget.confirmed == False:
         emailer.send(storage.get(Client, budget.client_id), budget=budget)
 
-def create_service(krgs):
+def create_service(krgs, vehicle, user):
     """ Create a service object """
-    needed = ["price", "title", "vehicle_id", "user_id"]
+    needed = ["price", "title"]
     if not krgs:
         abort(400, {"error": "Services cannot be empty"})
 
     for arg in needed:
         if arg not in krgs:
     	    abort(400, {"error": f"{arg} missing"})
+
+    krgs["vehicle_id"] = vehicle
+    krgs["user_id"] = user
 
     new_srv = Service(**krgs)
     storage.new(new_srv)
@@ -100,7 +103,7 @@ def create_budget():
 
     services = []
     for service in krgs["services"]:
-        services.append(create_service(service))
+        services.append(create_service(service, krgs["vehicle_id"], krgs["user_id"]))
 
     del krgs["services"]
     new_bdgt = Budget(**krgs)
@@ -148,9 +151,10 @@ def update_budget(bdgtId):
     if not krgs:
         abort(400, {"error": "Couldn’t get request; not a json"})
 
-    krgs.update(prev.to_dict().pop("id", None))
+    krgs.update(prev.to_dict())
+    krgs.pop("id", None)
 
-    needed = ["total_price", "payment_method", "user_id", "installments", "warranty", "vehicle_id", "client_id", "services"]
+    needed = ["total_price", "payment_method", "installments", "warranty"]
 
     for arg in needed:
         if arg not in krgs:
@@ -158,17 +162,39 @@ def update_budget(bdgtId):
         if "done" in krgs:
             abort(403, {"error": f"{arg} cannot be updated in this route"})
 
-    # Updating the services of the budget
-    for service in krgs["services"]:
-        servobj = storage.get(Service, service["id"])
-        if servobj:
-            for key, value in service.items():
-                setattr(servobj, key, value)
+
+    if "services" in krgs and type(krgs["services"]) == list: # If the request include services
+        for s in krgs["services"]: # Iterate over them
+            if not "action" in s or "action" in s and not "id" in s:
+                abort(400, {"error": f"either action or id missing"})
+            if s["action"] == 0: # If create action required
+                del s["action"]
+                prev.services.append(create_service(s, prev.vehicle_id, prev.user_id))
+            else:
+                servobj = storage.get(Service, s["id"])
+                if not servobj:
+                    abort(404, {"error": f"Service {s['id']} not found"})
+                if s["action"] == 1: # If update action required
+                    for key, value in s.items():
+                        if key not in ["action", "user_id", "vehicle_id"]:
+                            setattr(servobj, key, value)
+                elif s["action"] == 2: # If delete action required
+                    storage.delete(servobj)
+
+    storage.save()
+
+    del krgs["services"]
+    if "client_id" in krgs:
+        del krgs["client_id"]
 
     # Creating a new instance
     new_bdgt = Budget(**krgs)
+
+    new_bdgt.services = services
     new_bdgt.sent = False
+
     call_send(new_bdgt)
+
     storage.new(new_bdgt)
     storage.save()
     return jsonify(new_bdgt.to_dict()), 200

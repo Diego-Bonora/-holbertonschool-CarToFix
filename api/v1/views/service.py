@@ -62,13 +62,13 @@ def update_service(scId):
     budget = storage.get(Budget, service.budget_id)
     services = budget.services if isinstance(budget.services, list) else [budget.services]
 
+    for key, value in krgs.items():
+        if key == "done" and value == True or key == "worker":
+            setattr(service, key, value)
+    storage.save()
+
     if budget.active == True and all(service.done for service in services):
         budget.active = False
         emailer.send(storage.get(Client, new_bdgt.client_id), msg="Subject: Your car is ready!\n\nYour car is ready! Please reach out to the mechanical workshop")
 
-    for key, value in krgs.items():
-        if key == "done" and value == True:
-            setattr(service, key, value)
-
-    storage.save()
     return jsonify(service.to_dict()), 200
