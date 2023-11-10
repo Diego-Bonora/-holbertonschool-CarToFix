@@ -10,7 +10,7 @@ import axios from 'axios';
 export default function Vehicle() {
 
     {/* column for databox*/}
-    const vehiclecolumn = ['plate', 'title', 'created_at'];
+    const vehiclecolumn = ['plate', 'title', 'created_at', 'vehicle_id'];
     const baseURL = 'http://127.0.0.1:5000'
     const [VehicleData, setVehicleData] = useState([]);
     
@@ -18,7 +18,7 @@ export default function Vehicle() {
 
     const truncateServicesTitles = (arr, lNum) => {
       if (arr) {
-  
+   
         let stringedArray = arr.join()
         if (stringedArray.length > lNum) {
           return stringedArray.slice(0, lNum) + '... '
@@ -30,11 +30,16 @@ export default function Vehicle() {
       axios.get(`${baseURL}/api/v1/vehicle/user/${usrId}`)
         .then((res) => {
           console.log('datos compretos', res.data);
-          const dataofvehicle = res.data.map(item => ({
-            plate: item.plate,
-            created_at: item.created_at,
-            title: truncateServicesTitles(item.services.map((service) => service.title), 20),
-          }))
+          const dataofvehicle = res.data.map(vehicle => {
+            const budgetWithVehicleId = vehicle.budgets.find(budget => budget.vehicle_id);
+            const vehicleId = budgetWithVehicleId ? budgetWithVehicleId.vehicle_id : null;
+            return {
+              plate: vehicle.plate,
+              created_at: vehicle.created_at,
+              title: truncateServicesTitles(vehicle.services.map((service) => service.title), 20),
+              vehicle_id: vehicleId,
+            };
+          });
           setVehicleData(dataofvehicle)
           console.log('tabla', dataofvehicle);
         })
@@ -42,6 +47,7 @@ export default function Vehicle() {
           console.error('Error', error);
         });
     }, [usrId])
+    
     {/*Search*/}
     const [searchQuery, setSearchQuery] = useState('');
     const handleSearch = (query) => {
