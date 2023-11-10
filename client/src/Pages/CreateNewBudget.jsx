@@ -24,32 +24,6 @@ export default function CreateNewBudget() {
 
 	let baseURL = 'http://127.0.0.1:5000/'
 
-
-
-
-	const checkPlateRegistration = (plate) => {
-		console.log("on ckecking plate")
-
-		if (plate.length === 8 && actualClient.length === 0) {
-			axios.get((`${baseURL}/api/v1/vehicle/plate/${plate}`))
-				.then((res) => {
-					console.log("complete res vhe by plate", res)
-					if (res.status == 200) {
-						console.log("PLATE is on base", res.data.client_id)
-						localStorage.setItem('client_id', res.data.client_is)
-						setPlateRetRegistered(true)
-						setActualVehicle(res.data)
-						return res.data
-					} else {
-						setPlateRetRegistered(false);
-						return null
-					}
-				})
-
-		}
-
-	}
-
 	const checkClient = (clientName) => {
 		console.log("cliente ingresado", clientName)
 		axios.get(`${baseURL}/api/v1/client`)
@@ -73,6 +47,43 @@ export default function CreateNewBudget() {
 			})
 
 	}
+
+
+	const checkPlateRegistration = (plate) => {
+		console.log("on ckecking plate")
+
+		if (plate.length === 8 && actualClient.length === 0) {
+			axios.get((`${baseURL}/api/v1/vehicle/plate/${plate}`))
+				.then((res) => {
+					console.log("complete res vhe by plate", res)
+					if (res.status === 200) {
+						console.log("PLATE is on base", res.data.client_id)
+						localStorage.setItem('client_id', res.data.client_is)
+						setPlateRetRegistered(true)
+						setActualVehicle(res.data)
+						return res.data
+					} else {
+						console.log("PLATE not registred")
+						setPlateRetRegistered(false);
+						return null
+					}
+				})
+				.then(function (response) {
+					console.log(response);
+
+
+
+				})
+				.catch(function (error) {
+					console.log("error creating Plate", error);
+					setPlateRetRegistered(false);
+				});
+
+		}
+
+	}
+
+
 
 
 	const modalState = (displayModal, callback) => {
