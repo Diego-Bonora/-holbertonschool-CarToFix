@@ -3,6 +3,7 @@ import NewBudget from '../Components/NewBudget'
 import RegisterVehicleModal from '../Components/RegisterVehicleModal'
 import axios from 'axios'
 import NavBar from '../Components/NavBar'
+import { FaSoundcloud } from 'react-icons/fa'
 
 
 export default function CreateNewBudget() {
@@ -24,49 +25,27 @@ export default function CreateNewBudget() {
 	let baseURL = 'http://127.0.0.1:5000/'
 
 
-	const checkPlate = (plate) => {
-
-		axios.get((`${baseURL}/api/v1/vehicle/plate/${plate}`))
-			.then((res) => {
-				console.log("res", res)
-				if (res.status == 200) {
-					console.log("PLATE is on base")
-					checkPlateRegistration(plate)
-					localStorage.setItem('client_id', res.data.client_id)
-					return res.data
-				} else {
-					return null
-				}
-			})
-
-	}
-
 
 
 	const checkPlateRegistration = (plate) => {
 		console.log("on ckecking plate")
-		const client_id = localStorage.getItem('client_id')
-		if (plate.length === 8 && actualClient.length === 0) {
-			const found = checkPlate(plate)
-			console.log("searching plate... ", plate)
-			if (!found) {
-				setPlateRetRegistered(false);
-				console.log("Vehicle is not registered")
-			} else {
-				console.log("Vehicle exist on Data Base...")
-				axios.get((`${baseURL}/api/v1/vehicle/plate/${plate}`))
-					.then((res) => {
-						console.log("res", res)
-						if (res.status == 200) {
-							console.log("id of the vehicle with this plate is ", res.data.id)
-							return res.data.id
-						} else {
-							return null
-						}
-					})
 
-				setPlateRetRegistered(true)
-			}
+		if (plate.length === 8 && actualClient.length === 0) {
+			axios.get((`${baseURL}/api/v1/vehicle/plate/${plate}`))
+				.then((res) => {
+					console.log("complete res vhe by plate", res)
+					if (res.status == 200) {
+						console.log("PLATE is on base", res.data.client_id)
+						localStorage.setItem('client_id', res.data.client_is)
+						setPlateRetRegistered(true)
+						setActualVehicle(res.data)
+						return res.data
+					} else {
+						setPlateRetRegistered(false);
+						return null
+					}
+				})
+
 		}
 
 	}
