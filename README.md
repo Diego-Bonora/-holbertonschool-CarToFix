@@ -125,6 +125,8 @@ At the end of the file:
 No route should fail upon proper request.
 
 - [ ] checks previous existence of all the objects that a user has
+- [ ] checks objects with usrid are created for that user
+- [ ] Budget PUT knows when to add or update a service
 
 #### Latest:
 - [x] budget calls `Emailer` each time a budget is created

@@ -71,6 +71,8 @@ class Emailer():
         try:
             self.connect()
 
+            if not client:
+                raise ValueError("Client must be provided")
             if not budget and not msg:
                 raise ValueError("Either budget or message should be provided")
             if budget:

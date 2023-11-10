@@ -5,13 +5,16 @@
 from api.v1.views import app_views
 from flask import abort, jsonify, request
 from models.budget import Budget
+from models.client import Client
 from models.mailer.Emailer import Emailer
+from models.service import Service
 from models import storage
 from models.type_vehicle import TypeVehicle
 from models.vehicle import Vehicle
 
 
 emailer = Emailer()
+
 
 def call_send(budget):
     """ Calls Emailer.send() """
@@ -20,9 +23,9 @@ def call_send(budget):
 
 def create_service(krgs):
     """ Create a service object """
-    needed = ["price", "title", "description", "vehicle_id", "user_id", "budget_id"]
+    needed = ["price", "title", "vehicle_id", "user_id"]
     if not krgs:
-        abort(400, {"error": "Couldn’t get request; not a json"})
+        abort(400, {"error": "Services cannot be empty"})
 
     for arg in needed:
         if arg not in krgs:
@@ -31,21 +34,22 @@ def create_service(krgs):
     new_srv = Service(**krgs)
     storage.new(new_srv)
     storage.save()
+    return new_srv
 
 def bdgt_dict_generator(bdgt):
     """ Generates the dictioary for a single budget object """
     vehicle = storage.get(Vehicle, bdgt.vehicle_id)
 
-    bdict = bdgt.to_dict()
+    services = bdgt.services if isinstance(bdgt.services, list) else [bdgt.services]
     bdict = {
         "vehicle_type": storage.get(TypeVehicle, vehicle.type_vehicle_id).name,
         "created": bdgt.created_at,
         "total": bdgt.total_price,
         "id": bdgt.id,
-        "services": [serv.to_dict() for serv in bdgt.services],
+        "services": [serv.to_dict() for serv in services],
         "vehicle": vehicle.to_dict()
         }
-
+    
     return bdict
 
 @app_views.route("/budget/<bdgtId>/services", methods=["GET"])
@@ -94,15 +98,22 @@ def create_budget():
         if arg not in krgs or (arg == "services" and len(krgs["services"]) == 0):
             abort(400, {"error": f"{arg} missing"})
 
+    services = []
     for service in krgs["services"]:
-        create_service(service)
+        services.append(create_service(service))
 
+    del krgs["services"]
     new_bdgt = Budget(**krgs)
-    call_send(budget)
+    new_bdgt.services = services
+
     storage.new(new_bdgt)
     storage.save()
 
-    return jsonify(bdgt_dict_generator(new_bdgt)), 201
+    call_send(storage.get(Budget, new_bdgt.id))
+
+    bdict = bdgt_dict_generator(new_bdgt)
+    del bdict["services"]
+    return jsonify(bdict), 201
 
 
 @app_views.route("/budget/<bdgtId>", methods=["DELETE"])
@@ -119,7 +130,7 @@ def delete_budget(bdgtId):
     return jsonify(""), 204
 
 
-#@app_views.route("/budget/<bdgtId>", methods=["REPOST"])
+@app_views.route("/budget/<bdgtId>", methods=["REPOST"])
 def update_budget(bdgtId):
     """ Creates a new Budget object based on the given one's id """
     # Getting the Budget object
