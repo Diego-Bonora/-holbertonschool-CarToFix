@@ -4,7 +4,7 @@ import { FaBars, FaTimes } from 'react-icons/fa';
 import isologotipo from '../assets/isologotipo.png';
 import nobre_taller from '../assets/nobre_taller.png';
 
-export default function NavBar() {
+export default function NavBar({ logOut }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [dropdown, setDropdown] = useState(false);
 
@@ -20,8 +20,7 @@ export default function NavBar() {
       <div className=" py-1 pr-14 pl-8 bg-cian-oscuro md:rounded-b-header_border flex items-center justify-between">
         <div className='flex flex-grow items-center' >
           <img src={isologotipo} alt="" className='w-20 md:block hidden ml-8' onClick={toggleDropdown} />
-          {/* Dropdown Menu */}
-          {dropdown && (<div className='absolute mt-1 p-2 bg-black shadow-md rounded translate-y-full translate-x-10'> Logout </div>)}
+          {dropdown && (<div className='absolute mt-1  bg-black shadow-md rounded translate-y-full'> <button onClick={logOut}>Cerrar sesion</button> </div>)}
           <img src={nobre_taller} alt="" className='w-60 ml-6' />
         </div>
         {/* Icono de menú */}
