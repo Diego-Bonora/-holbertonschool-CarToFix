@@ -1,5 +1,5 @@
 
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom"
+import { BrowserRouter, Routes, Route, Link} from "react-router-dom"
 import Vehicle_history from "./Components/Vehicle_history";
 import Vehicle from './Components/Vehicle';
 import Service from './Components/Service';
@@ -13,11 +13,11 @@ function App() {
 		<>
 			<BrowserRouter>
 				<Routes>
-					<Route path="/vehiculo" element={<Vehicle />} />
-					<Route path="/history" element={<Vehicle_history/>}/>
+					<Route path="/vehicle" element={<Vehicle />} />
+					<Route path="/details/:id" element={<Vehicle_history/>}/>
 					<Route path="/service" element={<Service/>} />
 					<Route path="/budgets" element={<BudgetAll/>}/>
-					<Route path="/specificbudget" element={<SpecificBudget/>} />
+					<Route path="/specificbudget/:id" element={<SpecificBudget/>} />
 				</Routes>
 			</BrowserRouter>
 		</>
