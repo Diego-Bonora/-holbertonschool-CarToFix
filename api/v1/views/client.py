@@ -86,7 +86,7 @@ def update_client(clId):
     	abort(400, {"error": "Couldn’t get request; not a json"})
 
     for key, value in krgs.items():
-    	if key != "id":
+    	if key is not "id":
             setattr(clnt, key, value)
 
     if check(clnt) == 0:

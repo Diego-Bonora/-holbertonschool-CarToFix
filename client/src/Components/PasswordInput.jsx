@@ -1,7 +1,7 @@
 import React from "react";
 import { Eye, EyeSlash, Lock } from 'react-bootstrap-icons';
 
-export default function PasswordInput({ placeholder, value, onChange }) {
+export default function PasswordInput({ placeholder, id, value, onChange }) {
     const [showPassword, setShowPassword] = React.useState(false);
 
     const handleShowPassword = () => {
@@ -14,6 +14,7 @@ export default function PasswordInput({ placeholder, value, onChange }) {
             <input
                 type={showPassword ? 'text' : 'password'}
                 placeholder={placeholder}
+                id={id}
                 className="2xl:text-lg rounded-b-2xl rounded-t-2xl h-7 my-1.5 w-full bg-gris-claro text-black py-5 p-14 placeholder-white"
                 value={value}
                 onChange={onChange}

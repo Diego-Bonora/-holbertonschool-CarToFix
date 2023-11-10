@@ -19,22 +19,6 @@ def call_send(budget):
         emailer.send(storage.get(Client, budget.client_id), budget=budget)
 
 
-def bdgt_dict_generator(bdgt):
-    """ Generates the dictioary for a single budget object """
-    vehicle = storage.get(Vehicle, bdgt.vehicle_id)
-
-    bdict = bdgt.to_dict()
-    bdict = {
-        "vehicle_type": storage.get(TypeVehicle, vehicle.type_vehicle_id).name,
-        "created": bdgt.created_at,
-        "total": bdgt.total_price,
-        "id": bdgt.id,
-        "services": [serv.to_dict() for serv in bdgt.services],
-        "vehicle": vehicle.to_dict()
-        }
-
-    return bdict
-
 @app_views.route("/budget/<bdgtId>/services", methods=["GET"])
 def get_budget_services(bdgtId):
     """ Returns the services a budget contains """
@@ -53,7 +37,19 @@ def get_budget(bdgtId):
     if not budget:
         abort(404, {"error": f"Budget: {bdgtId} instance not found"})
 
-    return jsonify(bdgt_dict_generator(budget)), 200
+    vehicle = storage.get(Vehicle, budget.vehicle_id)
+
+    bdict = budget.to_dict()
+    bdict = {
+        "vehicle_type": storage.get(TypeVehicle, vehicle.type_vehicle_id).name,
+        "created": budget.created_at,
+        "total": budget.total_price,
+        "id": budget.id,
+        "services": [serv.to_dict() for serv in budget.services],
+        "vehicle": vehicle.to_dict()
+        }
+
+    return jsonify(bdict), 200
 
 
 @app_views.route("/budget/user/<usrId>", methods=["GET"])
@@ -62,8 +58,14 @@ def get_all_budgets(usrId):
     bdgts = []
 
     for bdgt in storage.all(Budget).values():
-       if bdgt.user_id == usrId:
-            bdgts.append(bdgt_dict_generator(bdgt))
+        if bdgt.user_id == usrId:
+            btd = {
+                    "vehicle_type": storage.get(TypeVehicle, storage.get(Vehicle, bdgt.vehicle_id).type_vehicle_id).name,
+                    "created": bdgt.created_at,
+                    "total": bdgt.total_price,
+                    "id": bdgt.id
+                    }
+            bdgts.append(btd)
 
     return jsonify(bdgts), 200
 

@@ -55,9 +55,18 @@ export default function Dashboard() {
 	}
 
 	// Get all data from API
-
-	let userId = 'f777bb61-f93a-4f91-9f33-7f57168e7b25'
+	
+	let userId = JSON.parse(localStorage.getItem('userID'));
 	const [dashboardData, setDashboardData] = useState({})
+
+	if (userId === null){
+		window.location.href = "/"
+	}
+
+	const logOut = () => {
+		console.log("entro")
+		localStorage.removeItem('userID')
+	}
 
 	useEffect(() => {
 		axios.get(`${baseURL}/api/v1/dashboard/${userId}`)
@@ -105,6 +114,7 @@ export default function Dashboard() {
 						{/* Titulo y DataFrames */}
 						<div className='h-20 md:mb-10 mb-20 md:w-full md:h-full justify-center -translate-y-16'>
 							<TitleBox title={dashboardData.user_name} />
+							<button onClick={logOut}>Cerrar sesion</button>
 						</div>
 						<div className="flex flex-wrap h-full md:grid md:grid-cols-2 md:gap-8 md:place-items-center justify-items-center justify-center min-w-[50px] space-x-5 " >
 
