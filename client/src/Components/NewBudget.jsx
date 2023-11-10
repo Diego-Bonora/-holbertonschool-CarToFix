@@ -161,10 +161,11 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
 
 	{/* Options for  services   */ }
 	const services = [
-		{ label: 'Revicion general', value: 1 },
-		{ label: 'Falla', value: 2 },
-		{ label: 'A nuevo', value: 3 },
-		{ label: 'Cambio', value: 4 },
+		{ label: 'MECANICA', value: 1 },
+		{ label: 'ELECTRICIDAD', value: 2 },
+		{ label: 'CHAPA', value: 3 },
+		{ label: 'TRANSIMISON', value: 4 },
+		{ label: 'FRENOS', value: 5 },
 	]
 
 	{/* Options for  workers   */ }
