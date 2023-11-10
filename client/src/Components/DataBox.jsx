@@ -1,14 +1,7 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
-import {useHistory} from 'react-router-dom';
 
-export default function DataBox({ info, columns, SeeClick}) {
-  const history = useHistory();
-
-  const handleRedirect = () => {
-    history.push(SeeClick)
-  }
-
+export default function DataBox({ info, columns, SeeClick, IdName, onRedirect}) {
   return (
 
     <table className="text-black mb-5 mt-14 w-full ">
@@ -43,7 +36,7 @@ export default function DataBox({ info, columns, SeeClick}) {
             ))}
             <td className="p-2 sm:px-8 px-5 align-middle md:text-md text-sm">
               <button type="button" className="bg-orange-claro hover:bg-orange-oscuro text-white p-px md:w-14 w-10 items-center"
-              onClick={handleRedirect}>
+              onClick={() => SeeClick(data[IdName], onRedirect)}>
                 Ver
               </button>
             </td>
@@ -53,4 +46,4 @@ export default function DataBox({ info, columns, SeeClick}) {
     </table>
 
   );
-            }
+}

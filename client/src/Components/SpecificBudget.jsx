@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import NavBar from './NavBar';
 import DataBox from './DataBox';
-import NewBudgetButton from './NewBudgetButton';
 import axios from 'axios';
 import FilterService from './FilterService';
+import { useParams } from 'react-router-dom';
 
 
 export default function SpecificBudget() {
+
+  const { id } = useParams();
+  console.log('ID de la ruta:', id);
+
   let info_vehiculo = [{ Marca: '', Modelo: '', Color: ''
   }]
   const columns = ['title', 'description', 'done'];
@@ -18,12 +22,12 @@ export default function SpecificBudget() {
   const [Initial, setInitial] = useState([]); {/*  copia de los datos */}
 
 
-  const bdgtId = 'cac7bfc2-ee2c-44c2-8d37-00e35c0e5d8f';
+  const bdgtId = id;
   const baseURL = 'http://127.0.0.1:5000';
 
 
   useEffect(() => {
-    axios.get(`${baseURL}/api/v1/budget/${bdgtId}`)
+    axios.get(`${baseURL}/api/v1/budget/done/${bdgtId}`)
       .then((res) => {
         console.log('history', res.data);
         const filterHistory = res.data.services.map(item => ({
@@ -72,9 +76,9 @@ export default function SpecificBudget() {
 		<>
         <div className='w-screen h-screen bg-page_background'>
             <NavBar />
-
+            <div className='flex lg:ml-marg-4 ml-marg-1 mt-marg-3'>
             {/* info del vehiculo y matricula*/}
-            <div className='bg-tabla_service flex flex-wrap h-info_vehiculo rounded-r-lg shadow-md shadow-gray-300 w-9/12' >
+            <div className='bg-tabla_service lg:w-info_detalles w-info_detalles_mini flex flex-wrap h-28 rounded-r-lg shadow-md shadow-gray-300 ' >
               {/* matricula general */}
               <div className='border border-azul-oscuro flex flex-col justify-start w-3/12 h-full' >
                 {/*tipo de vehiculo*/}
@@ -87,9 +91,9 @@ export default function SpecificBudget() {
                 </div>
                 {/*info del vehiculo */}
               </div>
-              <div className='pl-10 w-9/12 h-full'>
+              <div className='lg:pl-10 pl-5 lg:w-9/12 w-2/5 h-28 flex-wrap'>
                 {info_vehiculo.map((index) => (
-                <div key={index} className='text-black h-full  sm:flex flex-col flex-wrap hidden text-xl my-4 w-9/12'>
+                <div key={index} className='text-black h-28  sm:flex flex-col flex-wrap hidden text-xl my-4 w-10/12'>
                   <div className='py-2'>
                     Marca: <span className='font-bold'>{}</span></div>
                   <div className='pb-1'>
@@ -100,11 +104,10 @@ export default function SpecificBudget() {
                 ))}
               </div>
             </div>
-              <div className=''>
-              <FilterService typeservice={typeservice} filterByType={filterByType} selectedType={selectedType} classname="md:w-full w-2/5"/>
+              <FilterService typeservice={typeservice} filterByType={filterByType} selectedType={selectedType} classname="md:w-full w-1/2 ml-10" />
               </div>
             {/* info del historial */}
-            <div className='bg-tabla_service items-center lg:h-info_history h-info_history_2 lg:mr-marg_detalles mr-marg-1 lg:ml-marg-4 ml-marg-1 mt-marg-3 flex flex-wrap rounded-lg justify-items-center justify-center shadow-md shadow-gray-300 h-30'>
+            <div className='bg-tabla_service items-center h-info_history w-35 lg:mr-marg_detalles mr-marg-1 lg:ml-marg-4 ml-marg-1 mt-marg-3 flex flex-wrap rounded-lg justify-items-center justify-center shadow-md shadow-gray-300 h-30'>
             <div className='overflow-y-scroll h-full w-full ml-9'>
                 <DataBox columns={columns} info={historyData}/>
               </div>

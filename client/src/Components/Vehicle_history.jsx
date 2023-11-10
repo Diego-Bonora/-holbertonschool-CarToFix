@@ -3,16 +3,21 @@ import NavBar from './NavBar';
 import DataBox from './DataBox';
 import NewBudgetButton from './NewBudgetButton';
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
 
 
 export default function Vehicle_history() {
+
+  const { id } = useParams();
+  console.log('ID de la ruta:', id);
+
   let info_vehiculo = [{ Marca: '', Modelo: '', Color: ''
   }]
   const columns = ['created_at', 'description'];
   const [historyData, sethistoryData] = useState([]); {/* datos de las historias*/}
   const [datavehicle, setdatavehicle] = useState([]);
 
-  const vehId = 'fc2c180e-5828-4f5b-a408-70390655711b';
+  const vehId = id;
   const baseURL = 'http://127.0.0.1:5000';
 
   useEffect(() => {
@@ -74,8 +79,8 @@ export default function Vehicle_history() {
               </div>
             </div>
             {/* info del historial */}
-            <div className='bg-tabla_service items-center lg:h-info_history h-info_history_2 lg:mr-marg-5 mr-marg-1 lg:ml-marg-4 ml-marg-1 mt-marg-3 flex flex-wrap rounded-lg justify-items-center justify-center shadow-md shadow-gray-300 h-30'>
-            <div className='overflow-y-scroll h-full w-full ml-9'>
+            <div className='bg-tabla_service overflow-y-scroll  items-center lg:h-info_history h-info_history_2 lg:mr-marg-5 mr-marg-1 lg:ml-marg-4 ml-marg-1 mt-marg-3 flex flex-wrap rounded-lg justify-items-center justify-center shadow-md shadow-gray-300 h-30'>
+            <div className='h-full w-full mx-9'>
                 <DataBox columns={columns} info={historyData}/>
               </div>
             <NewBudgetButton />

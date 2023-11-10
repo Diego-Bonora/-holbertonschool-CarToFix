@@ -6,8 +6,16 @@ import FilterService from './FilterService';
 import { FaTh } from 'react-icons/fa';
 import axios from 'axios';
 import FilterActive from './filterActive';
+import { useNavigate } from 'react-router-dom';
 
 export default function VehicleHistory() {
+
+  const navigate = useNavigate();
+  const onRedirect = (path) => {
+    console.log('redireccion', path);
+    navigate(path);
+  }
+
   const columns = ['vehPlate', 'title', 'created'];
   const [serviceData, setServiceData] = useState([]); {/* datos de los servicios*/}
   const [typeservice, settypeService] = useState([]); {/*  por tipo */}
@@ -17,7 +25,7 @@ export default function VehicleHistory() {
   const [activeFilter, setActiveFilter] = useState('all'); // Filtro para servicios activos o no activos
   let filteredServiceData;
 
-  const usrId = '277b70d9-34d7-4582-9ce4-456f81edcb34';
+  const usrId = 'ca2841f8-0773-4b09-b944-1947e9913803';
   const baseURL = 'http://127.0.0.1:5000';
 
   useEffect(() => {
@@ -29,6 +37,7 @@ export default function VehicleHistory() {
           title: item.title,
           created: item.created,
           active: item.active,
+          vehId: item.vehId,
         }));
 
         setServiceData(filteredData);
@@ -70,6 +79,12 @@ export default function VehicleHistory() {
     filteredServiceData = serviceData.filter(item => item.active === (activeFilter === 'true'));
   }
 
+  const handleButton = (id) => {
+    console.log(`boton: ${id}`)
+    navigate(`/details/${id}`);
+  }
+
+
   return (
     <>
       <div className='w-screen h-screen bg-page_background'>
@@ -85,7 +100,9 @@ export default function VehicleHistory() {
         {/* Info del historial */}
         <div className='bg-tabla_service items-center md:h-info_history xl:info_history_3 h-info_history_2 lg:mr-marg-5 mr-marg-1 lg:ml-marg-4 ml-marg-1 mt-marg-3 flex flex-wrap rounded-lg justify-items-center justify-center shadow-md shadow-gray-400 h-30'>
           <div className='hidden:overflow-y-scroll h-full w-full ml-20'>
-            <DataBox columns={columns} info={filteredServiceData} />
+            <DataBox columns={columns} info={filteredServiceData} 
+            SeeClick={handleButton} IdName='vehId'
+            onRedirect={onRedirect}/>
           </div>
           <ButtonService />
         </div>
