@@ -47,7 +47,7 @@ def dashboard(usrId):
         res["budgets"].append(bdgts)
 
     # Adds the required stat informations
-    if type([b.vehicles for b in allbdgts][0]) == list:
+    if allbdgts and type([b.vehicles for b in allbdgts][0]) == list:
         vehicles = [vehicle for b in allbdgts for vehicle in b.vehicles]
     else:
         vehicles = [b.vehicles for b in allbdgts]

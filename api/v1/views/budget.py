@@ -131,22 +131,32 @@ def update_budget(bdgtId):
     elif all(prev.done for service in prev.services):
         abort(409, {"error": f"Budget: {bdgtId} is already finished"})
 
-    # Extending the ditionary with previous instance attrs
 
+    # Extending the ditionary with previous instance attrs
     krgs = request.get_json().pop("id", None)
     if not krgs:
         abort(400, {"error": "Couldn’t get request; not a json"})
 
     krgs.update(prev.to_dict().pop("id", None))
 
-    needed = ["total_price", "payment_method", "user_id", "installments", "warranty", "vehicle_id", "client_id"]
+    needed = ["total_price", "payment_method", "user_id", "installments", "warranty", "vehicle_id", "client_id", "services"]
 
     for arg in needed:
         if arg not in krgs:
             abort(400, {"error": f"{arg} missing"})
+        if "done" in krgs:
+            abort(403, {"error": f"{arg} cannot be updated in this route"})
+
+    # Updating the services of the budget
+    for service in krgs["services"]:
+        servobj = storage.get(Service, service["id"])
+        if servobj:
+            for key, value in service.items():
+                setattr(servobj, key, value)
 
     # Creating a new instance
-    new_bdgt = Budget(**krgs.pop("services", None))
+    new_bdgt = Budget(**krgs)
+    new_bdgt.sent = False
     call_send(new_bdgt)
     storage.new(new_bdgt)
     storage.save()

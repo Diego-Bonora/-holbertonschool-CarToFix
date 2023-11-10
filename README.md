@@ -68,7 +68,8 @@ At the end of the file:
 - [x] GET /api/v1/service/user/\<usrId> | get all services
 - [] POST /api/v1/service | create a service
 - [] DELETE /api/v1/service/\<scId> | delete a specific service
-- [] PUT /api/v1/service/\<scId> | update a specific service
+- [x] PUT /api/v1/service/done/\<scId> | update a specific service only to done = True
+	- To update any other attr of service budget repost verb must be used.
 
 ### Vehicle() Routes:
 - [x] GET /api/v1/vehicle/\<veId>/service | get all services for a specific vehicle
@@ -103,7 +104,7 @@ At the end of the file:
 	- [x] this route recieves an optional parameter `done`, if `True` all the "done" budgets will be returned
 - [x] POST /api/v1/budget | create a budget
 - [x] DELETE /api/v1/budget/\<bdgtId> | delete a budget
-- [] REPOST /api/v1/budget/\<bdgtId> | update a budget (the object will be destroyed and re-made)
+- [x] REPOST /api/v1/budget/\<bdgtId> | update a budget (the object will be destroyed and re-made)
 
 ### TypeVehicle() Routes:
 - [x] GET /api/v1/type/\<tId> | get a specific type of vehicle

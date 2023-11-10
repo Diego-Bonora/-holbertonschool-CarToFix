@@ -37,7 +37,7 @@ def close(E):
     """Calls storage.close() when server stops"""
     storage.close()
 
-print("version: 1.11")
+print("version: 1.12")
 
 
 if __name__ == "__main__":
