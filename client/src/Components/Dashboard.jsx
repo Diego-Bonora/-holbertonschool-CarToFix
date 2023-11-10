@@ -7,7 +7,7 @@ import TitleBox from './TitleBox'
 import axios from "axios"
 import { useState } from 'react'
 import { useEffect } from 'react'
-
+import NavBar from './NavBar';
 
 export default function Dashboard() {
 
@@ -108,7 +108,8 @@ export default function Dashboard() {
 	return (
 		<>
 
-			<div className='father flex flex-wrap  max-w-full mt-5'>
+			<div className='w-screen h-screen bg-page_background'>
+				<NavBar />
 				<div className='flex flex-wrap md:grid md:grid-cols-1  md:place-content-evenly justify-center align-top h-full'>
 					<div className="flex flex-wrap h-fit md:grid md:grid-cols-2 md:w-screen justify-items-center justify-center">
 						{/* Titulo y DataFrames */}
