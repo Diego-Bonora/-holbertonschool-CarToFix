@@ -28,7 +28,7 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
 
 	{/* Form data state */ }
 
-	const [formData, setFormData] = useState({ plate: "", title: "", name: "", description: "", asignedTo: "", price: 0 });
+	const [formData, setFormData] = useState({ plate: "", service: "", description: "", asignedTo: "", price: 0 });
 
 	{/* items to show at budget resume */ }
 
@@ -81,10 +81,11 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
 		})
 		setItems(current => [...current, {
 			plate: event.target.plate.value,
-			name: titleValue.label,
+			title: serviceValue.label,
 			price: parseInt(event.target.price.value),
 			description: event.target.description.value,
-			asignedTo: workersValue.label
+
+
 		}])
 
 	};
@@ -95,19 +96,22 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
 		let client_id = localStorage.getItem('client_id')
 		console.log('client id on SUBMIT', client_id)
 		let vehicle_id = localStorage.getItem('vehicle_id')
-		let budgetToSend = ([
+		const budgetToSend = (
 			{
 				user_id: userId,
 				client_id: client_id,
 				total_price: total,
+				confirmed: false,
 				payment_method: event.target.installments.value ? "CREDITO" : "EFECTIVO",
 				installments: event.target.installments.value,
-				vehicle_id: vehicle_id,
-
-			}])
+				vehicle_id: "ee094732-8da5-419b-8034-cfd92bea8331",
+				warranty: false,
+				active: false,
+				services: items,
+			})
 
 		setBudget(budgetToSend)
-		console.log("budget to post ", budgetToSend)
+		console.log("budget to post ", JSON.stringify(budgetToSend))
 
 		if (confirmed) {
 			console.log("Presupuesto Guardado")
@@ -153,14 +157,7 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
 
 	let confirmed = true;
 
-	{/* Options for  titles  */ }
 
-	const titles = [
-		{ label: 'Electricidad', value: 1 },
-		{ label: 'Mecanica', value: 2 },
-		{ label: 'Chapa', value: 3 },
-		{ label: 'Aire', value: 4 },
-	]
 
 	{/* Options for  services   */ }
 	const services = [
@@ -170,7 +167,7 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
 		{ label: 'Cambio', value: 4 },
 	]
 
-	{/* Options for  services   */ }
+	{/* Options for  workers   */ }
 
 	const workers = [
 		{ label: 'Tony Stark', value: 1 },
@@ -181,22 +178,14 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
 
 	{/* States for selects values    */ }
 
-	const [titleValue, setTitleValue] = useState('');
+
 	const [serviceValue, setServiceValue] = useState('');
 	const [workersValue, setWorkersValue] = useState('');
 	const [actualVehicle, setActualvehicle] = useState([])
 
 	{/* Hadlers  for selects values    */ }
 
-	const handleTitleChange = (field, value) => {
-		switch (field) {
-			case 'titles':
-				setTitleValue(value)
-				break
-			default:
-				break
-		}
-	}
+
 	const handleServiceChange = (field, value) => {
 		switch (field) {
 			case 'services':
@@ -261,19 +250,7 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
 									<input className='bg-[#B4D1D3] p-1 my-4 text-right w-1/2' type='text' id='plate' name="plate" value={formData.plate} placeholder='XXX-0000' onBlur={() => checkPlateRegistration(plate)}></input>
 								</div>
 							</div>
-							{/* TITULO */}
-							<div className='input flex flex-col-2 justify-between'>
 
-								<label className="my-4" for="title">Título</label>
-								<div className='flex flex-row-reverse w-full'>
-									<Creatable className='w-3/5 mt-2'
-										onChange={(value) => handleTitleChange('titles', value)}
-										options={titles}
-										placeholder='Agrega un título'
-										value={titleValue}
-										onFocus={checkPlateRegistration(plate)} />
-								</div>
-							</div>
 							{/* SERVICIOS */}
 							<div className='input flex flex-col-2 justify-between'>
 
@@ -284,7 +261,8 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
 											onChange={(value) => handleServiceChange('services', value)}
 											options={services}
 											placeholder='Qué service se le hará al vehículo'
-											value={serviceValue} />
+											value={serviceValue}
+											onFocus={checkPlateRegistration(plate)} />
 									</div>
 								</div>
 							</div>
@@ -292,7 +270,7 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
 							{/* DESCRIPTION TEXTAREA */}
 							<div className='flex flex-col-2 justify-between'>
 
-								<label className="my-4" fot="description">Descripción</label>
+								<label className="my-4" for="description">Descripción</label>
 								<div className='flex flex-row-reverse w-1/2'>
 									<textarea className='bg-[#B4D1D3] p-1 my-4 ml-3' id="description" name="description" value={formData.description} onChange={handleChange} rows="5" cols="50" placeholder='Describe el servicio a realizar o la falla reportada'>
 
@@ -330,11 +308,11 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
 
 					</section>
 					{/* RESUMEN DEL PRESUPUESTO */}
-					{/* LISTA DE ITEMS AGREGADOS */}
+					{/* LISTA DE SERVICES  AGREGADOS */}
 					<section className='p-4 w-full min-h-[200px] border-[4px] border-[#B4D1D3] bg-[#EBEBEB] rounded-lg'>
 						{items.map((i, index) => {
 							return (<div>
-								<ServiceItem item={i.name} price={i.price} key={index} removeService={() => removeService(index)} />
+								<ServiceItem item={i.title} price={i.price} key={index} removeService={() => removeService(index)} />
 							</div>)
 						})
 						}

@@ -24,9 +24,9 @@ export default function CreateNewBudget() {
 
 	let baseURL = 'http://127.0.0.1:5000/'
 
-	const checkClient = (clientName) => {
+	const checkClient = async (clientName) => {
 		console.log("cliente ingresado", clientName)
-		axios.get(`${baseURL}/api/v1/client`)
+		await axios.get(`${baseURL}/api/v1/client`)
 			.then((res) => {
 				const clients = res.data
 				console.log("clients", clients)

@@ -251,6 +251,7 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 				.then(function (response) {
 					console.log(response);
 					localStorage.setItem('vehicle_id', response.data.id)
+					console.log("vehicle created", response.data.id)
 
 				})
 				.catch(function (error) {
