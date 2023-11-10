@@ -18,6 +18,19 @@ def call_send(budget):
     if budget.confirmed == False:
         emailer.send(storage.get(Client, budget.client_id), budget=budget)
 
+def create_service(krgs):
+    """ Create a service object """
+    needed = ["price", "title", "description", "vehicle_id", "user_id", "budget_id"]
+    if not krgs:
+        abort(400, {"error": "Couldn’t get request; not a json"})
+
+    for arg in needed:
+        if arg not in krgs:
+    	    abort(400, {"error": f"{arg} missing"})
+
+    new_srv = Service(**krgs)
+    storage.new(new_srv)
+    storage.save()
 
 def bdgt_dict_generator(bdgt):
     """ Generates the dictioary for a single budget object """
@@ -59,10 +72,11 @@ def get_budget(bdgtId):
 @app_views.route("/budget/user/<usrId>", methods=["GET"])
 def get_all_budgets(usrId):
     """ Returns all the Budget objects found """
+    done = request.args.get("done", default=False)
     bdgts = []
 
     for bdgt in storage.all(Budget).values():
-       if bdgt.user_id == usrId:
+        if bdgt.user_id == usrId and (not done or all(service.done for service in budget.services)):
             bdgts.append(bdgt_dict_generator(bdgt))
 
     return jsonify(bdgts), 200
@@ -72,20 +86,23 @@ def get_all_budgets(usrId):
 def create_budget():
     """ Creates a Budget object """
     krgs = request.get_json()
-    needed = ["total_price", "payment_method", "user_id", "installments", "warranty", "vehicle_id", "client_id"]
+    needed = ["total_price", "payment_method", "user_id", "installments", "warranty", "vehicle_id", "client_id", "services"]
     if not krgs:
         abort(400, {"error": "Couldn’t get request; not a json"})
 
     for arg in needed:
-        if arg not in krgs:
+        if arg not in krgs or (arg == "services" and len(krgs["services"]) == 0):
             abort(400, {"error": f"{arg} missing"})
+
+    for service in krgs["services"]:
+        create_service(service)
 
     new_bdgt = Budget(**krgs)
     call_send(budget)
     storage.new(new_bdgt)
     storage.save()
 
-    return jsonify(new_bdgt.to_dict()), 201
+    return jsonify(bdgt_dict_generator(new_bdgt)), 201
 
 
 @app_views.route("/budget/<bdgtId>", methods=["DELETE"])
@@ -102,17 +119,20 @@ def delete_budget(bdgtId):
     return jsonify(""), 204
 
 
-@app_views.route("/budget/<bdgtId>", methods=["REPOST"])
+#@app_views.route("/budget/<bdgtId>", methods=["REPOST"])
 def update_budget(bdgtId):
     """ Creates a new Budget object based on the given one's id """
     # Getting the Budget object
     prev = storage.get(Budget, bdgtId)
+    services = prev.services if isinstance(prev.services, list) else [prev.services]
+
     if not prev:
         abort(404, {"error": f"Budget: {bdgtId} not found"})
-    elif prev.done == True:
+    elif all(prev.done for service in prev.services):
         abort(409, {"error": f"Budget: {bdgtId} is already finished"})
 
     # Extending the ditionary with previous instance attrs
+
     krgs = request.get_json().pop("id", None)
     if not krgs:
         abort(400, {"error": "Couldn’t get request; not a json"})
@@ -126,11 +146,8 @@ def update_budget(bdgtId):
             abort(400, {"error": f"{arg} missing"})
 
     # Creating a new instance
-    new_bdgt = Budget(**krgs)
-    if new_bdgt.done == True:
-        emailer.send(storage.get(Client, new_bdgt.client_id), msg="Subject: Your car is ready!\n\nYour car is ready! Please reach out to the mechanical workshop")
-    else:
-        call_send(new_bdgt)
+    new_bdgt = Budget(**krgs.pop("services", None))
+    call_send(new_bdgt)
     storage.new(new_bdgt)
     storage.save()
     return jsonify(new_bdgt.to_dict()), 200

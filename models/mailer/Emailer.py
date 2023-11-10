@@ -142,6 +142,7 @@ class Emailer():
         """ Process the messages """
         come_again = "Subject: Please try again\n\nResponse not understood, read the instrucctions in the confirmation mail and try again"
         for msg in msgs:
+            msg["body"] = msg["body"].split("\n")[0]
 
             # If the sender is a client
             print(msg)
@@ -151,9 +152,10 @@ class Emailer():
             if len(msg["body"].split(": ")) == 2:
                 acptd, bdgt = msg["body"].split(": ")
                 bdgt =  storage.get(Budget, bdgt.replace("\r\n", ""))
+                client = storage.get(Client, bdgt.client_id)
 
                 # If the budget is found and the sender is the same as the workshop costumer
-                if bdgt:
+                if bdgt and client.email == sender.email:
 
                     # If it was previously confirmed
                     if bdgt.confirmed == True:

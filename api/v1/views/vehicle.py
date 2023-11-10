@@ -17,7 +17,13 @@ def get_veh_dict(vehicle):
     vehd["services"] = [serv.to_dict() for serv in vehicle.services]
     vehd["budgets"] = [bdgt.to_dict() for bdgt in vehicle.budgets]
     return vehd
-    
+
+def check(vehicle):
+    """ Carries out some checks of validation """
+    if vehicle.plate in [v.plate for v in storage.all(Vehicle).values() if v.user_id == vehicle.user_id]:
+        return 409
+    return 0
+
 # Mixed routes:
 @app_views.route("/vehicle/<veId>/budget", methods=["GET"])
 def get_vehicle_budgets(veId):
@@ -102,10 +108,11 @@ def create_vehicle():
             abort(400, {"error": f"{arg} missing"})
 
     new_veh = Vehicle(**krgs)
-    storage.new(new_veh)
-    storage.save()
-
-    return jsonify(new_veh.to_dict()), 201
+    if check(new_veh) == 0:
+        storage.new(new_veh)
+        storage.save()
+        return jsonify(new_veh.to_dict()), 201
+    abort(409, {"error": f"Vehicle: {new_veh.plate} already exists"})
 
 
 @app_views.route("/vehicle/<veId>", methods=["DELETE"])
@@ -132,8 +139,10 @@ def update_vehicle(veId):
 
     not_keys = ["id", "brand", "model", "user_id", "type_vehicle_id"]
     for key, value in krgs.items():
-        if key not in not_keys:
+        if çkey not in not_keys:
             setattr(vehicle, key, value)
+        if plate in krgs and check(vehicle) == 409:
+            abort(409, {"error": f"Vehicle: {new_veh.plate} already exists"})
 
     storage.save()
     return jsonify(vehicle.to_dict()), 200
