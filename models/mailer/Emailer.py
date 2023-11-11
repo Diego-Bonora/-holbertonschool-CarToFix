@@ -51,7 +51,8 @@ class Emailer():
         body += "\nThe following services will be carried out:"
 
         # Format service details
-        for service in budget.services:
+        services = budget.services if isinstance(budget.services, list) else [budget.services]
+        for service in services:
             body += "\n"
             for key, value in service.to_dict().items():
                 if key not in ["id", "user_id", "done", "vehicle_id", "budget_id", "__class__", "worker", "created_at"]:
@@ -61,7 +62,7 @@ class Emailer():
         # Instructions for approval and rejection
         body += f"\nTo approve it please reply:\n\tok: {budget.id}\n"
         body += f"To refuse it please reply:\n\tno: {budget.id}\n"
-        body += "\nPlease make sure the body of the response contains ONLY one of the previous lines\n"
+        body += "\nPlease make sure the body of the response contains ONLY ONE of the previous LINES\n"
 
         return body
 
@@ -70,6 +71,8 @@ class Emailer():
         try:
             self.connect()
 
+            if not client:
+                raise ValueError("Client must be provided")
             if not budget and not msg:
                 raise ValueError("Either budget or message should be provided")
             if budget:

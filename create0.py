@@ -8,6 +8,10 @@ from models.user import User
 from models.workers import Worker
 from models import storage
 
+user = User(name="CarToFix", mail="cartofixcostumers@gmail.com", password="adfklj", phone="598984982", logo="logeishon")
+storage.new(user)
+storage.save()
+
 # Creating required instances (api for them not started yet)
 veh_type = TypeVehicle(name="tha_type")
 client = Client(name="ET", phone="3802348", email="emanueltrias9@gmail.com")
