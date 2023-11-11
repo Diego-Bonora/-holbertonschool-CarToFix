@@ -66,7 +66,7 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
 
 	const getTotal = () => {
 		return (
-			items.reduce((total, p) => total = total + p.price, 0)
+			parseFloat(items.reduce((total, p) => total = total + p.price, 0))
 		)
 	}
 
@@ -96,33 +96,36 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
 		event.preventDefault();
 		let client_id = localStorage.getItem('client_id')
 		console.log('client id on SUBMIT', client_id)
+		const services = JSON.parse(JSON.stringify(items.map((item) => ({
+			done: false,
+			price: parseFloat(item.price),
+			title: item.title,
+			description: item.description,
+			plate: item.plate,
 
+
+		}))))
 
 		let vehicle_id = localStorage.getItem('vehicle_id')
-		const budgetToSend = (
+
+		let installmentsInt = parseInt(event.target.installments.value)
+
+		const budgetToSend = JSON.parse(JSON.stringify((
 			{
 				user_id: userId,
 				client_id: client_id,
-				total_price: parseFloat(total),
+				total_price: total,
 				confirmed: false,
 				payment_method: event.target.installments.value ? "CREDITO" : "EFECTIVO",
-				installments: event.target.installments.value,
+				installments: installmentsInt,
 				vehicle_id: vehicle_id,
 				warranty: false,
 				active: false,
-				services: JSON.stringify(items.map((item) => ({
-					done: false,
-					price: parseFloat(item.price),
-					title: item.title,
-					description: item.description,
-					plate: item.plate,
-					action: 0,
-
-				}))),
-			})
+				services: services,
+			})))
 
 		setBudget(budgetToSend)
-		console.log("budget to post ", JSON.stringify(budgetToSend))
+		console.log("budget to post ", budgetToSend[0])
 
 		if (confirmed) {
 			console.log("Presupuesto Guardado")
