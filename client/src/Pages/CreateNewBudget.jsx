@@ -16,8 +16,9 @@ export default function CreateNewBudget() {
 	const [actualVehicle, setActualVehicle] = useState([])
 
 
+	localStorage.setItem('plate', '0')
 
-
+	let plateChecked = false
 	let clientExist = false
 	let userId = 'a6fbfd74-fc6f-48e7-ac16-90ee90121669'
 
@@ -53,36 +54,40 @@ export default function CreateNewBudget() {
 
 	const checkPlateRegistration = (plate) => {
 		console.log("on ckecking plate")
-		let first_look = true
 
-		if (plate.length === 8 && actualClient.length === 0 && first_look === true) {
+
+		if (plate.length === 8 && !plateChecked) {
 			axios.get((`${baseURL}/api/v1/vehicle/plate/${plate}`))
 				.then((res) => {
-					console.log("complete res vhe by plate", res)
 					if (res.status === 200) {
-						console.log("PLATE is on base", res.data.id)
-						localStorage.setItem('client_id', res.data.id)
+						console.log("PLATE is on base", res.data.plate)
+						localStorage.setItem('client_id', res.data.client_id)
+						localStorage.setItem('plate', res.data.plate)
 						setPlateRetRegistered(true)
 						setActualVehicle(res.data)
+						plateChecked = true
+						console.log("platechecked ", plateChecked)
+						console.log("plate regsitred state ", plateRegistered)
+
 						return res.data
 					} else {
 						console.log("PLATE not registred")
 						setPlateRetRegistered(false);
-						return null
+
 					}
 				})
 				.then(function (response) {
 					console.log(response);
-					localStorage.setItem('client_id', response.data.client_id)
-
-
+					setPlateRetRegistered(true)
 
 				})
-				.catch(function (error) {
-					console.log("error creating Plate", error);
+				.catch(function (response) {
+					console.log("PLATE not registred")
 					setPlateRetRegistered(false);
-				});
-			first_look = false
+				}
+				)
+
+
 
 		}
 

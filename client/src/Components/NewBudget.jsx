@@ -57,6 +57,7 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
 		setPlate((formData.plate).toUpperCase())
 		console.log("typed plate", plate)
 		localStorage.setItem('plate', plate);
+
 	}, [formData.plate])
 
 	{/* Total price of budget */ }
@@ -82,7 +83,7 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
 		setItems(current => [...current, {
 			plate: event.target.plate.value,
 			title: serviceValue.label,
-			price: parseInt(event.target.price.value),
+			price: parseFloat(event.target.price.value),
 			description: event.target.description.value,
 
 
@@ -96,19 +97,28 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
 		let client_id = localStorage.getItem('client_id')
 		console.log('client id on SUBMIT', client_id)
 
+
 		let vehicle_id = localStorage.getItem('vehicle_id')
 		const budgetToSend = (
 			{
 				user_id: userId,
-				client_id: "4fb8e159-b277-4fc0-915b-9477fe8a67f4",
-				total_price: total,
+				client_id: client_id,
+				total_price: parseFloat(total),
 				confirmed: false,
 				payment_method: event.target.installments.value ? "CREDITO" : "EFECTIVO",
 				installments: event.target.installments.value,
-				vehicle_id: "ee094732-8da5-419b-8034-cfd92bea8331",
+				vehicle_id: vehicle_id,
 				warranty: false,
 				active: false,
-				services: items,
+				services: JSON.stringify(items.map((item) => ({
+					done: false,
+					price: parseFloat(item.price),
+					title: item.title,
+					description: item.description,
+					plate: item.plate,
+					action: 0,
+
+				}))),
 			})
 
 		setBudget(budgetToSend)
@@ -249,7 +259,7 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
 								<label className="text-2xl font-black mr-5" for="plate">Matricula</label>
 
 								<div className='flex flex-row-reverse w-1/2'>
-									<input className='bg-[#B4D1D3] p-1 my-4 text-right w-1/2' type='text' id='plate' name="plate" value={formData.plate} placeholder='XXX-0000' onBlur={() => checkPlateRegistration(plate)}></input>
+									<input className='bg-[#B4D1D3] p-1 my-4 text-right w-1/2' type='text' id='plate' name="plate" value={formData.plate} placeholder='XXX-0000' onBlur={() => checkPlateRegistration(formData.plate)} ></input>
 								</div>
 							</div>
 
@@ -264,7 +274,8 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
 											options={services}
 											placeholder='Qué service se le hará al vehículo'
 											value={serviceValue}
-											onFocus={checkPlateRegistration(plate)} />
+
+										/>
 									</div>
 								</div>
 							</div>
