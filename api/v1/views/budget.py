@@ -50,7 +50,10 @@ def bdgt_dict_generator(bdgt):
         "total": bdgt.total_price,
         "id": bdgt.id,
         "services": [serv.to_dict() for serv in services],
-        "vehicle": vehicle.to_dict()
+        "vehicle": vehicle.to_dict(),
+        "sent": bdgt.sent,
+        "confirmed": bdgt.active,
+        "active": bdgt.confirmed
         }
     
     return bdict
@@ -103,9 +106,9 @@ def create_budget():
 
     vehicle = storage.get(Vehicle, krgs["vehicle_id"])
     if vehicle.client_id != krgs["client_id"]:
-        abort(409, "error": "The provided client does not posses the provided vehicle"})
+        abort(409, {"error": "The provided client does not posses the provided vehicle"})
     if vehicle.user_id != krgs["user_id"]:
-        abort(409, "error": "The provided user does not posses the provided vehicle"})
+        abort(409, {"error": "The provided user does not posses the provided vehicle"})
 
     services = []
     for service in krgs["services"]:
