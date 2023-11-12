@@ -7,6 +7,7 @@ import Creatable from 'react-select/creatable';
 import { useNavigate } from 'react-router-dom';
 import MessageZone from './MessageZone';
 import axios from "axios"
+import { object } from 'prop-types';
 
 
 
@@ -97,42 +98,47 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
 		let client_id = localStorage.getItem('client_id')
 		console.log('client id on SUBMIT', client_id)
 		let vehicle_id = localStorage.getItem('vehicle_id')
-		let installments = parseInt(event.target.installments.value)
 
 
-		const services = JSON.stringify(items.map((item) => ({
+
+		const services = items.map((item) => ({
 			done: false,
 			price: parseFloat(item.price),
 			title: item.title,
 			description: item.description,
 			plate: item.plate,
+		}));
 
+		const servicesDictionary = services.reduce((acc, service) => {
+			acc[services.indexOf(service)] = service;
+			return acc;
+		}, {});
 
-		})))
+		const jsonServicesDict = JSON.parse(JSON.stringify(servicesDictionary))
 
-
-		const budgetToSend = JSON.stringify((
+		const budgetToSend = JSON.parse(JSON.stringify((
 			{
 				user_id: userId,
 				client_id: client_id,
 				total_price: total,
 				confirmed: false,
 				payment_method: event.target.installments.value ? "CREDITO" : "EFECTIVO",
-				installments: installments,
+				installments: event.target.installments.value ? parseInt(event.target.installments.value) : 0,
 				vehicle_id: vehicle_id,
 				warranty: 1,
 				active: false,
-				services: services,
-			}))
+				services: Object.values(jsonServicesDict),
+			})))
 
 		setBudget(budgetToSend)
-		console.log("budget to post ", budgetToSend)
+		console.log("budget to post ", JSON.stringify(budgetToSend))
 
 		if (confirmed) {
 			console.log("Presupuesto Guardado")
 			submited = true;
 		}
 		else {
+			console.log('enviaríamos el BUDGET')
 			axios.post(`${baseURL}/api/v1/budget`, budgetToSend, {
 				headers: {
 					Accept: 'application/json',

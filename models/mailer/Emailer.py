@@ -36,22 +36,29 @@ class Emailer():
         self.mail.quit()
 
     @staticmethod
-    def message(budget, client):
+    def message(budget, client, sub=None):
         """Returns the predefined message to send"""
-        body = "Subject: New Budget To Confirm\n\n"
+        body = ""
+
+        if not sub:
+            body += "Subject: New Budget To Confirm\n\n"
+        else:
+            body += sub
+
         body += f"Dear {client.name},\n\n"
         body += f"We would like you to confirm or reject the following budget:\n"
 
         # Format budget details
         for key, value in budget.to_dict().items():
-            if key not in ["id", "__class__", "sent", "active", "vehicle_id", "confirmed", "services"]:
+            if key not in ["id", "__class__", "sent", "active", "vehicle_id", "confirmed", "services", "user_id", "client_id"] and value:
                 formatted_key = " ".join(key.split("_"))
                 body += f"\t{formatted_key}: {value}\n"
 
         body += "\nThe following services will be carried out:"
 
         # Format service details
-        for service in budget.services:
+        services = budget.services if isinstance(budget.services, list) else [budget.services]
+        for service in services:
             body += "\n"
             for key, value in service.to_dict().items():
                 if key not in ["id", "user_id", "done", "vehicle_id", "budget_id", "__class__", "worker", "created_at"]:
@@ -61,7 +68,7 @@ class Emailer():
         # Instructions for approval and rejection
         body += f"\nTo approve it please reply:\n\tok: {budget.id}\n"
         body += f"To refuse it please reply:\n\tno: {budget.id}\n"
-        body += "\nPlease make sure the body of the response contains ONLY one of the previous lines\n"
+        body += "\nPlease make sure the body of the response contains ONLY ONE of the previous LINES\n"
 
         return body
 
@@ -70,6 +77,8 @@ class Emailer():
         try:
             self.connect()
 
+            if not client:
+                raise ValueError("Client must be provided")
             if not budget and not msg:
                 raise ValueError("Either budget or message should be provided")
             if budget:
@@ -142,6 +151,7 @@ class Emailer():
         """ Process the messages """
         come_again = "Subject: Please try again\n\nResponse not understood, read the instrucctions in the confirmation mail and try again"
         for msg in msgs:
+            msg["body"] = msg["body"].split("\n")[0]
 
             # If the sender is a client
             print(msg)
@@ -151,9 +161,10 @@ class Emailer():
             if len(msg["body"].split(": ")) == 2:
                 acptd, bdgt = msg["body"].split(": ")
                 bdgt =  storage.get(Budget, bdgt.replace("\r\n", ""))
+                client = storage.get(Client, bdgt.client_id)
 
                 # If the budget is found and the sender is the same as the workshop costumer
-                if bdgt:
+                if bdgt and client.email == sender.email:
 
                     # If it was previously confirmed
                     if bdgt.confirmed == True:

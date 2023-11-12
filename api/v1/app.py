@@ -30,14 +30,14 @@ def run_emailer():
 # Start the emailer thread
 emailer_thread = Thread(target=run_emailer)
 emailer_thread.daemon = True
-emailer_thread.start()
+# emailer_thread.start()
 
 @app.teardown_appcontext
 def close(E):
     """Calls storage.close() when server stops"""
     storage.close()
 
-print("version: 1.12")
+print("version: 1.3")
 
 
 if __name__ == "__main__":
