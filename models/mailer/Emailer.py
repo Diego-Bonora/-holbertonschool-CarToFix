@@ -36,15 +36,21 @@ class Emailer():
         self.mail.quit()
 
     @staticmethod
-    def message(budget, client):
+    def message(budget, client, sub=None):
         """Returns the predefined message to send"""
-        body = "Subject: New Budget To Confirm\n\n"
+        body = ""
+
+        if not sub:
+            body += "Subject: New Budget To Confirm\n\n"
+        else:
+            body += sub
+
         body += f"Dear {client.name},\n\n"
         body += f"We would like you to confirm or reject the following budget:\n"
 
         # Format budget details
         for key, value in budget.to_dict().items():
-            if key not in ["id", "__class__", "sent", "active", "vehicle_id", "confirmed", "services"]:
+            if key not in ["id", "__class__", "sent", "active", "vehicle_id", "confirmed", "services", "user_id", "client_id"] and value:
                 formatted_key = " ".join(key.split("_"))
                 body += f"\t{formatted_key}: {value}\n"
 
