@@ -47,13 +47,18 @@ export default function Dashboard() {
 
 	const truncateServicesTitles = (arr, lNum) => {
 		if (arr) {
-
-			let stringedArray = arr.join()
-			if (stringedArray.length > lNum) {
-				return stringedArray.slice(0, lNum) + '... '
+			let stringOFTtitles = arr.map((service) => {
+				service.title.join(" - ")
+			})
+			if (stringOFTtitles.length > lNum) {
+				return stringOFTtitles.slice(0, lNum) + '... '
 			}
-		} else { return "sin servios" }
+			else {
+				return stringOFTtitles
+			}
+		}
 	}
+
 
 	// Get all data from API
 
