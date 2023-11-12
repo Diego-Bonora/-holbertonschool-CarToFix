@@ -96,11 +96,13 @@ def update_service(scId):
     for key, value in krgs.items():
         if key not in ["done", "worker", "done", "vehicle_id", "user_id", "budget_id", "note"]:
             setattr(service, key, value)
+            if key == "price":
+                budget.total_price -= service.price - value
 
     storage.save()
 
     client = storage.get(Client, budget.client_id)
-    msg = Emailer.message(budget, client, sub="A service from your previous budget has been updated!\n\n")
+    msg = Emailer.message(budget, client, sub="Subject: A service from your previous budget has been updated!\n\n")
     emailer.send(client, msg=msg)
 
     return jsonify(service.to_dict()), 200
@@ -117,7 +119,7 @@ def delete_service(scId):
     storage.save()
 
     client = storage.get(Client, budget.client_id)
-    msg = Emailer.message(budget, client, sub="A service from your previous budget has been updated!\n\n")
+    msg = Emailer.message(budget, client, sub="Subject: A service from your previous budget has been deleted!\n\n")
     emailer.send(client, msg=msg)
 
     return jsonify(""), 204

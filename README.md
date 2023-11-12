@@ -156,5 +156,9 @@ No route should fail upon proper request.
 - [x] API prints its version
 - [x] Print a more understandable error when user not set correctly
 - [x] Cannot create a vehicle that already exists
-- [x] Budget REPOST knows when to add, update or delete a service.
+- [x] Budget `REPOST` knows when to add, update or delete a service.
 - [x] user and vehicle ignored for services when posting
+- [x] Delete budget now notifies the costumer when a budget was deleted
+- [x] `Vehicle.user_id` and provided user must match when posting a budget
+- [x] `Vehicle.client_id` and provided client must match when posting a budget
+- [x] `total_price` of budget is modified when `price` of service is too

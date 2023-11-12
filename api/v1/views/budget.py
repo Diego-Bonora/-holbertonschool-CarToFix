@@ -101,6 +101,12 @@ def create_budget():
         if arg not in krgs or (arg == "services" and len(krgs["services"]) == 0):
             abort(400, {"error": f"{arg} missing"})
 
+    vehicle = storage.get(Vehicle, krgs["vehicle_id"])
+    if vehicle.client_id != krgs["client_id"]:
+        abort(409, "error": "The provided client does not posses the provided vehicle"})
+    if vehicle.user_id != krgs["user_id"]:
+        abort(409, "error": "The provided user does not posses the provided vehicle"})
+
     services = []
     for service in krgs["services"]:
         services.append(create_service(service, krgs["vehicle_id"], krgs["user_id"]))
@@ -127,6 +133,10 @@ def delete_budget(bdgtId):
         abort(404, {"error": f"Budget: {bdgtId} instance not found"})
     if bdgt.done == True:
         abort(409, {"error": f"Budget: {bdgtId} is already finished"})
+
+    client = storage.get(Client, bdgt.client_id)
+    msg = Emailer.message(bdgt, client, sub="Subject: Your prev budget have been deleted!\n\n")
+    emailer.send(client, msg=msg)
 
     storage.delete(bdgt)
     storage.save()
@@ -157,7 +167,7 @@ def update_budget(bdgtId):
     bdgt.active = False
 
     client = storage.get(Client, bdgt.client_id)
-    msg = Emailer.message(bdgt, client, sub="Your prev budget have been updated!\n\n")
+    msg = Emailer.message(bdgt, client, sub="Subject: Your prev budget have been updated!\n\n")
     emailer.send(client, msg=msg)
 
     storage.save()
