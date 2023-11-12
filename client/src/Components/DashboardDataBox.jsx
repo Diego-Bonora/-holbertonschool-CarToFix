@@ -1,19 +1,21 @@
-import React from 'react'
+import React from 'react';
 
 
-export default function Confirmation({ info, columns }) {
+export default function DashboardDataBox({ info, columns }) {
 	return (
 		<>
-			<div className='col-span-1  flex-col  bg-[#FFF] rounded-b-lg overflow-y-scroll overflow-x-hidden md:h-[240px]'>
+			<div className='col-span-1 flex flex-col bg-[#FFF] rounded-b-lg overflow-y-scroll overflow-x-hidden h-[300px] w-full '>
 
-				<table className="text-black w-full bg-white ml-5 mt-3">
+				<table className="text-black my-3 w-full bg-white ml-5">
 					<thead>
-						<tr className="w-screen bg-gris-footer ">
+
+
+						<tr className="w-screen bg-gris-footer">
 							{columns.map((column, index) => (
 								<th
 									key={index}
-									className={`p-1 align-middle flex-row justify-around md:text-lg text-base
-							${index === 0 ? 'rounded-tl-2xl rounded-bl-2xl border-r-2' : index === columns.length - 1 ? 'rounded-tr-2xl rounded-br-2xl border-l-2' : ''}`}
+									className={`p-3 align-middle flex-row justify-around md:text-lg text-base
+						${index === 0 ? 'rounded-tl-2xl rounded-bl-2xl border-r-2' : index === columns.length - 1 ? 'rounded-tr-2xl rounded-br-2xl border-l-2' : ''}`}
 								>
 									{column}
 								</th>
@@ -30,8 +32,8 @@ export default function Confirmation({ info, columns }) {
 									<td
 										key={indexcol}
 										className={`p-2 sm:px-8 px-5 align-middle  md:text-base text-sm
-									${indexcol === 0 ? 'rounded-tl-2xl rounded-bl-2xl bg-gris-footer border-r-2' : indexcol === columns.length - 1 ? 'rounded-tr-2xl rounded-br-2xl bg-gris-footer border-l-2' : ''} 
-									${indexcol === Math.floor(columns.length / 2) ? 'bg-gris-footer' : ''}`}
+								${indexcol === 0 ? 'rounded-tl-2xl rounded-bl-2xl bg-gris-footer border-r-2' : indexcol === columns.length - 1 ? 'rounded-tr-2xl rounded-br-2xl bg-gris-footer border-l-2' : ''} 
+								${indexcol === Math.floor(columns.length / 2) ? 'bg-gris-footer' : ''}`}
 									>
 										{data[column]}
 									</td>
@@ -45,11 +47,9 @@ export default function Confirmation({ info, columns }) {
 						))}
 					</tbody>
 				</table>
+
 			</div>
-
-
 
 		</>
 	)
-
 }

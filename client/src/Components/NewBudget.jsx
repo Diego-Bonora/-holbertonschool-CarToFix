@@ -12,6 +12,7 @@ import { object } from 'prop-types';
 
 
 
+
 export default function NewBudget({ checkPlateRegistration, actualClient }) {
 
 	let userId = 'bc625955-0b33-4eec-837f-110619845a6c'
@@ -149,7 +150,10 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
 					console.log("from create budget", response);
 					console.log('Presupuesto Enviado por mail pendiente de confirmacon');
 					submited = true;
-
+					setTimeout(() => {
+						navigate('/ruta-de-destino');
+					}, 4000);
+					navigate('/home')
 
 				})
 				.catch(function (error) {
@@ -174,9 +178,10 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
 		console.log("Budget has change to save ", budget)
 	}, [budget])
 
-	{/* Var to indicate if budget is confirmed */ }
+	{/* Vars to indicate is  budget is confirmed or submited*/ }
 
 	let confirmed = true;
+	let submited = false;
 
 
 
@@ -382,7 +387,7 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
 									<button onClick={() => confirmed = false} className='bg-orange-600 text-white  hover:bg-orange-800 font-bold py-2 px-4 rounded ' type='submit'>Enviar</button>
 								</div>
 
-
+								<MessageZone display={submited ? 'active' : 'none'} text="Presupuesto enviado " />
 							</div>
 						</form>
 
