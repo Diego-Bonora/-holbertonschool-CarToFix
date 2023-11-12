@@ -105,6 +105,7 @@ class Emailer():
         """
         Reads all the mails and calls to __procmsg() to process it.
         """
+        messages = None
         try:
             # Connect to the IMAP server
             mail = imaplib.IMAP4_SSL("imap.gmail.com")
@@ -151,7 +152,7 @@ class Emailer():
         """ Process the messages """
         come_again = "Subject: Please try again\n\nResponse not understood, read the instrucctions in the confirmation mail and try again"
         for msg in msgs:
-            msg["body"] = msg["body"].split("\n")[0]
+            msg["body"] = msg["body"].split("\r\n")[0]
 
             # If the sender is a client
             print(msg)
@@ -161,7 +162,9 @@ class Emailer():
             if len(msg["body"].split(": ")) == 2:
                 acptd, bdgt = msg["body"].split(": ")
                 bdgt =  storage.get(Budget, bdgt.replace("\r\n", ""))
-                client = storage.get(Client, bdgt.client_id)
+                if bdgt:
+                    print("Budget found...")
+                    client = storage.get(Client, bdgt.client_id)
 
                 # If the budget is found and the sender is the same as the workshop costumer
                 if bdgt and client.email == sender.email:
