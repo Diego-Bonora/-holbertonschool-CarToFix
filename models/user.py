@@ -12,7 +12,7 @@ class User(BaseModel, Base):
     mail = Column(String(128), nullable=False)
     password = Column(String(128), nullable=False)
     phone = Column(String(32), nullable=False)
-    logo = Column(String(128), nullable=True)
+    logo = Column(String(256), nullable=True)
     services = relationship("Service",
                             backref="users",
                             cascade="all, delete, delete-orphan")
