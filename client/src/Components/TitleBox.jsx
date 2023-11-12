@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Modal from './Modal';
 import { storage } from "../firebase";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { ref, getDownloadURL } from "firebase/storage";
+import axios from "axios"
 
 export default function TitleBox({ title, photo, userId }) {
   const [modalVisible, setModalVisible] = useState(false);
@@ -15,7 +16,21 @@ export default function TitleBox({ title, photo, userId }) {
     const imageRef = ref(storage, `${userId}`);
     getDownloadURL(imageRef)
       .then((url) => {
-        setImageUrl(url);
+        axios.put(`http://127.0.0.1:5000/api/v1/user/${userId}`, { logo: url })
+          .then(response => {
+            console.log("Logo URL updated successfully", response.data);
+          })
+          .catch(error => {
+            console.error("Error updating logo URL", error);
+          });
+        axios.get(`http://127.0.0.1:5000/api/v1/usr/${userId}`)
+          .then(response => {
+            const userData = response.data;
+            setImageUrl(userData.logo);
+          })
+          .catch(error => {
+            console.error("Error fetching data:", error);
+          });
       })
       .catch((error) => {
         console.error("Error:", error);

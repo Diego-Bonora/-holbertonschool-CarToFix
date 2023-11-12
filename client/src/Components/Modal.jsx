@@ -4,7 +4,7 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const Modal = ({ isVisible, onClose, userId }) => {
   const [imageUpload, setImageUpload] = useState(null);
-  const [imageUrls, setImageUrls] = useState([]);
+  const [imageUrl, setImageUrl] = useState(null);
   const [message, setMessage] = useState('');
 
   const uploadImage = () => {
@@ -13,7 +13,7 @@ const Modal = ({ isVisible, onClose, userId }) => {
     const imageRef = ref(storage, imageName);
     uploadBytes(imageRef, imageUpload).then((snapshot) => {
       getDownloadURL(snapshot.ref).then((url) => {
-        setImageUrls([...imageUrls, url]);
+        setImageUrl(url);
         setMessage('La imagen se subió exitosamente.');
       }).catch((error) => {
         setMessage('A ocurrido un error. Por favor, inténtelo de nuevo más tarde.');
