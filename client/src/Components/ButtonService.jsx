@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import wheel from '../assets/wheel.webp';
 
-export default function NewBudgetButton() {
+export default function ButtonService() {
 	return (
 		<div className='absolute bottom-0 right-0 lg:py-5 pr-5 pl-5 lg:mr-30 mr-20'>
 			<Link to="/NewBudget">

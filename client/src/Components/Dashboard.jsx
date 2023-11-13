@@ -47,35 +47,62 @@ export default function Dashboard() {
 
 	const truncateServicesTitles = (arr, lNum) => {
 		if (arr) {
-			let stringOfTitles = arr.map((service) => {
-				return service.title;
+			let stringOfTitles = ''
+			arr.map((service) => {
+				stringOfTitles += service.title + ', ';
 			});
+			console.log("join on truncate", stringOfTitles)
 			if (stringOfTitles.length > lNum) {
-				return stringOfTitles.slice(0, lNum).join(" - ") + '... ';
+				return stringOfTitles.slice(0, lNum) + '... ';
 			} else {
 				return stringOfTitles.join(" - ");
 			}
 		}
 	};
 
+	const updateTime = 600 * 100
+	const [update, setUpdate] = useState('now')
+
+	const now = new Date()
+
+	let updating = now.getTime
+
+	const updateData = () => {
+
+		setUpdate(now)
+		console.log("UPDATING...", update)
+		clearInterval(updating)
+	}
+
+	if (update) {
+		updating = setInterval(updateData, updateTime)
+
+	}
+
+
+
 	// Get all data from API
 
 	let userId = 'bc625955-0b33-4eec-837f-110619845a6c'
-	const [dashboardData, setDashboardData] = useState({})
+	const [dashboardData, setDashboardData] = useState([])
 
 	useEffect(() => {
 		axios.get(`${baseURL}/api/v1/dashboard/${userId}`)
 			.then((res) => {
-				setDashboardData(res.data)
-				console.log("dashboard data", dashboardData)
-				let services = Object.values(dashboardData.active)
-				if (services.length > 0) {
-					setServicesData(services)
-				} else {
-					setServicesData([{
-						plate: " ",
-						description: "No hay servicios activos",
-					}])
+				if (res) {
+
+					setDashboardData(res.data)
+					console.log("dashboard data", dashboardData)
+					let services = Object.values(dashboardData.active)
+					if (services.length > 0) {
+
+						setServicesData(services)
+					} else {
+						setServicesData([{
+							plate: " ",
+							description: "No hay servicios activos",
+						}])
+					}
 				}
 
 				let arrServiceTitle = []
@@ -86,6 +113,7 @@ export default function Dashboard() {
 					budgets = Object.values(dashboardData.budgets)
 					arrServiceTitle = budgets.services
 					let strTitle = truncateServicesTitles(arrServiceTitle, 20)
+					console.log("primer join services", strTitle)
 					budgets.services = strTitle
 					setBudgetData(budgets)
 				} else {
@@ -97,7 +125,8 @@ export default function Dashboard() {
 					setBudgetData(budgets)
 				}
 			})
-	},
+
+	}, [document.readyState, update]
 	)
 
 

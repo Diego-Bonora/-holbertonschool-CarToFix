@@ -29,7 +29,7 @@ export default function Confirmation({ info, columns }) {
 								{columns.map((column, indexcol) => (
 									<td
 										key={indexcol}
-										className={`p-2 sm:px-8 px-5 align-middle  md:text-base text-sm
+										className={`p-2 sm:px-18  px-5 align-middle  md:text-base text-sm
 									${indexcol === 0 ? 'rounded-tl-2xl rounded-bl-2xl bg-gris-footer border-r-2' : indexcol === columns.length - 1 ? 'rounded-tr-2xl rounded-br-2xl bg-gris-footer border-l-2' : ''} 
 									${indexcol === Math.floor(columns.length / 2) ? 'bg-gris-footer' : ''}`}
 									>

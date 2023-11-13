@@ -30,7 +30,7 @@ export default function VehicleHistory() {
 	const [activeFilter, setActiveFilter] = useState('all'); // Filtro para servicios activos o no activos
 	let filteredServiceData;
 
-	const usrId = 'ca2841f8-0773-4b09-b944-1947e9913803';
+	const usrId = 'bc625955-0b33-4eec-837f-110619845a6c';
 	const baseURL = 'http://127.0.0.1:5000';
 
 	useEffect(() => {
