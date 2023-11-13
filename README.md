@@ -66,10 +66,11 @@ At the end of the file:
 ### Service() Routes:
 - [x] GET /api/v1/service/\<scId> | get a specific service
 - [x] GET /api/v1/service/user/\<usrId> | get all services
-- [] POST /api/v1/service | create a service
-- [] DELETE /api/v1/service/\<scId> | delete a specific service
-- [x] PUT /api/v1/service/done/\<scId> | update a specific service only to done = True
+- [ ] POST /api/v1/service | create a service
+- [x] DELETE /api/v1/service/\<scId> | delete a specific service
+- [x] PUT /service/dwn/\<scId> | update a s pecific service only to done = True, a worker or a note
 	- To update any other attr of service budget repost verb must be used.
+- [x] PUT /service/\<scId> | update a srvice (not ["done", "worker", "done", "vehicle_id", "user_id", "budget_id", "note"])
 
 ### Vehicle() Routes:
 - [x] GET /api/v1/vehicle/\<veId>/service | get all services for a specific vehicle
@@ -104,11 +105,13 @@ At the end of the file:
 	- [x] this route recieves an optional parameter `done`, if `True` all the "done" budgets will be returned
 - [x] POST /api/v1/budget | create a budget
 - [x] DELETE /api/v1/budget/\<bdgtId> | delete a budget
-- [x] REPOST /api/v1/budget/\<bdgtId> | update a budget (the object will be destroyed and re-made)
+- [ ] REPOST /api/v1/budget/\<bdgtId> | update a budget (the object will be destroyed and re-made)
  - `services` key is optional, but if present;
   - `action` key must be specified in each one of them;
    - `action` can be `0`, `1`, or `2` for creating, updating and deleting a service respectively
     - for `1` and `2` the `id` of an existing service must be passed
+
+- [ ] PUT /api/v1/budget/\<bdgtId> | update a budget | NO Its services
 
 ### TypeVehicle() Routes:
 - [x] GET /api/v1/type/\<tId> | get a specific type of vehicle
@@ -129,7 +132,6 @@ At the end of the file:
 No route should fail upon proper request.
 
 - [ ] checks previous existence of all the objects that a user has
-- [ ] checks objects with usrid are created for that user
 
 #### Latest:
 - [x] budget calls `Emailer` each time a budget is created
@@ -154,5 +156,9 @@ No route should fail upon proper request.
 - [x] API prints its version
 - [x] Print a more understandable error when user not set correctly
 - [x] Cannot create a vehicle that already exists
-- [x] Budget REPOST knows when to add, update or delete a service.
+- [x] Budget `REPOST` knows when to add, update or delete a service.
 - [x] user and vehicle ignored for services when posting
+- [x] Delete budget now notifies the costumer when a budget was deleted
+- [x] `Vehicle.user_id` and provided user must match when posting a budget
+- [x] `Vehicle.client_id` and provided client must match when posting a budget
+- [x] `total_price` of budget is modified when `price` of service is too

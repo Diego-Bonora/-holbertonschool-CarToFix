@@ -36,15 +36,21 @@ class Emailer():
         self.mail.quit()
 
     @staticmethod
-    def message(budget, client):
+    def message(budget, client, sub=None):
         """Returns the predefined message to send"""
-        body = "Subject: New Budget To Confirm\n\n"
+        body = ""
+
+        if not sub:
+            body += "Subject: New Budget To Confirm\n\n"
+        else:
+            body += sub
+
         body += f"Dear {client.name},\n\n"
         body += f"We would like you to confirm or reject the following budget:\n"
 
         # Format budget details
         for key, value in budget.to_dict().items():
-            if key not in ["id", "__class__", "sent", "active", "vehicle_id", "confirmed", "services"]:
+            if key not in ["id", "__class__", "sent", "active", "vehicle_id", "confirmed", "services", "user_id", "client_id"] and value:
                 formatted_key = " ".join(key.split("_"))
                 body += f"\t{formatted_key}: {value}\n"
 
@@ -99,6 +105,7 @@ class Emailer():
         """
         Reads all the mails and calls to __procmsg() to process it.
         """
+        messages = None
         try:
             # Connect to the IMAP server
             mail = imaplib.IMAP4_SSL("imap.gmail.com")
@@ -145,7 +152,7 @@ class Emailer():
         """ Process the messages """
         come_again = "Subject: Please try again\n\nResponse not understood, read the instrucctions in the confirmation mail and try again"
         for msg in msgs:
-            msg["body"] = msg["body"].split("\n")[0]
+            msg["body"] = msg["body"].split("\r\n")[0]
 
             # If the sender is a client
             print(msg)
@@ -155,7 +162,9 @@ class Emailer():
             if len(msg["body"].split(": ")) == 2:
                 acptd, bdgt = msg["body"].split(": ")
                 bdgt =  storage.get(Budget, bdgt.replace("\r\n", ""))
-                client = storage.get(Client, bdgt.client_id)
+                if bdgt:
+                    print("Budget found...")
+                    client = storage.get(Client, bdgt.client_id)
 
                 # If the budget is found and the sender is the same as the workshop costumer
                 if bdgt and client.email == sender.email:

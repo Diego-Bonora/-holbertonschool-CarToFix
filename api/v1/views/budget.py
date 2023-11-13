@@ -50,7 +50,10 @@ def bdgt_dict_generator(bdgt):
         "total": bdgt.total_price,
         "id": bdgt.id,
         "services": [serv.to_dict() for serv in services],
-        "vehicle": vehicle.to_dict()
+        "vehicle": vehicle.to_dict(),
+        "sent": bdgt.sent,
+        "confirmed": bdgt.active,
+        "active": bdgt.confirmed
         }
     
     return bdict
@@ -101,22 +104,28 @@ def create_budget():
         if arg not in krgs or (arg == "services" and len(krgs["services"]) == 0):
             abort(400, {"error": f"{arg} missing"})
 
+    vehicle = storage.get(Vehicle, krgs["vehicle_id"])
+    if vehicle.client_id != krgs["client_id"]:
+        abort(409, {"error": "The provided client does not posses the provided vehicle"})
+    if vehicle.user_id != krgs["user_id"]:
+        abort(409, {"error": "The provided user does not posses the provided vehicle"})
+
     services = []
     for service in krgs["services"]:
         services.append(create_service(service, krgs["vehicle_id"], krgs["user_id"]))
 
     del krgs["services"]
     new_bdgt = Budget(**krgs)
-    new_bdgt.services = services
+
+    for service in services:
+        service.budget_id = new_bdgt.id
 
     storage.new(new_bdgt)
     storage.save()
 
     call_send(storage.get(Budget, new_bdgt.id))
 
-    bdict = bdgt_dict_generator(new_bdgt)
-    del bdict["services"]
-    return jsonify(bdict), 201
+    return jsonify(bdgt_dict_generator(storage.get(Budget, new_bdgt.id))), 201
 
 
 @app_views.route("/budget/<bdgtId>", methods=["DELETE"])
@@ -128,73 +137,43 @@ def delete_budget(bdgtId):
     if bdgt.done == True:
         abort(409, {"error": f"Budget: {bdgtId} is already finished"})
 
+    client = storage.get(Client, bdgt.client_id)
+    msg = Emailer.message(bdgt, client, sub="Subject: Your prev budget have been deleted!\n\n")
+    emailer.send(client, msg=msg)
+
     storage.delete(bdgt)
     storage.save()
     return jsonify(""), 204
 
 
-@app_views.route("/budget/<bdgtId>", methods=["REPOST"])
+@app_views.route("/budget/<bdgtId>", methods=["PUT"])
 def update_budget(bdgtId):
-    """ Creates a new Budget object based on the given one's id """
-    # Getting the Budget object
-    prev = storage.get(Budget, bdgtId)
-    services = prev.services if isinstance(prev.services, list) else [prev.services]
+    """ Updates a budget object """
+    bdgt = storage.get(Budget, bdgtId)
+    services = bdgt.services if isinstance(bdgt.services, list) else [bdgt.services]
 
-    if not prev:
+    if not bdgt:
         abort(404, {"error": f"Budget: {bdgtId} not found"})
-    elif all(prev.done for service in prev.services):
+    elif all(service.done for service in services):
         abort(409, {"error": f"Budget: {bdgtId} is already finished"})
 
-
-    # Extending the ditionary with previous instance attrs
-    krgs = request.get_json().pop("id", None)
+    krgs = request.get_json()
     if not krgs:
         abort(400, {"error": "Couldn’t get request; not a json"})
 
-    krgs.update(prev.to_dict())
-    krgs.pop("id", None)
+    for k, v in krgs.items():
+        if k not in ["client_id", "user_id", "vehicle_id"]:
+            setattr(bdgt, k, v)
 
-    needed = ["total_price", "payment_method", "installments", "warranty"]
+    bdgt.sent = False
+    bdgt.confirmed = False
+    bdgt.active = False
 
-    for arg in needed:
-        if arg not in krgs:
-            abort(400, {"error": f"{arg} missing"})
-        if "done" in krgs:
-            abort(403, {"error": f"{arg} cannot be updated in this route"})
-
-
-    if "services" in krgs and type(krgs["services"]) == list: # If the request include services
-        for s in krgs["services"]: # Iterate over them
-            if not "action" in s or "action" in s and not "id" in s:
-                abort(400, {"error": f"either action or id missing"})
-            if s["action"] == 0: # If create action required
-                del s["action"]
-                prev.services.append(create_service(s, prev.vehicle_id, prev.user_id))
-            else:
-                servobj = storage.get(Service, s["id"])
-                if not servobj:
-                    abort(404, {"error": f"Service {s['id']} not found"})
-                if s["action"] == 1: # If update action required
-                    for key, value in s.items():
-                        if key not in ["action", "user_id", "vehicle_id"]:
-                            setattr(servobj, key, value)
-                elif s["action"] == 2: # If delete action required
-                    storage.delete(servobj)
+    client = storage.get(Client, bdgt.client_id)
+    msg = Emailer.message(bdgt, client, sub="Subject: Your prev budget have been updated!\n\n")
+    emailer.send(client, msg=msg)
 
     storage.save()
 
-    del krgs["services"]
-    if "client_id" in krgs:
-        del krgs["client_id"]
+    return jsonify(bdgt_dict_generator(bdgt)), 200
 
-    # Creating a new instance
-    new_bdgt = Budget(**krgs)
-
-    new_bdgt.services = services
-    new_bdgt.sent = False
-
-    call_send(new_bdgt)
-
-    storage.new(new_bdgt)
-    storage.save()
-    return jsonify(new_bdgt.to_dict()), 200
