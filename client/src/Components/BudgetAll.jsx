@@ -15,8 +15,9 @@ export default function BudgetAll() {
     navigate(path);
   }
 
-    const columns = ['plate','created_at',  'price'];
+    const columns = ['plate','created_at',  'price', 'done'];
     const [BudgetData, setBudgetData] = useState([]);
+    const [serviceData, setServiceData] = useState([]);
 
     const [activeFilter, setActiveFilter] = useState('all'); // Filtro para servicios activos o no activos
     let filteredBudgetData;
@@ -38,24 +39,35 @@ export default function BudgetAll() {
               created_at: item.created,
               vehicle_type: item.vehicle_type,
               budget_id: BudgetId,
+              done: item.services.map(service => service.done),
               };
             })
             setBudgetData(filteredBudget);
+            setServiceData(filteredBudget)
             console.log('filtro', filteredBudget);
-
         })
     }, [usrId])
 
-    
     {/*Search*/}
     const [searchQuery, setSearchQuery] = useState('');
     const handleSearch = (query) => {
       setSearchQuery(query);
     };
-    {/*filter*/}
+    {/*filter buscador*/}
     const filterData = BudgetData.filter((vehicle) => {
       return vehicle.plate.toLowerCase().includes(searchQuery.toLowerCase()); {/* toLowerCase: para minusculas y mayusculas*/}
     });
+
+    const handleFilterChange = (event) => {
+      setActiveFilter(event.target.value);
+    };
+
+    // Por estado
+    if (activeFilter === 'all') {
+      filteredBudgetData = serviceData;
+    } else {
+      filteredBudgetData = serviceData.filter(item => item.done === (activeFilter === 'true'));
+    }
 
     const handleButton = (id) => {
       console.log(`boton: ${id}`)
@@ -69,6 +81,7 @@ export default function BudgetAll() {
             <div className='lg:mr-80 mr-marg-1 lg:ml-marg-4 ml-marg-1 mt-24 font-bold text-black flex items-center justify-between'>
               <h1 className='text-6xl font-black'>Presupuestos</h1>
               <div className='flex-1 flex items-center space-x-4 justify-end'>
+              <FilterActive activeFilter={activeFilter} handleFilterChange={handleFilterChange}/>
                 <Searchbar onSearch={handleSearch}/>
               </div>
             </div>

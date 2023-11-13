@@ -1,12 +1,7 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from 'react';
+import React from 'react';
 
-export default function DataBox({ info, columns, SeeClick, IdName, onRedirect}) {
-  const [State, setState] = useState('activo')
-
-  const toggleState = () => {
-    setState(State === 'Pendiente' ? 'Finalizado' : 'Pendiente');
-  }
+export default function DataBox({ info, columns,SeeClick, IdName, onRedirect, toggleDone}) {
   return (
 
     <table className="text-black mb-5 mt-14 w-full ">
@@ -21,38 +16,41 @@ export default function DataBox({ info, columns, SeeClick, IdName, onRedirect}) 
               {column}
             </th>
           ))}
+
         </tr><div className='mb-3'></div>
       </thead>
       <tbody>
         {info.map((data, index) => (
           <><tr
             key={index}
-            className=""
           >
             {columns.map((column, indexcol) => (
               <td
-                key={indexcol}
-                className={`p-2 sm:px-8 px-5 align-middle  md:text-base text-sm text-center
+              key={indexcol}
+              className={`p-2 sm:px-8 px-5 align-middle  md:text-base text-sm text-left
                 ${indexcol === 0 ? 'rounded-tl-2xl rounded-bl-2xl bg-gris-footer border-r-2' : indexcol === columns.length - 1 ? 'rounded-tr-2xl rounded-br-2xl bg-gris-footer border-l-2' : ''} 
-                ${indexcol === Math.floor(columns.length / 2) ? 'bg-gris-footer' : ''}`}
-              >
-                {data[column]}
-              </td>
-            ))}
-            <td className="p-2 sm:px-8 px-5 align-middle md:text-md text-sm">
-              <button
-                type="button"
-                className={`${
-                  estado === 'activo' ? 'bg-green-500' : 'bg-red-500'
-                } hover:bg-gray-700 text-white p-px md:w-14 w-10 items-center`}
-                onClick={() => {
-                  toggleEstado();
-                  SeeClick(data[IdName], onRedirect);
-                }}
-              >
-                {estado === 'activo' ? 'Activo' : 'Finalizado'}
-              </button>
+                ${indexcol === Math.floor(columns.length / 2) ? 'bg-gris-footer' : ''}
+                `}
+            >
+              {column === 'done' ? (
+                <>
+                <div className='flex items-center'>
+                  <button
+                    type="button"
+                    className={`p-px mr-3 w-4 h-4 border rounded-sm  ${data[column] ? 'bg-orange-oscuro' : 'bg-white border border-black'}`}
+                    onClick={() => toggleDone(index)} 
+                    
+                  >
+                    {/* Contenido del botón */}
+                  </button>
+                  {data[column] ? 'Finalizado' : 'Pendiente'}
+                </div>
+                </>
+              ) : (
+                data[column]
+              )}
             </td>
+            ))}
             <td className="p-2 sm:px-8 px-5 align-middle md:text-md text-sm">
               <button type="button" className="bg-orange-claro hover:bg-orange-oscuro text-white p-px md:w-14 w-10 items-center"
               onClick={() => SeeClick(data[IdName], onRedirect)}>
