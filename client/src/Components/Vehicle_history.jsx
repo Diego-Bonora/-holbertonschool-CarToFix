@@ -60,8 +60,8 @@ export default function Vehicle_history() {
                   <p>{datavehicle.type}</p>
                 </div>
                 {/* N° matricula*/}
-                <div className='bg-white flex items-center justify-center text-xl font-bold py-4 h-3/5'>
-                  <p>{datavehicle.plate}</p>
+                <div className='bg-white flex items-center justify-center py-4 h-3/5'>
+                  <p className='text-2xl font-black'>{datavehicle.plate}</p>
                 </div>
                 {/*info del vehiculo */}
               </div>
