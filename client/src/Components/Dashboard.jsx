@@ -47,18 +47,16 @@ export default function Dashboard() {
 
 	const truncateServicesTitles = (arr, lNum) => {
 		if (arr) {
-			let stringOFTtitles = arr.map((service) => {
-				service.title.join(" - ")
-			})
-			if (stringOFTtitles.length > lNum) {
-				return stringOFTtitles.slice(0, lNum) + '... '
-			}
-			else {
-				return stringOFTtitles
+			let stringOfTitles = arr.map((service) => {
+				return service.title;
+			});
+			if (stringOfTitles.length > lNum) {
+				return stringOfTitles.slice(0, lNum).join(" - ") + '... ';
+			} else {
+				return stringOfTitles.join(" - ");
 			}
 		}
-	}
-
+	};
 
 	// Get all data from API
 
@@ -87,7 +85,8 @@ export default function Dashboard() {
 
 					budgets = Object.values(dashboardData.budgets)
 					arrServiceTitle = budgets.services
-					budgets.services = truncateServicesTitles(arrServiceTitle, 55)
+					let strTitle = truncateServicesTitles(arrServiceTitle, 20)
+					budgets.services = strTitle
 					setBudgetData(budgets)
 				} else {
 					budgets = [{
