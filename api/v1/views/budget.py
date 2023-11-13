@@ -174,6 +174,27 @@ def update_budget(bdgtId):
     emailer.send(client, msg=msg)
 
     storage.save()
-
     return jsonify(bdgt_dict_generator(bdgt)), 200
 
+
+@app_views.route("/budget/confirm/<bdgtId>", methods=["PUT"])
+def conf_budget(bdgtId):
+    """ Updates a budget object """
+    bdgt = storage.get(Budget, bdgtId)
+    if bdgt.confirmed:
+        abort(409, {"error": f"Budget: {bdgtId} is already confirmed"})
+
+    for k, v in krgs.items():
+        if k == "active":
+            setattr(bdgt, k, v)
+
+    bdgt.confirmed = True
+
+    client = storage.get(Client, bdgt.client_id)
+    msg = "Subject: Rejected!\n\n Your budget was rejected succesfully!\n"
+    if not bdgt.active:
+        msg = "Subject: Approved!\n\n Your budget was approved succesfully!\n"
+    emailer.send(client, msg=msg)
+
+    storage.save()
+    return jsonify(bdgt_dict_generator(bdgt)), 200
