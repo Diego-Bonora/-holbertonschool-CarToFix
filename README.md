@@ -111,7 +111,8 @@ At the end of the file:
    - `action` can be `0`, `1`, or `2` for creating, updating and deleting a service respectively
     - for `1` and `2` the `id` of an existing service must be passed
 
-- [ ] PUT /api/v1/budget/\<bdgtId> | update a budget | NO Its services
+- [x] PUT /api/v1/budget/\<bdgtId> | update a budget | NO Its services
+- [x]  PUT /api/v1/budget/confirm/\<bdgtId> | Confirm a budget with `active` to `True` or `False`
 
 ### TypeVehicle() Routes:
 - [x] GET /api/v1/type/\<tId> | get a specific type of vehicle
@@ -162,3 +163,4 @@ No route should fail upon proper request.
 - [x] `Vehicle.user_id` and provided user must match when posting a budget
 - [x] `Vehicle.client_id` and provided client must match when posting a budget
 - [x] `total_price` of budget is modified when `price` of service is too
+- [x] confirm a budget now has a route
