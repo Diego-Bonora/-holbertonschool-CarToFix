@@ -17,6 +17,11 @@ export default function VehicleHistory() {
   }
 
   const columns = ['vehPlate', 'title', 'created'];
+  const columnsName = {
+    vehPlate: 'Matriculas',
+    title: 'Servicios',
+    created: 'Última modificación',
+  }
   const [serviceData, setServiceData] = useState([]); {/* datos de los servicios*/}
   const [typeservice, settypeService] = useState([]); {/*  por tipo */}
   const [Initial, setInitial] = useState(); {/*  copia de los datos */}
@@ -75,9 +80,12 @@ export default function VehicleHistory() {
     {/* por estado */}
   if (activeFilter === 'all') {
     filteredServiceData = serviceData;
+    console.log('activefilter', activeFilter);
   } else {
+    console.log('budgetfilter', filteredServiceData);
     filteredServiceData = serviceData.filter(item => item.active === (activeFilter === 'true'));
   }
+  
 
   const handleButton = (id) => {
     console.log(`boton: ${id}`)
@@ -99,11 +107,19 @@ export default function VehicleHistory() {
         </div>
         {/* Info del historial */}
         <div className='bg-tabla_service items-center md:h-info_history xl:info_history_3 h-info_history_2 lg:mr-marg-5 mr-marg-1 lg:ml-marg-4 ml-marg-1 mt-marg-3 flex flex-wrap rounded-lg justify-items-center justify-center shadow-md shadow-gray-400 h-30'>
-          <div className='hidden:overflow-y-scroll h-full w-full ml-20'>
+          {filteredServiceData.length === 0 ? (
+            <div className="text-center text-gray-500 my-8 mx-2.25rem">
+              <h2 className="text-xl font-bold">No hay datos disponibles</h2>
+            </div>
+          ) : (
+            <div className='overflow-y-scroll h-full w-full ml-20'>
             <DataBox columns={columns} info={filteredServiceData} 
             SeeClick={handleButton} IdName='vehId'
-            onRedirect={onRedirect}/>
+            onRedirect={onRedirect}
+            columnsName={columnsName}/>
           </div>
+          )}
+          
           <ButtonService />
         </div>
       </div>

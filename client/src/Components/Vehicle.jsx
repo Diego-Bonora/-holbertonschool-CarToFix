@@ -17,6 +17,11 @@ export default function Vehicle() {
 
     {/* column for databox*/}
     const vehiclecolumn = ['plate', 'title', 'created_at'];
+    const columnsName = {
+      plate: 'Matriculas',
+      title: 'Servicios',
+      created_at: 'Última modificación',
+    }
     const baseURL = 'http://127.0.0.1:5000'
     const [VehicleData, setVehicleData] = useState([]);
     
@@ -82,11 +87,19 @@ export default function Vehicle() {
           </div>
             {/* info del historial */}
             <div className='bg-tabla_service items-center lg:h-info_history h-info_history_2 lg:mr-marg-5 mr-marg-1 lg:ml-marg-4 ml-marg-1 mt-marg-3 flex flex-wrap rounded-lg justify-items-center justify-center shadow-md shadow-gray-300 h-30'>
-            <div className='overflow-y-scroll h-full w-full ml-9'>
+            {VehicleData.length === 0 ? (
+              <div className="text-center text-gray-500 my-8 mx-2.25rem">
+                <h2 className="text-xl font-bold">No hay datos disponibles</h2>
+              </div>
+            ) : (
+              <div className='overflow-y-scroll h-full w-full ml-9'>
                 <DataBox columns={vehiclecolumn} info={searchQuery ? filterData : VehicleData}
                 SeeClick={handleButton} IdName='vehicle_id'
-                onRedirect={onRedirect}/>
+                onRedirect={onRedirect}
+                columnsName={columnsName}/>
               </div>
+            )}
+            
             <ButtonService/>
             </div>
         </div>

@@ -14,6 +14,10 @@ export default function Vehicle_history() {
   let info_vehiculo = [{ Marca: '', Modelo: '', Color: ''
   }]
   const columns = ['created_at', 'description'];
+  const columnsName = {
+    created_at: 'Ingreso',
+    description: 'Detalles',
+  }
   const [historyData, sethistoryData] = useState([]); {/* datos de las historias*/}
   const [datavehicle, setdatavehicle] = useState([]);
 
@@ -56,7 +60,7 @@ export default function Vehicle_history() {
               {/* matricula general */}
               <div className='border border-azul-oscuro flex flex-col justify-start w-3/12 h-full' >
                 {/*tipo de vehiculo*/}
-                <div className='bg-azul-oscuro flex items-center justify-center text-lg text-white py-2 h-22/5'>
+                <div className={`bg-azul-oscuro flex items-center justify-center text-lg text-white ${datavehicle.type ? 'py-2' : 'py-5'}  h-22/5`}>
                   <p>{datavehicle.type}</p>
                 </div>
                 {/* N° matricula*/}
@@ -80,9 +84,17 @@ export default function Vehicle_history() {
             </div>
             {/* info del historial */}
             <div className='bg-tabla_service overflow-y-scroll  items-center lg:h-info_history h-info_history_2 lg:mr-marg-5 mr-marg-1 lg:ml-marg-4 ml-marg-1 mt-marg-3 flex flex-wrap rounded-lg justify-items-center justify-center shadow-md shadow-gray-300 h-30'>
-            <div className='h-full w-full mx-9'>
-                <DataBox columns={columns} info={historyData}/>
+            {historyData.length === 0 ? (
+              <div className="text-center text-gray-500 my-8 mx-2.25rem">
+              <h2 className="text-xl font-bold">No hay datos disponibles</h2>
+            </div>
+            ): (
+              <div className='h-full w-full mx-9'>
+                <DataBox columns={columns}
+                info={historyData}
+                columnsName={columnsName}/>
               </div>
+            )}
             <NewBudgetButton />
             </div>
         </div>

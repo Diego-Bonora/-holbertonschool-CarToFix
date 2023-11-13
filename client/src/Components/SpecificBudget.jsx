@@ -18,6 +18,11 @@ export default function SpecificBudget() {
 
   const info_vehiculo = { Marca: '', Modelo: '', Color: '' };
   const columns = ['title', 'description', 'done'];
+  const columnsName = {
+    title: 'Tipo de servicio',
+    description: 'Detalles',
+    done: 'Estado',
+  }
   const [historyData, setHistoryData] = useState([]);
   const [datavehicle, setDatavehicle] = useState({});
   const [selectedType, setSelectedType] = useState('');
@@ -110,9 +115,10 @@ export default function SpecificBudget() {
         <div className='flex lg:ml-marg-4 ml-marg-1 mt-marg-3'>
           <div className='bg-tabla_service lg:w-info_detalles w-info_detalles_mini flex flex-wrap h-28 rounded-r-lg shadow-md shadow-gray-300'>
             <div className='border border-azul-oscuro flex flex-col justify-start w-3/12 h-full'>
-              <div className='bg-azul-oscuro flex items-center justify-center text-lg text-white py-2 h-22/5'>
-                <p>{datavehicle.vehicle_type}</p>
-              </div>
+            <div className={`bg-azul-oscuro flex items-center justify-center text-lg text-white ${datavehicle.vehicle_type ? 'py-2' : 'py-5'}  h-22/5`}>
+              <p>{datavehicle.vehicle_type}</p>
+            </div>
+
               <div className='bg-white flex items-center justify-center text-xl font-bold py-4 h-3/5'>
                 <p>{datavehicle.plate}</p>
               </div>
@@ -134,11 +140,18 @@ export default function SpecificBudget() {
           <FilterService typeservice={typeService} filterByType={filterByType} selectedType={selectedType} classname="md:w-full w-1/2 ml-10" />
         </div>
         <div className='bg-tabla_service items-center h-info_history w-35 lg:mr-marg_detalles mr-marg-1 lg:ml-marg-4 ml-marg-1 mt-marg-3 flex flex-wrap rounded-lg justify-items-center justify-center shadow-md shadow-gray-300 h-30'>
-          <div className='overflow-y-scroll h-full w-full ml-9'>
+          {filteredData.length === 0 ? (
+            <div className="text-center text-gray-500 my-8 mx-2.25rem">
+              <h2 className="text-xl font-bold">No hay datos disponibles</h2>
+            </div>
+          ) : (
+            <div className='overflow-y-scroll h-full w-full ml-9'>
             <DataBoxBudget columns={columns} info={filteredData} toggleDone={toggleDone}
             SeeClick={handleButton} IdName='serviceId'
-            onRedirect={onRedirect}/>
+            onRedirect={onRedirect}
+            columnsName={columnsName}/>
           </div>
+          )}
         </div>
       </div>
     </>
