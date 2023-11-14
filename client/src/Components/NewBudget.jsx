@@ -1,7 +1,7 @@
 import React from 'react'
 import { useEffect } from 'react';
 import Button from './button'
-
+import ServiceItem from './ServiceItem';
 import { useState } from "react";
 import Creatable from 'react-select/creatable';
 import { useNavigate } from 'react-router-dom';
@@ -75,7 +75,7 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
 
 	{/* Each item of the resume  */ }
 
-
+	// getting service info
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
@@ -93,6 +93,30 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
 
 	};
 
+	const createBudget = (budgetToSend, via) => {
+		console.log('enviaríamos el BUDGET')
+		axios.post(`${baseURL}/api/v1/budget`, budgetToSend, {
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json'
+			}
+		})
+			.then(function (response) {
+				console.log("from create budget", response);
+				console.log('Presupuesto ', via);
+				submited = true;
+				setTimeout(() => {
+
+				}, 4000);
+				navigate('/home')
+
+			})
+			.catch(function (error) {
+				console.log(error);
+			});
+	}
+
+	// building final Budget
 
 	const handeleFinalSubmit = (event) => {
 		event.preventDefault();
@@ -100,7 +124,7 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
 		console.log('client id on SUBMIT', client_id)
 		let vehicle_id = localStorage.getItem('vehicle_id')
 
-
+		// building each service on budget
 
 		const services = items.map((item) => ({
 			done: false,
@@ -127,7 +151,7 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
 				installments: event.target.installments.value ? parseInt(event.target.installments.value) : 0,
 				vehicle_id: vehicle_id,
 				warranty: 1,
-				active: false,
+				active: confirmed ? true : false,
 				services: Object.values(jsonServicesDict),
 			})))
 
@@ -136,30 +160,11 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
 
 		if (confirmed) {
 			console.log("Presupuesto Guardado")
+			createBudget(budgetToSend, "guardado")
 			submited = true;
 		}
 		else {
-			console.log('enviaríamos el BUDGET')
-			axios.post(`${baseURL}/api/v1/budget`, budgetToSend, {
-				headers: {
-					Accept: 'application/json',
-					'Content-Type': 'application/json'
-				}
-			})
-				.then(function (response) {
-					console.log("from create budget", response);
-					console.log('Presupuesto Enviado por mail pendiente de confirmacon');
-					submited = true;
-					setTimeout(() => {
-						navigate('/ruta-de-destino');
-					}, 4000);
-					navigate('/home')
-
-				})
-				.catch(function (error) {
-					console.log(error);
-				});
-
+			createBudget(budgetToSend, "Enviado por mail para confirmar")
 		}
 
 	}
@@ -182,6 +187,7 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
 
 	let confirmed = true;
 	let submited = false;
+	let active = false;
 
 
 
@@ -382,7 +388,7 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
 									<button className='bg-orange-600 text-white  hover:bg-orange-800 font-bold py-2 px-4 rounded '>Cancelar</button>
 								</div>
 								<div className='flex space-x-4'>
-									<button className='bg-orange-600 text-white  hover:bg-orange-800 font-bold py-2 px-4 rounded ' type='submit'>Confirmado</button>
+									<button className='bg-orange-600 text-white  hover:bg-orange-800 font-bold py-2 px-4 rounded ' type='submit' onClick={() => confirmed = true}>Confirmado</button>
 
 									<button onClick={() => confirmed = false} className='bg-orange-600 text-white  hover:bg-orange-800 font-bold py-2 px-4 rounded ' type='submit'>Enviar</button>
 								</div>

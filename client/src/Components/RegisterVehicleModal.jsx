@@ -84,7 +84,7 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 
 		const newVehicleData = [{
 			name: formVehicleClientData.name,
-			plate: formVehicleClientData.plate,
+			plate: plate,
 			vehicle_type: formVehicleClientData.vehicle_type,
 			brand: formVehicleClientData.brand,
 			model: formVehicleClientData.model,
@@ -231,7 +231,7 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 		if (newData) {
 
 			let vdata = newData.map((e) => JSON.parse(JSON.stringify({
-				plate: e.plate,
+				plate: plate,
 				brand: brand_id,
 				model: e.model,
 				color: e.color,

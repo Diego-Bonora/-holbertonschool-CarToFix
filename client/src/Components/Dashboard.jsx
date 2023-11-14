@@ -19,7 +19,9 @@ export default function Dashboard() {
 
 
 	const serviceColumns = ['plate', 'description'];
+	const serviceColumnsNames = ['Matricula', 'Descripcion'];
 	const budgetColumns = ['plate', 'created', 'services'];
+	const budgetColumnsNames = ['Matricula', 'ingresado', 'Servicios'];
 
 
 	const baseURL = 'http://127.0.0.1:5000'
@@ -59,6 +61,7 @@ export default function Dashboard() {
 			}
 		}
 	};
+	// generating the updating interval
 
 	const updateTime = 600 * 100
 	const [update, setUpdate] = useState('now')
@@ -160,7 +163,7 @@ export default function Dashboard() {
 									</div>
 
 
-									<DashboardDataBox columns={serviceColumns} info={servicesData} />
+									<DashboardDataBox columns={serviceColumns} info={servicesData} titles={serviceColumnsNames} />
 
 								</div>
 
@@ -171,7 +174,7 @@ export default function Dashboard() {
 									<div className="title h-10">
 										<h3 className='text-2xl font-black text-center text-white p-1'>Confirmaciones Recientes</h3>
 									</div>
-									<Confirmation columns={budgetColumns} info={budgetData} />
+									<Confirmation columns={budgetColumns} info={budgetData} titles={budgetColumnsNames} />
 								</div>
 								<div className="flex justify-end mt-5">
 
