@@ -1,7 +1,7 @@
 import React from 'react'
 import { useEffect } from 'react';
 import Button from './button'
-import ServiceItem from './ServiceItem';
+
 import { useState } from "react";
 import Creatable from 'react-select/creatable';
 import { useNavigate } from 'react-router-dom';

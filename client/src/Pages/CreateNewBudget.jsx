@@ -3,7 +3,7 @@ import NewBudget from '../Components/NewBudget'
 import RegisterVehicleModal from '../Components/RegisterVehicleModal'
 import axios from 'axios'
 import NavBar from '../Components/NavBar'
-import { FaSoundcloud } from 'react-icons/fa'
+
 
 
 export default function CreateNewBudget() {
@@ -14,13 +14,14 @@ export default function CreateNewBudget() {
 	const [formSubmited, setFormSubmited] = useState(false)
 	const [actualClient, setActualClient] = useState([])
 	const [actualVehicle, setActualVehicle] = useState([])
-
+	const [typedPlate, setTypedPlate] = useState('')
 
 	localStorage.setItem('plate', '0')
 
 	let plateChecked = false
 	let clientExist = false
-	let userId = 'a6fbfd74-fc6f-48e7-ac16-90ee90121669'
+
+	let userId = 'bc625955-0b33-4eec-837f-110619845a6c'
 
 
 	let baseURL = 'http://127.0.0.1:5000/'
@@ -55,7 +56,7 @@ export default function CreateNewBudget() {
 	const checkPlateRegistration = (plate) => {
 		console.log("on ckecking plate")
 
-
+		setTypedPlate(plate)
 		if (plate.length === 8 && !plateChecked) {
 			axios.get((`${baseURL}/api/v1/vehicle/plate/${plate}`))
 				.then((res) => {
@@ -136,7 +137,7 @@ export default function CreateNewBudget() {
 			<NavBar />
 			<div className="w-screen h-screen  flex items-center  justify-center flex-row bg-cyan-200 justify-items-center ">
 				<NewBudget checkPlateRegistration={checkPlateRegistration} actualVehicle={actualVehicle} actualClient={actualClient} />
-				<RegisterVehicleModal display={modalDisplayMode} checkClient={checkClient} modalState={(displayModal) => modalState(displayModal, () => { })} clientExiste={clientRegistered} actualClient={actualClient} />
+				<RegisterVehicleModal display={modalDisplayMode} checkClient={checkClient} modalState={(displayModal) => modalState(displayModal, () => { })} clientExiste={clientRegistered} actualClient={actualClient} plate={typedPlate} />
 			</div>
 		</>
 	)

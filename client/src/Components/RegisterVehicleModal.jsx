@@ -4,7 +4,7 @@ import { Navigate, json, useNavigate } from 'react-router-dom';
 import MessageZone from './MessageZone';
 
 
-export default function RegisterVehicleModal({ display, checkClient, modalState, clientExiste, actualClient }) {
+export default function RegisterVehicleModal({ display, checkClient, modalState, clientExiste, actualClient, plate }) {
 
 
 	let userId = 'bc625955-0b33-4eec-837f-110619845a6c'
@@ -365,7 +365,7 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 													<label className=" font-black mr-2 mt-3 " for="plate">Matricula</label>
 
 													<div className='flex flex-row-reverse w-1/2'>
-														<input className='bg-[#B4D1D3]  text-right w-3/4 h-full px-6 mt-2' type='text' id='' name="plate" value={formVehicleClientData.plate} onChange={onFormChange} onFocus={() => createClient} placeholder='XXX-0000' ></input>
+														<input className='bg-[#B4D1D3]  text-right w-3/4 h-full px-6 mt-2' type='text' id='' name="plate" value={plate} onChange={onFormChange} onFocus={() => createClient} placeholder='XXX-0000' ></input>
 													</div>
 
 												</div>
