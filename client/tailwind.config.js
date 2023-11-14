@@ -27,7 +27,7 @@ export default {
         'bloque': '98%',
         'bloque_login': '85%',
 		'info_vehiculo': '15%',
-		'info_history': '57%',
+		'info_history': '55%',
 		'info_history_2': '45%',
 		'info_history_3': '65%',
       },
@@ -67,5 +67,7 @@ export default {
       },
 		},
 	},
-	plugins: [],
+	plugins: [
+		require('tailwind-scrollbar'),
+	],
 }
