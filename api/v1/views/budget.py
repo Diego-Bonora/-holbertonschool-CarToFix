@@ -46,7 +46,7 @@ def bdgt_dict_generator(bdgt):
 
     services = bdgt.services if isinstance(bdgt.services, list) else [bdgt.services]
     bdict = {
-        "brand": storage.get(Brand, vehicle.brand).name
+        "brand": storage.get(Brand, vehicle.brand).name,
         "vehicle_type": storage.get(TypeVehicle, vehicle.type_vehicle_id).name,
         "created": bdgt.created_at,
         "total": bdgt.total_price,
