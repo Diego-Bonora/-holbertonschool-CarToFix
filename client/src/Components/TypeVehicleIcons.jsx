@@ -5,7 +5,7 @@ import { PiMotorcycleFill } from "react-icons/pi"
 
 export default function TypeVehicleIcons({ TypeVehicle }) {
     switch (TypeVehicle) {
-        case 'tha_type':
+        case 'auto':
             return <FaCarSide/>;
         case 'camioneta':
             return <PiVanFill/>;
