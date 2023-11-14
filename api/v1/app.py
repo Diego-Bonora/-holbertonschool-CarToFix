@@ -25,7 +25,6 @@ def run_emailer():
             emailer.read()
         except Exception as e:
             print(e)
-            print("Emailer error: User CarToFix probably not set correctly")
             os._exit(1)
 
 # Start the emailer thread

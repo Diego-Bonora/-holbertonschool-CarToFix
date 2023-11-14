@@ -46,7 +46,7 @@ def bdgt_dict_generator(bdgt):
 
     services = bdgt.services if isinstance(bdgt.services, list) else [bdgt.services]
     bdict = {
-        "brand": storage.get(Brand, vehicle.brand).name
+        "brand": storage.get(Brand, vehicle.brand).name,
         "vehicle_type": storage.get(TypeVehicle, vehicle.type_vehicle_id).name,
         "created": bdgt.created_at,
         "total": bdgt.total_price,
@@ -105,6 +105,9 @@ def create_budget():
     for arg in needed:
         if arg not in krgs or (arg == "services" and len(krgs["services"]) == 0):
             abort(400, {"error": f"{arg} missing"})
+        if "confirmed" in krgs and not krgs["confirmed"]:
+            if all(not b.confirmed for b in storage.all(Budget).values() if b.client_id == krgs["client_id"] and b.user_id == krgs["user_id"]):
+                abort(409, {"error": "Cannot create more pending budgets for the same costumer"})
 
     vehicle = storage.get(Vehicle, krgs["vehicle_id"])
     if vehicle.client_id != krgs["client_id"]:

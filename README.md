@@ -164,3 +164,5 @@ No route should fail upon proper request.
 - [x] `Vehicle.client_id` and provided client must match when posting a budget
 - [x] `total_price` of budget is modified when `price` of service is too
 - [x] confirm a budget now has a route
+- [x] budget now also includes `brand.name` in its response
+- [x] sign in and sign up from `login_test` included now!
