@@ -7,6 +7,16 @@ from models.type_vehicle import TypeVehicle
 from models.user import User
 from models.workers import Worker
 from models import storage
+import bcrypt
+
+
+def hash_password(password):
+    hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+    return hashed_password.decode('utf-8')
+
+
+password_to_hash = "Password"
+hashed_password = hash_password(password_to_hash)
 
 # Creating required instances (api for them not started yet)
 veh_type = TypeVehicle(name="tha_type")
@@ -130,10 +140,10 @@ client1 = Client(name="Macksim", phone="fdsfa48",
 client2 = Client(name="Pablo", phone="fdadsfadsf8",
                  email="emanueltrias9@gmail.com")
 # USERS
-user1 = User(name="Auto-destroy", mail="emanueltrias9@gmail.com",
-             password="F#7b9/dbvv", phone="592222284982", logo="logeisbbhon")
+user1 = User(name="Auto-destroy", mail="autodestroy@gmail.com",
+             password=hashed_password, phone="592222284982", logo="logeisbbhon")
 user2 = User(name="Skynet", mail="emanueltrias9@gmail.com",
-             password="F#7b9/dbvv", phone="22284982", logo="lisbbhon")
+             password=hashed_password, phone="22284982", logo="lisbbhon")
 # VEHICLES
 vehicle = Vehicle(plate="FADSF987es", brand=brand.id, model="tha_model2", color="krasni", mileage=22931,
                   user_id=user1.id, client_id=client1.id, type_vehicle_id=veh_type.id)
@@ -219,10 +229,10 @@ client1 = Client(name="Annya", phone="09asdf", email="emanueltrias9@gmail.com")
 client2 = Client(name="Hozier", phone="nidealaverdad",
                  email="emanueltrias9@gmail.com")
 # USERS
-user1 = User(name="Wheelson", mail="emanueltrias9@gmail.com",
-             password="F#7b9/dbvv", phone="((9dsa", logo="LOGOASFASD")
-user2 = User(name="Icecream shop", mail="emanueltrias9@gmail.com",
-             password="F#7b9/dbvv", phone="22889900", logo="http:/JYSHshnxFAIEU")
+user1 = User(name="Wheelson", mail="wheelson@gmail.com",
+             password=hashed_password, phone="((9dsa", logo="LOGOASFASD")
+user2 = User(name="Icecream shop", mail="icecream@gmail.com",
+             password=hashed_password, phone="22889900", logo="http:/JYSHshnxFAIEU")
 # VEHICLES
 vehicle = Vehicle(plate="25**2", brand=brand.id, model="unregistered", color="malaria", mileage=22931,
                   user_id=user1.id, client_id=client1.id, type_vehicle_id=veh_type.id)
