@@ -4,6 +4,7 @@
 
 from api.v1.views import app_views
 from flask import abort, jsonify, request
+from models.brand import Brand
 from models.budget import Budget
 from models.client import Client
 from models.mailer.Emailer import Emailer
@@ -45,6 +46,7 @@ def bdgt_dict_generator(bdgt):
 
     services = bdgt.services if isinstance(bdgt.services, list) else [bdgt.services]
     bdict = {
+        "brand": storage.get(Brand, vehicle.brand).name
         "vehicle_type": storage.get(TypeVehicle, vehicle.type_vehicle_id).name,
         "created": bdgt.created_at,
         "total": bdgt.total_price,
