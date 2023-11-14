@@ -43,8 +43,6 @@ export default function Dashboard() {
 
 
 
-	console.log("budgets", budgetData)
-
 	// Get a strig from services title array and truncat them for confirmation databox preview
 
 	const truncateServicesTitles = (arr, lNum) => {
@@ -63,7 +61,7 @@ export default function Dashboard() {
 	};
 	// generating the updating interval
 
-	const updateTime = 600 * 100
+	const updateTime = 120 * 1000
 	const [update, setUpdate] = useState('now')
 
 	const now = new Date()
@@ -77,10 +75,11 @@ export default function Dashboard() {
 		clearInterval(updating)
 	}
 
-	if (update) {
-		updating = setInterval(updateData, updateTime)
+	useEffect(() => {
 
-	}
+		updating = setInterval(updateData, updateTime)
+	})
+
 
 
 
