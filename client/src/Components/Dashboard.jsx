@@ -11,26 +11,18 @@ import NavBar from './NavBar';
 
 export default function Dashboard() {
 
-
-
-
   // Columns for databoxes
-
-
   const serviceColumns = ['plate', 'description'];
   const budgetColumns = ['plate', 'created', 'services'];
-
 
   const baseURL = 'http://127.0.0.1:5000'
 
   // States for services and budgets data
-
   const [servicesData, setServicesData] = useState([
     {
       plate: "",
       description: "",
     }]);
-
   const [budgetData, setBudgetData] = useState([
     {
       plate: "",
@@ -38,24 +30,40 @@ export default function Dashboard() {
       services: "",
     }]);
 
-
-
   console.log("budgets", budgetData)
 
   // Get a strig from services title array and truncat them for confirmation databox preview
-
   const truncateServicesTitles = (arr, lNum) => {
     if (arr) {
-
-      let stringedArray = arr.join()
-      if (stringedArray.length > lNum) {
-        return stringedArray.slice(0, lNum) + '... '
+      let stringOfTitles = ''
+      arr.map((service) => {
+        stringOfTitles += service.title + ', ';
+      });
+      console.log("join on truncate", stringOfTitles)
+      if (stringOfTitles.length > lNum) {
+        return stringOfTitles.slice(0, lNum) + '... ';
+      } else {
+        return stringOfTitles.join(" - ");
       }
-    } else { return "sin servios" }
+    }
+  };
+  const updateTime = 600 * 100
+  const [update, setUpdate] = useState('now')
+
+  const now = new Date()
+  let updating = now.getTime
+
+  const updateData = () => {
+    setUpdate(now)
+    console.log("UPDATING...", update)
+    clearInterval(updating)
   }
 
-  // Get all data from API
+  if (update) {
+    updating = setInterval(updateData, updateTime)
 
+  }
+  // Get all data from API
   let userId = JSON.parse(localStorage.getItem('userID'));
   const [dashboardData, setDashboardData] = useState({})
 
@@ -88,10 +96,11 @@ export default function Dashboard() {
 
         let budgets = []
         if ((Object.values(dashboardData.budgets).length > 0)) {
-
           budgets = Object.values(dashboardData.budgets)
           arrServiceTitle = budgets.services
-          budgets.services = truncateServicesTitles(arrServiceTitle, 55)
+          let strTitle = truncateServicesTitles(arrServiceTitle, 20)
+          console.log("primer join services", strTitle)
+          budgets.services = strTitle
           setBudgetData(budgets)
         } else {
           budgets = [{
@@ -102,14 +111,13 @@ export default function Dashboard() {
           setBudgetData(budgets)
         }
       })
-  },
-  )
 
+  }, [document.readyState, update]
+  )
 
   return (
     <>
-
-      <div className='w-screen h-screen bg-page_background'>
+      <div>
         <NavBar logOut={logOut} />
         <div className='flex flex-wrap md:grid md:grid-cols-1  md:place-content-evenly justify-center align-top h-full'>
           <div className="flex flex-wrap h-fit md:grid md:grid-cols-2 md:w-screen justify-items-center justify-center">
@@ -117,32 +125,22 @@ export default function Dashboard() {
             <div className='h-20 md:mb-10 mb-20 md:w-full md:h-full justify-center -translate-y-16'>
               <TitleBox title={dashboardData.user_name} userId={userId} />
             </div>
-            <div className="flex flex-wrap h-full md:grid md:grid-cols-2 md:gap-8 md:place-items-center justify-items-center justify-center min-w-[50px] space-x-5 " >
-
-              <DataFrame title="Presupuestos en espera" level='2' />
-
+            <div className="flex flex-wrap h-full md:grid md:grid-cols-2 md:gap-8 md:place-items-center justify-items-center justify-center min-w-[50px] space-x-5" >
+              <DataFrame title="Presupuestos en espera" level={dashboardData.onhold} />
               <DataFrame title="Total de Vehiculos" level={dashboardData.vehicles_total} />
-
             </div>
           </div>
           {/* Databoxes inferiores con detalles */}
           <div className=" flex flex-wrap w-screen md:grid md:grid-cols-2 justify-items-center justify-center mr-10" >
-
-
             <div className='spac-x-5'>
-              <div className=" p-2 md:x-92 flex flex-col w-fit bg-[#09B6C2] rounded-lg md:max-w-[800px] ">
+              <div className=" p-2 md:x-92 flex flex-col w-fit bg-[#09B6C2] rounded-lg md:max-w-[800px] mt-10 ">
                 <div className="title h-10">
                   <h3 className='text-2xl font-black text-center text-white'>Servicios activos</h3>
                 </div>
-
-
                 <DashboardDataBox columns={serviceColumns} info={servicesData} />
-
               </div>
-
             </div>
             <div>
-
               <div className="principal p-2 mt-10 md:x-92 flex flex-col bg-[#09B6C2] rounded-lg md:max-w-[800px] h-[200px] ">
                 <div className="title h-10">
                   <h3 className='text-2xl font-black text-center text-white p-1'>Confirmaciones Recientes</h3>

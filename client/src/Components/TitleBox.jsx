@@ -2,9 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Modal from './Modal';
 import { storage } from "../firebase";
 import { ref, getDownloadURL } from "firebase/storage";
-import axios from "axios"
 
-export default function TitleBox({ title, photo, userId }) {
+export default function TitleBox({ title, userId }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [imageUrl, setImageUrl] = useState(null);
 

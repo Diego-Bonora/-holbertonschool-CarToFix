@@ -13,7 +13,6 @@ const Modal = ({ isVisible, onClose, userId }) => {
     const imageRef = ref(storage, imageName);
     uploadBytes(imageRef, imageUpload).then((snapshot) => {
       getDownloadURL(snapshot.ref).then((url) => {
-        setImageUrl(url);
         setMessage('La imagen se subió exitosamente.');
       }).catch((error) => {
         setMessage('A ocurrido un error. Por favor, inténtelo de nuevo más tarde.');

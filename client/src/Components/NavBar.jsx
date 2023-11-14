@@ -7,7 +7,6 @@ import nobre_taller from '../assets/nobre_taller.png';
 export default function NavBar({ logOut }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [dropdown, setDropdown] = useState(false);
-
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
@@ -19,8 +18,9 @@ export default function NavBar({ logOut }) {
     <header>
       <div className=" py-1 pr-14 pl-8 bg-cian-oscuro md:rounded-b-header_border flex items-center justify-between">
         <div className='flex flex-grow items-center' >
-          <img src={isologotipo} alt="" className='w-20 md:block hidden ml-8' onClick={toggleDropdown} />
-          {dropdown && (<div className='absolute mt-1  bg-black shadow-md rounded translate-y-full'> <button onClick={logOut}>Cerrar sesion</button> </div>)}
+          <Link to="/home" className='md:block hidden ml-8'>
+            <img src={isologotipo} alt="" className='w-20' />
+          </Link>
           <img src={nobre_taller} alt="" className='w-60 ml-6' />
         </div>
         {/* Icono de menú */}
@@ -36,6 +36,8 @@ export default function NavBar({ logOut }) {
           <Link to='/vehiculo' className='w-48 h-10 md:bg-azul-oscuro inline-block rounded text-center py-2 text-white md:text-base md:font-medium md:shadow-[0_4px_9px_-4px_#3b71ca] md:hover:bg-shadow_header md:hover:text-white'>Vehículos</Link>
           <Link to='/budgets' className='w-48 h-10 md:bg-azul-oscuro inline-block rounded text-center text-white py-2 md:text-base font-medium md:shadow-[0_4px_9px_-4px_#3b71ca] md:hover:bg-shadow_header md:hover:text-white'>Presupuestos</Link>
           <Link to='/Service' className='w-48 h-10 md:bg-azul-oscuro inline-block rounded text-center text-white py-2 md:text-base font-medium md:shadow-[0_4px_9px_-4px_#3b71ca] md:hover:bg-shadow_header md:hover:text-white'>Servicios</Link>
+          <FaBars className='text-black w-8 h-8' onClick={toggleDropdown} />
+          {dropdown && (<div className='absolute mt-1 shadow-md rounded translate-y-full'> <button className='w-48 h-10 md:bg-azul-oscuro inline-block rounded text-center text-white py-2 md:text-base font-medium md:shadow-[0_4px_9px_-4px_#3b71ca] md:hover:bg-shadow_header md:hover:text-white mt-1' onClick={logOut}>Cerrar sesion</button> </div>)}
         </nav>
       </div>
     </header>
