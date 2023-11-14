@@ -22,6 +22,12 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
 
 	const navigate = useNavigate();
 
+	{/* Vars to indicate is  budget is confirmed or submited*/ }
+
+	let confirmed = false;
+	let submited = false;
+	let saved = false;
+
 	const today = new Date();
 
 	{/* FoState for budget */ }
@@ -93,6 +99,11 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
 
 	};
 
+	const saveBudget = () => {
+
+		saved = true
+	}
+
 	const createBudget = (budgetToSend, via) => {
 		console.log('enviaríamos el BUDGET')
 		axios.post(`${baseURL}/api/v1/budget`, budgetToSend, {
@@ -146,7 +157,7 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
 				user_id: userId,
 				client_id: client_id,
 				total_price: total,
-				confirmed: false,
+				confirmed: confirmed,
 				payment_method: event.target.installments.value ? "CREDITO" : "EFECTIVO",
 				installments: event.target.installments.value ? parseInt(event.target.installments.value) : 0,
 				vehicle_id: vehicle_id,
@@ -158,13 +169,14 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
 		setBudget(budgetToSend)
 		console.log("budget to post ", JSON.stringify(budgetToSend))
 
-		if (confirmed) {
+		if (confirmed || saved) {
 			console.log("Presupuesto Guardado")
-			createBudget(budgetToSend, "guardado")
+			createBudget(budgetToSend, confirmed ? "ingresado" : "guardado")
 			submited = true;
 		}
 		else {
 			createBudget(budgetToSend, "Enviado por mail para confirmar")
+			submited = true;
 		}
 
 	}
@@ -183,11 +195,8 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
 		console.log("Budget has change to save ", budget)
 	}, [budget])
 
-	{/* Vars to indicate is  budget is confirmed or submited*/ }
 
-	let confirmed = true;
-	let submited = false;
-	let active = false;
+
 
 
 
@@ -352,9 +361,7 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
 						}
 
 
-						<div className='flex flex-col-1 justify-end mt-5'>
-							<Button children="Guardar" size="normal" color="orange" />
-						</div>
+
 
 					</section>
 					{/* CUOTAS Y VIGENCIA - form  */}
@@ -376,21 +383,27 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
 									<p className='self-center mx-5 '>{items.reduce((total, p) => total = total + p.price, 0)}</p>
 								</div>
 							</div>
+							<div className='flex flex-col-1 justify-start mt-5'>
+								<button className='bg-orange-600 text-white  hover:bg-orange-800 font-bold py-2 px-4 rounded ' type='submit' onClick={() => saveBudget}>Guardar</button>
+
+							</div>
 
 							{/* System Message Area  */}
 
-							<MessageZone display={messageMode} text="Cuidado !!! " />
+							<MessageZone display={submited ? 'succes' : 'none'} text="Presupuesto enviado por mail" />
+							<MessageZone display={saved ? 'alert' : 'none'} text={"Presupuesto Guardado"} />
+							<MessageZone display={confirmed ? 'succes' : 'none'} text={"Presupuesto activo"} />
 
 
 							{/* CANCELAR CONFIRMAR O ENVIAR  */}
-							<div className='flex flex-col-2 justify-between space-x-2 mt-16'>
+							<div className='flex flex-col-2 justify-between space-x-2 mt-5'>
 								<div onClick={abortBudget} >
 									<button className='bg-orange-600 text-white  hover:bg-orange-800 font-bold py-2 px-4 rounded '>Cancelar</button>
 								</div>
 								<div className='flex space-x-4'>
 									<button className='bg-orange-600 text-white  hover:bg-orange-800 font-bold py-2 px-4 rounded ' type='submit' onClick={() => confirmed = true}>Confirmado</button>
 
-									<button onClick={() => confirmed = false} className='bg-orange-600 text-white  hover:bg-orange-800 font-bold py-2 px-4 rounded ' type='submit'>Enviar</button>
+									<button onClick={() => confirmed = false} className='bg-[#026DBB] text-white  hover:bg-orange-800 font-bold py-2 px-4 rounded ' type='submit'>Enviar</button>
 								</div>
 
 								<MessageZone display={submited ? 'active' : 'none'} text="Presupuesto enviado " />

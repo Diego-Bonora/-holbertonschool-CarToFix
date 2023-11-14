@@ -358,8 +358,7 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 													</div>
 
 												</div>
-												<MessageZone display={clientCreated ? 'succes' : 'none'} text="Nuevo Cliente Creado" />
-												<MessageZone display={cliResponse ? 'alert' : 'none'} text={cliResponse} />
+									
 												<p className="text-sm text-gray-500 mt-3">Ingresa los datos del nuevo vehículo</p>
 												<div className='flex flex-col-2 justify-between'>
 													<label className=" font-black mr-2 mt-3 " for="plate">Matricula</label>
