@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import NavBar from './NavBar';
-import DataBoxBudget from './DataBoxBudget';
+import NavBar from '../Pages/NavBar';
+import DataBoxBudget from '../Pages/DataBoxBudget';
 import axios from 'axios';
-import FilterService from './FilterService';
+import FilterService from '../Pages/FilterService';
 import { useParams, useNavigate } from 'react-router-dom';
 
 export default function SpecificBudget() {
@@ -72,18 +72,20 @@ export default function SpecificBudget() {
   }, [id]);
 
   const toggleDone = (index) => {
+    console.log('Button clicked for index:', index);
     const serviceId = serviceIds[index];
     const currentState = historyData[index].done;
+
     if (currentState) {
       return;
     }
     const newState = !currentState;
 
-    axios.put(`${baseURL}/service/dwn/${serviceId}`, { done: newState })
+    axios.put(`${baseURL}/api/v1/service/dwn/${serviceId}`, { done: newState })
       .then(response => {
         const updatedData = [...historyData];
         updatedData[index] = { ...updatedData[index], done: newState };
-        setHistoryData(updatedData);
+        historyData(updatedData);
         console.log('updata', updatedData);
       })
       .catch(error => {

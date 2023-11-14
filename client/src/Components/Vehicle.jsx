@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import NavBar from './NavBar';
-import DataBox from './DataBox';
-import ButtonService from './ButtonService';
-import Searchbar from './Searchbar';
+import NavBar from '../Pages/NavBar';
+import DataBox from '../Pages/DataBox';
+import ButtonService from '../Pages/ButtonService';
+import Searchbar from '../Pages/Searchbar';
 import { FaTh } from 'react-icons/fa';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -78,11 +78,11 @@ export default function Vehicle() {
 		<>
         <div className='w-screen h-screen bg-page_background'>
             <NavBar />
-            <div className='lg:mr-80 mr-marg-1 lg:ml-marg-4 ml-marg-1 mt-20 font-bold text-black flex items-center justify-between'>
+            <div className='mr-marg-1 lg:ml-marg-4 ml-marg-1 md:mt-20 mt-16 font-bold text-black flex items-center justify-between'>
           <h1 className='text-7xl font-black'>Vehículos</h1>
           <div className='flex-1 flex items-center space-x-4 justify-end'>
             <Searchbar onSearch={handleSearch}/>
-            <FaTh className='text-3xl' />
+            <FaTh className='text-2xl' />
           </div>
           </div>
             {/* info del historial */}
@@ -92,7 +92,7 @@ export default function Vehicle() {
                 <h2 className="text-xl font-bold">No hay datos disponibles</h2>
               </div>
             ) : (
-              <div className='overflow-y-scroll h-full w-full ml-9'>
+              <div className='hover:overflow-y-scroll overflow-x-hidden h-full w-full ml-14'>
                 <DataBox columns={vehiclecolumn} info={searchQuery ? filterData : VehicleData}
                 SeeClick={handleButton} IdName='vehicle_id'
                 onRedirect={onRedirect}
