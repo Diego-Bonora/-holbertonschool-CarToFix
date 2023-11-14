@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import NavBar from '../Pages/NavBar';
-import DataBoxBudget from '../Pages/DataBoxBudget';
-import ButtonService from '../Pages/ButtonService';
-import Searchbar from '../Pages/Searchbar';
+import NavBar from './NavBar';
+import DataBoxBudget from './DataBoxBudget';
+import ButtonService from './ButtonService';
+import Searchbar from './Searchbar';
 import axios from 'axios';
-import FilterActive from '../Pages/filterActive';
+import FilterActive from './filterActive';
 import { useNavigate } from 'react-router-dom';
 import { FaTh } from 'react-icons/fa';
 

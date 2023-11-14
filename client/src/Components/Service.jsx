@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import NavBar from '../Pages/NavBar';
-import DataBox from '../Pages/DataBox';
-import ButtonService from '../Pages/ButtonService';
-import FilterService from '../Pages/FilterService';
+import NavBar from './NavBar';
+import DataBox from './DataBox';
+import ButtonService from './ButtonService';
+import FilterService from './FilterService';
 import { FaTh } from 'react-icons/fa';
 import axios from 'axios';
-import FilterActive from '../Pages/filterActive';
+import FilterActive from './filterActive';
 import { useNavigate } from 'react-router-dom';
 
 export default function Services() {

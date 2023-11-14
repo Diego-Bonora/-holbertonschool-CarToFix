@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import NavBar from '../Pages/NavBar';
-import DataBox from '../Pages/DataBox';
-import ButtonService from '../Pages/ButtonService';
-import Searchbar from '../Pages/Searchbar';
+import NavBar from './NavBar';
+import DataBox from './DataBox';
+import ButtonService from './ButtonService';
+import Searchbar from './Searchbar';
+import TypeVehicleIcons from './TypeVehicleIcons';
 import { FaTh } from 'react-icons/fa';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -14,6 +15,7 @@ export default function Vehicle() {
     console.log('redireccion', path);
     navigate(path);
   }
+
 
     {/* column for databox*/}
     const vehiclecolumn = ['plate', 'title', 'created_at'];
@@ -49,6 +51,7 @@ export default function Vehicle() {
               created_at: vehicle.created_at,
               title: truncateServicesTitles(vehicle.services.map((service) => service.title), 20),
               vehicle_id: vehicleId,
+              type: vehicle.type,
             };
           });
           setVehicleData(dataofvehicle)
@@ -93,10 +96,23 @@ export default function Vehicle() {
               </div>
             ) : (
               <div className='hover:overflow-y-scroll overflow-x-hidden h-full w-full ml-14'>
-                <DataBox columns={vehiclecolumn} info={searchQuery ? filterData : VehicleData}
-                SeeClick={handleButton} IdName='vehicle_id'
-                onRedirect={onRedirect}
-                columnsName={columnsName}/>
+                  <DataBox
+                    columns={vehiclecolumn}
+                    info={searchQuery
+                      ? filterData
+                      : VehicleData.map(vehicle => ({
+                          plate: { icon: <TypeVehicleIcons value={vehicle.type} />, value: vehicle.plate },
+                          title: vehicle.title,
+                          created_at: vehicle.created_at,
+                          vehicle_id: vehicle.vehicle_id,
+                        }))
+                    }
+                    SeeClick={handleButton}
+                    IdName='vehicle_id'
+                    onRedirect={onRedirect}
+                    columnsName={{ plate: 'Matriculas', title: 'Servicios', created_at: 'Última modificación' }}
+                    iconColumn='plate'
+                  />
               </div>
             )}
             

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import NavBar from '../Pages/NavBar';
-import DataBox from '../Pages/DataBox';
-import NewBudgetButton from '../Pages/NewBudgetButton';
+import NavBar from './NavBar';
+import DataBox from './DataBox';
+import NewBudgetButton from './NewBudgetButton';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 

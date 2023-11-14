@@ -19,18 +19,18 @@ export default function NavBar() {
           <img src={nobre_taller} alt=""  className='w-60 ml-6'/>
         </div>
         {/* Icono de menú */}
-        <div className="md:hidden pr-10">
+        <div className="lg:hidden pr-10">
         {menuOpen ? (
             <FaTimes onClick={toggleMenu} className='w-7 h-7'/>
           ) : (
             <FaBars onClick={toggleMenu} className='w-7 h-7'/>
           )}
         </div>
-        <nav className={`mr-20 md:flex md:justify-end md:gap-4 md:w-2/5 md:static top-[80px] fixed bg-cian-oscuro/95 w-full h-full flex flex-col items-center justify-center left-0 md:flex-row text-2xl rounded-bl-full transition-transform duration-200 ease-in-out
+        <nav className={`lg:w-2/5 mr-20 lg:flex lg:justify-end lg:gap-4 lg:static top-[80px] fixed bg-cian-oscuro/95 h-full flex flex-col items-center justify-center lg:flex-row text-2xl transition-transform duration-200 ease-in-out -right-20 w-72
         ${menuOpen ? 'block' : 'hidden'}`}>
-          <Link to='/vehicle' className='w-48 h-10 md:bg-azul-oscuro inline-block rounded text-center py-2 text-white md:text-base md:font-medium md:shadow-[0_4px_9px_-4px_#3b71ca] md:hover:bg-shadow_header md:hover:text-white'>Vehículos</Link>
-          <Link to='/budgets' className='w-48 h-10 md:bg-azul-oscuro inline-block rounded text-center text-white py-2 md:text-base font-medium md:shadow-[0_4px_9px_-4px_#3b71ca] md:hover:bg-shadow_header md:hover:text-white'>Presupuestos</Link>
-          <Link to='/Service' className='w-48 h-10 md:bg-azul-oscuro inline-block rounded text-center text-white py-2 md:text-base font-medium md:shadow-[0_4px_9px_-4px_#3b71ca] md:hover:bg-shadow_header md:hover:text-white'>Servicios</Link>
+          <Link to='/vehicle' className='w-48 h-10 lg:bg-azul-oscuro inline-block rounded text-center py-2 text-white lg:text-base lg:font-medium lg:shadow-[0_4px_9px_-4px_#3b71ca] lg:hover:bg-shadow_header lg:hover:text-white'>Vehículos</Link>
+          <Link to='/budgets' className='w-48 h-10 lg:bg-azul-oscuro inline-block rounded text-center text-white py-2 lg:text-base lg:font-medium lg:shadow-[0_4px_9px_-4px_#3b71ca] lg:hover:bg-shadow_header lg:hover:text-white'>Presupuestos</Link>
+          <Link to='/Service' className='w-48 h-10 lg:bg-azul-oscuro inline-block rounded text-center text-white py-2 lg:text-base lg:font-medium lg:shadow-[0_4px_9px_-4px_#3b71ca] lg:hover:bg-shadow_header lg:hover:text-white'>Servicios</Link>
         </nav>        
           </div>
     </header>

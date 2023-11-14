@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import NavBar from '../Pages/NavBar';
-import DataBoxBudget from '../Pages/DataBoxBudget';
+import NavBar from './NavBar';
+import DataBoxBudget from './DataBoxBudget';
 import axios from 'axios';
-import FilterService from '../Pages/FilterService';
+import FilterService from './FilterService';
 import { useParams, useNavigate } from 'react-router-dom';
 
 export default function SpecificBudget() {
