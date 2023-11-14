@@ -85,7 +85,7 @@ export default function Vehicle_history() {
               </div>
             </div>
             {/* info del historial */}
-            <div className='bg-tabla_service overflow-y-scroll  items-center lg:h-info_history h-info_history_2 lg:mr-marg-5 mr-marg-1 lg:ml-marg-4 ml-marg-1 mt-marg-3 flex flex-wrap rounded-lg justify-items-center justify-center shadow-md shadow-gray-300 h-30'>
+            <div className='bg-tabla_service hover:overflow-y-scroll  items-center lg:h-info_history h-info_history_2 lg:mr-marg-5 mr-marg-1 lg:ml-marg-4 ml-marg-1 mt-marg-3 flex flex-wrap rounded-lg justify-items-center justify-center shadow-md shadow-gray-300 h-30'>
             {historyData.length === 0 ? (
               <div className="text-center text-gray-500 my-8 mx-2.25rem">
               <h2 className="text-xl font-bold">No hay datos disponibles</h2>

@@ -52,7 +52,7 @@ export default function SpecificBudget() {
         const vehicleData = {
           model: res.data.vehicle.model,
           color: res.data.vehicle.color,
-          brand: res.data.vehicle.brand,
+          brand: res.data.brand,
           plate: res.data.vehicle.plate,
           vehicle_type: res.data.vehicle_type,
         };
@@ -147,7 +147,7 @@ export default function SpecificBudget() {
               <h2 className="text-xl font-bold">No hay datos disponibles</h2>
             </div>
           ) : (
-            <div className='overflow-y-scroll h-full w-full ml-9'>
+            <div className='hover:overflow-y-scroll h-full w-full ml-9'>
             <DataBoxBudget columns={columns} info={filteredData} toggleDone={toggleDone}
             SeeClick={handleButton} IdName='serviceId'
             onRedirect={onRedirect}
