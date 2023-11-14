@@ -3,6 +3,7 @@ import NavBar from './NavBar';
 import DataBox from './DataBox';
 import ButtonService from './ButtonService';
 import FilterService from './FilterService';
+import TypeVehicleIcons from './TypeVehicleIcons';
 import { FaTh } from 'react-icons/fa';
 import axios from 'axios';
 import FilterActive from './filterActive';
@@ -43,6 +44,7 @@ export default function Services() {
           created: item.created,
           active: item.active,
           vehId: item.vehId,
+          vehType: item.vehType,
         }));
 
         setServiceData(filteredData);
@@ -116,7 +118,19 @@ export default function Services() {
             <DataBox columns={columns} info={filteredServiceData} 
             SeeClick={handleButton} IdName='vehId'
             onRedirect={onRedirect}
-            columnsName={columnsName}/>
+            columnsName={columnsName}
+            renderCell={(column, rowData) => {
+              if (column === 'vehPlate') {
+                const typeIcon = <TypeVehicleIcons TypeVehicle={rowData.vehType} />;
+                return (
+                  <div className="flex items-center">
+                    {typeIcon}
+                    <span className="ml-4">{rowData[column]}</span>
+                  </div>
+                );
+              }
+              return rowData[column];
+            }}/>
           </div>
           )}
           

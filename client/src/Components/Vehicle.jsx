@@ -16,7 +16,6 @@ export default function Vehicle() {
     navigate(path);
   }
 
-
     {/* column for databox*/}
     const vehiclecolumn = ['plate', 'title', 'created_at'];
     const columnsName = {
@@ -96,23 +95,26 @@ export default function Vehicle() {
               </div>
             ) : (
               <div className='hover:overflow-y-scroll overflow-x-hidden h-full w-full ml-14'>
-                  <DataBox
-                    columns={vehiclecolumn}
-                    info={searchQuery
-                      ? filterData
-                      : VehicleData.map(vehicle => ({
-                          plate: { icon: <TypeVehicleIcons value={vehicle.type} />, value: vehicle.plate },
-                          title: vehicle.title,
-                          created_at: vehicle.created_at,
-                          vehicle_id: vehicle.vehicle_id,
-                        }))
+                <DataBox
+                  columns={vehiclecolumn}
+                  info={searchQuery ? filterData : VehicleData}
+                  SeeClick={handleButton}
+                  IdName='vehicle_id'
+                  onRedirect={onRedirect}
+                  columnsName={columnsName}
+                  renderCell={(column, rowData) => {
+                    if (column === 'plate') {
+                      const typeIcon = <TypeVehicleIcons TypeVehicle={rowData.type} />;
+                      return (
+                        <div className="flex items-center">
+                          {typeIcon}
+                          <span className="ml-4">{rowData[column]}</span>
+                        </div>
+                      );
                     }
-                    SeeClick={handleButton}
-                    IdName='vehicle_id'
-                    onRedirect={onRedirect}
-                    columnsName={{ plate: 'Matriculas', title: 'Servicios', created_at: 'Última modificación' }}
-                    iconColumn='plate'
-                  />
+                    return rowData[column];
+                  }}
+                />
               </div>
             )}
             

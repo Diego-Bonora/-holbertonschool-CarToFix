@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import NavBar from './NavBar';
 import DataBoxBudget from './DataBoxBudget';
 import ButtonService from './ButtonService';
+import TypeVehicleIcons from './TypeVehicleIcons';
 import Searchbar from './Searchbar';
 import axios from 'axios';
 import FilterActive from './filterActive';
@@ -98,6 +99,18 @@ export default function BudgetAll() {
                 IdName='budget_id'
                 onRedirect={onRedirect}
                 columnsName={columnsName} //nombres originales de la tabla
+                renderCell={(column, rowData) => {
+                  if (column === 'plate') {
+                    const typeIcon = <TypeVehicleIcons TypeVehicle={rowData.vehicle_type} />;
+                    return (
+                      <div className="flex items-center">
+                        {typeIcon}
+                        <span className="ml-4">{rowData[column]}</span>
+                      </div>
+                    );
+                  }
+                  return rowData[column];
+                }}
               />
             </div>
           )}

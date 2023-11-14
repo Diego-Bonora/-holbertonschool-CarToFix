@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import NavBar from './NavBar';
 import DataBox from './DataBox';
 import NewBudgetButton from './NewBudgetButton';
+import TypeVehicleIcons from './TypeVehicleIcons';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 
@@ -31,6 +32,7 @@ export default function Vehicle_history() {
         const filterHistory = res.data.services.map(item => ({
           created_at: item.created_at,
           description: item.description,
+          type: res.data.type,
         }));
         sethistoryData(filterHistory);
         console.log('historial', filterHistory);
@@ -92,7 +94,19 @@ export default function Vehicle_history() {
               <div className='h-full w-full mx-9'>
                 <DataBox columns={columns}
                 info={historyData}
-                columnsName={columnsName}/>
+                columnsName={columnsName}
+                renderCell={(column, rowData) => {
+                  if (column === 'created_at') {
+                    const typeIcon = <TypeVehicleIcons TypeVehicle={rowData.type} />;
+                    return (
+                      <div className="flex items-center">
+                        {typeIcon}
+                        <span className="ml-4">{rowData[column]}</span>
+                      </div>
+                    );
+                  }
+                  return rowData[column];
+                }}/>
               </div>
             )}
 
