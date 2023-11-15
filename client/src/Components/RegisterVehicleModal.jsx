@@ -7,17 +7,19 @@ import MessageZone from './MessageZone';
 export default function RegisterVehicleModal({ display, checkClient, modalState, clientExiste, actualClient, plate }) {
 
 
-	let userId = 'bc625955-0b33-4eec-837f-110619845a6c'
+	let userId = 'f777bb61-f93a-4f91-9f33-7f57168e7b25'
 	let baseURL = 'http://127.0.0.1:5000'
 
 	let [newVehicleSubmited, setNewVehicleSubmited] = useState(false)
 	const [clientData, setClientData] = useState([])
+
 	let [type, setType] = useState([])
 
 
 	useEffect(() => {
 		setClientData(actualClient);
 		console.log("theres an ACTUAL CLIENT ON REGISTER", actualClient)
+		localStorage.setItem('client_id', actualClient.id)
 	}, actualClient)
 
 	let clientCreated = false
@@ -146,6 +148,7 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 				console.log(response);
 				clientCreated = true
 				cliResponse = response
+				localStorage.setItem('client_id', response.data.id)
 			})
 			.catch(function (error) {
 				console.log(error);
@@ -223,6 +226,7 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 		console.log("actual client sumbmited on create ", actualClient);
 		console.log("actual type of vehicle on create ", actualTypeOfVehicle);
 
+
 		let client_id = actualClient[0].id
 		let type_vehicle_id = localStorage.getItem('tyID');
 		let brand_id = localStorage.getItem('brandId');
@@ -252,6 +256,7 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 				.then(function (response) {
 					console.log(response);
 					localStorage.setItem('vehicle_id', response.data.id)
+					localStorage.setItem('client_id', response.data.client_is)
 					console.log("vehicle created", response.data.id)
 
 				})

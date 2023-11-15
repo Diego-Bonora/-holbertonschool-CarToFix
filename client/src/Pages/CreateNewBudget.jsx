@@ -21,7 +21,7 @@ export default function CreateNewBudget() {
 	let plateChecked = false
 	let clientExist = false
 
-	let userId = 'bc625955-0b33-4eec-837f-110619845a6c'
+	let userId = 'f777bb61-f93a-4f91-9f33-7f57168e7b25'
 
 
 	let baseURL = 'http://127.0.0.1:5000/'
@@ -33,7 +33,7 @@ export default function CreateNewBudget() {
 				const clients = res.data
 				console.log("clients", clients)
 				const clientONBase = clients.filter((client) => client.name === clientName)
-				console.log("search result", clientONBase)
+				console.log("client search result", clientONBase)
 				if (clientONBase != 0) {
 					clientExist = true
 					setClientRetRegistered(true)
@@ -46,6 +46,7 @@ export default function CreateNewBudget() {
 					clientExist = false
 					setClientRetRegistered(false)
 					console.log("client exist: ", clientExist)
+
 				}
 
 			})
