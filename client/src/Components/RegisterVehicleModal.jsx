@@ -358,13 +358,13 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 													</div>
 
 												</div>
-									
+
 												<p className="text-sm text-gray-500 mt-3">Ingresa los datos del nuevo vehículo</p>
 												<div className='flex flex-col-2 justify-between'>
 													<label className=" font-black mr-2 mt-3 " for="plate">Matricula</label>
 
 													<div className='flex flex-row-reverse w-1/2'>
-														<input className='bg-[#B4D1D3]  text-right w-3/4 h-full px-6 mt-2' type='text' id='' name="plate" value={plate} onChange={onFormChange} onFocus={() => createClient} placeholder='XXX-0000' ></input>
+														<input className='bg-[#B4D1D3]  text-right w-3/4 h-full px-6 mt-2' type='text' id='' name="plate" value={plate} onChange={onFormChange} placeholder='XXX-0000' ></input>
 													</div>
 
 												</div>
@@ -372,7 +372,7 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 													<label className=" mr-2 mt-3 " for="viehicle_type">Tipo de vehiculo</label>
 
 													<div className='flex flex-row-reverse w-1/2'>
-														<input className='bg-[#B4D1D3]  text-right w-3/4 h-full px-6 mt-2' type='text' id='vehicle_type' name="vehicle_type" value={formVehicleClientData.vehicle_type} onChange={onFormChange} placeholder='auto, moto, camión' ></input>
+														<input className='bg-[#B4D1D3]  text-right w-3/4 h-full px-6 mt-2' type='text' id='vehicle_type' name="vehicle_type" value={formVehicleClientData.vehicle_type} onChange={onFormChange} onFocus={() => createClient} placeholder='auto, moto, camión' ></input>
 													</div>
 
 												</div>
