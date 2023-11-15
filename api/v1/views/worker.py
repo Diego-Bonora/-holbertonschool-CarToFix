@@ -13,7 +13,6 @@ def check(dgnee):
         return 409
     return 0
 
-
 @app_views.route("/worker/<dsgnId>/services", methods=["GET"])
 def get_designee(dsgnId):
     """ Returns all the Services for a specific Designee """
@@ -23,14 +22,12 @@ def get_designee(dsgnId):
 
     return jsonify(dgnee), 200
 
-
 @app_views.route("/worker", methods=["GET"])
 def get_all_designee():
     """ Returns all the known Workers """
     dgnee = [worker.to_dict() for worker in storage.all(Worker)]
 
     return jsonify(dgnee), 200
-
 
 @app_views.route("/worker", methods=["POST"])
 def create_designee():
@@ -41,6 +38,7 @@ def create_designee():
 
     if "name" not in krgs:
         abort(400, {"error": "name is missing”"})
+
 
     worker = Worker(**krgs)
 

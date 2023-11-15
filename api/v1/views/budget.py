@@ -22,7 +22,6 @@ def call_send(budget):
     if budget.confirmed == False:
         emailer.send(storage.get(Client, budget.client_id), budget=budget)
 
-
 def create_service(krgs, vehicle, user):
     """ Create a service object """
     needed = ["price", "title"]
@@ -31,7 +30,7 @@ def create_service(krgs, vehicle, user):
 
     for arg in needed:
         if arg not in krgs:
-            abort(400, {"error": f"{arg} missing"})
+    	    abort(400, {"error": f"{arg} missing"})
 
     krgs["vehicle_id"] = vehicle
     krgs["user_id"] = user
@@ -41,13 +40,11 @@ def create_service(krgs, vehicle, user):
     storage.save()
     return new_srv
 
-
 def bdgt_dict_generator(bdgt):
     """ Generates the dictioary for a single budget object """
     vehicle = storage.get(Vehicle, bdgt.vehicle_id)
 
-    services = bdgt.services if isinstance(
-        bdgt.services, list) else [bdgt.services]
+    services = bdgt.services if isinstance(bdgt.services, list) else [bdgt.services]
     bdict = {
         "brand": storage.get(Brand, vehicle.brand).name,
         "vehicle_type": storage.get(TypeVehicle, vehicle.type_vehicle_id).name,
@@ -59,10 +56,9 @@ def bdgt_dict_generator(bdgt):
         "sent": bdgt.sent,
         "confirmed": bdgt.active,
         "active": bdgt.confirmed
-    }
-
+        }
+    
     return bdict
-
 
 @app_views.route("/budget/<bdgtId>/services", methods=["GET"])
 def get_budget_services(bdgtId):
@@ -102,27 +98,26 @@ def get_all_budgets(usrId):
 def create_budget():
     """ Creates a Budget object """
     krgs = request.get_json()
-    needed = ["total_price", "payment_method", "user_id",
-              "installments", "warranty", "vehicle_id", "client_id", "services"]
+    needed = ["total_price", "payment_method", "user_id", "installments", "warranty", "vehicle_id", "client_id", "services"]
     if not krgs:
         abort(400, {"error": "Couldn’t get request; not a json"})
 
     for arg in needed:
         if arg not in krgs or (arg == "services" and len(krgs["services"]) == 0):
             abort(400, {"error": f"{arg} missing"})
+        if "confirmed" in krgs and not krgs["confirmed"]:
+            if all(not b.confirmed for b in storage.all(Budget).values() if b.client_id == krgs["client_id"] and b.user_id == krgs["user_id"]):
+                abort(409, {"error": "Cannot create more pending budgets for the same costumer"})
 
     vehicle = storage.get(Vehicle, krgs["vehicle_id"])
     if vehicle.client_id != krgs["client_id"]:
-        abort(
-            409, {"error": "The provided client does not posses the provided vehicle"})
+        abort(409, {"error": "The provided client does not posses the provided vehicle"})
     if vehicle.user_id != krgs["user_id"]:
-        abort(
-            409, {"error": "The provided user does not posses the provided vehicle"})
+        abort(409, {"error": "The provided user does not posses the provided vehicle"})
 
     services = []
     for service in krgs["services"]:
-        services.append(create_service(
-            service, krgs["vehicle_id"], krgs["user_id"]))
+        services.append(create_service(service, krgs["vehicle_id"], krgs["user_id"]))
 
     del krgs["services"]
     new_bdgt = Budget(**krgs)
@@ -148,8 +143,7 @@ def delete_budget(bdgtId):
         abort(409, {"error": f"Budget: {bdgtId} is already finished"})
 
     client = storage.get(Client, bdgt.client_id)
-    msg = Emailer.message(
-        bdgt, client, sub="Subject: Your prev budget have been deleted!\n\n")
+    msg = Emailer.message(bdgt, client, sub="Subject: Your prev budget have been deleted!\n\n")
     emailer.send(client, msg=msg)
 
     storage.delete(bdgt)
@@ -161,8 +155,7 @@ def delete_budget(bdgtId):
 def update_budget(bdgtId):
     """ Updates a budget object """
     bdgt = storage.get(Budget, bdgtId)
-    services = bdgt.services if isinstance(
-        bdgt.services, list) else [bdgt.services]
+    services = bdgt.services if isinstance(bdgt.services, list) else [bdgt.services]
 
     if not bdgt:
         abort(404, {"error": f"Budget: {bdgtId} not found"})
@@ -182,8 +175,7 @@ def update_budget(bdgtId):
     bdgt.active = False
 
     client = storage.get(Client, bdgt.client_id)
-    msg = Emailer.message(
-        bdgt, client, sub="Subject: Your prev budget have been updated!\n\n")
+    msg = Emailer.message(bdgt, client, sub="Subject: Your prev budget have been updated!\n\n")
     emailer.send(client, msg=msg)
 
     storage.save()

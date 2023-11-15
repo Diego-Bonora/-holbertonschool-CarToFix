@@ -18,7 +18,6 @@ def get_veh_dict(vehicle):
     vehd["budgets"] = [bdgt.to_dict() for bdgt in vehicle.budgets]
     return vehd
 
-
 def check(vehicle):
     """ Carries out some checks of validation """
     if vehicle.plate in [v.plate for v in storage.all(Vehicle).values() if v.user_id == vehicle.user_id]:
@@ -26,8 +25,6 @@ def check(vehicle):
     return 0
 
 # Mixed routes:
-
-
 @app_views.route("/vehicle/<veId>/budget", methods=["GET"])
 def get_vehicle_budgets(veId):
     """ Returns all the Budget objects for a specific Vehicle """
@@ -41,19 +38,18 @@ def get_vehicle_budgets(veId):
 @app_views.route("/vehicle/plate/<plate>/budget", methods=["GET"])
 def get_vehicle_budgets_by_plate(plate):
     """ Returns all the Budget objects for a specific Vehicle """
-    vehicle = next((veh for veh in storage.all(
-        Vehicle).values() if veh.plate == plate), None)
+    vehicle = next((veh for veh in storage.all(Vehicle).values() if veh.plate == plate), None)
     if not vehicle:
         abort(404, {"error": f"Vehicle {plate} not found"})
 
     btds = []
     for bdgt in vehicle.budgets:
         btd = {
-            "vehicle_type": storage.get(TypeVehicle, vehicle.type_vehicle_id).name,
-            "created": bdgt.created_at,
-            "total": bdgt.total_price,
-            "id": bdgt.id
-        }
+                "vehicle_type": storage.get(TypeVehicle, vehicle.type_vehicle_id).name,
+                "created": bdgt.created_at,
+                "total": bdgt.total_price,
+                "id": bdgt.id
+                }
         btds.append(btd)
 
     return jsonify(btds), 200
@@ -83,8 +79,7 @@ def uget_vehicle(veId):
 @app_views.route("/vehicle/plate/<plate>", methods=["GET"])
 def get_by_plate(plate):
     """ Return the resquested Vehicle object if found """
-    vehicle = next((veh for veh in storage.all(
-        Vehicle).values() if veh.plate == plate), None)
+    vehicle = next((veh for veh in storage.all(Vehicle).values() if veh.plate == plate), None)
     if vehicle:
         return jsonify(get_veh_dict(vehicle)), 200
 
@@ -94,8 +89,7 @@ def get_by_plate(plate):
 @app_views.route("/vehicle/user/<usrId>", methods=["GET"])
 def get_all_vehicles(usrId):
     """ Returns all the Vehicle objects """
-    vehs = [get_veh_dict(veh) for veh in storage.all(
-        Vehicle).values() if veh.user_id == usrId]
+    vehs = [get_veh_dict(veh) for veh in storage.all(Vehicle).values() if veh.user_id == usrId]
 
     return jsonify(vehs), 200
 
@@ -104,8 +98,7 @@ def get_all_vehicles(usrId):
 def create_vehicle():
     """ Create a Vehicle object """
     krgs = request.get_json()
-    needed = ["plate", "brand", "model", "color", "mileage",
-              "user_id", "client_id", "type_vehicle_id"]
+    needed = ["plate", "brand", "model", "color", "mileage", "user_id", "client_id", "type_vehicle_id"]
 
     if not krgs:
         abort(400, {"error": "Couldn’t get request; not a json"})
@@ -133,17 +126,16 @@ def delete_vehicle(veId):
 
     return jsonify(""), 204
 
-
 @app_views.route("/vehicle/<veId>", methods=["PUT"])
 def update_vehicle(veId):
     """ Updates a vehicle object """
     vehicle = storage.get(Vehicle, veId)
     if not vehicle:
-        abort(404, {"error": f"Vehicle: {veId} not found"})
+    	abort (404, {"error": f"Vehicle: {veId} not found"})
 
     krgs = request.get_json()
     if not krgs:
-        abort(400, {"error": "Couldn’t get request; not a json"})
+    	abort(400, {"error": "Couldn’t get request; not a json"})
 
     not_keys = ["id", "brand", "model", "user_id", "type_vehicle_id"]
     for key, value in krgs.items():

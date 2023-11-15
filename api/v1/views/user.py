@@ -13,7 +13,6 @@ def check(user):
         return 409
     return 0
 
-
 @app_views.route("/usr/<usrId>", methods=["GET"])
 def get_user(usrId):
     """Returns a specific User"""
