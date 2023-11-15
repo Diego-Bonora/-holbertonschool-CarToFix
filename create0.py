@@ -24,7 +24,7 @@ client = Client(name="ET", phone="3802348", email="emanueltrias9@gmail.com")
 brand = Brand(name="tha_brand")
 brand2 = Brand(name="brand-on")
 user = User(name="CarToFix", mail="cartofixcostumers@gmail.com",
-            password="wrong pass", phone="598984982", logo="logeishon")
+            password="wrong pass", phone="598984982")
 
 # Save user instance before referencing it in other instances
 storage.new(user)
@@ -141,9 +141,9 @@ client2 = Client(name="Pablo", phone="fdadsfadsf8",
                  email="emanueltrias9@gmail.com")
 # USERS
 user1 = User(name="Auto-destroy", mail="autodestroy@gmail.com",
-             password=hashed_password, phone="592222284982", logo="logeisbbhon")
+             password=hashed_password, phone="592222284982")
 user2 = User(name="Skynet", mail="emanueltrias9@gmail.com",
-             password=hashed_password, phone="22284982", logo="lisbbhon")
+             password=hashed_password, phone="22284982")
 # VEHICLES
 vehicle = Vehicle(plate="FADSF987es", brand=brand.id, model="tha_model2", color="krasni", mileage=22931,
                   user_id=user1.id, client_id=client1.id, type_vehicle_id=veh_type.id)
@@ -230,9 +230,9 @@ client2 = Client(name="Hozier", phone="nidealaverdad",
                  email="emanueltrias9@gmail.com")
 # USERS
 user1 = User(name="Wheelson", mail="wheelson@gmail.com",
-             password=hashed_password, phone="((9dsa", logo="LOGOASFASD")
+             password=hashed_password, phone="((9dsa")
 user2 = User(name="Icecream shop", mail="icecream@gmail.com",
-             password=hashed_password, phone="22889900", logo="http:/JYSHshnxFAIEU")
+             password=hashed_password, phone="22889900")
 # VEHICLES
 vehicle = Vehicle(plate="25**2", brand=brand.id, model="unregistered", color="malaria", mileage=22931,
                   user_id=user1.id, client_id=client1.id, type_vehicle_id=veh_type.id)
