@@ -31,7 +31,7 @@ export default function Services() {
   let filteredServiceData;
 
   const baseURL = 'http://127.0.0.1:5000';
-  const usrId = localStorage.getItem('userID')
+  const usrId = JSON.parse(localStorage.getItem('userID'));
   console.log("userId in service:", usrId);
   useEffect(() => {
     if (usrId) {
@@ -45,7 +45,7 @@ export default function Services() {
             active: item.active,
             vehId: item.vehId,
             vehType: item.vehType,
-          }, [usrId]));
+          }));
 
           setServiceData(filteredData);
           setInitial(filteredData); {/* Guarda la copia */ }
@@ -95,12 +95,16 @@ export default function Services() {
     console.log(`boton: ${id}`)
     navigate(`/details/${id}`);
   }
-
+  const logOut = () => {
+    console.log("entro")
+    localStorage.removeItem('userID')
+    window.location.href = "/";
+  }
 
   return (
     <>
       <div className='w-screen h-screen bg-page_background'>
-        <NavBar />
+        <NavBar logOut={logOut}/>
         <div className='mr-marg-1 lg:ml-marg-4 ml-marg-1 mt-16 font-bold text-black flex items-center justify-between'>
           <h1 className='text-7xl font-black'>Servicios</h1>
           <div className='flex-1 flex h-20 items-center space-x-4 justify-end'>

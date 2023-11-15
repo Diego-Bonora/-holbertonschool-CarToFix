@@ -27,7 +27,7 @@ export default function BudgetAll() {
   const [searchQuery, setSearchQuery] = useState('');
 
   const baseURL = 'http://127.0.0.1:5000';
-  const usrId = localStorage.getItem('userID');
+  const usrId = JSON.parse(localStorage.getItem('userID'));
   console.log("userId in budget:", usrId);
 
   useEffect(() => {
@@ -50,7 +50,7 @@ export default function BudgetAll() {
       .catch(error => {
         console.error('Error fetching data:', error);
       });
-  }, [usrId]);
+  });
 
   const handleSearch = (query) => {
     setSearchQuery(query);
@@ -74,10 +74,15 @@ export default function BudgetAll() {
     navigate(`/specificbudget/${id}`);
   }
 
+  const logOut = () => {
+    console.log("entro")
+    localStorage.removeItem('userID')
+    window.location.href = "/";
+  }
   return (
     <>
       <div className='w-screen h-screen bg-page_background'>
-        <NavBar />
+        <NavBar logOut={logOut}/>
         <div className='mr-marg-1 lg:ml-marg-4 ml-marg-1 mt-14 font-bold text-black flex items-center justify-between'>
           <h1 className='lg:text-7xl text-5xl font-black'>Presupuestos</h1>
           <div className='flex-1 flex items-center space-x-4 justify-end'>

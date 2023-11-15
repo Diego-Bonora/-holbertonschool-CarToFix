@@ -9,6 +9,7 @@ import Vehicle from './Components/Vehicle';
 import Service from './Components/Service';
 import BudgetAll from "./Components/BudgetAll";
 import SpecificBudget from "./Components/SpecificBudget";
+import CreateNewBudget from "./Pages/CreateNewBudget"
 
 function App() {
 
@@ -26,6 +27,7 @@ function App() {
 					<Route path="/service" element={<Service />} />
 					<Route path="/budgets" element={<BudgetAll />} />
 					<Route path="/specificbudget/:id" element={<SpecificBudget />} />
+					<Route path="/NewBudget" element={<CreateNewBudget />} />
 				</Routes>
 
 			</BrowserRouter>

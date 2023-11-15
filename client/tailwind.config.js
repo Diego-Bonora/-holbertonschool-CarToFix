@@ -21,6 +21,7 @@ export default {
 				'gris-background': '#C5C5C5',
 				'orange-claro': '#E83600',
 				'orange-oscuro': '#E81806',
+				'tabla_service': '#E8E6E6'
 			},
 			height: {
 				'bloque': '98%',
@@ -28,10 +29,13 @@ export default {
 				'info_vehiculo': '15%',
 				'info_history': '55%',
 				'info_history_2': '45%',
+				'info_history_3': '65%',
 			},
 			width: {
 				'list': '85%',
 				'list-1': '80%',
+				'info_detalles': '72%',
+				'info_detalles_mini': '95%',
 			},
 			fontFamily: {
 				'Inter': ['Inter', 'sans'],
@@ -46,9 +50,11 @@ export default {
 				'marg-1': '8%',
 				'marg-2': '15%',
 				'marg-3': '4%',
-				'marg-4': '10%',
-				'marg-5': '30%',
+				'marg-4': '15%',
+				'marg-5': '22%',
 				'marg-6': '20%',
+				'marg_detalles': '23%',
+				'marg_detalles2': '5%',
 			},
 			borderRadius: {
 				'header_border': '20px',
@@ -61,5 +67,6 @@ export default {
 			},
 		},
 	},
-	plugins: [],
+	plugins: [
+	],
 }
