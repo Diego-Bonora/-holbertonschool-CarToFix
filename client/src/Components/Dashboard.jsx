@@ -82,8 +82,8 @@ export default function Dashboard() {
       .then((res) => {
         setDashboardData(res.data)
         console.log("dashboard data", dashboardData)
-        let services = Object.values(dashboardData.active)
-        if (services.length > 0) {
+        if (dashboardData.active && Object.keys(dashboardData.active).length > 0) {
+          let services = Object.values(dashboardData.active)
           setServicesData(services)
         } else {
           setServicesData([{
@@ -95,7 +95,7 @@ export default function Dashboard() {
         let arrServiceTitle = []
 
         let budgets = []
-        if ((Object.values(dashboardData.budgets).length > 0)) {
+        if (dashboardData.budgets && Object.keys(dashboardData.budgets).length > 0) {
           budgets = Object.values(dashboardData.budgets)
           arrServiceTitle = budgets.services
           let strTitle = truncateServicesTitles(arrServiceTitle, 20)
@@ -154,14 +154,8 @@ export default function Dashboard() {
             </div>
             {/* BOTON NUEVO PRESUPUESTO */}
           </div >
-
-
-
-
-
         </div >
       </div >
-
     </>
   )
 }
