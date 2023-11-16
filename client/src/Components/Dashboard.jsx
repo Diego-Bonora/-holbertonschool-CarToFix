@@ -22,6 +22,7 @@ export default function Dashboard() {
 	const serviceColumnsNames = ['Matricula', 'Descripcion'];
 	const budgetColumns = ['plate', 'created', 'services'];
 	const budgetColumnsNames = ['Matricula', 'ingresado', 'Servicios'];
+	const [budgetId, setBudgetId] = useState([])
 
 
 	const baseURL = 'http://127.0.0.1:5000'
@@ -39,6 +40,7 @@ export default function Dashboard() {
 			plate: "",
 			created: "",
 			services: "",
+			id: ""
 		}]);
 
 
@@ -48,7 +50,7 @@ export default function Dashboard() {
 	const truncateServicesTitles = (arr, lNum) => {
 		if (arr) {
 
-			let stringedArray = arr.join(',  ')
+			let stringedArray = arr.join(', ')
 			console.log("JOIN", stringedArray)
 			if (stringedArray.length > lNum) {
 				return stringedArray.slice(0, lNum) + '... '
@@ -76,7 +78,7 @@ export default function Dashboard() {
 	useEffect(() => {
 
 		updating = setInterval(updateData, updateTime)
-	})
+	}, [window.onload])
 
 
 
@@ -93,7 +95,7 @@ export default function Dashboard() {
 
 					setDashboardData(res.data)
 					console.log("dashboard data", dashboardData)
-					let services = Object.values(dashboardData.active)
+					let services = dashboardData.active
 					if (services.length > 0) {
 
 						setServicesData(services)
@@ -111,11 +113,15 @@ export default function Dashboard() {
 				if ((Object.values(dashboardData.budgets).length > 0)) {
 
 					budgets = Object.values(dashboardData.budgets)
-					arrServiceTitle = budgets[0].services
 					console.log("services", arrServiceTitle)
-					let strTitle = truncateServicesTitles(arrServiceTitle, 20)
-					budgets[0].services = strTitle
+					budgets.map((b) => {
+						let newServices = truncateServicesTitles(b.services, 15)
+						b.services = newServices
+					})
+
 					setBudgetData(budgets)
+					setBudgetId(Object.values(budgets).map((b) => b.id))
+					console.log("budgets ids", budgetId)
 				} else {
 					budgets = [{
 						plate: " ",
@@ -128,6 +134,7 @@ export default function Dashboard() {
 
 	}, [document.readyState, update]
 	)
+
 
 
 	return (
@@ -167,11 +174,11 @@ export default function Dashboard() {
 							</div>
 							<div>
 
-								<div className="principal p-2 mt-10 md:x-92 flex flex-col bg-[#09B6C2] rounded-lg md:max-w-[800px] h-[200px] ">
+								<div className="principal p-2 mt-10 md:x-92 flex flex-col bg-[#09B6C2] rounded-lg md:max-w-[800px] h-[280px] ">
 									<div className="title h-10">
 										<h3 className='text-2xl font-black text-center text-white p-1'>Confirmaciones Recientes</h3>
 									</div>
-									<Confirmation columns={budgetColumns} info={budgetData} titles={budgetColumnsNames} />
+									<Confirmation columns={budgetColumns} info={budgetData} titles={budgetColumnsNames} ids={budgetId} />
 								</div>
 								<div className="flex justify-end mt-5">
 
