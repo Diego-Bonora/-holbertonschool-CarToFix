@@ -34,7 +34,7 @@ export default function Confirmation({ info, columns, titles, ids }) {
 									<td
 
 										key={indexcol}
-										className={`p-2 sm:px-3 md:px-4 align-middle  md:text-base text-sm gap-8
+										className={`p-2 sm:px-3 md:px-4 align-middle  md:text-base text-sm gap-8  border-y-indigo-500
 									${indexcol === 0 ? ' rounded-tl-2xl rounded-bl-2xl bg-gris-footer border-r-2' : indexcol === columns.length - 1 ? ' rounded-tr-2xl rounded-br-2xl bg-gris-footer border-l-2' : ''} 
 									${indexcol === Math.floor(columns.length / 2) ? 'bg-gris-footer' : ''}`}
 									>

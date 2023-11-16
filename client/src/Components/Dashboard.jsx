@@ -4,7 +4,7 @@ import DashboardDataBox from './DashboardDataBox'
 import DataFrame from './DataFrame'
 import NewBudgetButton from './NewBudgetButton'
 import TitleBox from './TitleBox'
-import axios from "axios"
+import axios, { all } from "axios"
 import { useState } from 'react'
 import { useEffect } from 'react'
 import NavBar from './NavBar'
@@ -23,6 +23,7 @@ export default function Dashboard() {
 	const budgetColumns = ['plate', 'created', 'services'];
 	const budgetColumnsNames = ['Matricula', 'ingresado', 'Servicios'];
 	const [budgetId, setBudgetId] = useState([])
+	const [serviceIds, setSserviceIds] = useState([])
 
 
 	const baseURL = 'http://127.0.0.1:5000'
@@ -89,6 +90,7 @@ export default function Dashboard() {
 	const [dashboardData, setDashboardData] = useState([])
 
 	useEffect(() => {
+
 		axios.get(`${baseURL}/api/v1/dashboard/${userId}`)
 			.then((res) => {
 				if (res) {
@@ -99,6 +101,11 @@ export default function Dashboard() {
 					if (services.length > 0) {
 
 						setServicesData(services)
+						console.log("active services", services)
+						let allservices = services.map((s) => s.budget)
+						setSserviceIds(allservices)
+						console.log("services id", allservices)
+
 					} else {
 						setServicesData([{
 							plate: " ",
@@ -121,6 +128,7 @@ export default function Dashboard() {
 
 					setBudgetData(budgets)
 					setBudgetId(Object.values(budgets).map((b) => b.id))
+
 					console.log("budgets ids", budgetId)
 				} else {
 					budgets = [{
@@ -167,7 +175,7 @@ export default function Dashboard() {
 									</div>
 
 
-									<DashboardDataBox columns={serviceColumns} info={servicesData} titles={serviceColumnsNames} />
+									<DashboardDataBox columns={serviceColumns} info={servicesData} titles={serviceColumnsNames} ids={serviceIds} />
 
 								</div>
 
