@@ -4,6 +4,7 @@
 
 from api.v1.views import app_views
 from flask import abort, jsonify, request
+from models.brand import Brand
 from models.budget import Budget
 from models.client import Client
 from models.mailer.Emailer import Emailer
@@ -45,6 +46,7 @@ def bdgt_dict_generator(bdgt):
 
     services = bdgt.services if isinstance(bdgt.services, list) else [bdgt.services]
     bdict = {
+        "brand": storage.get(Brand, vehicle.brand).name,
         "vehicle_type": storage.get(TypeVehicle, vehicle.type_vehicle_id).name,
         "created": bdgt.created_at,
         "total": bdgt.total_price,
@@ -103,6 +105,9 @@ def create_budget():
     for arg in needed:
         if arg not in krgs or (arg == "services" and len(krgs["services"]) == 0):
             abort(400, {"error": f"{arg} missing"})
+        if "confirmed" in krgs and not krgs["confirmed"]:
+            if all(not b.confirmed for b in storage.all(Budget).values() if b.client_id == krgs["client_id"] and b.user_id == krgs["user_id"]):
+                abort(409, {"error": "Cannot create more pending budgets for the same costumer"})
 
     vehicle = storage.get(Vehicle, krgs["vehicle_id"])
     if vehicle.client_id != krgs["client_id"]:
@@ -174,6 +179,27 @@ def update_budget(bdgtId):
     emailer.send(client, msg=msg)
 
     storage.save()
-
     return jsonify(bdgt_dict_generator(bdgt)), 200
 
+
+@app_views.route("/budget/confirm/<bdgtId>", methods=["PUT"])
+def conf_budget(bdgtId):
+    """ Updates a budget object """
+    bdgt = storage.get(Budget, bdgtId)
+    if bdgt.confirmed:
+        abort(409, {"error": f"Budget: {bdgtId} is already confirmed"})
+
+    for k, v in krgs.items():
+        if k == "active":
+            setattr(bdgt, k, v)
+
+    bdgt.confirmed = True
+
+    client = storage.get(Client, bdgt.client_id)
+    msg = "Subject: Rejected!\n\n Your budget was rejected succesfully!\n"
+    if not bdgt.active:
+        msg = "Subject: Approved!\n\n Your budget was approved succesfully!\n"
+    emailer.send(client, msg=msg)
+
+    storage.save()
+    return jsonify(bdgt_dict_generator(bdgt)), 200

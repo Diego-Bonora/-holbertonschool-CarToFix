@@ -115,6 +115,10 @@ def delete_service(scId):
     	abort(404, {"error": f"Service: {veId} instance not found"})
 
     budget = storage.get(Budget, service.budget_id)
+    services = budget.services if isinstance(budget.services, list) else [budget.services]
+    if len(services) == 1:
+        abort(403, {"error": f"Cannot delete the unique service of a budget, please use budget DELETE instead"})
+
     storage.delete(service)
     storage.save()
 

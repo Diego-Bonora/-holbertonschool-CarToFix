@@ -7,7 +7,7 @@ import MessageZone from './MessageZone';
 export default function RegisterVehicleModal({ display, checkClient, modalState, clientExiste, actualClient, plate }) {
 
 
-	let userId = 'f777bb61-f93a-4f91-9f33-7f57168e7b25'
+	let userId = 'cf3240a0-62b8-4f61-ad03-45d2011cb719'
 	let baseURL = 'http://127.0.0.1:5000'
 
 	let [newVehicleSubmited, setNewVehicleSubmited] = useState(false)
@@ -232,6 +232,7 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 		let brand_id = localStorage.getItem('brandId');
 		console.log("actual brand of vehicle on create ", brand_id);
 		console.log("type_vehicle ID LOCAL STORAGE", type_vehicle_id)
+		console.log("actual client  LOCAL STORAGE", actualClient)
 		if (newData) {
 
 			let vdata = newData.map((e) => JSON.parse(JSON.stringify({

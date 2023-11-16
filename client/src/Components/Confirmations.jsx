@@ -6,7 +6,7 @@ export default function Confirmation({ info, columns, titles }) {
 		<>
 			<div className='col-span-1  flex-col  bg-[#FFF] rounded-b-lg overflow-y-scroll overflow-x-hidden md:h-[240px]'>
 
-				<table className="text-black w-full bg-white ml-5 mt-3">
+				<table className="text-black w-full bg-white ml-8 mt-3">
 					<thead>
 						<tr className="w-screen bg-gris-footer ">
 							{titles.map((title, index) => (

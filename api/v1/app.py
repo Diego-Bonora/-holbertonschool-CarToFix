@@ -25,7 +25,6 @@ def run_emailer():
             emailer.read()
         except Exception as e:
             print(e)
-            print("Emailer error: User CarToFix probably not set correctly")
             os._exit(1)
 
 # Start the emailer thread
@@ -38,7 +37,7 @@ def close(E):
     """Calls storage.close() when server stops"""
     storage.close()
 
-print("version: 1.35")
+print("version: 1.4")
 
 
 if __name__ == "__main__":

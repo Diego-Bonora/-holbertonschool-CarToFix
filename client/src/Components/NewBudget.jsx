@@ -15,7 +15,7 @@ import { object } from 'prop-types';
 
 export default function NewBudget({ checkPlateRegistration, actualClient }) {
 
-	let userId = 'f777bb61-f93a-4f91-9f33-7f57168e7b25'
+	let userId = 'cf3240a0-62b8-4f61-ad03-45d2011cb719'
 
 
 	let baseURL = 'http://127.0.0.1:5000/'
@@ -105,7 +105,7 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
 	}
 
 	const createBudget = (budgetToSend, via) => {
-		console.log('enviaríamos el BUDGET')
+		console.log('about to send BUDGET')
 		axios.post(`${baseURL}/api/v1/budget`, budgetToSend, {
 			headers: {
 				Accept: 'application/json',
@@ -131,8 +131,8 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
 
 	const handeleFinalSubmit = (event) => {
 		event.preventDefault();
-		let client_id = actualClient[0].id
-		console.log('client id on SUBMIT', client_id)
+		let client_id = localStorage.getItem('client_id')
+		console.log('client id on SUBMIT', actualClient.id)
 		console.log("client on ACTUAL CLIENT", actualClient)
 		let vehicle_id = localStorage.getItem('vehicle_id')
 

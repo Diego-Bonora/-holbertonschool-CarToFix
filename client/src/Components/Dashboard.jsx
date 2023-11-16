@@ -47,18 +47,16 @@ export default function Dashboard() {
 
 	const truncateServicesTitles = (arr, lNum) => {
 		if (arr) {
-			let stringOfTitles = ''
-			arr.map((service) => {
-				stringOfTitles += service.title + ', ';
-			});
-			console.log("join on truncate", stringOfTitles)
-			if (stringOfTitles.length > lNum) {
-				return stringOfTitles.slice(0, lNum) + '... ';
+
+			let stringedArray = arr.join(',  ')
+			console.log("JOIN", stringedArray)
+			if (stringedArray.length > lNum) {
+				return stringedArray.slice(0, lNum) + '... '
 			} else {
-				return stringOfTitles.join(" - ");
+				return stringedArray
 			}
-		}
-	};
+		} else { return "sin servios" }
+	}
 	// generating the updating interval
 
 	const updateTime = 120 * 1000
@@ -85,7 +83,7 @@ export default function Dashboard() {
 
 	// Get all data from API
 
-	let userId = 'f777bb61-f93a-4f91-9f33-7f57168e7b25'
+	let userId = 'cf3240a0-62b8-4f61-ad03-45d2011cb719'
 	const [dashboardData, setDashboardData] = useState([])
 
 	useEffect(() => {
@@ -113,10 +111,10 @@ export default function Dashboard() {
 				if ((Object.values(dashboardData.budgets).length > 0)) {
 
 					budgets = Object.values(dashboardData.budgets)
-					arrServiceTitle = budgets.services
+					arrServiceTitle = budgets[0].services
+					console.log("services", arrServiceTitle)
 					let strTitle = truncateServicesTitles(arrServiceTitle, 20)
-					console.log("primer join services", strTitle)
-					budgets.services = strTitle
+					budgets[0].services = strTitle
 					setBudgetData(budgets)
 				} else {
 					budgets = [{
