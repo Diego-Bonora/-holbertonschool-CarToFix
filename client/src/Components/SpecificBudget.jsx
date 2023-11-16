@@ -42,6 +42,7 @@ export default function SpecificBudget() {
           title: item.title,
           description: item.description,
           done: item.done,
+          ids: item.id,
         }));
 
         setHistoryData(filterHistory);
@@ -105,9 +106,9 @@ export default function SpecificBudget() {
     }
   };
 
-  const handleButton = (id) => {
-    console.log(`boton: ${id}`)
-    navigate(`/details/${id}`);
+  const handleButton = (ids) => {
+    console.log(`boton: ${ids}`);
+    navigate(`/modal/${ids}`);
   }
 
   return (
@@ -148,10 +149,15 @@ export default function SpecificBudget() {
             </div>
           ) : (
             <div className='hover:overflow-y-scroll h-full w-full ml-9'>
-            <DataBoxBudget columns={columns} info={filteredData} toggleDone={toggleDone}
-            SeeClick={handleButton} IdName='serviceId'
-            onRedirect={onRedirect}
-            columnsName={columnsName}/>
+            <DataBoxBudget
+              columns={columns}
+              info={filteredData}
+              toggleDone={toggleDone}
+              SeeClick={handleButton}  // Asegúrate de pasar solo el serviceId aquí
+              IdName='ids'       // Asegúrate de pasar el nombre correcto del prop para el ID
+              onRedirect={onRedirect}
+              columnsName={columnsName}
+            />
           </div>
           )}
         </div>
