@@ -148,7 +148,10 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 				console.log(response);
 				clientCreated = true
 				cliResponse = response
-				localStorage.setItem('client_id', response.data.id)
+				localStorage.setItem('client_id', cliResponse.data.id)
+				console.log("CC client on base", cliResponse.data.id)
+				console.log("CC client on localStorage", localStorage.getItem('client_id'))
+
 			})
 			.catch(function (error) {
 				console.log(error);
@@ -378,7 +381,7 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 													<label className=" mr-2 mt-3 " for="viehicle_type">Tipo de vehiculo</label>
 
 													<div className='flex flex-row-reverse w-1/2'>
-														<input className='bg-[#B4D1D3]  text-right w-3/4 h-full px-6 mt-2' type='text' id='vehicle_type' name="vehicle_type" value={formVehicleClientData.vehicle_type} onChange={onFormChange} onFocus={() => createClient} placeholder='auto, moto, camión' ></input>
+														<input className='bg-[#B4D1D3]  text-right w-3/4 h-full px-6 mt-2' type='text' id='vehicle_type' name="vehicle_type" value={formVehicleClientData.vehicle_type} onChange={onFormChange} onFocus={() => createClient()} placeholder='auto, moto, camión' ></input>
 													</div>
 
 												</div>

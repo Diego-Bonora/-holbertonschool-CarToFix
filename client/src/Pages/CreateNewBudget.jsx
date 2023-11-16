@@ -70,6 +70,7 @@ export default function CreateNewBudget() {
 						plateChecked = true
 						console.log("platechecked ", plateChecked)
 						console.log("plate regsitred state ", plateRegistered)
+						console.log("Client regsitred ", localStorage.getItem('vlient_id'))
 
 						return res.data
 					} else {
