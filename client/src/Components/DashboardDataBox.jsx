@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-export default function DashboardDataBox({ info, columns }) {
+export default function DashboardDataBox({ info, columns, titles }) {
 	return (
 		<>
 			<div className='col-span-1 flex flex-col bg-[#FFF] rounded-b-lg overflow-y-scroll overflow-x-hidden h-[300px] w-full '>
@@ -11,13 +11,13 @@ export default function DashboardDataBox({ info, columns }) {
 
 
 						<tr className="w-screen bg-gris-footer">
-							{columns.map((column, index) => (
+							{titles.map((title, index) => (
 								<th
 									key={index}
 									className={`p-3 align-middle flex-row justify-around md:text-lg text-base
 						${index === 0 ? 'rounded-tl-2xl rounded-bl-2xl border-r-2' : index === columns.length - 1 ? 'rounded-tr-2xl rounded-br-2xl border-l-2' : ''}`}
 								>
-									{column}
+									{title}
 								</th>
 							))}
 						</tr><div className='mb-3'></div>

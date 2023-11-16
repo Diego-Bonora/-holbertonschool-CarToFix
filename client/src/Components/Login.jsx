@@ -34,7 +34,7 @@ const Login = () => {
       // Handle the data in the response
       console.log('Response data:', response.data);
       localStorage.setItem('userID', JSON.stringify(response.data));
-      if (response.status === 201){
+      if (response.status === 200){
         window.location.href = "/home"
       }
     })

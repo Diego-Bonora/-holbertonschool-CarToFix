@@ -12,12 +12,14 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 
 	let [newVehicleSubmited, setNewVehicleSubmited] = useState(false)
 	const [clientData, setClientData] = useState([])
+
 	let [type, setType] = useState([])
 
 
 	useEffect(() => {
 		setClientData(actualClient);
 		console.log("theres an ACTUAL CLIENT ON REGISTER", actualClient)
+		localStorage.setItem('client_id', actualClient.id)
 	}, actualClient)
 
 	let clientCreated = false
@@ -146,6 +148,7 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 				console.log(response);
 				clientCreated = true
 				cliResponse = response
+				localStorage.setItem('client_id', response.data.id)
 			})
 			.catch(function (error) {
 				console.log(error);
@@ -223,11 +226,13 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 		console.log("actual client sumbmited on create ", actualClient);
 		console.log("actual type of vehicle on create ", actualTypeOfVehicle);
 
-		let client_id = actualClient.id
+
+		let client_id = actualClient[0].id
 		let type_vehicle_id = localStorage.getItem('tyID');
 		let brand_id = localStorage.getItem('brandId');
 		console.log("actual brand of vehicle on create ", brand_id);
 		console.log("type_vehicle ID LOCAL STORAGE", type_vehicle_id)
+		console.log("actual client  LOCAL STORAGE", actualClient)
 		if (newData) {
 
 			let vdata = newData.map((e) => JSON.parse(JSON.stringify({
@@ -251,8 +256,9 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 			})
 				.then(function (response) {
 					console.log(response);
-					localStorage.setItem('vehicle_id', jsresponse.data[0].id)
-					console.log("vehicle created", response.data[0].id)
+					localStorage.setItem('vehicle_id', response.data.id)
+					localStorage.setItem('client_id', response.data.client_id)
+					console.log("vehicle created", response.data.id)
 
 				})
 				.catch(function (error) {
@@ -288,9 +294,9 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 							.then(function (response) {
 								console.log("response from brand CREATE", response.data);
 								let id = response.data.id
-								localStorage.setItem('brandId', response.data.id);
-								console.log("brand id created ", localStorage.getItem('brandId'))
-								
+								localStorage.setItem('brandId', id);
+								console.log("brand id created ", id)
+								localStorage.setItem('brandId', id);
 
 							})
 							.catch(function (error) {
@@ -358,13 +364,13 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 													</div>
 
 												</div>
-									
+
 												<p className="text-sm text-gray-500 mt-3">Ingresa los datos del nuevo vehículo</p>
 												<div className='flex flex-col-2 justify-between'>
 													<label className=" font-black mr-2 mt-3 " for="plate">Matricula</label>
 
 													<div className='flex flex-row-reverse w-1/2'>
-														<input className='bg-[#B4D1D3]  text-right w-3/4 h-full px-6 mt-2' type='text' id='' name="plate" value={plate} placeholder='XXX-0000' ></input>
+														<input className='bg-[#B4D1D3]  text-right w-3/4 h-full px-6 mt-2' type='text' id='' name="plate" value={plate} onChange={onFormChange} placeholder='XXX-0000' ></input>
 													</div>
 
 												</div>
@@ -372,7 +378,7 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 													<label className=" mr-2 mt-3 " for="viehicle_type">Tipo de vehiculo</label>
 
 													<div className='flex flex-row-reverse w-1/2'>
-														<input className='bg-[#B4D1D3]  text-right w-3/4 h-full px-6 mt-2' type='text' id='vehicle_type' name="vehicle_type" onChange={onFormChange} onFocus={() => createClient}  value={formVehicleClientData.vehicle_type} placeholder='auto, moto, camión'  ></input>
+														<input className='bg-[#B4D1D3]  text-right w-3/4 h-full px-6 mt-2' type='text' id='vehicle_type' name="vehicle_type" value={formVehicleClientData.vehicle_type} onChange={onFormChange} onFocus={() => createClient} placeholder='auto, moto, camión' ></input>
 													</div>
 
 												</div>

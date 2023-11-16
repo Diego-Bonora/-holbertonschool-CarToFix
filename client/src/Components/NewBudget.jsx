@@ -105,7 +105,7 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
 	}
 
 	const createBudget = (budgetToSend, via) => {
-		console.log('enviaríamos el BUDGET')
+		console.log('about to send BUDGET')
 		axios.post(`${baseURL}/api/v1/budget`, budgetToSend, {
 			headers: {
 				Accept: 'application/json',
@@ -132,7 +132,8 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
 	const handeleFinalSubmit = (event) => {
 		event.preventDefault();
 		let client_id = localStorage.getItem('client_id')
-		console.log('client id on SUBMIT', client_id)
+		console.log('client id on SUBMIT', actualClient.id)
+		console.log("client on ACTUAL CLIENT", actualClient)
 		let vehicle_id = localStorage.getItem('vehicle_id')
 
 		// building each service on budget

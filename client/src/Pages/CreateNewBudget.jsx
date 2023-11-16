@@ -33,7 +33,7 @@ export default function CreateNewBudget() {
 				const clients = res.data
 				console.log("clients", clients)
 				const clientONBase = clients.filter((client) => client.name === clientName)
-				console.log("search result", clientONBase)
+				console.log("client search result", clientONBase)
 				if (clientONBase != 0) {
 					clientExist = true
 					setClientRetRegistered(true)
@@ -46,9 +46,13 @@ export default function CreateNewBudget() {
 					clientExist = false
 					setClientRetRegistered(false)
 					console.log("client exist: ", clientExist)
+
 				}
+
 			})
+
 	}
+
 
 	const checkPlateRegistration = (plate) => {
 		console.log("on ckecking plate")
@@ -84,8 +88,15 @@ export default function CreateNewBudget() {
 					setPlateRetRegistered(false);
 				}
 				)
+
+
+
 		}
+
 	}
+
+
+
 
 	const modalState = (displayModal, callback) => {
 		if (displayModal === 'active') {
