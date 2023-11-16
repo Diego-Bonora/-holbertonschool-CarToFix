@@ -7,7 +7,6 @@ from models.type_vehicle import TypeVehicle
 from models import storage
 
 
-
 def check(tyveh):
     """ Checks for the previous existence of a TypeVehicle """
     for kind in storage.all(TypeVehicle).values():
@@ -19,7 +18,8 @@ def check(tyveh):
 @app_views.route("/type/name/<name>", methods=["GET"])
 def get_type_by_name(name):
     """ Returns a specific TypeVehicle object by name """
-    vehtype = next((vt for vt in storage.all(TypeVehicle).values() if vt.name == name), None)
+    vehtype = next((vt for vt in storage.all(
+        TypeVehicle).values() if vt.name == name), None)
     if not vehtype:
         abort(404, {"error": f"TypeVehicle {name} not found"})
 
@@ -54,7 +54,7 @@ def create_type():
 
     for arg in ["name"]:
         if arg not in krgs:
-    	    abort(400, {"error": f"{arg} missing"})
+            abort(400, {"error": f"{arg} missing"})
 
     new_type = TypeVehicle(**krgs)
     if check(new_type) == 0:
@@ -82,14 +82,14 @@ def update_type(tId):
     """ Updates a specific TypeVehicle object """
     typev = storage.get(TypeVehicle, tId)
     if not typev:
-        abort (404, {"error": f"Type: {type_name} not found"})
+        abort(404, {"error": f"Type: {type_name} not found"})
 
     krgs = request.get_json()
     if not krgs:
-    	abort(400, {"error": "Couldn’t get request; not a json"})
+        abort(400, {"error": "Couldn’t get request; not a json"})
 
     for key, value in krgs.items():
-    	if key == "name":
+        if key == "name":
             setattr(typev, key, value)
 
     storage.save()
