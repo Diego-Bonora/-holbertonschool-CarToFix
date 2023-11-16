@@ -49,9 +49,11 @@ class Emailer():
         body += f"Dear {client.name},\n\n"
         body += f"We would like you to confirm or reject the following budget:\n"
 
+        dontadd = ["id", "created_at", "__class__", "sent", "active", "vehicle_id", "confirmed", "services", "user_id", "client_id"]
+
         # Format budget details
         for key, value in budget.to_dict().items():
-            if key not in ["id", "__class__", "sent", "active", "vehicle_id", "confirmed", "services", "user_id", "client_id"]:
+            if key not in dontadd:
                 formatted_key = " ".join(key.split("_"))
                 body += f"\t{formatted_key}: {value}\n"
 
@@ -62,7 +64,7 @@ class Emailer():
         for service in services:
             body += "\n"
             for key, value in service.to_dict().items():
-                if key not in ["id", "user_id", "done", "vehicle_id", "budget_id", "__class__", "worker", "created_at"]:
+                if key not in ["done", "budget_id", "worker"] and key not in dontadd:
                     formatted_key = " ".join(key.split("_"))
                     body += f"\t{formatted_key}: {value}\n"
 
@@ -171,6 +173,9 @@ class Emailer():
                 continue
     
             print("Budget found...")
+            if "ok" in msg["body"].lower() and "no" in msg["body"].lower():
+                print("Body contains ok and no, not able to understand")
+                self.send(sender, msg=come_again)
     
             if bdgt.confirmed:
                 print(sender.name, "tried to re-confirm")
