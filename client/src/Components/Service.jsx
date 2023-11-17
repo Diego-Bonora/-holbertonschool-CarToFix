@@ -93,12 +93,16 @@ export default function Services() {
     console.log(`boton: ${id}`)
     navigate(`/details/${id}`);
   }
-
+  const handleLogOut = () => {
+    console.log("entro")
+    localStorage.removeItem('userID')
+    window.location.href = "/";
+  }
 
   return (
     <>
       <div className='w-screen h-screen bg-page_background'>
-        <NavBar />
+        <NavBar logOut={handleLogOut} />
         <div className='mr-marg-1 lg:ml-marg-4 ml-marg-1 mt-16 font-bold text-black flex items-center justify-between'>
           <h1 className='text-7xl font-black'>Servicios</h1>
           <div className='flex-1 flex h-20 items-center space-x-4 justify-end'>

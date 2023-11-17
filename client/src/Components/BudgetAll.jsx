@@ -72,11 +72,15 @@ export default function BudgetAll() {
     console.log(`boton: ${id}`)
     navigate(`/specificbudget/${id}`);
   }
-
+  const handleLogOut = () => {
+    console.log("entro")
+    localStorage.removeItem('userID')
+    window.location.href = "/";
+  }
   return (
     <>
       <div className='w-screen h-screen bg-page_background'>
-        <NavBar />
+        <NavBar logOut={handleLogOut} />
         <div className='mr-marg-1 lg:ml-marg-4 ml-marg-1 mt-14 font-bold text-black flex items-center justify-between'>
           <h1 className='lg:text-7xl text-5xl font-black'>Presupuestos</h1>
           <div className='flex-1 flex items-center space-x-4 justify-end'>

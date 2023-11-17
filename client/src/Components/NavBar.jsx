@@ -32,9 +32,9 @@ export default function NavBar({ logOut }) {
         </div>
         <nav className={`mr-20 md:flex md:justify-end md:gap-4 md:w-2/5 md:static top-[80px] fixed bg-cian-oscuro/95 w-full h-full flex flex-col items-center justify-center left-0 md:flex-row text-2xl rounded-bl-full transition-transform duration-200 ease-in-out
         ${menuOpen ? 'block' : 'hidden'}`}>
-          <Link to='/vehicle' className='w-48 h-10 md:bg-azul-oscuro inline-block rounded text-center py-2 text-white md:text-base md:font-medium md:shadow-[0_4px_9px_-4px_#3b71ca] md:hover:bg-shadow_header md:hover:text-white'>Vehículos</Link>
-          <Link to='/budgets' className='w-48 h-10 md:bg-azul-oscuro inline-block rounded text-center text-white py-2 md:text-base font-medium md:shadow-[0_4px_9px_-4px_#3b71ca] md:hover:bg-shadow_header md:hover:text-white'>Presupuestos</Link>
-          <Link to='/Service' className='w-48 h-10 md:bg-azul-oscuro inline-block rounded text-center text-white py-2 md:text-base font-medium md:shadow-[0_4px_9px_-4px_#3b71ca] md:hover:bg-shadow_header md:hover:text-white'>Servicios</Link>
+          <Link to='/vehicle' className='w-48 h-10 md:bg-azul-oscuro inline-block rounded text-center py-2 text-white md:text-base md:font-medium md:shadow-[0_4px_9px_-4px_#3b71ca] md:hover:bg-shadow_header md:hover:text-white' >Vehículos</Link>
+          <Link to='/budgets' className='w-48 h-10 md:bg-azul-oscuro inline-block rounded text-center text-white py-2 md:text-base font-medium md:shadow-[0_4px_9px_-4px_#3b71ca] md:hover:bg-shadow_header md:hover:text-white' >Presupuestos</Link>
+          <Link to='/Service' className='w-48 h-10 md:bg-azul-oscuro inline-block rounded text-center text-white py-2 md:text-base font-medium md:shadow-[0_4px_9px_-4px_#3b71ca] md:hover:bg-shadow_header md:hover:text-white' >Servicios</Link>
           <FaBars className='text-black w-8 h-8' onClick={toggleDropdown} />
           {dropdown && (<div className='absolute mt-1 shadow-md rounded translate-y-full'> <button className='w-48 h-10 md:bg-azul-oscuro inline-block rounded text-center text-white py-2 md:text-base font-medium md:shadow-[0_4px_9px_-4px_#3b71ca] md:hover:bg-shadow_header md:hover:text-white mt-1' onClick={logOut}>Cerrar sesion</button> </div>)}
         </nav>
