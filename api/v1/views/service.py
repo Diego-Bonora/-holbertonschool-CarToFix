@@ -10,6 +10,7 @@ from models.service import Service
 from models import storage
 from models.type_vehicle import TypeVehicle
 from models.vehicle import Vehicle
+from models.workers import Worker
 
 
 emailer = Emailer()
@@ -39,7 +40,9 @@ def get_service(scId):
     if not service:
         abort (404)
 
-    return jsonify(service.to_dict()), 200
+    sd = service.to_dict()
+    sd["worker"] = storage.get(Service, service.worker).name
+    return jsonify(sd), 200
 
 
 @app_views.route("/service/user/<usrId>", methods=["GET"])
