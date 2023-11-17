@@ -4,6 +4,7 @@ import DataBoxBudget from './DataBoxBudget';
 import axios from 'axios';
 import FilterService from './FilterService';
 import { useParams, useNavigate } from 'react-router-dom';
+import DetailsModal from './DetailsModal';
 
 export default function SpecificBudget() {
 
@@ -106,15 +107,22 @@ export default function SpecificBudget() {
     }
   };
 
+  const [ShowModal, setShowModal] = useState(false)
+  const [idss, setIdss] = useState(null);
   const handleButton = (ids) => {
     console.log(`boton: ${ids}`);
-    navigate(`/modal/${ids}`);
+    setShowModal(true);
+    setIdss(ids);
+    console.log('loggg', ids);
   }
 
   return (
     <>
       <div className='w-screen h-screen bg-page_background'>
         <NavBar />
+        {ShowModal && (
+          <DetailsModal onClose={() => setShowModal(false)} ids={idss} />
+        )}
         <div className='flex lg:ml-marg-4 ml-marg-1 mt-marg-3'>
           <div className='bg-tabla_service lg:w-info_detalles w-info_detalles_mini flex flex-wrap h-28 rounded-r-lg shadow-md shadow-gray-300'>
             <div className='border border-azul-oscuro flex flex-col justify-start w-3/12 h-full'>

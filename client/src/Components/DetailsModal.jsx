@@ -3,15 +3,16 @@ import React, { useEffect, useState } from "react";
 import { useParams } from 'react-router-dom';
 import { FaTimes } from 'react-icons/fa';
 
-export default function DetailsModal() {
+export default function DetailsModal({onClose, ids}) {
 
-  const { serviceId } = useParams();
+  
+  console.log('ids', ids);
   const [ModalData, setModalData] = useState([]);
   const baseURL = 'http://127.0.0.1:5000';
   
   useEffect (() => {
-    console.log('idfjfjke', serviceId);
-    axios.get(`${baseURL}/api/v1/service/${serviceId}`)
+    console.log('idfjfjke', ids);
+    axios.get(`${baseURL}/api/v1/service/${ids}`)
     .then((res) => {
       console.log('model', res.data);
       // Verifica si res.data es un objeto
@@ -31,7 +32,7 @@ export default function DetailsModal() {
     .catch((error) => {
       console.error("Error fetching data:", error);
     });
-}, [serviceId]);
+}, [ids]);
 
     return (
       <div>
@@ -40,7 +41,7 @@ export default function DetailsModal() {
             <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
               <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0 h-96">
                 <div className="bg-white border-8 border-cian-oscuro relative transform overflow-hidden rounded-lg text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg h-96">
-                
+                <button onClick={onClose}>salir</button>
                   <h2 className='text-2xl font-black mt-9 text-center'>Matricula</h2>
                   <div className="mx-9 mt-16">
                     <div className='flex flex-col-2 justify-between items-center'>
