@@ -7,7 +7,7 @@ import MessageZone from './MessageZone';
 export default function RegisterVehicleModal({ display, checkClient, modalState, clientExiste, actualClient, plate }) {
 
 
-	let userId = 'cf3240a0-62b8-4f61-ad03-45d2011cb719'
+	let userId = '41773914-50d2-4ef0-802c-e4491da388c2'
 	let baseURL = 'http://127.0.0.1:5000'
 
 	let [newVehicleSubmited, setNewVehicleSubmited] = useState(false)
@@ -224,6 +224,7 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
 	}
 
 	const createVehicle = (newData) => {
+		checkClient(formVehicleClientData.name)
 		console.log("creating vehicle")
 		console.log("data sumbmited on create ", newData);
 		console.log("actual client sumbmited on create ", actualClient);

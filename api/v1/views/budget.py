@@ -105,9 +105,9 @@ def create_budget():
     for arg in needed:
         if arg not in krgs or (arg == "services" and len(krgs["services"]) == 0):
             abort(400, {"error": f"{arg} missing"})
-        if "confirmed" in krgs and not krgs["confirmed"]:
-            if all(not b.confirmed for b in storage.all(Budget).values() if b.client_id == krgs["client_id"]):
-                abort(409, {"error": "Cannot create more pending budgets for the same costumer"})
+
+    if not all(b.confirmed for b in storage.all(Budget).values() if b.client_id == krgs["client_id"]):
+        abort(409, {"error": "Cannot create more pending budgets for the same costumer"})
 
     vehicle = storage.get(Vehicle, krgs["vehicle_id"])
     if vehicle.client_id != krgs["client_id"]:

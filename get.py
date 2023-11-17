@@ -15,8 +15,8 @@ print("User:", [b.user_id for b in storage.all(Budget).values() if storage.get(
 print("Vehicle:", [c.id for c in storage.all(Vehicle).values() if storage.get(
     Client, c.client_id).email == "emanueltrias9@gmail.com"][0])
 
-# for u in storage.all(User).values():
-#     if u.mail == "cartofixcostumers@gmail.com":
-#         u.password = ""
+for u in storage.all(User).values():
+    if u.mail == "cartofixcostumers@gmail.com":
+        u.password = ""
 
 storage.save()

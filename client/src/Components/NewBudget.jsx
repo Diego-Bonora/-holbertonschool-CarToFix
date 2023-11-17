@@ -15,7 +15,7 @@ import { object } from 'prop-types';
 
 export default function NewBudget({ checkPlateRegistration, actualClient }) {
 
-	let userId = 'cf3240a0-62b8-4f61-ad03-45d2011cb719'
+	let userId = '41773914-50d2-4ef0-802c-e4491da388c29'
 
 
 	let baseURL = 'http://127.0.0.1:5000/'
@@ -132,7 +132,7 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
 	const handeleFinalSubmit = (event) => {
 		event.preventDefault();
 		let client_id = localStorage.getItem('client_id')
-		console.log('client id on SUBMIT', actualClient.id)
+		console.log('client id on SUBMIT', actualClient[0].id)
 		console.log("client on ACTUAL CLIENT", actualClient)
 		let vehicle_id = localStorage.getItem('vehicle_id')
 

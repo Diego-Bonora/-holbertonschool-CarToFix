@@ -1,48 +1,42 @@
 {
-  "hash": "d2e67a51",
-  "browserHash": "996ff435",
+  "hash": "d10c5267",
+  "browserHash": "52b72cdd",
   "optimized": {
     "react": {
       "src": "../../node_modules/react/index.js",
       "file": "react.js",
-      "fileHash": "ecffa45c",
+      "fileHash": "c6d16073",
       "needsInterop": true
     },
     "react-dom/client": {
       "src": "../../node_modules/react-dom/client.js",
       "file": "react-dom_client.js",
-      "fileHash": "12c73c4b",
+      "fileHash": "e36f534d",
       "needsInterop": true
     },
     "react-router-dom": {
       "src": "../../node_modules/react-router-dom/dist/index.js",
       "file": "react-router-dom.js",
-      "fileHash": "56a6f124",
-      "needsInterop": false
-    },
-    "axios": {
-      "src": "../../node_modules/axios/index.js",
-      "file": "axios.js",
-      "fileHash": "64ad5d13",
-      "needsInterop": false
-    },
-    "react-icons/fa": {
-      "src": "../../node_modules/react-icons/fa/index.esm.js",
-      "file": "react-icons_fa.js",
-      "fileHash": "a61bd83e",
+      "fileHash": "5903c2c1",
       "needsInterop": false
     },
     "react-select/creatable": {
       "src": "../../node_modules/react-select/creatable/dist/react-select-creatable.esm.js",
       "file": "react-select_creatable.js",
-      "fileHash": "6932d835",
+      "fileHash": "35c5bebe",
       "needsInterop": false
     },
     "prop-types": {
       "src": "../../node_modules/prop-types/index.js",
       "file": "prop-types.js",
-      "fileHash": "861869e9",
+      "fileHash": "8d3ae96c",
       "needsInterop": true
+    },
+    "axios": {
+      "src": "../../node_modules/axios/index.js",
+      "file": "axios.js",
+      "fileHash": "30e18bfa",
+      "needsInterop": false
     }
   },
   "chunks": {
