@@ -87,4 +87,4 @@ def signin():
     if not bcrypt.check_password_hash(user.password, krgs["password"]):
         return jsonify(""), 401
 
-    return jsonify(user.id), 201
+    return jsonify(user.id), 200
