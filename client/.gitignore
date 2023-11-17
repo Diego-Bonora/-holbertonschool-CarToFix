@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+node_modules/
+__pycache__/
+*.json
+.vscode/
+node_modules/
+.vite/
