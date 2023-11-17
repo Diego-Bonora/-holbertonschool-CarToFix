@@ -19,9 +19,7 @@ export default function DashboardDataBox({ info, columns, titles, ids }) {
               {titles.map((title, index) => (
                 <th
                   key={index}
-                  className={`p-3 align-middle flex-row justify-around md:text-lg text-base ${index === 0 ? 'rounded-tl-2xl rounded-bl-2xl border-r-2' : index === columns.length - 1 ? 'rounded-tr-2xl rounded-br-2xl border-l-2' : ''
-                    }`}
-                >
+                  className={`p-3 align-middle flex-row justify-around md:text-lg text-base ${index === 0 ? 'rounded-tl-2xl rounded-bl-2xl border-r-2' : index === columns.length - 1 ? 'rounded-tr-2xl rounded-br-2xl border-l-2' : ''}`}>
                   {title}
                 </th>
               ))}
@@ -35,8 +33,7 @@ export default function DashboardDataBox({ info, columns, titles, ids }) {
                   <td
                     key={indexcol}
                     className={`p-2 sm:px-8 px-5 align-middle md:text-base text-sm ${indexcol === 0 ? 'rounded-tl-2xl rounded-bl-2xl bg-gris-footer border-r-2' : indexcol === columns.length - 1 ? 'rounded-tr-2xl rounded-br-2xl bg-gris-footer border-l-2' : ''
-                      } ${indexcol === Math.floor(columns.length / 2) ? 'bg-gris-footer' : ''}`}
-                  >
+                      } ${indexcol === Math.floor(columns.length / 2) ? 'bg-gris-footer' : ''}`}>
                     {data[column]}
                   </td>
                 ))}

@@ -10,6 +10,7 @@ import Service from './Components/Service';
 import BudgetAll from "./Components/BudgetAll";
 import SpecificBudget from "./Components/SpecificBudget";
 import DetailsModal from "./Components/DetailsModal";
+import CreateNewBudget from "./Pages/CreateNewBudget";
 
 function App() {
 
@@ -28,6 +29,7 @@ function App() {
 					<Route path="/budgets" element={<BudgetAll />} />
 					<Route path="/specificbudget/:id" element={<SpecificBudget />} />
 					<Route path="/modal/:serviceId" element={<DetailsModal />} />
+					<Route path="/NewBudget" element={<CreateNewBudget />} />
 				</Routes>
 
 			</BrowserRouter>

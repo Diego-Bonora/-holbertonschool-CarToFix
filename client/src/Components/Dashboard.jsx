@@ -154,7 +154,7 @@ export default function Dashboard() {
                 <div className="title h-10">
                   <h3 className='text-2xl font-black text-center text-white p-1'>Confirmaciones Recientes</h3>
                 </div>
-                <Confirmation columns={budgetColumns} info={budgetData} />
+                <Confirmation columns={budgetColumns} info={budgetData} titles={budgetColumnsNames} ids={budgetId} />
               </div>
               <div className="flex justify-end mt-5">
                 <NewBudgetButton className="flex justify-end" />
