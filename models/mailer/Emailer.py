@@ -6,15 +6,14 @@ and class Emailer() handles the emails
 
 from datetime import datetime
 import email
-from email.header import decode_header
 from email.utils import parseaddr
+import logging
 import imaplib
+import smtplib
 from models.budget import Budget
 from models.client import Client
 from models import storage
 from models.user import User
-from models.vehicle import Vehicle
-import smtplib
 
 
 class Emailer():
@@ -47,7 +46,7 @@ class Emailer():
             body += sub
 
         body += f"Dear {client.name},\n\n"
-        body += f"We would like you to confirm or reject the following budget:\n"
+        body += "We would like you to confirm or reject the following budget:\n"
 
         dontadd = ["id", "created_at", "__class__", "sent", "active", "vehicle_id", "confirmed", "services", "user_id", "client_id"]
 
@@ -69,14 +68,14 @@ class Emailer():
                     body += f"\t{formatted_key}: {value}\n"
 
         # Instructions for approval and rejection
-        body += f"\nTo approve it please reply:\n\tok\n"
-        body += f"To refuse it please reply:\n\tno\n"
+        body += "\nTo approve it please reply:\n\tok\n"
+        body += "To refuse it please reply:\n\tno\n"
         body += "\nPlease make sure the body of the response contains ONLY 'ok' or 'no'\n"
 
         return body
 
     def send(self, client, budget=None, msg=None):
-
+        """ Sends a message to a client """
         try:
             self.connect()
 
@@ -94,7 +93,7 @@ class Emailer():
                 body = msg
 
             self.mail.sendmail(self.user.mail, client.email, body)
-            
+
             if budget:
                 budget.sent = True
 
@@ -116,7 +115,7 @@ class Emailer():
             mail.select("inbox")
 
             # Search for all emails in the inbox
-            status, messages = mail.search(None, "ALL")
+            _, messages = mail.search(None, "ALL")
             messages = messages[0].split()
             email_list = []
 
@@ -154,30 +153,30 @@ class Emailer():
     def __prcmsgs(self, msgs):
         """ Process the messages """
         come_again = "Subject: Please try again\n\nResponse not understood, read the instructions in the confirmation mail and try again"
-    
+
         for msg in msgs:
             msg["body"] = msg["body"].split("\r\n")[0]
-    
+
             # If the sender is a client
             print(msg)
             sender = next((client for client in storage.all(Client).values() if client.email == msg["sender"]), None)
             if not sender:
                 print("Sender:", msg["sender"], "not a costumer")
                 continue
-    
+
             bdgts = [b for b in storage.all(Budget).values() if b.client_id == sender.id]
             bdgt = max(bdgts, key=lambda x: x.created_at if not x.confirmed else datetime.min)
-    
+
             if not bdgt:
                 print(sender.name, "has no budget to confirm")
                 self.send(sender, msg="Subject: Please try again later\n\nNo budget to confirm was found")
                 continue
-    
+
             print("Budget found...")
             if "ok" in msg["body"].lower() and "no" in msg["body"].lower():
                 print("Body contains ok and no, not able to understand")
                 self.send(sender, msg=come_again)
-    
+
             if bdgt.confirmed:
                 print(sender.name, "tried to re-confirm")
                 self.send(sender, msg="Subject: Can't re-confirm\n\nBudget already confirmed, try again later or reach out to the workshop")
@@ -196,7 +195,6 @@ class Emailer():
             else:
                 print("Not able to understand:", msg["body"])
                 self.send(sender, msg=come_again)
-    
+
         storage.save()
         return msgs
-    

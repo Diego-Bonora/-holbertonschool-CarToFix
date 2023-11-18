@@ -1,11 +1,11 @@
 #!/usr/bin/python3
 """ This module contains the view for dashboard """
 
+from datetime import datetime
+from datetime import timedelta
 from api.v1.views import app_views
 from flask import abort, jsonify
 from models.budget import Budget
-from datetime import datetime
-from datetime import timedelta
 from models.service import Service
 from models import storage
 from models.user import User
@@ -22,7 +22,7 @@ def dashboard(usrId):
 
     # Adds the user's name
     res["user_name"] = user.name
-    
+
     # Adds the required information of servicess
     res["active"] = []
     for service in user.services:
@@ -36,7 +36,7 @@ def dashboard(usrId):
     # Adds the required information of latest active budgets
     res["budgets"] = []
     allbdgts = [bdgt for bdgt in storage.all(Budget).values() if bdgt.user_id == usrId]
-    last = [bdgt for bdgt in allbdgts if bdgt.confirmed == True and datetime.utcnow() - bdgt.created_at <= timedelta(days=3)]
+    last = [bdgt for bdgt in allbdgts if bdgt.confirmed and datetime.utcnow() - bdgt.created_at <= timedelta(days=3)]
     for bdgt in last:
         bdgts = {
                 "id": bdgt.id,
@@ -47,13 +47,13 @@ def dashboard(usrId):
         res["budgets"].append(bdgts)
 
     # Adds the required stat informations
-    if allbdgts and type([b.vehicles for b in allbdgts][0]) == list:
+    if allbdgts and isinstance([b.vehicles for b in allbdgts][0], list):
         vehicles = [vehicle for b in allbdgts for vehicle in b.vehicles]
     else:
         vehicles = [b.vehicles for b in allbdgts]
 
-    res["onhold"] = len([bdgt for bdgt in allbdgts if bdgt.confirmed == False])
-    res["active_budgets"] = len([bdgt for bdgt in allbdgts if bdgt.confirmed == True])
+    res["onhold"] = len([bdgt for bdgt in allbdgts if not bdgt.confirmed])
+    res["active_budgets"] = len([bdgt for bdgt in allbdgts if bdgt.confirmed])
     res["vehicles_total"] = len(vehicles)
 
     return jsonify(res), 200

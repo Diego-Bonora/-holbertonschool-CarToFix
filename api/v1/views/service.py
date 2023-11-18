@@ -10,12 +10,12 @@ from models.service import Service
 from models import storage
 from models.type_vehicle import TypeVehicle
 from models.vehicle import Vehicle
-from models.workers import Worker
 
 
 emailer = Emailer()
 
 def custom_get_serv(all_servs):
+    """ Returns a list of custom dictionary of services """
     servs = []
 
     for serv in all_servs:
@@ -68,14 +68,15 @@ def update_dwn_service(scId):
     services = budget.services if isinstance(budget.services, list) else [budget.services]
 
     for key, value in krgs.items():
-        if key == "done" and value == True or key in ["worker", "done"]:
+        if key == "done" and value or key == "worker":
             setattr(service, key, value)
     storage.save()
 
-    if budget.active == True and all(service.done for service in services):
+    if budget.active and all(service.done for service in services):
         budget.active = False
-        emailer.send(storage.get(Client, new_bdgt.client_id), msg="Subject: Your car is ready!\n\nYour car is ready! Please reach out to the mechanical workshop")
+        emailer.send(storage.get(Client, budget.client_id), msg="Subject: Your car is ready!\n\nYour car is ready! Please reach out to the mechanical workshop")
 
+    storage.save()
     return jsonify(service.to_dict()), 200
 
 
@@ -115,12 +116,12 @@ def delete_service(scId):
     """ Deletes a service """
     service = storage.get(Service, scId)
     if not service:
-    	abort(404, {"error": f"Service: {veId} instance not found"})
+        abort(404, {"error": f"Service: {scId} instance not found"})
 
     budget = storage.get(Budget, service.budget_id)
     services = budget.services if isinstance(budget.services, list) else [budget.services]
     if len(services) == 1:
-        abort(403, {"error": f"Cannot delete the unique service of a budget, please use budget DELETE instead"})
+        abort(403, {"error": "Cannot delete the unique service of a budget, please use budget DELETE instead"})
 
     storage.delete(service)
     storage.save()
