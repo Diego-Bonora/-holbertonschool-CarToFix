@@ -2,6 +2,7 @@
 import React from 'react';
 
 export default function DataBoxBudget({ info, columns,SeeClick, IdName, onRedirect, toggleDone, columnsName, renderCell}) {
+  
   return (
 
     <table className="text-black mb-5 mt-14 w-full ">

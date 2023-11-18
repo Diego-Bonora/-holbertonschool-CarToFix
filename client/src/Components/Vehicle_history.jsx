@@ -4,10 +4,16 @@ import DataBox from './DataBox';
 import NewBudgetButton from './NewBudgetButton';
 import TypeVehicleIcons from './TypeVehicleIcons';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
-
+import { useParams, useNavigate } from 'react-router-dom';
+import DetailsModal from './DetailsModal';
 
 export default function Vehicle_history() {
+
+  const navigate = useNavigate();
+  const onRedirect = (path) => {
+    console.log('redireccion', path);
+    navigate(path);
+  }
 
   const { id } = useParams();
   console.log('ID de la ruta:', id);
@@ -33,6 +39,7 @@ export default function Vehicle_history() {
           created_at: item.created_at,
           description: item.description,
           type: res.data.type,
+          ids: item.id,
         }));
         sethistoryData(filterHistory);
         console.log('historial', filterHistory);
@@ -52,11 +59,22 @@ export default function Vehicle_history() {
 
   }, [vehId]);
 
+  const [ShowModal, setShowModal] = useState(false)
+  const [idss, setIdss] = useState();
+  const handleButton = (ids) => {
+    console.log(`boton: ${ids}`);
+    setShowModal(true);
+    setIdss(ids);
+    console.log('loggg', ids);
+  }
   
     return (
 		<>
         <div className='w-screen h-screen bg-page_background'>
             <NavBar />
+            {ShowModal && (
+          <DetailsModal onClose={() => setShowModal(false)} ids={idss} />
+        )}
             {/* info del vehiculo y matricula*/}
             <div className='bg-tabla_service lg:mr-marg-5 mr-marg-1 lg:ml-marg-4 ml-marg-1 mt-marg-3 flex flex-wrap h-info_vehiculo rounded-r-lg shadow-md shadow-gray-300' >
               {/* matricula general */}
@@ -95,6 +113,9 @@ export default function Vehicle_history() {
                 <DataBox columns={columns}
                 info={historyData}
                 columnsName={columnsName}
+                SeeClick={handleButton}
+                IdName='ids'
+                onRedirect={onRedirect}
                 renderCell={(column, rowData) => {
                   if (column === 'created_at') {
                     const typeIcon = <TypeVehicleIcons TypeVehicle={rowData.type} />;

@@ -27,7 +27,7 @@ export default function BudgetAll() {
   const [searchQuery, setSearchQuery] = useState('');
 
   const baseURL = 'http://127.0.0.1:5000';
-  const usrId = '84b5e05d-a21a-4016-93e2-b45470af3078';
+  const usrId = 'fb8c7504-eee5-4235-b7a2-a96e1f883632';
 
   useEffect(() => {
     axios.get(`${baseURL}/api/v1/budget/user/${usrId}`)

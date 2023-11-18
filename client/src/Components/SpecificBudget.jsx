@@ -78,17 +78,16 @@ export default function SpecificBudget() {
     const serviceId = serviceIds[index];
     const currentState = historyData[index].done;
 
-    if (currentState) {
-      return;
-    }
     const newState = !currentState;
 
     axios.put(`${baseURL}/api/v1/service/dwn/${serviceId}`, { done: newState })
       .then(response => {
         const updatedData = [...historyData];
         updatedData[index] = { ...updatedData[index], done: newState };
-        historyData(updatedData);
+        setHistoryData(updatedData);
         console.log('updata', updatedData);
+
+        
       })
       .catch(error => {
         console.error('Error done', error);
@@ -108,7 +107,7 @@ export default function SpecificBudget() {
   };
 
   const [ShowModal, setShowModal] = useState(false)
-  const [idss, setIdss] = useState(null);
+  const [idss, setIdss] = useState();
   const handleButton = (ids) => {
     console.log(`boton: ${ids}`);
     setShowModal(true);
