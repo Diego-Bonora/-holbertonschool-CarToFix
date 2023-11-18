@@ -19,7 +19,7 @@ function App() {
 					<Route path="/service" element={<Service/>} />
 					<Route path="/budgets" element={<BudgetAll/>}/>
 					<Route path="/specificbudget/:id" element={<SpecificBudget/>} />
-					<Route path="/modal/:serviceId" element={<DetailsModal/>}/>
+					<Route path="/modal/:ids" element={<DetailsModal/>}/>
 				</Routes>
 			</BrowserRouter>
 		</>
