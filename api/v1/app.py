@@ -40,7 +40,7 @@ def close(E):
     storage.close()
 
 
-print("version: 1.77")
+print("version: 1.8")
 
 if __name__ == "__main__":
     app.run(threaded=True)

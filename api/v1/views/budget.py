@@ -110,6 +110,8 @@ def create_budget():
         abort(409, {"error": "Cannot create more pending budgets for the same costumer"})
 
     vehicle = storage.get(Vehicle, krgs["vehicle_id"])
+    if not vehicle:
+        abort(404, {"error": "Vehicle: {krgs['vehicle_id']} not found"})
     if vehicle.client_id != krgs["client_id"]:
         abort(409, {"error": "The provided client does not posses the provided vehicle"})
     if vehicle.user_id != krgs["user_id"]:
