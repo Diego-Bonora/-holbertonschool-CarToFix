@@ -162,6 +162,7 @@ class Emailer():
             print(msg)
             sender = next((client for client in storage.all(Client).values() if client.email == msg["sender"]), None)
             if not sender:
+                print("Sender:", msg["sender"], "not a costumer")
                 continue
     
             bdgts = [b for b in storage.all(Budget).values() if b.client_id == sender.id]
