@@ -27,7 +27,7 @@ def get_type_by_name(name):
 
 
 @app_views.route("/type/<tId>", methods=["GET"])
-def get_type():
+def get_type(tId):
     """ Returns a specific TypeVehicle object """
     t_veh = storage.get(TypeVehicle, tId)
     if not t_veh:

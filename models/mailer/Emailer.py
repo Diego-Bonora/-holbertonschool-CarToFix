@@ -165,7 +165,13 @@ class Emailer():
                 continue
 
             bdgts = [b for b in storage.all(Budget).values() if b.client_id == sender.id]
+            if not bdgts:
+                print("Sender:", msg["sender"], "does not have budgets")
+                self.send(sender, msg="Subject: Please try again later\n\nNo budget to confirm was found")
+                continue
+
             bdgt = max(bdgts, key=lambda x: x.created_at if not x.confirmed else datetime.min)
+            msg["body"] = msg["body"].lower()
 
             if not bdgt:
                 print(sender.name, "has no budget to confirm")
@@ -173,7 +179,7 @@ class Emailer():
                 continue
 
             print("Budget found...")
-            if "ok" in msg["body"].lower() and "no" in msg["body"].lower():
+            if "ok" in msg["body"] and "no" in msg["body"]:
                 print("Body contains ok and no, not able to understand")
                 self.send(sender, msg=come_again)
 
@@ -181,13 +187,13 @@ class Emailer():
                 print(sender.name, "tried to re-confirm")
                 self.send(sender, msg="Subject: Can't re-confirm\n\nBudget already confirmed, try again later or reach out to the workshop")
 
-            elif "ok" in msg["body"].lower():
+            elif "ok" in msg["body"]:
                 print(f"Budget: {bdgt.id} accepted :)")
                 bdgt.confirmed = True
                 bdgt.active = True
                 self.send(sender, msg="Subject: Budget Approved\n\nBudget successfully approved")
 
-            elif "no" in msg["body"].lower():
+            elif "no" in msg["body"]:
                 print(f"Budget: {bdgt.id} rejected :(")
                 bdgt.confirmed = True
                 self.send(sender, msg="Subject: Budget Rejected\n\nBudget successfully rejected")
