@@ -2,20 +2,18 @@ import requests
 import json
 
 budget = {
-        "user_id": "f4bb3d63-67f5-4d3c-b8fe-aacb270e72a2",
-        "client_id": "4fe04e5e-c7f7-4687-a233-10fc0252ca2d",
+        "user_id": "2c2e589b-9223-40e8-bac3-f8765567f0a7",
+        "client_id": "ce6dcdca-dae6-44bf-b5be-d3f56b506d7a",
         "total_price": 999.0,
         "payment_method": "knoife",
         "installments": 0,
         "warranty": 9,
-        "vehicle_id": "67c18765-7caf-4fb8-968e-2b86f6b3ad5f"
+        "vehicle_id": "19bf0f8a-87ef-4b44-a259-ab23502e8b73"
         }
 
 services = [{
     "price": 999.0,
     "title": "the worst of the best days of my life",
-    "vehicle_id": "67c18765-7caf-4fb8-968e-2b86f6b3ad5f",
-    "user_id": "f4bb3d63-67f5-4d3c-b8fe-aacb270e72a2",
     }]
 
 budget["services"] = services

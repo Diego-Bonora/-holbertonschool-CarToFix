@@ -15,8 +15,8 @@ app.url_map.strict_slashes = False
 cors = CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 app.register_blueprint(app_views)
 
-
 emailer = Emailer()
+
 
 def run_emailer():
     """ Runs emailer.read() """
@@ -25,21 +25,22 @@ def run_emailer():
             emailer.read()
         except Exception as e:
             print(e)
-            print("Emailer error: User CarToFix probably not set correctly")
             os._exit(1)
+
 
 # Start the emailer thread
 emailer_thread = Thread(target=run_emailer)
 emailer_thread.daemon = True
 emailer_thread.start()
 
+
 @app.teardown_appcontext
 def close(E):
     """Calls storage.close() when server stops"""
     storage.close()
 
-print("version: 1.4")
 
+print("version: 1.75")
 
 if __name__ == "__main__":
     app.run(threaded=True)

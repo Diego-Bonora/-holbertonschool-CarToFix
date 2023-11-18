@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+""" This module imports the routes to make a blueprint """
 
 from flask import Blueprint
 
@@ -14,3 +15,4 @@ from api.v1.views.client import *
 from api.v1.views.type_vehicle import *
 from api.v1.views.worker import *
 from api.v1.views.dashboard import *
+from api.v1.views.singin_singup import *

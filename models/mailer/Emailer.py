@@ -4,16 +4,16 @@ This module establishes a conection with the SMTP email server
 and class Emailer() handles the emails
 """
 
+from datetime import datetime
 import email
-from email.header import decode_header
 from email.utils import parseaddr
+import logging
 import imaplib
+import smtplib
 from models.budget import Budget
 from models.client import Client
 from models import storage
 from models.user import User
-from models.vehicle import Vehicle
-import smtplib
 
 
 class Emailer():
@@ -46,11 +46,13 @@ class Emailer():
             body += sub
 
         body += f"Dear {client.name},\n\n"
-        body += f"We would like you to confirm or reject the following budget:\n"
+        body += "We would like you to confirm or reject the following budget:\n"
+
+        dontadd = ["id", "created_at", "__class__", "sent", "active", "vehicle_id", "confirmed", "services", "user_id", "client_id"]
 
         # Format budget details
         for key, value in budget.to_dict().items():
-            if key not in ["id", "__class__", "sent", "active", "vehicle_id", "confirmed", "services", "user_id", "client_id"] and value:
+            if key not in dontadd:
                 formatted_key = " ".join(key.split("_"))
                 body += f"\t{formatted_key}: {value}\n"
 
@@ -61,19 +63,19 @@ class Emailer():
         for service in services:
             body += "\n"
             for key, value in service.to_dict().items():
-                if key not in ["id", "user_id", "done", "vehicle_id", "budget_id", "__class__", "worker", "created_at"]:
+                if key not in ["done", "budget_id", "worker"] and key not in dontadd:
                     formatted_key = " ".join(key.split("_"))
                     body += f"\t{formatted_key}: {value}\n"
 
         # Instructions for approval and rejection
-        body += f"\nTo approve it please reply:\n\tok: {budget.id}\n"
-        body += f"To refuse it please reply:\n\tno: {budget.id}\n"
-        body += "\nPlease make sure the body of the response contains ONLY ONE of the previous LINES\n"
+        body += "\nTo approve it please reply:\n\tok\n"
+        body += "To refuse it please reply:\n\tno\n"
+        body += "\nPlease make sure the body of the response contains ONLY 'ok' or 'no'\n"
 
         return body
 
     def send(self, client, budget=None, msg=None):
-
+        """ Sends a message to a client """
         try:
             self.connect()
 
@@ -91,7 +93,7 @@ class Emailer():
                 body = msg
 
             self.mail.sendmail(self.user.mail, client.email, body)
-            
+
             if budget:
                 budget.sent = True
 
@@ -113,7 +115,7 @@ class Emailer():
             mail.select("inbox")
 
             # Search for all emails in the inbox
-            status, messages = mail.search(None, "ALL")
+            _, messages = mail.search(None, "ALL")
             messages = messages[0].split()
             email_list = []
 
@@ -150,54 +152,46 @@ class Emailer():
 
     def __prcmsgs(self, msgs):
         """ Process the messages """
-        come_again = "Subject: Please try again\n\nResponse not understood, read the instrucctions in the confirmation mail and try again"
+        come_again = "Subject: Please try again\n\nResponse not understood, read the instructions in the confirmation mail and try again"
+
         for msg in msgs:
             msg["body"] = msg["body"].split("\r\n")[0]
 
             # If the sender is a client
             print(msg)
             sender = next((client for client in storage.all(Client).values() if client.email == msg["sender"]), None)
+            if not sender:
+                print("Sender:", msg["sender"], "not a costumer")
+                continue
 
-            # Iterate over the messages, extracts the response, budget.id, and sender
-            if len(msg["body"].split(": ")) == 2:
-                acptd, bdgt = msg["body"].split(": ")
-                bdgt =  storage.get(Budget, bdgt.replace("\r\n", ""))
-                if bdgt:
-                    print("Budget found...")
-                    client = storage.get(Client, bdgt.client_id)
+            bdgts = [b for b in storage.all(Budget).values() if b.client_id == sender.id]
+            bdgt = max(bdgts, key=lambda x: x.created_at if not x.confirmed else datetime.min)
 
-                # If the budget is found and the sender is the same as the workshop costumer
-                if bdgt and client.email == sender.email:
+            if not bdgt:
+                print(sender.name, "has no budget to confirm")
+                self.send(sender, msg="Subject: Please try again later\n\nNo budget to confirm was found")
+                continue
 
-                    # If it was previously confirmed
-                    if bdgt.confirmed == True:
-                        self.send(sender, msg="Subject: Can't re-confirm\n\nBudget already confirmed, reach out to the workshop")
+            print("Budget found...")
+            if "ok" in msg["body"].lower() and "no" in msg["body"].lower():
+                print("Body contains ok and no, not able to understand")
+                self.send(sender, msg=come_again)
 
-                    # If it was approved
-                    elif acptd == "ok":
-                        print(f"Budget: {bdgt.id} accepted :)")
-                        bdgt.confirmed = True
-                        bdgt.active = True
-                        self.send(sender, msg="Subject: Budget Approved\n\nBudget successfully approved")
+            if bdgt.confirmed:
+                print(sender.name, "tried to re-confirm")
+                self.send(sender, msg="Subject: Can't re-confirm\n\nBudget already confirmed, try again later or reach out to the workshop")
 
-                    # If it was not approved
-                    elif acptd == "no":
-                        print(f"Budget: {bdgt.id} rejected :(")
-                        bdgt.confirmed = True
-                        self.send(sender, msg="Subject: Budget Rejected\n\nBudget successfully rejected")
+            elif "ok" in msg["body"].lower():
+                print(f"Budget: {bdgt.id} accepted :)")
+                bdgt.confirmed = True
+                bdgt.active = True
+                self.send(sender, msg="Subject: Budget Approved\n\nBudget successfully approved")
 
-                    # If confirmation is not contemplated
-                    else:
-                        print("Not able to understand:", msg["body"])
-                        self.send(sender, msg=come_again)
+            elif "no" in msg["body"].lower():
+                print(f"Budget: {bdgt.id} rejected :(")
+                bdgt.confirmed = True
+                self.send(sender, msg="Subject: Budget Rejected\n\nBudget successfully rejected")
 
-                # If the budget was not found or the sender does not match
-                else:
-                    tpritn = msg['body'].split(': ')[1].replace('\n', '')
-                    print(f"Budget: {tpritn} not found")
-                    self.send(sender, msg="Subject: Please try again\n\nEither sender or budget invalid")
-
-            # If the splited message is not as expected
             else:
                 print("Not able to understand:", msg["body"])
                 self.send(sender, msg=come_again)

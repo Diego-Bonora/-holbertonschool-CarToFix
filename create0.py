@@ -63,7 +63,9 @@ budget = Budget(
     warranty=0,
     vehicle_id=vehicle.id,
     client_id=client.id,
-    services=[service1, service2]
+    services=[service1, service2],
+    active=True,
+    confirmed=True,
 )
 
 # Saving instances to the storage
@@ -107,7 +109,9 @@ budg_dict = {
     "warranty": 9,
     "vehicle_id": vehicle.id,
     "client_id": client.id,
-    "services": [service3, service4]
+    "services": [service3, service4],
+    "confirmed": True,
+    "active": True
 }
 budget2 = Budget(**budg_dict)
 
@@ -128,8 +132,8 @@ print(storage.get(Budget, budget2.id).services)
 
 # ONE MORE BUDGET, SERVICE, SOME USERS, SOME WORKERS, SOME VEHICLES, SOME, CLIENTS
 #CLIENTS
-client1 = Client(name="Macksim", phone="fdsfa48", email="emanueltrias9@gmail.com")
-client2 = Client(name="Pablo", phone="fdadsfadsf8", email="emanueltrias9@gmail.com")
+client1 = Client(name="Macksim", phone="fdsfa48", email="f.com")
+client2 = Client(name="Pablo", phone="fdadsfadsf8", email="emanuil.com")
 #USERS
 user1 = User(name="Auto-destroy", mail="emanueltrias9@gmail.com", password="F#7b9/dbvv", phone="592222284982", logo="logeisbbhon")
 user2 = User(name="Skynet", mail="emanueltrias9@gmail.com", password="F#7b9/dbvv", phone="22284982", logo="lisbbhon")
@@ -192,7 +196,8 @@ budg_dict = {
     "warranty": 0,
     "vehicle_id": vehicle1.id,
     "client_id": client1.id,
-    "services": [service2, service]
+    "services": [service2, service],
+    "confirmed": True
 }
 budg_dict2 = {
     "user_id": user2.id,
@@ -202,7 +207,9 @@ budg_dict2 = {
     "warranty": 0,
     "vehicle_id": vehicle.id,
     "client_id": client2.id,
-    "services": [service3, service4]
+    "services": [service3, service4],
+    "confirmed": True,
+    "active": True
 }
 budget = Budget(**budg_dict)
 budget2 = Budget(**budg_dict2)
@@ -214,8 +221,8 @@ storage.save()
 
 # ONE MORE BUDGET, SERVICE, SOME USERS, SOME WORKERS, SOME VEHICLES, SOME, CLIENTS
 #CLIENTS
-client1 = Client(name="Annya", phone="09asdf", email="emanueltrias9@gmail.com")
-client2 = Client(name="Hozier", phone="nidealaverdad", email="emanueltrias9@gmail.com")
+client1 = Client(name="Annya", phone="09asdf", email="emanueltri.om")
+client2 = Client(name="Hozier", phone="nidealaverdad", email="emanue")
 #USERS
 user1 = User(name="Wheelson", mail="emanueltrias9@gmail.com", password="F#7b9/dbvv", phone="((9dsa", logo="LOGOASFASD")
 user2 = User(name="Icecream shop", mail="emanueltrias9@gmail.com", password="F#7b9/dbvv", phone="22889900", logo="http:/JYSHshnxFAIEU")
@@ -281,7 +288,8 @@ budg_dict = {
     "warranty": 0,
     "vehicle_id": vehicle1.id,
     "client_id": client1.id,
-    "services": [service2, service]
+    "services": [service2, service],
+    "confirmed": True,
 }
 budg_dict2 = {
     "user_id": user2.id,
