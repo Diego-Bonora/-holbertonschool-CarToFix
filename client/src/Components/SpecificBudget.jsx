@@ -165,7 +165,7 @@ export default function SpecificBudget() {
               <h2 className="text-xl font-bold">No hay datos disponibles</h2>
             </div>
           ) : (
-            <div className='hover:overflow-y-scroll h-full w-full ml-9'>
+            <div className='overflow-y-scroll h-full w-full ml-9'>
             <DataBoxBudget
               columns={columns}
               info={filteredData}

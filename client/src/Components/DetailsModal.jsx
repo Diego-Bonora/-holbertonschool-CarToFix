@@ -22,6 +22,7 @@ export default function DetailsModal({onClose, ids}) {
           price: res.data.price,
           description: res.data.description,
           worker: res.data.worker,
+          plate: res.data.plate,
         };
         setModalData([model]);  //Envolver el único objeto en un arreglo
         console.log('info', model);
@@ -40,9 +41,10 @@ export default function DetailsModal({onClose, ids}) {
           <form action="" className="">
             <div className="fixed  inset-0 w-screen overflow-y-auto">
               <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0 h-96">
-                <div className="bg-white border-8 border-cian-oscuro relative transform rounded-lg text-left shadow-xl transition-all sm:my-8 sm:w-modal sm:max-w-1/3 h-96">
+                <div className="overflow-y-scroll bg-white border-8 border-cian-oscuro relative transform rounded-lg text-left shadow-xl transition-all w-4/5 sm:w-3/4 md:w-1/2 lg:w-2/5 xl:w-1/3 h-96">
                 <button onClick={onClose} className="absolute top-0 right-0 m-4 rounded-full bg-white"><FaTimes/></button>
-                  <h2 className='text-5xl font-black mt-9 text-center '>Matricula</h2>
+                {ModalData.map((item, index) => (
+                  <h2 key={index} className='text-5xl font-black mt-9 text-center '>{item.plate}</h2>))}
                   <div className="mx-9 mt-16">
                     <div className='flex flex-col-2 justify-between items-center bg-gris-footer rounded-2xl'>
                       <label className="text-xl font-bold pl-8">Servicio:</label>

@@ -114,7 +114,7 @@ export default function Services() {
               <h2 className="text-xl font-bold">No hay datos disponibles</h2>
             </div>
           ) : (
-            <div className='hover:overflow-y-scroll overflow-x-hidden h-full w-full ml-14'>
+            <div className='overflow-y-scroll overflow-x-hidden h-full w-full ml-14'>
             <DataBox columns={columns} info={filteredServiceData} 
             SeeClick={handleButton} IdName='vehId'
             onRedirect={onRedirect}

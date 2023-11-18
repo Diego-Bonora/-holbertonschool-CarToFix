@@ -94,7 +94,7 @@ export default function Vehicle() {
                 <h2 className="text-xl font-bold">No hay datos disponibles</h2>
               </div>
             ) : (
-              <div className='hover:overflow-y-scroll overflow-x-hidden h-full w-full ml-14'>
+              <div className='overflow-y-scroll h-full w-full ml-14'>
                 <DataBox
                   columns={vehiclecolumn}
                   info={searchQuery ? filterData : VehicleData}
