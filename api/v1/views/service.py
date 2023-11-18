@@ -10,6 +10,7 @@ from models.service import Service
 from models import storage
 from models.type_vehicle import TypeVehicle
 from models.vehicle import Vehicle
+from models.workers import Worker
 
 
 emailer = Emailer()
@@ -41,7 +42,10 @@ def get_service(scId):
         abort (404)
 
     sd = service.to_dict()
-    sd["worker"] = storage.get(Service, service.worker).name
+    sd["plate"] = storage.get(Vehicle, service.vehicle_id).plate
+    if service.worker:
+        sd["worker"] = storage.get(Worker, service.worker).name
+
     return jsonify(sd), 200
 
 
