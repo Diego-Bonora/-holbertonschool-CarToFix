@@ -4,7 +4,7 @@ import wheel from '../assets/wheel.webp';
 
 export default function NewBudgetButton() {
   return (
-    <div className='absolute bottom-0 right-0 lg:py-5 pr-28 pl-5'>
+    <div className='absolute z-20 bottom-0 right-0 lg:py-5 pr-28 pl-5'>
       <Link to="/NewBudget">
         <div className='button lg:w-24 lg:h-24 w-16 h-16 flex flex-col justify-end items-center mt-5'>
           <div className="image w-30 h-30">
