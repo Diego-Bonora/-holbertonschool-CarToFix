@@ -37,19 +37,19 @@ def create_brand():
     """ Creates a brand object """
     krgs = request.get_json()
     if not krgs:
-        abort(400, {"error": f"Couldn't get request, not a json"})
+        abort(400, {"error": "Couldn't get request, not a json"})
 
     if "name" not in krgs:
         abort(400, {"error": "name is missing”"})
 
     brand = Brand(**krgs)
 
-    if check(brand) == 0:
-        storage.new(brand)
-        storage.save()
-        return jsonify(brand.to_dict()), 201
-    else:
+    if check(brand) != 0:
         abort(409, {f"The Brand {krgs['name']} already exists"})
+
+    storage.new(brand)
+    storage.save()
+    return jsonify(brand.to_dict()), 201
 
 
 @app_views.route("/brand/<brId>", methods=["DELETE"])

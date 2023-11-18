@@ -45,12 +45,11 @@ def create_user():
 
     data = request.get_json()
     new_usr = User(**data)
-    if check(new_usr):
-        storage.new(new_usr)
-        storage.save()
-        return jsonify(new_usr.to_dict()), 201
-
-    abort(404, {"error": f"{new_usr.name} already exists"})
+    if check(new_usr) != 0:
+        abort(404, {"error": f"{new_usr.name} already exists"})
+    storage.new(new_usr)
+    storage.save()
+    return jsonify(new_usr.to_dict()), 201
 
 
 @app_views.route("/user/<usrId>", methods=["DELETE"])
