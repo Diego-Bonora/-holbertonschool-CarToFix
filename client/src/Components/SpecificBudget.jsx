@@ -49,6 +49,7 @@ export default function SpecificBudget() {
         setHistoryData(filterHistory);
         setInitialData(filterHistory);
         setFilteredData(filterHistory); // Inicializa los datos filtrados
+        setInfo(filterHistory);
         console.log('historial', filterHistory);
 
         const vehicleData = {
@@ -72,22 +73,31 @@ export default function SpecificBudget() {
         console.error('Errormio', error);
       });
   }, [id]);
-
+  const [info, setInfo] = useState([]);
   const toggleDone = (index) => {
-    console.log('Button clicked for index:', index);
+    console.log('infooo', info);
+    console.log('histrydata', historyData);
     const serviceId = serviceIds[index];
     const currentState = historyData[index].done;
-
+    if (currentState) {
+      return;
+    }
     const newState = !currentState;
-
+    console.log('Estado actualizado:', newState);
     axios.put(`${baseURL}/api/v1/service/dwn/${serviceId}`, { done: newState })
       .then(response => {
-        const updatedData = [...historyData];
-        updatedData[index] = { ...updatedData[index], done: newState };
-        setHistoryData(updatedData);
-        console.log('updata', updatedData);
-
-        
+        setHistoryData(prevData => {
+          const updatedData = [...prevData];
+          updatedData[index] = { ...updatedData[index], done: newState };
+          return updatedData;
+        });
+        console.log('histrydata', historyData);
+         // Actualiza también info con los datos filtrados
+         setInfo(prevInfo => {
+          const updatedInfo = [...prevInfo];
+          updatedInfo[index] = { ...updatedInfo[index], done: newState };
+          return updatedInfo;
+        });
       })
       .catch(error => {
         console.error('Error done', error);
