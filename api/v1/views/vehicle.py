@@ -81,7 +81,7 @@ def uget_vehicle(veId):
 def get_by_plate(plate):
     """ Return the resquested Vehicle object if found """
     vehicle = next((veh for veh in storage.all(Vehicle).values() if veh.plate == plate), None)
-    if vehicle:
+    if not vehicle:
         abort(404, {"error": f"Vehicle {plate} not found"})
 
     return jsonify(get_veh_dict(vehicle)), 200
@@ -107,6 +107,9 @@ def create_vehicle():
     for arg in needed:
         if arg not in krgs:
             abort(400, {"error": f"{arg} missing"})
+
+    if not storage.get(Brand, krgs["brand"]):
+        abort(400, {"error": f"{krgs['brand']} does not exists"})
 
     new_veh = Vehicle(**krgs)
     if check(new_veh) != 0:
