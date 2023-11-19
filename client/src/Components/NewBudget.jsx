@@ -17,6 +17,7 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
 
   let userId = JSON.parse(localStorage.getItem('userID'));
 
+
   let baseURL = 'http://127.0.0.1:5000/'
 
   const navigate = useNavigate();
@@ -131,8 +132,10 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
   const handeleFinalSubmit = (event) => {
     event.preventDefault();
     let client_id = localStorage.getItem('client_id')
-    console.log('client id on SUBMIT', actualClient.id)
-    console.log("client on ACTUAL CLIENT", actualClient)
+    if (actualClient[0]) {
+      console.log('client id on SUBMIT', actualClient[0].id)
+      console.log("client on ACTUAL CLIENT", actualClient)
+    }
     let vehicle_id = localStorage.getItem('vehicle_id')
 
     // building each service on budget

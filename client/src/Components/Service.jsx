@@ -8,6 +8,7 @@ import { FaTh } from 'react-icons/fa';
 import axios from 'axios';
 import FilterActive from './filterActive';
 import { useNavigate } from 'react-router-dom';
+import { format } from 'date-fns';
 
 export default function Services() {
 
@@ -41,7 +42,7 @@ export default function Services() {
         const filteredData = res.data.map(item => ({
           vehPlate: item.vehPlate,
           title: item.title,
-          created: item.created,
+          created: format(new Date(item.created), 'dd/MM/yyyy'),
           active: item.active,
           vehId: item.vehId,
           vehType: item.vehType,
@@ -93,12 +94,12 @@ export default function Services() {
     console.log(`boton: ${id}`)
     navigate(`/details/${id}`);
   }
+
   const handleLogOut = () => {
     console.log("entro")
     localStorage.removeItem('userID')
     window.location.href = "/";
   }
-
   return (
     <>
       <div className='w-screen h-screen bg-page_background'>
@@ -118,7 +119,7 @@ export default function Services() {
               <h2 className="text-xl font-bold">No hay datos disponibles</h2>
             </div>
           ) : (
-            <div className='hover:overflow-y-scroll overflow-x-hidden h-full w-full ml-14'>
+            <div className='overflow-y-scroll overflow-x-hidden h-full w-full ml-14'>
               <DataBox columns={columns} info={filteredServiceData}
                 SeeClick={handleButton} IdName='vehId'
                 onRedirect={onRedirect}

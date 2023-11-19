@@ -86,7 +86,7 @@ export default function Dashboard() {
           setDashboardData(res.data)
           console.log("dashboard data", dashboardData)
           let services = dashboardData.active
-          if (services.length > 0) {
+          if (Array.isArray(services) && services.length > 0) { //small change to resolve "TypeError: Cannot read properties of undefined (reading 'length')"
             setServicesData(services)
             console.log("active services", services)
             let allservices = services.map((s) => s.budget)
@@ -102,7 +102,7 @@ export default function Dashboard() {
         let arrServiceTitle = []
 
         let budgets = []
-        if ((Object.values(dashboardData.budgets).length > 0)) {
+        if (dashboardData.budgets && Object.values(dashboardData.budgets).length > 0) { //small change to resolve "Uncaught (in promise) TypeError"
           budgets = Object.values(dashboardData.budgets)
           console.log("services", arrServiceTitle)
           budgets.map((b) => {
@@ -128,39 +128,41 @@ export default function Dashboard() {
     <>
       <div >
         <NavBar logOut={logOut} />
-        <div className='flex flex-wrap md:grid md:grid-cols-1  md:place-content-evenly justify-center align-top h-full'>
-          <div className='flex flex-wrap h-fit md:grid md:grid-cols-2 md:w-screen justify-items-center justify-center'>
-            {/* Titulo y DataFrames */}
-            <div className='h-20 md:mb-10 mb-20 md:w-full md:h-full justify-center -translate-y-16'>
-              <TitleBox title={dashboardData.user_name} userId={userId} />
+        <div className='m-10'>
+          <div className='flex flex-wrap md:grid md:grid-cols-1  md:place-content-evenly justify-center align-top h-full'>
+            <div className='flex flex-wrap h-fit md:grid md:grid-cols-2 justify-items-center justify-center'>
+              {/* Titulo y DataFrames */}
+              <div className='h-20 md:mb-10 mb-20 md:w-full md:h-full justify-center -translate-y-16'>
+                <TitleBox title={dashboardData.user_name} userId={userId} />
+              </div>
+              <div className='flex flex-wrap h-full md:grid md:grid-cols-2 md:gap-8 md:place-items-center justify-items-center justify-center min-w-[50px] space-x-5' >
+                <DataFrame title="Presupuestos en espera" level={dashboardData.onhold} />
+                <DataFrame title="Total de Vehiculos" level={dashboardData.vehicles_total} />
+              </div>
             </div>
-            <div className='flex flex-wrap h-full md:grid md:grid-cols-2 md:gap-8 md:place-items-center justify-items-center justify-center min-w-[50px] space-x-5' >
-              <DataFrame title="Presupuestos en espera" level={dashboardData.onhold} />
-              <DataFrame title="Total de Vehiculos" level={dashboardData.vehicles_total} />
-            </div>
-          </div>
-          {/* Databoxes inferiores con detalles */}
-          <div className='flex flex-wrap w-screen md:grid md:grid-cols-2 justify-items-center justify-center mr-10' >
-            <div className='spac-x-5'>
-              <div className='p-2 md:x-92 flex flex-col w-fit bg-[#09B6C2] rounded-lg md:max-w-[800px] mt-10'>
-                <div className='title h-10'>
-                  <h3 className='text-2xl font-black text-center text-white'>Servicios activos</h3>
+            {/* Databoxes inferiores con detalles */}
+            <div className='flex flex-wrap w-screen md:grid md:grid-cols-2 justify-items-center justify-center mr-10' >
+              <div className='spac-x-5'>
+                <div className='p-2 md:x-92 flex flex-col w-fit bg-[#09B6C2] rounded-lg md:max-w-[800px] mt-10'>
+                  <div className='title h-10'>
+                    <h3 className='text-2xl font-black text-center text-white'>Servicios activos</h3>
+                  </div>
+                  <DashboardDataBox columns={serviceColumns} info={servicesData} titles={serviceColumnsNames} ids={serviceIds} />
                 </div>
-                <DashboardDataBox columns={serviceColumns} info={servicesData} titles={serviceColumnsNames} ids={serviceIds} />
               </div>
-            </div>
-            <div>
-              <div className="principal p-2 mt-10 md:x-92 flex flex-col bg-[#09B6C2] rounded-lg md:max-w-[800px] h-[280px]">
-                <div className="title h-10">
-                  <h3 className='text-2xl font-black text-center text-white p-1'>Confirmaciones Recientes</h3>
+              <div>
+                <div className="principal p-2 mt-10 md:x-92 flex flex-col bg-[#09B6C2] rounded-lg md:max-w-[800px] h-[280px]">
+                  <div className="title h-10">
+                    <h3 className='text-2xl font-black text-center text-white p-1'>Confirmaciones Recientes</h3>
+                  </div>
+                  <Confirmation columns={budgetColumns} info={budgetData} titles={budgetColumnsNames} ids={budgetId} />
                 </div>
-                <Confirmation columns={budgetColumns} info={budgetData} titles={budgetColumnsNames} ids={budgetId} />
+                <div className="flex justify-end mt-5">
+                  <NewBudgetButton className="flex justify-end" />
+                </div>
               </div>
-              <div className="flex justify-end mt-5">
-                <NewBudgetButton className="flex justify-end" />
-              </div>
+              {/* BOTON NUEVO PRESUPUESTO */}
             </div>
-            {/* BOTON NUEVO PRESUPUESTO */}
           </div >
         </div >
       </div >

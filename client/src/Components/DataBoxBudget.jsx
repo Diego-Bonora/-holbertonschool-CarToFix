@@ -1,7 +1,9 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
+import { useEffect } from 'react';
 
 export default function DataBoxBudget({ info, columns, SeeClick, IdName, onRedirect, toggleDone, columnsName, renderCell }) {
+
   return (
 
     <table className="text-black mb-5 mt-14 w-full ">
@@ -44,6 +46,7 @@ export default function DataBoxBudget({ info, columns, SeeClick, IdName, onRedir
                       </button>
                       {data[column] ? 'Finalizado' : 'Pendiente'}
                     </div>
+                    {console.log('Estado actualizado en renderCell:', data[column])}
                   </>
                 )}
               </td>

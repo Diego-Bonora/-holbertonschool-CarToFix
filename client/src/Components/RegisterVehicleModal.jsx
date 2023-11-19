@@ -224,13 +224,14 @@ export default function RegisterVehicleModal({ display, checkClient, modalState,
   }
 
   const createVehicle = (newData) => {
+    checkClient(formVehicleClientData.name)
     console.log("creating vehicle")
     console.log("data sumbmited on create ", newData);
     console.log("actual client sumbmited on create ", actualClient);
     console.log("actual type of vehicle on create ", actualTypeOfVehicle);
 
 
-    let client_id = actualClient[0].id
+    let client_id = localStorage.getItem('client_id')
     let type_vehicle_id = localStorage.getItem('tyID');
     let brand_id = localStorage.getItem('brandId');
     console.log("actual brand of vehicle on create ", brand_id);

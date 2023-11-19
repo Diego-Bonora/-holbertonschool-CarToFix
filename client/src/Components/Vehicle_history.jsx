@@ -4,10 +4,17 @@ import DataBox from './DataBox';
 import NewBudgetButton from './NewBudgetButton';
 import TypeVehicleIcons from './TypeVehicleIcons';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
-
+import { useParams, useNavigate } from 'react-router-dom';
+import DetailsModal from './DetailsModal';
+import { format } from 'date-fns';
 
 export default function Vehicle_history() {
+
+  const navigate = useNavigate();
+  const onRedirect = (path) => {
+    console.log('redireccion', path);
+    navigate(path);
+  }
 
   const { id } = useParams();
   console.log('ID de la ruta:', id);
@@ -31,9 +38,10 @@ export default function Vehicle_history() {
       .then((res) => {
         console.log('history', res.data);
         const filterHistory = res.data.services.map(item => ({
-          created_at: item.created_at,
+          created_at: format(new Date(item.created_at), 'dd/MM/yyyy'),
           description: item.description,
           type: res.data.type,
+          ids: item.id,
         }));
         sethistoryData(filterHistory);
         console.log('historial', filterHistory);
@@ -53,11 +61,22 @@ export default function Vehicle_history() {
 
   }, [vehId]);
 
+  const [ShowModal, setShowModal] = useState(false)
+  const [idss, setIdss] = useState();
+  const handleButton = (ids) => {
+    console.log(`boton: ${ids}`);
+    setShowModal(true);
+    setIdss(ids);
+    console.log('loggg', ids);
+  }
 
   return (
     <>
       <div className='w-screen h-screen bg-page_background'>
         <NavBar />
+        {ShowModal && (
+          <DetailsModal onClose={() => setShowModal(false)} ids={idss} />
+        )}
         {/* info del vehiculo y matricula*/}
         <div className='bg-tabla_service lg:mr-marg-5 mr-marg-1 lg:ml-marg-4 ml-marg-1 mt-marg-3 flex flex-wrap h-info_vehiculo rounded-r-lg shadow-md shadow-gray-300' >
           {/* matricula general */}
@@ -86,7 +105,7 @@ export default function Vehicle_history() {
           </div>
         </div>
         {/* info del historial */}
-        <div className='bg-tabla_service hover:overflow-y-scroll  items-center lg:h-info_history h-info_history_2 lg:mr-marg-5 mr-marg-1 lg:ml-marg-4 ml-marg-1 mt-marg-3 flex flex-wrap rounded-lg justify-items-center justify-center shadow-md shadow-gray-300 h-30'>
+        <div className='bg-tabla_service overflow-y-scroll  items-center lg:h-info_history h-info_history_2 lg:mr-marg-5 mr-marg-1 lg:ml-marg-4 ml-marg-1 mt-marg-3 flex flex-wrap rounded-lg justify-items-center justify-center shadow-md shadow-gray-300 h-30'>
           {historyData.length === 0 ? (
             <div className="text-center text-gray-500 my-8 mx-2.25rem">
               <h2 className="text-xl font-bold">No hay datos disponibles</h2>
@@ -96,6 +115,9 @@ export default function Vehicle_history() {
               <DataBox columns={columns}
                 info={historyData}
                 columnsName={columnsName}
+                SeeClick={handleButton}
+                IdName='ids'
+                onRedirect={onRedirect}
                 renderCell={(column, rowData) => {
                   if (column === 'created_at') {
                     const typeIcon = <TypeVehicleIcons TypeVehicle={rowData.type} />;

@@ -5,6 +5,7 @@ import axios from 'axios'
 import NavBar from '../Components/NavBar'
 
 
+
 export default function CreateNewBudget() {
 
   const [plateRegistered, setPlateRetRegistered] = useState(true)
@@ -22,6 +23,7 @@ export default function CreateNewBudget() {
 
   let userId = JSON.parse(localStorage.getItem('userID'));
 
+
   let baseURL = 'http://127.0.0.1:5000/'
 
   const checkClient = async (clientName) => {
@@ -35,8 +37,8 @@ export default function CreateNewBudget() {
         if (clientONBase != 0) {
           clientExist = true
           setClientRetRegistered(true)
-          setActualClient(clientONBase)
-          localStorage.setItem('client_id', res.data.id)
+          setActualClient(Object.values(clientONBase[0]))
+          localStorage.setItem('client_id', clientONBase[0].id)
           let id_from_base = localStorage.getItem('client_id')
           console.log("client id from base", id_from_base)
           console.log("client exist: ", clientExist)
@@ -44,13 +46,17 @@ export default function CreateNewBudget() {
           clientExist = false
           setClientRetRegistered(false)
           console.log("client exist: ", clientExist)
+
         }
+
       })
+
   }
 
 
   const checkPlateRegistration = (plate) => {
     console.log("on ckecking plate")
+
     setTypedPlate(plate)
     if (plate.length === 8 && !plateChecked) {
       axios.get((`${baseURL}/api/v1/vehicle/plate/${plate}`))
@@ -61,27 +67,40 @@ export default function CreateNewBudget() {
             localStorage.setItem('plate', res.data.plate)
             setPlateRetRegistered(true)
             setActualVehicle(res.data)
+
             plateChecked = true
             console.log("platechecked ", plateChecked)
             console.log("plate regsitred state ", plateRegistered)
-            console.log("Client regsitred ", localStorage.getItem('vlient_id'))
+            console.log("Client regsitred ", localStorage.getItem('client_id'))
+
             return res.data
           } else {
             console.log("PLATE not registred")
             setPlateRetRegistered(false);
+
           }
         })
         .then(function (response) {
-          console.log(response);
+          console.log("vehicle info from base", response);
+          console.log("platechecked ", plateChecked)
+          console.log("plate regsitred state ", plateRegistered)
+          console.log("Client regsitred ", localStorage.getItem('client_id'))
           setPlateRetRegistered(true)
+
         })
         .catch(function (response) {
           console.log("PLATE not registred")
           setPlateRetRegistered(false);
         }
         )
+
+
+
     }
+
   }
+
+
 
   const modalState = (displayModal, callback) => {
     if (displayModal === 'active') {
@@ -93,20 +112,30 @@ export default function CreateNewBudget() {
     callback(); // Llama a la función de devolución de llamada
   }
 
+
   useEffect(() => {
+
     if (!plateRegistered) {
       setModalDisplayMode("active");
     }
+
     if (clientRegistered && formSubmited) {
+
       setModalDisplayMode("none");
     }
+
   })
+
+
 
   useEffect(() => {
     if (clientExist) {
       setClientRetRegistered(true)
     }
   }, [clientExist])
+
+
+
 
   return (
     <>

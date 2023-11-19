@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 
 export default function DashboardDataBox({ info, columns, titles, ids }) {
   const navigate = useNavigate();
-  let idx = 0;
 
   const handleServiceButton = (id) => {
     console.log(`button from a services: ${id}`);
@@ -12,8 +11,8 @@ export default function DashboardDataBox({ info, columns, titles, ids }) {
 
   return (
     <>
-      <div className='col-span-1 flex flex-col bg-[#FFF] rounded-b-lg overflow-y-scroll overflow-x-hidden h-[300px] w-full'>
-        <table className='text-black my-3 w-full bg-white ml-5'>
+      <div className='col-span-1 flex-col space-y-8 bg-[#FFF] rounded-b-lg overflow-y-scroll overflow-x-hidden md:h-[280px]'>
+        <table className='text-black w-full bg-white ml-4 mt-3'>
           <thead>
             <tr className='w-screen bg-gris-footer'>
               {titles.map((title, index) => (
@@ -32,16 +31,17 @@ export default function DashboardDataBox({ info, columns, titles, ids }) {
                 {columns.map((column, indexcol) => (
                   <td
                     key={indexcol}
-                    className={`p-2 sm:px-8 px-5 align-middle md:text-base text-sm ${indexcol === 0 ? 'rounded-tl-2xl rounded-bl-2xl bg-gris-footer border-r-2' : indexcol === columns.length - 1 ? 'rounded-tr-2xl rounded-br-2xl bg-gris-footer border-l-2' : ''
+                    className={`sm:px-3 align-middle md:text-base text-sm 
+                      ${indexcol === 0 ? 'rounded-tl-2xl rounded-bl-2xl bg-gris-footer border-r-2 pr-0' : indexcol === columns.length - 1 ? 'rounded-tr-2xl rounded-br-2xl bg-gris-footer border-l-2' : ''
                       } ${indexcol === Math.floor(columns.length / 2) ? 'bg-gris-footer' : ''}`}>
                     {data[column]}
                   </td>
                 ))}
-                <td className='p-2 sm:px-8 px-5 align-middle md:text-md text-sm'>
+                <td className='p-2 sm:px-8 px-5 align-middle md:text-md text-sm pl-0'>
                   <button
                     type='button'
                     className='bg-orange-claro hover:bg-orange-oscuro text-white p-px md:w-14 w-10 items-center'
-                    onClick={() => handleServiceButton(ids[idx])}
+                    onClick={() => handleServiceButton(ids[index])}
                   >
                     Ver
                   </button>

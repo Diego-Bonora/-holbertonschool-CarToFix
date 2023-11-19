@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 
-export default function DataBox({ info, columns, SeeClick, IdName, onRedirect, renderCell }) {
+export default function DataBox({ info, columns, SeeClick, IdName, onRedirect, renderCell, columnsName }) {
   return (
 
     <table className="text-black mb-5 mt-14 w-full ">
@@ -13,7 +13,7 @@ export default function DataBox({ info, columns, SeeClick, IdName, onRedirect, r
               className={`p-3 align-middle flex-row justify-around md:text-lg text-base
                 ${index === 0 ? 'rounded-tl-2xl rounded-bl-2xl border-r-2' : index === columns.length - 1 ? 'rounded-tr-2xl rounded-br-2xl border-l-2' : ''}`}
             >
-              {column}
+              {columnsName[column]}
             </th>
           ))}
         </tr><div className='mb-3'></div>

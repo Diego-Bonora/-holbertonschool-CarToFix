@@ -4,6 +4,7 @@ import DataBoxBudget from './DataBoxBudget';
 import axios from 'axios';
 import FilterService from './FilterService';
 import { useParams, useNavigate } from 'react-router-dom';
+import DetailsModal from './DetailsModal';
 
 export default function SpecificBudget() {
 
@@ -48,6 +49,7 @@ export default function SpecificBudget() {
         setHistoryData(filterHistory);
         setInitialData(filterHistory);
         setFilteredData(filterHistory); // Inicializa los datos filtrados
+        setInfo(filterHistory);
         console.log('historial', filterHistory);
 
         const vehicleData = {
@@ -71,23 +73,31 @@ export default function SpecificBudget() {
         console.error('Errormio', error);
       });
   }, [id]);
-
+  const [info, setInfo] = useState([]);
   const toggleDone = (index) => {
-    console.log('Button clicked for index:', index);
+    console.log('infooo', info);
+    console.log('histrydata', historyData);
     const serviceId = serviceIds[index];
     const currentState = historyData[index].done;
-
     if (currentState) {
       return;
     }
     const newState = !currentState;
-
+    console.log('Estado actualizado:', newState);
     axios.put(`${baseURL}/api/v1/service/dwn/${serviceId}`, { done: newState })
       .then(response => {
-        const updatedData = [...historyData];
-        updatedData[index] = { ...updatedData[index], done: newState };
-        historyData(updatedData);
-        console.log('updata', updatedData);
+        setHistoryData(prevData => {
+          const updatedData = [...prevData];
+          updatedData[index] = { ...updatedData[index], done: newState };
+          return updatedData;
+        });
+        console.log('histrydata', historyData);
+        // Actualiza también info con los datos filtrados
+        setInfo(prevInfo => {
+          const updatedInfo = [...prevInfo];
+          updatedInfo[index] = { ...updatedInfo[index], done: newState };
+          return updatedInfo;
+        });
       })
       .catch(error => {
         console.error('Error done', error);
@@ -106,15 +116,22 @@ export default function SpecificBudget() {
     }
   };
 
+  const [ShowModal, setShowModal] = useState(false)
+  const [idss, setIdss] = useState();
   const handleButton = (ids) => {
     console.log(`boton: ${ids}`);
-    navigate(`/modal/${ids}`);
+    setShowModal(true);
+    setIdss(ids);
+    console.log('loggg', ids);
   }
 
   return (
     <>
       <div className='w-screen h-screen bg-page_background'>
         <NavBar />
+        {ShowModal && (
+          <DetailsModal onClose={() => setShowModal(false)} ids={idss} />
+        )}
         <div className='flex lg:ml-marg-4 ml-marg-1 mt-marg-3'>
           <div className='bg-tabla_service lg:w-info_detalles w-info_detalles_mini flex flex-wrap h-28 rounded-r-lg shadow-md shadow-gray-300'>
             <div className='border border-azul-oscuro flex flex-col justify-start w-3/12 h-full'>
@@ -148,7 +165,7 @@ export default function SpecificBudget() {
               <h2 className="text-xl font-bold">No hay datos disponibles</h2>
             </div>
           ) : (
-            <div className='hover:overflow-y-scroll h-full w-full ml-9'>
+            <div className='overflow-y-scroll h-full w-full ml-9'>
               <DataBoxBudget
                 columns={columns}
                 info={filteredData}

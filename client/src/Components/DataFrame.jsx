@@ -8,5 +8,6 @@ export default function DataFrame({ title, level }) {
         <h2 className="text-center text-3xl font-black"> {level}</h2>
       </div>
     </>
+
   )
 }
