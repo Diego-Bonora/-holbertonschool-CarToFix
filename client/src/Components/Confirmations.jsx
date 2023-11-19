@@ -10,7 +10,7 @@ export default function Confirmation({ info, columns, titles, ids }) {
 
   return (
     <>
-      <div className='col-span-1 flex-col space-y-8 bg-[#FFF] rounded-b-lg overflow-y-scroll overflow-x-hidden h-4/5'>
+      <div className='col-span-1 flex-col space-y-8 bg-[#FFF] rounded-b-lg overflow-y-scroll overflow-x-hidden  h-[280px]'>
         <table className='text-black w-full bg-white ml-4 mt-3 '>
           <thead>
             <tr className='w-screen bg-gris-footer'>

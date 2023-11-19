@@ -93,7 +93,7 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
       title: serviceValue.label,
       price: parseFloat(event.target.price.value),
       description: event.target.description.value,
-
+      worker: localStorage.getItem('worker_id'),
     }])
 
   };
@@ -105,7 +105,7 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
 
   const createBudget = (budgetToSend, via) => {
     console.log('about to send BUDGET')
-    axios.post(`${baseURL}api/v1/budget`, budgetToSend, {
+    axios.post(`${baseURL}/api/v1/budget`, budgetToSend, {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json'
@@ -129,9 +129,10 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
   const createWorker = (workerName) => {
     localStorage.setItem('worker_name', workerName)
 
-    axios.get(`${baseURL}api/v1/worker/`)
+    axios.get(`${baseURL}/api/v1/worker/`)
       .then((res) => {
-        const worker = res.data.map((w) => { w.filter(f.name === workerName) })
+        const workers = res.data
+        const worker = workers.filter((w) => w.name === workerName)
         if (worker.name) {
           console.log("registrered worker", worker)
           localStorage.setItem('worker_id', worker.data.id)
@@ -144,7 +145,7 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
               name: workerName
             }
           ))
-          axios.post(`${baseURL}api/v1/worker/`, workerData, {
+          axios.post(`${baseURL}/api/v1/worker/`, workerData, {
             headers: {
               Accept: 'application/json',
               'Content-Type': 'application/json'
@@ -197,7 +198,7 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
       title: item.title,
       description: item.description,
       plate: item.plate,
-      worker_id: localStorage.getItem('worker_id'),
+      worker: localStorage.getItem('worker_id'),
     }));
 
     const servicesDictionary = services.reduce((acc, service) => {
@@ -269,10 +270,10 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
   {/* Options for  workers   */ }
 
   const workers = [
-    { label: 'Tony Stark', value: 1 },
-    { label: 'Rick Sanchez', value: 2 },
-    { label: 'Maluma', value: 3 },
-    { label: 'El Duki', value: 4 },
+    { label: 'Pepe Sosa', value: 1 },
+    { label: 'Juan Silva', value: 2 },
+    { label: 'Roberto Rodriguez', value: 3 },
+    { label: 'Gonzalo Castro', value: 4 },
   ]
 
   {/* States for selects values    */ }

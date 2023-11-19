@@ -160,7 +160,7 @@ export default function Dashboard() {
                   <DashboardDataBox columns={serviceColumns} info={servicesData} titles={serviceColumnsNames} ids={serviceIds} />
                 </div>
               </div>
-              <div className="principal p-2 md:x-9 flex flex-col bg-[#09B6C2] rounded-lg md:max-w-[800px] h-1/2 md:w-info_confirmations w-9/10 mt-10 md:m-0">
+              <div className="principal p-2 md:x-9 flex flex-col bg-[#09B6C2] rounded-lg md:max-w-[800px] h-1/2 md:w-info_confirmations w-9/10 mt-10 md:m-0 h-[280px]">
                 <div className="title h-10">
                   <h3 className='text-2xl font-black text-center text-white p-1'>Confirmaciones Recientes</h3>
                 </div>
