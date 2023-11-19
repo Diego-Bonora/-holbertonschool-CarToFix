@@ -4,15 +4,18 @@
     box-sizing: border-box;
 }
 body {
-    font: Serif;
+    font-family: "Constantia", serif
 
 }
 
 nav {
+    height: 10%;
     position: fixed;
     top: 1px;
-    left: 20px;
-    width: 38%;
+    width: 100%;
+    background: #4AC29A;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #BDFFF3, #4AC29A);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #BDFFF3, #4AC29A); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 nav a {
     color: #289487;
@@ -31,11 +34,7 @@ nav a {
 }
 
 header {
-    background: #4AC29A;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #BDFFF3, #4AC29A);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #BDFFF3, #4AC29A); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     height: auto;
-    padding: 48px;
     width: 100%;
 }
 .container img {
@@ -50,7 +49,15 @@ header {
     color: black;
     line-height: 1.5
 }
-
+.home {
+    background: #4AC29A;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #BDFFF3, #4AC29A);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #BDFFF3, #4AC29A); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    color: #fff; /* Cambia el color del texto si es necesario */
+    width: 100%;
+    height: auto;
+    padding: 48px;
+}
 .wave {
     background: #4AC29A;  /* fallback for old browsers */
     background: -webkit-linear-gradient(to right, #BDFFF3, #4AC29A);  /* Chrome 10-25, Safari 5.1-6 */
@@ -85,7 +92,8 @@ header {
 .InfoProyect {
     font-size: 20px;
     margin: 90px;
-    line-height: 1.5
+    line-height: 1.5;
+    display: flex;
 }
 .InfoProyect h1 {
     font-size: 70px;
@@ -99,8 +107,10 @@ header {
 .Proyect {
     font-size: 20px;
     padding: 110px;
-    background-color: #d8f3dc;
     line-height: 1.5;
+}
+.imagees {
+    width: 45%;
 }
 
 .Proyect h1 {
