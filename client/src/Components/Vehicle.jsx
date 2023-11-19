@@ -35,8 +35,9 @@ export default function Vehicle() {
 
       let stringedArray = arr.join(', ');
       if (stringedArray.length > lNum) {
-        return stringedArray.slice(0, lNum) + '...';
+        stringedArray = stringedArray.slice(0, lNum) + '...';
       }
+      return stringedArray
     } else { return "sin servios" }
   }
 
