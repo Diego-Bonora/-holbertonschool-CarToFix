@@ -127,6 +127,43 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
 			});
 	}
 
+	const createWorker = (workerName, services) => {
+
+		const worker = axios.get(`${baseURL}/api/v1/worker/`)
+			.then((res) => {
+
+				return res.data.filter((w) => w.name === workerName)
+			}).catch(function (error) {
+				console.log("Worker is not registreded")
+				console.log(response)
+			})
+		if (worker) {
+			console.log("registrered worker", worker)
+			return worker;
+		} else {
+			const workerData = JSON.parse(JSON.stringify(
+				{
+					name: workerName,
+					services: services,
+				}
+			))
+			axios.post(`${baseURL}/api/v1/worker/`, workerData, {
+				headers: {
+					Accept: 'application/json',
+					'Content-Type': 'application/json'
+				}
+			})
+				.then(function (response) {
+					console.log("Worker created", response);
+
+				})
+				.catch(function (error) {
+					console.log(error);
+				});
+		}
+
+	}
+
 	// building final Budget
 
 	const handeleFinalSubmit = (event) => {
@@ -168,6 +205,7 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
 				active: confirmed ? true : false,
 				services: Object.values(jsonServicesDict),
 			})))
+
 
 		setBudget(budgetToSend)
 		console.log("budget to post ", JSON.stringify(budgetToSend))
