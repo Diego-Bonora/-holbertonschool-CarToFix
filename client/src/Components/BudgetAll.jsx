@@ -8,6 +8,7 @@ import axios from 'axios';
 import FilterActive from './filterActive';
 import { useNavigate } from 'react-router-dom';
 import { FaTh } from 'react-icons/fa';
+import { format } from 'date-fns';
 
 export default function BudgetAll() {
   const navigate = useNavigate();
@@ -37,7 +38,7 @@ export default function BudgetAll() {
           return {
             plate: item.vehicle.plate,
             price: item.total,
-            created_at: item.created,
+            created_at: format(new Date(item.created),'dd/MM/yyyy'),
             vehicle_type: item.vehicle_type,
             budget_id: item.id,
             done: doneStatus,

@@ -6,6 +6,7 @@ import TypeVehicleIcons from './TypeVehicleIcons';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import DetailsModal from './DetailsModal';
+import { format } from 'date-fns';
 
 export default function Vehicle_history() {
 
@@ -36,7 +37,7 @@ export default function Vehicle_history() {
       .then((res) => {
         console.log('history', res.data);
         const filterHistory = res.data.services.map(item => ({
-          created_at: item.created_at,
+          created_at: format(new Date(item.created_at),'dd/MM/yyyy'),
           description: item.description,
           type: res.data.type,
           ids: item.id,

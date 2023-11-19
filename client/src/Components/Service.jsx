@@ -8,6 +8,7 @@ import { FaTh } from 'react-icons/fa';
 import axios from 'axios';
 import FilterActive from './filterActive';
 import { useNavigate } from 'react-router-dom';
+import { format } from 'date-fns';
 
 export default function Services() {
 
@@ -41,7 +42,7 @@ export default function Services() {
         const filteredData = res.data.map(item => ({
           vehPlate: item.vehPlate,
           title: item.title,
-          created: item.created,
+          created: format(new Date(item.created), 'dd/MM/yyyy'),
           active: item.active,
           vehId: item.vehId,
           vehType: item.vehType,

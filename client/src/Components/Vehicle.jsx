@@ -7,6 +7,7 @@ import TypeVehicleIcons from './TypeVehicleIcons';
 import { FaTh } from 'react-icons/fa';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { format } from 'date-fns';
 
 export default function Vehicle() {
 
@@ -23,17 +24,18 @@ export default function Vehicle() {
       title: 'Servicios',
       created_at: 'Última modificación',
     }
+    console.log('nombres', columnsName);
     const baseURL = 'http://127.0.0.1:5000'
     const [VehicleData, setVehicleData] = useState([]);
     
-    const usrId = 'ca2841f8-0773-4b09-b944-1947e9913803';
+    const usrId = '27c240b9-aac5-44d3-acf4-8a87858aac52';
 
     const truncateServicesTitles = (arr, lNum) => {
       if (arr) {
    
-        let stringedArray = arr.join()
+        let stringedArray = arr.join(', ');
         if (stringedArray.length > lNum) {
-          return stringedArray.slice(0, lNum) + '... '
+          return stringedArray.slice(0, lNum) + '...';
         }
       } else { return "sin servios" }
     }
@@ -47,7 +49,7 @@ export default function Vehicle() {
             const vehicleId = budgetWithVehicleId ? budgetWithVehicleId.vehicle_id : null;
             return {
               plate: vehicle.plate,
-              created_at: vehicle.created_at,
+              created_at: format(new Date(vehicle.created_at), 'dd/MM/yyyy'),
               title: truncateServicesTitles(vehicle.services.map((service) => service.title), 20),
               vehicle_id: vehicleId,
               type: vehicle.type,
