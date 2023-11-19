@@ -4,14 +4,16 @@ import DashboardDataBox from './DashboardDataBox'
 import DataFrame from './DataFrame'
 import NewBudgetButton from './NewBudgetButton'
 import TitleBox from './TitleBox'
-import axios from "axios"
+import axios, { all } from "axios"
 import { useState } from 'react'
 import { useEffect } from 'react'
-import NavBar from './NavBar';
+import NavBar from './NavBar'
+
 
 export default function Dashboard() {
 
   // Columns for databoxes
+
   const serviceColumns = ['plate', 'description'];
   const serviceColumnsNames = ['Matricula', 'Descripcion'];
   const budgetColumns = ['plate', 'created', 'services'];
@@ -35,12 +37,9 @@ export default function Dashboard() {
       id: ""
     }]);
 
-  console.log("budgets", budgetData)
-
   // Get a strig from services title array and truncat them for confirmation databox preview
   const truncateServicesTitles = (arr, lNum) => {
     if (arr) {
-
       let stringedArray = arr.join(', ')
       console.log("JOIN", stringedArray)
       if (stringedArray.length > lNum) {
@@ -48,35 +47,37 @@ export default function Dashboard() {
       } else {
         return stringedArray
       }
-    } else { return "sin servicios" }
+    } else { return "sin servios" }
   }
 
+  // generating the updating interval
   const updateTime = 120 * 1000
   const [update, setUpdate] = useState('now')
-  const now = new Date()
-  let updating = now.getTime
 
+  const now = new Date()
+
+  let updating = now.getTime
   const updateData = () => {
     setUpdate(now)
     console.log("UPDATING...", update)
     clearInterval(updating)
   }
+
   useEffect(() => {
+
     updating = setInterval(updateData, updateTime)
   }, [window.onload])
 
+
+
+
   // Get all data from API
+
   let userId = JSON.parse(localStorage.getItem('userID'));
-  const [dashboardData, setDashboardData] = useState({})
+  const [dashboardData, setDashboardData] = useState([])
 
   if (userId === null) {
     window.location.href = "/"
-  }
-
-  const logOut = () => {
-    console.log("entro")
-    localStorage.removeItem('userID')
-    window.location.href = "/";
   }
 
   useEffect(() => {
@@ -86,7 +87,7 @@ export default function Dashboard() {
           setDashboardData(res.data)
           console.log("dashboard data", dashboardData)
           let services = dashboardData.active
-          if (Array.isArray(services) && services.length > 0) { //small change to resolve "TypeError: Cannot read properties of undefined (reading 'length')"
+          if (services && services.length) {
             setServicesData(services)
             console.log("active services", services)
             let allservices = services.map((s) => s.budget)
@@ -102,7 +103,7 @@ export default function Dashboard() {
         let arrServiceTitle = []
 
         let budgets = []
-        if (dashboardData.budgets && Object.values(dashboardData.budgets).length > 0) { //small change to resolve "Uncaught (in promise) TypeError"
+        if (Object.values(dashboardData.budgets) && (Object.values(dashboardData.budgets).length)) {
           budgets = Object.values(dashboardData.budgets)
           console.log("services", arrServiceTitle)
           budgets.map((b) => {
@@ -123,6 +124,13 @@ export default function Dashboard() {
       })
   }, [document.readyState, update]
   )
+  const logOut = () => {
+    console.log("entro")
+    localStorage.removeItem('userID')
+    window.location.href = "/";
+  }
+
+
 
   return (
     <>
@@ -130,18 +138,18 @@ export default function Dashboard() {
         <NavBar logOut={logOut} />
         <div className=''>
           <div className='flex flex-col m-2 md:grid md:grid-cols-1 md:place-content-evenly justify-center align-top h-full'>
-          <div className='flex flex-wrap md:flex-nowrap'>
-            {/* Titulo y DataFrames */}
-            <div className='md:w-3/5 w-11/12 md:-translate-y-6 justify-end'>
-              <TitleBox title={dashboardData.user_name} userId={userId} />
-            </div>
-            <div className='w-full md:w-info_confirmations md:translate-y-9 justify-center'>
-              <div className='flex flex-wrap md:grid md:grid-cols-2 md:gap-8 md:place-items-center justify-items-center min-w-[50px] space-x-5'>
-                <DataFrame title="Presupuestos en espera" level={dashboardData.onhold} />
-                <DataFrame title="Total de Vehiculos" level={dashboardData.vehicles_total} />
+            <div className='flex flex-wrap md:flex-nowrap'>
+              {/* Titulo y DataFrames */}
+              <div className='md:w-3/5 w-11/12 md:-translate-y-6 justify-end'>
+                <TitleBox title={dashboardData.user_name} userId={userId} />
+              </div>
+              <div className='w-full md:w-info_confirmations md:translate-y-9 justify-center'>
+                <div className='flex flex-wrap md:grid md:grid-cols-2 md:gap-8 md:place-items-center justify-items-center min-w-[50px] space-x-5'>
+                  <DataFrame title="Presupuestos en espera" level={dashboardData.onhold} />
+                  <DataFrame title="Total de Vehiculos" level={dashboardData.vehicles_total} />
+                </div>
               </div>
             </div>
-          </div>
             {/* Databoxes inferiores con detalles */}
             <div className='flex flex-wrap md:flex-nowrap'>
               <div className='spac-x-5 w-full md:w-3/5 mt-10 md:m-0'>

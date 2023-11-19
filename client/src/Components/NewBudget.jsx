@@ -36,7 +36,7 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
 
   {/* Form data state */ }
 
-  const [formData, setFormData] = useState({ plate: "", service: "", description: "", asignedTo: "", price: 0 });
+  const [formData, setFormData] = useState({ plate: "", service: "", description: "", worker: "", price: 0 });
 
   {/* items to show at budget resume */ }
 
@@ -47,7 +47,7 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
   const [plate, setPlate] = useState('')
 
 
-
+  const [actualWorker, setActualWorker] = useState({})
 
 
   {/* reads the form  */ }
@@ -94,7 +94,6 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
       price: parseFloat(event.target.price.value),
       description: event.target.description.value,
 
-
     }])
 
   };
@@ -106,7 +105,7 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
 
   const createBudget = (budgetToSend, via) => {
     console.log('about to send BUDGET')
-    axios.post(`${baseURL}/api/v1/budget`, budgetToSend, {
+    axios.post(`${baseURL}api/v1/budget`, budgetToSend, {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json'
@@ -127,16 +126,68 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
       });
   }
 
+  const createWorker = (workerName) => {
+    localStorage.setItem('worker_name', workerName)
+
+    axios.get(`${baseURL}api/v1/worker/`)
+      .then((res) => {
+        const worker = res.data.map((w) => { w.filter(f.name === workerName) })
+        if (worker.name) {
+          console.log("registrered worker", worker)
+          localStorage.setItem('worker_id', worker.data.id)
+          setActualWorker(res.data)
+
+          return worker.data;
+        } else {
+          const workerData = JSON.parse(JSON.stringify(
+            {
+              name: workerName
+            }
+          ))
+          axios.post(`${baseURL}api/v1/worker/`, workerData, {
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json'
+            }
+          })
+            .then(function (response) {
+              console.log("Worker created", response);
+              localStorage.setItem('worker_id', response.data.id)
+              setActualWorker(response.data)
+              return (response.data)
+
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+        }
+      }).catch(function (error) {
+        console.log("Worker is not registreded")
+        console.log(error)
+      })
+
+
+  }
+
   // building final Budget
 
   const handeleFinalSubmit = (event) => {
     event.preventDefault();
     let client_id = localStorage.getItem('client_id')
+    console.log("worker on select", workersValue.label)
+
     if (actualClient[0]) {
       console.log('client id on SUBMIT', actualClient[0].id)
       console.log("client on ACTUAL CLIENT", actualClient)
     }
     let vehicle_id = localStorage.getItem('vehicle_id')
+
+    // create or get the actual worker 
+
+    createWorker(workersValue.label)
+    console.log("actual Worker", actualWorker)
+    console.log("actual Worker", localStorage.getItem('worker_id'))
+
 
     // building each service on budget
 
@@ -146,6 +197,7 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
       title: item.title,
       description: item.description,
       plate: item.plate,
+      worker_id: localStorage.getItem('worker_id'),
     }));
 
     const servicesDictionary = services.reduce((acc, service) => {
@@ -168,6 +220,8 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
         active: confirmed ? true : false,
         services: Object.values(jsonServicesDict),
       })))
+
+
 
     setBudget(budgetToSend)
     console.log("budget to post ", JSON.stringify(budgetToSend))
@@ -326,10 +380,11 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
               {/* ASIGNADO A */}
               <div className='flex flex-col-2 justify-between'>
 
-                <label className="my-4" for="asignedTTo" >Asignado a</label>
+                <label className="my-4" for="worker" >Asignado a</label>
                 <div className='flex flex-row-reverse w-1/2'>
                   <div className='flex flex-row-reverse w-full'>
                     <Creatable className='w-full mt-2'
+                      id="worker"
                       onChange={(value) => handleWorkersChange('workers', value)}
                       options={workers}
                       placeholder='Tecnico'
