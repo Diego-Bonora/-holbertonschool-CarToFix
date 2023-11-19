@@ -126,46 +126,45 @@ export default function Dashboard() {
 
   return (
     <>
-      <div >
+      <div className='w-screen h-screen bg-page_background' >
         <NavBar logOut={logOut} />
-        <div className='m-10'>
-          <div className='flex flex-wrap md:grid md:grid-cols-1  md:place-content-evenly justify-center align-top h-full'>
-            <div className='flex flex-wrap h-fit md:grid md:grid-cols-2 justify-items-center justify-center'>
-              {/* Titulo y DataFrames */}
-              <div className='h-20 md:mb-10 mb-20 md:w-full md:h-full justify-center -translate-y-16'>
-                <TitleBox title={dashboardData.user_name} userId={userId} />
-              </div>
-              <div className='flex flex-wrap h-full md:grid md:grid-cols-2 md:gap-8 md:place-items-center justify-items-center justify-center min-w-[50px] space-x-5' >
+        <div className=''>
+          <div className='flex flex-col m-2 md:grid md:grid-cols-1 md:place-content-evenly justify-center align-top h-full'>
+          <div className='flex flex-wrap md:flex-nowrap'>
+            {/* Titulo y DataFrames */}
+            <div className='md:w-3/5 w-11/12 md:-translate-y-6 justify-end'>
+              <TitleBox title={dashboardData.user_name} userId={userId} />
+            </div>
+            <div className='w-full md:w-info_confirmations md:translate-y-9 justify-center'>
+              <div className='flex flex-wrap md:grid md:grid-cols-2 md:gap-8 md:place-items-center justify-items-center min-w-[50px] space-x-5'>
                 <DataFrame title="Presupuestos en espera" level={dashboardData.onhold} />
                 <DataFrame title="Total de Vehiculos" level={dashboardData.vehicles_total} />
               </div>
             </div>
+          </div>
             {/* Databoxes inferiores con detalles */}
-            <div className='flex flex-wrap w-screen md:grid md:grid-cols-2 justify-items-center justify-center mr-10' >
-              <div className='spac-x-5'>
-                <div className='p-2 md:x-92 flex flex-col w-fit bg-[#09B6C2] rounded-lg md:max-w-[800px] mt-10'>
+            <div className='flex flex-wrap md:flex-nowrap'>
+              <div className='spac-x-5 w-full md:w-3/5 mt-10 md:m-0'>
+                <div className='p-2 md:x-92 flex flex-col bg-[#09B6C2] rounded-lg md:w-11/12 w-9/12 md:ml-10'>
                   <div className='title h-10'>
                     <h3 className='text-2xl font-black text-center text-white'>Servicios activos</h3>
                   </div>
                   <DashboardDataBox columns={serviceColumns} info={servicesData} titles={serviceColumnsNames} ids={serviceIds} />
                 </div>
               </div>
-              <div>
-                <div className="principal p-2 mt-10 md:x-92 flex flex-col bg-[#09B6C2] rounded-lg md:max-w-[800px] h-[280px]">
-                  <div className="title h-10">
-                    <h3 className='text-2xl font-black text-center text-white p-1'>Confirmaciones Recientes</h3>
-                  </div>
-                  <Confirmation columns={budgetColumns} info={budgetData} titles={budgetColumnsNames} ids={budgetId} />
+              <div className="principal p-2 md:x-9 flex flex-col bg-[#09B6C2] rounded-lg md:max-w-[800px] h-1/2 md:w-info_confirmations w-9/10 mt-10 md:m-0">
+                <div className="title h-10">
+                  <h3 className='text-2xl font-black text-center text-white p-1'>Confirmaciones Recientes</h3>
                 </div>
-                <div className="flex justify-end mt-5">
-                  <NewBudgetButton className="flex justify-end" />
-                </div>
+                <Confirmation columns={budgetColumns} info={budgetData} titles={budgetColumnsNames} ids={budgetId} />
               </div>
-              {/* BOTON NUEVO PRESUPUESTO */}
+              <div className="flex justify-end md:mt-5 md:m-0">
+                <NewBudgetButton className="flex justify-end" />
+              </div>
             </div>
           </div >
         </div >
-      </div >
+      </div>
     </>
   )
 }
