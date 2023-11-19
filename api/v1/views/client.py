@@ -18,9 +18,9 @@ def check(client):
 @app_views.route("/client/<clnId>/vehicle", methods=["GET"])
 def get_client_vehicles(clnId):
     """ Returns all the vehicles for a specific CLient """
-    client = client.get(Client, clnId)
-    if not vehicle:
-        abort(404, {"error": f"Client {clId} not found"})
+    client = storage.get(Client, clnId)
+    if not client:
+        abort(404, {"error": f"Client {clnId} not found"})
 
     return jsonify([clnt.to_dict() for clnt in client.vehicles]), 200
 
@@ -56,12 +56,12 @@ def create_client():
             abort(400, {"error": f"{arg} missing"})
 
     new_clnt = Client(**krgs)
-    if check(new_clnt) == 0:
-        storage.new(new_clnt)
-        storage.save()
-        return jsonify(new_clnt.to_dict()), 201
-    else:
+    if check(new_clnt) != 0:
         abort(409, {"error": f"{new_clnt.name} already exists"})
+
+    storage.new(new_clnt)
+    storage.save()
+    return jsonify(new_clnt.to_dict()), 201
 
 
 @app_views.route("/client/<clnId>", methods=["DELETE"])
@@ -79,7 +79,7 @@ def delete_client(clnId):
 @app_views.route("/api/v1/client/<clId>", methods=["PUT"])
 def update_client(clId):
     """ Updates a Client object """
-    clnt = storage.get(Client, clnId)
+    clnt = storage.get(Client, clId)
     if not clnt:
         abort(404, {"error": f"Client: {clId} not found"})
 
@@ -91,7 +91,7 @@ def update_client(clId):
         if key != "id":
             setattr(clnt, key, value)
 
-    if check(clnt) == 0:
-        storage.save()
-        return jsonify(clnt.to_dict()), 200
-    abort(409, {"error": f"{clnt.name} already exists"})
+    if check(clnt) != 0:
+        abort(409, {"error": f"{clnt.name} already exists"})
+    storage.save()
+    return jsonify(clnt.to_dict()), 200

@@ -15,7 +15,6 @@ app.url_map.strict_slashes = False
 cors = CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 app.register_blueprint(app_views)
 
-
 emailer = Emailer()
 
 
@@ -41,8 +40,7 @@ def close(E):
     storage.close()
 
 
-print("version: 1.71")
-
+print("version: 1.8")
 
 if __name__ == "__main__":
     app.run(threaded=True)

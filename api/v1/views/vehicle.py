@@ -74,10 +74,10 @@ def get_vehicle_service(veId):
 def uget_vehicle(veId):
     """ Return the requested Vehicle object if found """
     vehicle = storage.get(Vehicle, veId)
-    if vehicle:
-        return jsonify(get_veh_dict(vehicle)), 200
+    if not vehicle:
+        abort(404, {"error": f"Vehicle {veId} not found"})
 
-    abort(404, {"error": f"Vehicle {veId} not found"})
+    return jsonify(get_veh_dict(vehicle)), 200
 
 
 @app_views.route("/vehicle/plate/<plate>", methods=["GET"])
@@ -85,10 +85,10 @@ def get_by_plate(plate):
     """ Return the resquested Vehicle object if found """
     vehicle = next((veh for veh in storage.all(
         Vehicle).values() if veh.plate == plate), None)
-    if vehicle:
-        return jsonify(get_veh_dict(vehicle)), 200
+    if not vehicle:
+        abort(404, {"error": f"Vehicle {plate} not found"})
 
-    abort(404, {"error": f"Vehicle {plate} not found"})
+    return jsonify(get_veh_dict(vehicle)), 200
 
 
 @app_views.route("/vehicle/user/<usrId>", methods=["GET"])
@@ -114,12 +114,16 @@ def create_vehicle():
         if arg not in krgs:
             abort(400, {"error": f"{arg} missing"})
 
+    if not storage.get(Brand, krgs["brand"]):
+        abort(400, {"error": f"{krgs['brand']} does not exists"})
+
     new_veh = Vehicle(**krgs)
-    if check(new_veh) == 0:
-        storage.new(new_veh)
-        storage.save()
-        return jsonify(new_veh.to_dict()), 201
-    abort(409, {"error": f"Vehicle: {new_veh.plate} already exists"})
+    if check(new_veh) != 0:
+        abort(409, {"error": f"Vehicle: {new_veh.plate} already exists"})
+
+    storage.new(new_veh)
+    storage.save()
+    return jsonify(new_veh.to_dict()), 201
 
 
 @app_views.route("/vehicle/<veId>", methods=["DELETE"])
@@ -147,10 +151,10 @@ def update_vehicle(veId):
 
     not_keys = ["id", "brand", "model", "user_id", "type_vehicle_id"]
     for key, value in krgs.items():
-        if çkey not in not_keys:
+        if key not in not_keys:
             setattr(vehicle, key, value)
-        if plate in krgs and check(vehicle) == 409:
-            abort(409, {"error": f"Vehicle: {new_veh.plate} already exists"})
+        if "plate" in krgs and check(vehicle) == 409:
+            abort(409, {"error": f"Vehicle: {vehicle.plate} already exists"})
 
     storage.save()
     return jsonify(vehicle.to_dict()), 200

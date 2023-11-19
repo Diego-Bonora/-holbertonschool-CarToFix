@@ -27,7 +27,7 @@ def get_type_by_name(name):
 
 
 @app_views.route("/type/<tId>", methods=["GET"])
-def get_type(type_name):
+def get_type(tId):
     """ Returns a specific TypeVehicle object """
     t_veh = storage.get(TypeVehicle, tId)
     if not t_veh:
@@ -57,12 +57,12 @@ def create_type():
             abort(400, {"error": f"{arg} missing"})
 
     new_type = TypeVehicle(**krgs)
-    if check(new_type) == 0:
-        storage.new(new_type)
-        storage.save()
-        return jsonify(new_type.to_dict()), 201
+    if check(new_type) != 0:
+        abort(409, {"error": f"Type: {new_type.name} already exists"})
 
-    abort(409, {"error": f"Type: {new_type.name} already exists"})
+    storage.new(new_type)
+    storage.save()
+    return jsonify(new_type.to_dict()), 201
 
 
 @app_views.route("/type/<tId>", methods=["DELETE"])
@@ -70,7 +70,7 @@ def delete_type(tId):
     """ Deletes a specific TypeVehicle object """
     typev = storage.get(TypeVehicle, tId)
     if not typev:
-        abort(400, {"error": f"Type: {type_name} instance not found"})
+        abort(400, {"error": f"Type: {tId} instance not found"})
 
     storage.delete(typev)
     storage.save()
@@ -82,7 +82,7 @@ def update_type(tId):
     """ Updates a specific TypeVehicle object """
     typev = storage.get(TypeVehicle, tId)
     if not typev:
-        abort(404, {"error": f"Type: {type_name} not found"})
+        abort(404, {"error": f"Type: {tId} not found"})
 
     krgs = request.get_json()
     if not krgs:

@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+""" This module imports the routes to make a blueprint """
 
 from flask import Blueprint
 

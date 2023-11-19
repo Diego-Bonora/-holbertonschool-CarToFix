@@ -19,7 +19,7 @@ emailer = Emailer()
 
 def call_send(budget):
     """ Calls Emailer.send() """
-    if budget.confirmed == False:
+    if not budget.confirmed:
         emailer.send(storage.get(Client, budget.client_id), budget=budget)
 
 
@@ -92,7 +92,7 @@ def get_all_budgets(usrId):
     bdgts = []
 
     for bdgt in storage.all(Budget).values():
-        if bdgt.user_id == usrId and (not done or all(service.done for service in budget.services)):
+        if bdgt.user_id == usrId and (not done or all(service.done for service in bdgt.services)):
             bdgts.append(bdgt_dict_generator(bdgt))
 
     return jsonify(bdgts), 200
@@ -110,12 +110,14 @@ def create_budget():
     for arg in needed:
         if arg not in krgs or (arg == "services" and len(krgs["services"]) == 0):
             abort(400, {"error": f"{arg} missing"})
-        if "confirmed" in krgs and not krgs["confirmed"]:
-            if all(not b.confirmed for b in storage.all(Budget).values() if b.client_id == krgs["client_id"]):
-                abort(
-                    409, {"error": "Cannot create more pending budgets for the same costumer"})
+
+    if not all(b.confirmed for b in storage.all(Budget).values() if b.client_id == krgs["client_id"]):
+        abort(
+            409, {"error": "Cannot create more pending budgets for the same costumer"})
 
     vehicle = storage.get(Vehicle, krgs["vehicle_id"])
+    if not vehicle:
+        abort(404, {"error": "Vehicle: {krgs['vehicle_id']} not found"})
     if vehicle.client_id != krgs["client_id"]:
         abort(
             409, {"error": "The provided client does not posses the provided vehicle"})
@@ -148,7 +150,7 @@ def delete_budget(bdgtId):
     bdgt = storage.get(Budget, bdgtId)
     if not bdgt:
         abort(404, {"error": f"Budget: {bdgtId} instance not found"})
-    if bdgt.done == True:
+    if bdgt.done:
         abort(409, {"error": f"Budget: {bdgtId} is already finished"})
 
     client = storage.get(Client, bdgt.client_id)
@@ -201,6 +203,7 @@ def conf_budget(bdgtId):
     if bdgt.confirmed:
         abort(409, {"error": f"Budget: {bdgtId} is already confirmed"})
 
+    krgs = request.get_json()
     for k, v in krgs.items():
         if k == "active":
             setattr(bdgt, k, v)
