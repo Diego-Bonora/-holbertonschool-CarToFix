@@ -93,7 +93,7 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
 			title: serviceValue.label,
 			price: parseFloat(event.target.price.value),
 			description: event.target.description.value,
-
+			worker: localStorage.getItem('worker_id'),
 		}])
 
 	};
@@ -131,7 +131,8 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
 
 		axios.get(`${baseURL}/api/v1/worker/`)
 			.then((res) => {
-				const worker = res.data.map((w) => { w.filter(f.name === workerName) })
+				const workers = res.data
+				const worker = workers.filter((w) => w.name === workerName)
 				if (worker.name) {
 					console.log("registrered worker", worker)
 					localStorage.setItem('worker_id', worker.data.id)
@@ -197,7 +198,7 @@ export default function NewBudget({ checkPlateRegistration, actualClient }) {
 			title: item.title,
 			description: item.description,
 			plate: item.plate,
-			worker_id: localStorage.getItem('worker_id'),
+			worker: localStorage.getItem('worker_id'),
 		}));
 
 		const servicesDictionary = services.reduce((acc, service) => {
