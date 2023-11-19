@@ -2,11 +2,11 @@ import {
   require_react_dom
 } from "./chunk-MKG3NT3Y.js";
 import {
-  require_react_is
-} from "./chunk-HOFZDJTO.js";
-import {
   require_react
 } from "./chunk-67XTWVEJ.js";
+import {
+  require_react_is
+} from "./chunk-HOFZDJTO.js";
 import {
   __commonJS,
   __toESM
