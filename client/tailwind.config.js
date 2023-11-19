@@ -36,6 +36,7 @@ export default {
 				'list-1': '80%',
 				'info_detalles': '72%',
 				'info_detalles_mini': '95%',
+				'info_confirmations': '35%',
 			},
 			fontFamily: {
 				'Inter': ['Inter', 'sans'],
