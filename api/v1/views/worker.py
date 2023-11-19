@@ -27,7 +27,7 @@ def get_designee(dsgnId):
 @app_views.route("/worker", methods=["GET"])
 def get_all_designee():
     """ Returns all the known Workers """
-    dgnee = [worker.to_dict() for worker in storage.all(Worker)]
+    dgnee = [worker.to_dict() for worker in storage.all(Worker).values()]
 
     return jsonify(dgnee), 200
 
