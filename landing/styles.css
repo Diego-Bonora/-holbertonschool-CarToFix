@@ -37,6 +37,7 @@ header {
     height: auto;
     width: 100%;
 }
+/* Estilos por defecto para pantallas más grandes */
 .container img {
     display: block;
     height: 450px;
@@ -44,20 +45,48 @@ header {
     width: auto;
     animation: moverderecha 2s ease-in;
 }
+
 .texto {
     font-size: 30px;
     color: black;
-    line-height: 1.5
+    line-height: 1.5;
 }
+
 .home {
-    background: #4AC29A;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #BDFFF3, #4AC29A);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #BDFFF3, #4AC29A); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    color: #fff; /* Cambia el color del texto si es necesario */
+    background: #4AC29A;
+    /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #BDFFF3, #4AC29A);
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #BDFFF3, #4AC29A);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    color: #fff;
+    /* Cambia el color del texto si es necesario */
     width: 100%;
     height: auto;
     padding: 48px;
 }
+
+/* Estilos para dispositivos móviles (ancho máximo de 600px, por ejemplo) */
+@media screen and (max-width: 600px) {
+    .container {
+        flex-direction: column-reverse; /* Invierte la dirección de la columna */
+    }
+
+    .texto {
+        order: 2; /* Cambia el orden del texto para que aparezca debajo de la imagen */
+    }
+
+    .container img {
+        height: auto; /* Ajusta la altura automáticamente */
+        width: 100%; /* Ocupa el ancho completo del contenedor padre */
+        order: 1; /* Cambia el orden de la imagen para que aparezca arriba del texto */
+    }
+
+    .home {
+        padding: 20px; /* Puedes ajustar el relleno para dispositivos móviles según sea necesario */
+    }
+}
+
 .wave {
     background: #4AC29A;  /* fallback for old browsers */
     background: -webkit-linear-gradient(to right, #fff, #4AC29A);  /* Chrome 10-25, Safari 5.1-6 */
@@ -104,6 +133,8 @@ header {
     color: -webkit-linear-gradient(to right, #BDFFF3, #4AC29A);  /* Chrome 10-25, Safari 5.1-6 */
     color: linear-gradient(to right, #BDFFF3, #4AC29A); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
+/* Estilos por defecto para .Proyect y .imagees */
+/* Estilos por defecto para pantallas más grandes */
 .Proyect {
     font-size: 20px;
     padding-right: 110px;
@@ -111,7 +142,8 @@ header {
     padding-bottom: 110px;
     line-height: 1.5;
 }
-.imagees {
+
+.imagees img {
     width: 45%;
 }
 
@@ -120,10 +152,33 @@ header {
     display: flex;
     justify-content: space-around;
     padding-bottom: 47px;
-    color: #4AC29A;  /* fallback for old browsers */
-    color: -webkit-linear-gradient(to right, #BDFFF3, #4AC29A);  /* Chrome 10-25, Safari 5.1-6 */
-    color: linear-gradient(to right, #BDFFF3, #4AC29A); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    color: #4AC29A;
+    /* fallback for old browsers */
+    color: -webkit-linear-gradient(to right, #BDFFF3, #4AC29A);
+    /* Chrome 10-25, Safari 5.1-6 */
+    color: linear-gradient(to right, #BDFFF3, #4AC29A);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
+
+/* Media query para dispositivos con un ancho máximo de 600px (por ejemplo, dispositivos móviles) */
+@media screen and (max-width: 600px) {
+    .Proyect {
+        padding-right: 20px;
+        padding-left: 20px;
+        padding-bottom: 20px;
+        text-align: center; /* Centra el contenido en dispositivos móviles */
+    }
+
+    .imagees {
+        width: 100%; /* Asegura que la imagen ocupe el 100% del ancho en dispositivos móviles */
+        margin-top: 20px; /* Agrega un espacio entre el texto y la imagen */
+    }
+
+    .Proyect h1 {
+        font-size: 40px; /* Reduzca el tamaño de la fuente para dispositivos móviles */
+    }
+}
+
 
 .images {
     display: flex;
@@ -213,23 +268,39 @@ header {
     margin-left: 10%;
     margin-right: 10%;
 }
+/* Estilos por defecto para el footer */
 footer {
     padding-left: 20%;
     padding-right: 10%;
     font-size: 20px;
     display: flex;
-    justify-content: center; /* Centra horizontalmente */
-    align-items: center; /* Centra verticalmente */
-    height: 50vh; /* Ajusta la altura del contenedor según la pantalla */
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
 }
 
 footer p {
     margin-right: 10px;
-    line-height: 1.5
+    line-height: 1.5;
 }
 
 footer .footer-column {
     flex: 1;
-    padding: 0; 
+    padding: 0;
     margin: 0;
-};
+}
+
+/* Media query para dispositivos con un ancho máximo de 600px (por ejemplo, dispositivos móviles) */
+@media screen and (max-width: 600px) {
+    footer {
+        flex-direction: column; /* Cambia la dirección del flex container a columna */
+        text-align: center; /* Centra el texto en dispositivos móviles */
+        padding-left: 5%;
+        padding-right: 5%;
+    }
+
+    footer .footer-column {
+        width: 100%; /* Asegura que cada columna ocupe el 100% del ancho */
+        margin-bottom: 20px; /* Agrega espacio entre las columnas */
+    }
+}
