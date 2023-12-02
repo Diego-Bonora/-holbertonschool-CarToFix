@@ -4,4 +4,4 @@ from models import storage
 
 def get_all(request):
     """ Returns all the Client Objects """
-    return JsonResponse(storage.all(Client))
+    return JsonResponse([c.to_dict() for c in storage.all(Client).values()], safe=False)

@@ -22,8 +22,7 @@ class Emailer():
     def __init__(self):
         """Initializes an Emailer"""
         self.server = "smtp.gmail.com"
-        self.user = next((usr for usr in storage.all(User).values(
-        ) if usr.mail == "cartofixcostumers@gmail.com"), None)
+        self.user = next((usr for usr in storage.all(User).values() if usr.mail == "cartofixcostumers@gmail.com"), None)
         self.mail = None
 
     def connect(self):
@@ -49,8 +48,7 @@ class Emailer():
         body += f"Dear {client.name},\n\n"
         body += "We would like you to confirm or reject the following budget:\n"
 
-        dontadd = ["id", "created_at", "__class__", "sent", "active",
-                   "vehicle_id", "confirmed", "services", "user_id", "client_id"]
+        dontadd = ["id", "created_at", "__class__", "sent", "active", "vehicle_id", "confirmed", "services", "user_id", "client_id"]
 
         # Format budget details
         for key, value in budget.to_dict().items():
@@ -61,8 +59,7 @@ class Emailer():
         body += "\nThe following services will be carried out:"
 
         # Format service details
-        services = budget.services if isinstance(
-            budget.services, list) else [budget.services]
+        services = budget.services if isinstance(budget.services, list) else [budget.services]
         for service in services:
             body += "\n"
             for key, value in service.to_dict().items():
@@ -136,11 +133,9 @@ class Emailer():
                         body = ""
                         for part in msg.walk():
                             if part.get_content_type() == "text/plain":
-                                body += part.get_payload(decode=True).decode(
-                                    "utf-8", errors="ignore")
+                                body += part.get_payload(decode=True).decode("utf-8", errors="ignore")
                     else:
-                        body = msg.get_payload(decode=True).decode(
-                            "utf-8", errors="ignore")
+                        body = msg.get_payload(decode=True).decode("utf-8", errors="ignore")
 
                     email_list.append({"sender": sender, "body": body})
 
@@ -164,28 +159,23 @@ class Emailer():
 
             # If the sender is a client
             print(msg)
-            sender = next((client for client in storage.all(
-                Client).values() if client.email == msg["sender"]), None)
+            sender = next((client for client in storage.all(Client).values() if client.email == msg["sender"]), None)
             if not sender:
                 print("Sender:", msg["sender"], "not a costumer")
                 continue
 
-            bdgts = [b for b in storage.all(
-                Budget).values() if b.client_id == sender.id]
+            bdgts = [b for b in storage.all(Budget).values() if b.client_id == sender.id]
             if not bdgts:
                 print("Sender:", msg["sender"], "does not have budgets")
-                self.send(
-                    sender, msg="Subject: Please try again later\n\nNo budget to confirm was found")
+                self.send(sender, msg="Subject: Please try again later\n\nNo budget to confirm was found")
                 continue
 
-            bdgt = max(
-                bdgts, key=lambda x: x.created_at if not x.confirmed else datetime.min)
+            bdgt = max(bdgts, key=lambda x: x.created_at if not x.confirmed else datetime.min)
             msg["body"] = msg["body"].lower()
 
             if not bdgt:
                 print(sender.name, "has no budget to confirm")
-                self.send(
-                    sender, msg="Subject: Please try again later\n\nNo budget to confirm was found")
+                self.send(sender, msg="Subject: Please try again later\n\nNo budget to confirm was found")
                 continue
 
             print("Budget found...")
@@ -195,21 +185,18 @@ class Emailer():
 
             if bdgt.confirmed:
                 print(sender.name, "tried to re-confirm")
-                self.send(
-                    sender, msg="Subject: Can't re-confirm\n\nBudget already confirmed, try again later or reach out to the workshop")
+                self.send(sender, msg="Subject: Can't re-confirm\n\nBudget already confirmed, try again later or reach out to the workshop")
 
             elif "ok" in msg["body"]:
                 print(f"Budget: {bdgt.id} accepted :)")
                 bdgt.confirmed = True
                 bdgt.active = True
-                self.send(
-                    sender, msg="Subject: Budget Approved\n\nBudget successfully approved")
+                self.send(sender, msg="Subject: Budget Approved\n\nBudget successfully approved")
 
             elif "no" in msg["body"]:
                 print(f"Budget: {bdgt.id} rejected :(")
                 bdgt.confirmed = True
-                self.send(
-                    sender, msg="Subject: Budget Rejected\n\nBudget successfully rejected")
+                self.send(sender, msg="Subject: Budget Rejected\n\nBudget successfully rejected")
 
             else:
                 print("Not able to understand:", msg["body"])

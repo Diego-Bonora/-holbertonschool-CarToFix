@@ -21,4 +21,7 @@ Quit the server with CONTROL-C.
 
 ### Routes
 Take into account the serer wil be (ceteris paribus) running in: `http://localhost:8000`
-- [X] / -> Root route it will return "`Welcome to CarToFix"`.
+- [X] / -> Root route it will return `"Welcome to CarToFix"`.
+
+#### Client routes:
+- [X] client -> Returns a list of all clients
